@@ -15,7 +15,7 @@ Separate delivered artifacts from lead acknowledgements and Uchi approval. Check
 - [x] Lubasi operations/vendor template delivered with discovery and readiness requirements.
 - [x] Open questions register covers every requested business and technical category.
 - [x] Minimal health endpoint, environment example, validated config and basic test setup delivered.
-- [x] Supabase-first provider configuration, server-only REST boundary and owned-PostgreSQL migration plan delivered without selecting or modifying an inactive project.
+- [x] Supabase-first provider configuration, server-only REST boundary and owned-PostgreSQL migration plan delivered; a new free-tier development project `odgxcuwueessxfsoveza` is active and empty.
 - [x] Automated tests and startup/config/shutdown checks pass; evidence recorded below.
 - [x] No full marketplace, real payments, live delivery tracking or automatic printer control implemented.
 - [x] No real vendor, partner, price, commission or tax rule invented.
@@ -42,7 +42,7 @@ This checklist records Phase 1 behavior only. Database, auth, tenant isolation, 
 - [ ] Lubasi Monde acknowledges discovery, evidence and operations handover requirements.
 - [ ] Canonical repository access and board ownership agreed.
 - [ ] Initial tenant/access model and Phase 2 stack decisions recorded, or explicitly left blocked with owners.
-- [ ] Active Supabase development project selected and hosted connection/migration verification completed.
+- [ ] Active Supabase development project has hosted connection, schema migration, grants and isolation verification completed.
 - [ ] Uchi reviews the delivered evidence and records Phase 1 signoff.
 
 | Lead | Decision / acknowledgement | Date | Evidence / remaining action |

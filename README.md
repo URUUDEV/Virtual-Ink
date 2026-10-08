@@ -44,7 +44,7 @@ The build excludes full marketplace, checkout, uploads, dashboards, customer mob
 
 The repository is at `D:\Work\Projects\virtual-ink`. Preserve `asssets/` (the supplied spelling). The approved logo is used unchanged; reference boards are clearly labelled concepts, not live products, prices or functioning controls. No replacement images are generated.
 
-Supabase-managed PostgreSQL is the initial hosted backend direction. Provider configuration, a SQL transaction interface and a server-only REST transport are prepared; the development project is still pending because the available account projects are inactive. Application tables/permissions remain standard PostgreSQL and server-owned. Auth and storage will use separate adapters so their migration can be handled explicitly.
+Supabase-managed PostgreSQL is the initial hosted backend direction. The free-tier development project `odgxcuwueessxfsoveza` is active in `eu-west-1` at `https://odgxcuwueessxfsoveza.supabase.co`. Provider configuration, a SQL transaction interface and a server-only REST transport are prepared. The project is intentionally empty: hosted schema, application permissions, Auth and Storage still require an approved migration slice. Application tables/permissions remain standard PostgreSQL and server-owned so the database can move to owned PostgreSQL later.
 
 ## Run locally
 

@@ -74,7 +74,7 @@ Weekly review: Uchi checks ownership, missing acknowledgements, blocked decision
 | --- | --- | --- | --- | --- |
 | BF-01 | Mumba | Backend Phase 1 health/config/error/validation/audit foundation | Review | Backend tests and strict TypeScript checks; see backend-validation.md |
 | BF-02 | Mumba | PostgreSQL migration, demo queue/seed and SQL assertions | Blocked | Files delivered; isolated server could not start; run against dedicated test DB |
-| BF-02A | Mumba | Supabase-first provider boundary and owned-PostgreSQL exit plan | Review | Provider config, SQL port, server-only REST adapter and migration plan delivered; hosted project selection pending |
+| BF-02A | Mumba | Supabase-first provider boundary and owned-PostgreSQL exit plan | Review | Provider config, SQL port, server-only REST adapter and migration plan delivered; active empty project `odgxcuwueessxfsoveza` created; hosted schema verification pending |
 | UI-01 | Taizya with Mumba implementing | Supplied logo, tokens, homepage and responsive shell | Blocked | Source delivered; npm install/build/browser verification needs registry access |
 | BF-03 | Uchi with Mumba | Backend Phase 2 roles, permissions and tenant model | Backlog | Confirm guest limits/tenant semantics and acceptance matrix, then implement denial/isolation tests |
 
