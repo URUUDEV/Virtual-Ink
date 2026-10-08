@@ -1,0 +1,19 @@
+name: virtual-ink-foundation
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: virtual_ink_development
+      POSTGRES_USER: virtual_ink_migration_owner
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a local development database password}
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - virtual_ink_postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U virtual_ink_migration_owner -d virtual_ink_development"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  virtual_ink_postgres:

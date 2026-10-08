@@ -1,6 +1,6 @@
 # Virtual Ink
 
-Virtual Ink is a planned print services platform by **Shadow Root Security Technologies**. This repository delivers **Phase 1: Role Handover and Build Foundation** so Uchi, Mumba, Taizya, and Lubasi can work in a clear sequence before marketplace development starts.
+Virtual Ink is a printing, design, custom merchandise and delivery platform being built by **Shadow Root Security Technologies**. Tagline: **Your Ideas. Our Print. Delivered.** This repository contains the role handover pack, **Backend Phase 1**, and the first branded Next.js application source foundation.
 
 Shadow Root standard: secure systems, digital trust, clear documentation, tenant separation, private files, server-side pricing, audit logs, and professional handover.
 
@@ -8,6 +8,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 | Document | Purpose |
 | --- | --- |
+| [Current build plan](docs/build-plan.md) | Starting scope, architecture, vertical slices and Backend Phase 2 prompt |
+| [Supabase and owned-database plan](docs/supabase-migration-plan.md) | Initial hosted provider, portable boundaries and later migration checklist |
+| [Backend foundation](docs/backend-foundation.md) | Pre-edit inspection, delivered modules, setup and next backend order |
+| [Permissions plan](docs/permissions-plan.md) | Customer/Guest, VendorOwner, VendorStaff, PlatformOperator and DeliveryPartner |
+| [API standards](docs/api-standards.md) | Responses, errors, validation, authorization, audit, IDs and pricing |
+| [Validation notes](docs/backend-validation.md) | Actual results and blocked checks |
 | [Phase 1 handover](docs/phase-1-handover.md) | Scope, roles, work sequence, review rules, definition of done |
 | [Task board](docs/task-board.md) | Tasks grouped by role, dependencies, status rules, work item template |
 | [Role prompts](docs/role-prompts.md) | Copyable prompts for each lead and weekly review |
@@ -30,19 +36,23 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Scope and current state
 
-Delivered: Markdown handover pack and a dependency-free Node.js HTTP service with `GET /health`, `HEAD /health`, validated environment settings, safe request metadata, and automated tests. The service does not connect to a database or external service. Health reports that the HTTP process responds; it does not assert database or deployment readiness.
+Runnable now: dependency-free Node.js 24 backend with shared TypeScript helpers, `/health`, `/api/v1/health`, safe config/error handling, bounded request validation, a fail-closed audit interface and private-file contracts. Backend tests require no dependency install. Health is process liveness, not database/storage readiness.
 
-Phase 1 excludes the full marketplace, real payments, live delivery tracking, and automatic printer control. Vendor identities, prices, commissions, tax rules, launch location and partners are unconfirmed. Auth, tenant persistence, private object storage, server-side pricing and durable audit events are Phase 2 requirements described in the technical plan; they are not implemented here. Runtime logs are not durable business audit records.
+Source delivered for the next verified steps: PostgreSQL infrastructure migration, permission assertions, a labelled no-op demo job/seed, and a Next.js/React/TypeScript shell with the approved logo, Poppins, Tailwind, Lucide, homepage and searchable category preview. Frontend installation/build/browser verification and SQL runtime checks are blocked in this session; see validation notes. No real database/storefront/auth connection or storage bucket is configured.
 
-No existing Virtual Ink repository was identified in the inspected workspace locations. This standalone foundation was created at `D:\Work\Projects\virtual-ink`. The Node.js baseline is provisional; Mumba must record the application stack decision before adding dependencies or feature modules. No image assets were found for Virtual Ink; use text placeholders. Branding does not block work.
+The build excludes full marketplace, checkout, uploads, dashboards, customer mobile account UI, 3D preview, real payments, live tracking, messaging, printer control and production deployment. Vendor/pricing/commission/tax/coverage rules remain open. Auth, tenant policies and durable transaction-aware audit writes follow in Backend Phase 2. Operational logs are not durable business audits.
+
+The repository is at `D:\Work\Projects\virtual-ink`. Preserve `asssets/` (the supplied spelling). The approved logo is used unchanged; reference boards are clearly labelled concepts, not live products, prices or functioning controls. No replacement images are generated.
+
+Supabase-managed PostgreSQL is the initial hosted backend direction. Provider configuration, a SQL transaction interface and a server-only REST transport are prepared; the development project is still pending because the available account projects are inactive. Application tables/permissions remain standard PostgreSQL and server-owned. Auth and storage will use separate adapters so their migration can be handled explicitly.
 
 ## Run locally
 
-Prerequisites: Node.js **24.x**, npm bundled with Node.js, and a terminal. npm is the package manager. There are no third-party dependencies and no install step is required.
+Prerequisites for the backend: Node.js **24.x**, npm and a terminal. Root npm scripts and tests use built-in Node modules and native TypeScript execution; no install step is required. Frontend packages live separately in `apps/web`.
 
 ```powershell
 Set-Location D:\Work\Projects\virtual-ink
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 npm start
 ```
 
@@ -50,9 +60,12 @@ The default address is `http://127.0.0.1:3000`. In a second terminal:
 
 ```powershell
 Invoke-RestMethod http://127.0.0.1:3000/health
+Invoke-RestMethod http://127.0.0.1:3000/api/v1/health
 ```
 
 Expected JSON: `{"service":"Virtual Ink","status":"ok"}`. Stop the service with Ctrl+C. `npm run dev` restarts the server when source files change. `.env` is optional; the same defaults apply when it is absent. Copy it only for initial setup so existing settings are preserved.
+
+The versioned endpoint wraps this payload in `{ data, meta: { requestId } }`; errors under `/api/` use the shared safe envelope. The original `/health` stays compatible.
 
 | Setting | Default | Validation |
 | --- | --- | --- |
@@ -62,22 +75,60 @@ Expected JSON: `{"service":"Virtual Ink","status":"ok"}`. Stop the service with 
 
 Invalid settings fail before the service starts, without printing supplied values. A port already in use produces `server_error`; change `PORT` to another valid local port. The default loopback binding keeps development access local. An externally reachable deployment requires Mumba's hosting, TLS and access review; setting `NODE_ENV=production` alone does not make this service production ready.
 
+Optional jobs/storage settings are disabled by default. See `.env.example` and the backend documentation. File access remains closed regardless of the config flag until authorization and a provider adapter are implemented.
+
+## Next.js frontend setup
+
+On a machine with npm registry access:
+
+```powershell
+npm install --prefix apps/web
+npm run typecheck:web
+npm run build:web
+npm run dev:web
+```
+
+Visit `http://127.0.0.1:3001`. These steps still need successful execution: this session could not install the selected dependencies. Commit the real `apps/web/package-lock.json` generated by installation; no fabricated frontend lockfile is provided. Next uses `apps/web/.env.local` for optional server settings, not root `.env`. Keep all secrets server-side; the preview needs none.
+
+The visible routes are `/`, `/shop`, `/design-services`, `/business`, `/how-it-works` and `/roadmap`. They label preview functionality, and provide search/filter/reset, mobile navigation and a real health-status check. There are no simulated payment or order completion messages. Protected vendor/admin routes are not created or exposed in customer navigation.
+
+## PostgreSQL infrastructure
+
+For Supabase, follow [the managed-provider plan](docs/supabase-migration-plan.md). `.env.example` selects Supabase but leaves hosted URLs unset, so local health/tests still work. Hosted URLs require the selected project, matching connection mode and verified TLS settings. No Supabase key is needed for health. The existing database CLI commands below remain **local-only**; they must not be pointed at a Supabase project until the hosted migration workflow is reviewed.
+
+Install the PostgreSQL client and use a dedicated local development/test database. Docker users can set `POSTGRES_PASSWORD` privately and start `docker compose up -d postgres`, which binds loopback port 55432. The container account owns migrations; it is not the application login.
+
+```powershell
+# Configure the named private URLs in .env first; examples are commented there.
+npm run db:migrate
+npm run db:seed
+npm run test:db
+npm run jobs:once
+```
+
+Migration/seed need `MIGRATION_DATABASE_URL`, tests need `TEST_DATABASE_URL` pointing to `virtual_ink_test`, and the probe needs a restricted worker `DATABASE_URL`. Scripts reject non-local hosts and databases outside the two named development/test databases. Seed data contains only a synthetic no-op probe. Database runtime verification is pending because Docker was stopped and the isolated Windows PostgreSQL test server could not start. No existing database was modified.
+
 ## Tests and documentation
 
 ```powershell
 npm test
 ```
 
-Tests use Node's built-in runner in a single process (`--test-isolation=none`) and temporary loopback ports, so environments that restrict child process spawning can run them. Tests do not modify global environment settings. They cover configuration rejection, health behavior, HTTP methods, unknown routes, response headers, request IDs and exclusion of sensitive inputs from request logs. No credentials or external network services are needed. Open this README and the `docs/` files in an editor with Markdown preview to view the handover pack.
+Tests use Node's built-in runner in a single process (`--test-isolation=none`) and temporary loopback ports. They cover health, config, error privacy, bounded validation, audit failure, closed file access and demo-only job contracts. No credentials or external services are needed. Native TypeScript execution strips types; it is not a semantic type check. After frontend dependencies install, `npm run typecheck:web` checks UI and shared backend types. Open the `docs/` files in Markdown preview for the handover pack.
 
 ## Repository structure
 
 ```text
 docs/             Handover, templates, task board, decisions and review checklist
-src/config.js     Environment validation
-src/app.js        HTTP health endpoint and request metadata
+apps/web/         Next.js/React application and API Route Handlers
+asssets/          Supplied approved logo and concept reference boards
+src/backend/      Shared TypeScript API/config/audit/storage/job contracts
+src/config.js     Compatibility export for shared config
+src/app.js        Independent Node HTTP adapter
 src/server.js     Startup, JSON runtime logs and graceful shutdown
-test/             Configuration and HTTP tests
+database/         Infrastructure migration, SQL assertions, demo seed/probe
+scripts/          Safe dedicated-database commands
+test/             Backend JS/TypeScript contract and HTTP tests
 .env.example      Non-secret local defaults
 ```
 
@@ -87,4 +138,4 @@ The Git repository uses branch `main` and remote `origin` at `https://github.com
 
 ## Next step
 
-Uchi assigns and reviews the tasks in [the task board](docs/task-board.md). Use Mumba's Phase 2 prompt in [the role prompts](docs/role-prompts.md) after the initial tenant model and stack decisions are recorded. Full marketplace development needs approved acceptance criteria, UX handover and verified operations requirements.
+Uchi and Mumba review the foundation and resolve blocked verification. Use the **Backend Phase 2 roles, permissions and tenant model prompt** in [the build plan](docs/build-plan.md). Full marketplace development needs accepted criteria, UX handover, verified operations requirements and proven authorization boundaries.

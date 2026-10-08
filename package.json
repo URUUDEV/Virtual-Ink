@@ -2,7 +2,7 @@
   "name": "virtual-ink",
   "version": "0.1.0",
   "private": true,
-  "description": "Virtual Ink Phase 1 handover and minimal backend foundation",
+  "description": "Virtual Ink modular TypeScript backend foundation and application starter",
   "type": "module",
   "engines": {
     "node": ">=24 <25"
@@ -10,6 +10,13 @@
   "scripts": {
     "start": "node --env-file-if-exists=.env src/server.js",
     "dev": "node --watch --env-file-if-exists=.env src/server.js",
-    "test": "node --test --test-isolation=none"
+    "test": "node --test --test-isolation=none",
+    "dev:web": "npm --prefix apps/web run dev",
+    "build:web": "npm --prefix apps/web run build",
+    "typecheck:web": "npm --prefix apps/web run typecheck",
+    "db:migrate": "node --env-file-if-exists=.env scripts/database.ts migrate",
+    "db:seed": "node --env-file-if-exists=.env scripts/database.ts seed",
+    "test:db": "node --env-file-if-exists=.env scripts/database.ts test",
+    "jobs:once": "node --env-file-if-exists=.env scripts/database.ts probe"
   }
 }

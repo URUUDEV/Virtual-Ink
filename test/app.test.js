@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
+import { request as httpRequest } from 'node:http';
 import test from 'node:test';
 import { createApp } from '../src/app.js';
 
@@ -31,6 +32,38 @@ test('HEAD health check has no body', async (t) => {
   const response = await fetch(`${base}/health`, { method: 'HEAD' });
   assert.equal(response.status, 200);
   assert.equal(await response.text(), '');
+});
+
+test('Node adapter serves the shared versioned TypeScript health route', async (t) => {
+  const base = await start(t);
+  const response = await fetch(`${base}/api/v1/health`);
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.deepEqual(body.data, { service: 'Virtual Ink', status: 'ok' });
+  assert.equal(body.meta.requestId, response.headers.get('x-request-id'));
+});
+
+test('unknown API and private file/proof routes remain unavailable', async (t) => {
+  const base = await start(t);
+  for (const path of ['/api/v1/unknown', '/api/v1/files/private', '/api/v1/proofs/private']) {
+    const response = await fetch(`${base}${path}`);
+    assert.equal(response.status, 404);
+    assert.equal((await response.json()).error.code, 'NOT_FOUND');
+  }
+});
+
+test('TRACE to versioned health is rejected without terminating the server', async (t) => {
+  const base = await start(t);
+  const status = await new Promise((resolve, reject) => {
+    const request = httpRequest(`${base}/api/v1/health`, { method: 'TRACE' }, (response) => {
+      response.resume();
+      response.on('end', () => resolve(response.statusCode));
+    });
+    request.on('error', reject);
+    request.end();
+  });
+  assert.equal(status, 405);
+  assert.equal((await fetch(`${base}/health`)).status, 200);
 });
 
 test('unsupported health methods return 405 with permitted methods', async (t) => {

@@ -2,6 +2,8 @@
 
 Owner: Mumba Chitonge. Status: proposed architecture; Phase 1 local health/config/test baseline implemented. Final framework, database, identity provider, hosting and tenant semantics need recorded decisions with Uchi. Refer to BQ-02 and HB-02 in [open questions](open-questions.md).
 
+**Current build update:** This document preserves the original role-handover proposal. The latest user brief adopts the Next.js/TypeScript and PostgreSQL direction. Current implementation, test evidence and remaining runtime blockers are recorded in [Backend Phase 1](backend-foundation.md), [the build plan](build-plan.md) and [validation notes](backend-validation.md). The original stack description below is historical; it is not the current completion report.
+
 ## Recommended architecture
 
 Start with one modular backend and clear internal service boundaries. A future frontend calls the backend API. The backend validates identity, authorization and tenant scope before accessing persistent data or private object storage. Use a relational database for memberships and transactional records, and private object storage for print files. Select actual technologies after the stack and budget review. Avoid adding distributed services before a demonstrated need.

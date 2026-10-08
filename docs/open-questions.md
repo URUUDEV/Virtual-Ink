@@ -1,6 +1,6 @@
 # Virtual Ink open questions and decisions
 
-All entries start **Open**. No commercial, legal, hosting or launch facts below are confirmed. Uchi coordinates resolution; Mumba owns technical proposals, Taizya owns design proposals, and Lubasi owns operational evidence. Open questions block only the work that depends on them.
+Unanswered entries remain **Open**. No commercial, legal, hosting or launch facts below are confirmed. Uchi coordinates resolution; Mumba owns technical proposals, Taizya owns design proposals, and Lubasi owns operational evidence. Open questions block only the work that depends on them. The latest build brief supplies the software direction, role names, approved assets and UI palette; these do not settle business rules.
 
 Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | decision | decision owner | reviewer | date | evidence reference | affected task IDs | next action`. Use approved private evidence references for sensitive records. A proposed answer is not confirmation. Preserve decision history when an answer changes.
 
@@ -8,7 +8,8 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 
 - **BQ-01 — Uchi:** Who legally owns and operates Virtual Ink, and who is authorized to approve agreements, platform administration and release decisions?
 - **BQ-02 — Uchi with Mumba:** What is a tenant: vendor organization, customer organization or another boundary? Can users belong to multiple tenants? Who may administer a tenant and how is platform support access authorized and audited?
-- **BQ-03 — Uchi:** Where will the canonical Git repository and board live, who has access, and who may merge or release?
+- **BQ-03 — Uchi:** Git remote is configured at `https://github.com/URUUDEV/Virtual-Ink.git`. Who has access, who may merge/release, and where will the canonical board live?
+- **BQ-04 — Uchi with Mumba:** What may a guest do, and how would a guest lookup/draft capability be limited and later attached to a verified customer? No guest private access is enabled.
 
 ## Launch area
 
@@ -42,8 +43,10 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 ## Hosting budget
 
 - **HB-01 — Uchi with Mumba:** What recurring budget, billing owner, region and environment count are approved?
-- **HB-02 — Mumba:** Which application framework, database, identity provider, object storage and hosting meet the requirements? Node.js is currently only a local provisional baseline.
+- **HB-02 — Mumba:** The current brief specifies a Next.js/React TypeScript direction, PostgreSQL, private object storage and background jobs. The source foundation follows this direction. Which identity provider, runtime database adapter, private S3-compatible provider and hosting are approved? Frontend dependency resolution/build verification is still pending.
 - **HB-03 — Mumba with Uchi:** What backup recovery objectives, retention, monitoring, secrets management and release controls are required?
+- **HB-04 — Decision direction supplied by Uchi:** Start with Supabase-managed PostgreSQL while keeping application SQL/repositories portable to owned PostgreSQL. Which development project, region, organization, billing owner and budget should be used? No project is provisioned or connected yet.
+- **HB-05 — Uchi with Mumba:** Does a future owned-database move retain Supabase Auth/Storage, replace those adapters, or self-host the whole Supabase stack? What downtime, rollback window and operating responsibilities are acceptable? See [migration plan](supabase-migration-plan.md).
 
 ## Printer details
 
@@ -52,8 +55,30 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 
 ## Brand assets
 
-- **BA-01 — Taizya with Uchi:** Are there approved existing logo, type, color and copy assets, with permission to use them?
-- **BA-02 — Taizya:** What text placeholder conventions and accessibility targets should the first flow use while assets are missing? Missing images do not block the foundation.
+- **BA-01 — Confirmed by supplied brief:** Use `asssets/Virtual Ink Gradient Logo.png` unchanged, Poppins and the specified palette. The supplied reference boards are design concepts; depicted prices/vendor claims are not commercial approval. Are separate brand-use rights or production-specific assets needed before launch?
+- **BA-02 — Taizya:** What accessibility target and component review evidence are agreed? Actual 3D models and individual approved product mockups are not supplied; use labelled 2D/text fallbacks for future work.
+
+## Pricing rules
+
+- **PRICE-01 — Uchi with Lubasi:** Resolve PC-01/PC-03/PC-04 before a quote engine: units, rounding, option/quantity rules, currency, effective date and expiry. ZMW is requested as the UI display default; real vendor currency and prices still require verification. No live price formula or sample commercial seed is created.
+
+## Commission model
+
+- **COM-01 — Uchi:** Resolve PC-02 with approved rate/basis, responsibility, adjustments, effective dates and reconciliation rules. No commission default is assumed.
+
+## Payment verification method
+
+- **VERIFY-01 — Uchi with Lubasi and Mumba:** Resolve PM-01/PM-02/PM-03: authorized verifier, private evidence, duplicates, settlement/reconciliation and refunds. UI method names do not imply an integration or successful payment.
+
+## File retention policy
+
+- **FILE-01 — Uchi with Mumba:** How long are source files, proofs, final digital work, quarantine objects and backups retained? What initiates deletion, and who may request or delay it?
+- **FILE-02 — Mumba with Uchi:** Which formats/sizes are allowed, who operates scanning/quarantine, what storage region/bucket protections are required, and how short-lived grants and access audits work? No upload endpoint can open before these rules and permissions exist.
+
+## Support responsibilities
+
+- **SUP-01 — Uchi with Lubasi:** Who owns intake, vendor disputes, reprint/refund escalation, delivery exceptions and operating hours? No response-time promises are assumed.
+- **SUP-02 — Uchi with Mumba:** Which operators may access private files/proofs for a specific case, what approval is required and what durable audit evidence must be recorded? DeliveryPartner must never receive file/proof access.
 
 ## Legal and policy requirements
 

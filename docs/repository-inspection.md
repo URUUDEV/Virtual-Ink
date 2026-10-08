@@ -2,6 +2,8 @@
 
 Inspection date: 2026-10-08. Inspected before creating the foundation.
 
+This records the original empty-workspace inspection. For the subsequent backend/UI build, see the pre-edit inspection in [backend foundation](backend-foundation.md). The supplied `asssets/` folder appeared after the initial handover delivery and is preserved.
+
 ## Starting state
 
 The supplied working directory was `D:\`, a Windows drive root, not a Git repository. Its top-level directories contained several unrelated projects. Inspected project locations included `D:\Work\Projects`, `D:\Work\ClientWork`, `D:\chilo\Documents`, `D:\New folder`, `D:\shadowroot-os`, and project folders visible at the drive root. File searches in these locations did not identify a Virtual Ink repository. This was a bounded workspace inspection, not a claim that no repository exists elsewhere.

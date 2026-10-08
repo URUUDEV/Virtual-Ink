@@ -9,3 +9,8 @@ uploads/
 storage/
 .DS_Store
 Thumbs.db
+.next/
+out/
+*.tsbuildinfo
+apps/web/.env*
+!apps/web/.env.example

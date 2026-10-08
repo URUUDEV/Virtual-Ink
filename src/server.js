@@ -1,5 +1,6 @@
 import { createApp } from './app.js';
-import { loadConfig } from './config.js';
+import { loadInfrastructureConfig } from './backend/config.ts';
+import { loadDatabaseConfig } from './backend/database/config.ts';
 
 function logger(event) {
   process.stdout.write(`${JSON.stringify({ timestamp: new Date().toISOString(), ...event })}\n`);
@@ -7,7 +8,8 @@ function logger(event) {
 
 let config;
 try {
-  config = loadConfig();
+  config = loadInfrastructureConfig();
+  loadDatabaseConfig();
 } catch (error) {
   process.stderr.write(`${JSON.stringify({ event: 'configuration_invalid', message: error.message })}\n`);
   process.exit(1);
