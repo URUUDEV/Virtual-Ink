@@ -1,5 +1,10 @@
 # Virtual Ink — Backend Phase 1
 
+Historical foundation record. The current slice is
+[Backend Phase 2 identity and tenant access](backend-phase-2.md), with seven hosted
+private tables and passing RLS assertions. Earlier planned statements below describe
+the Phase 1 boundary; consult Phase 2 for today's auth/audit/setup status.
+
 Owners: **Uchi Chinyama, Product and Project Lead**, and **Mumba Chitonge, Technical Lead**. UX lead: Taizya Nakapende. Partnerships and Operations lead: Lubasi Monde.
 
 ## Backend purpose

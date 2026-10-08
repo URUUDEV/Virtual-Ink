@@ -1,5 +1,10 @@
 # Virtual Ink Phase 1 completion checklist
 
+Historical Phase 1 approval checklist. [Backend Phase 2](backend-phase-2.md) now
+adds a narrow identity/tenant read, hosted schema/RLS tests and durable read audits.
+Live setup and human approvals still remain open. Refer to [the latest team
+report](team-report.md) for current starting points.
+
 Separate delivered artifacts from lead acknowledgements and Uchi approval. Check a delivery item only after reviewing its evidence; do not infer approval from file creation.
 
 ## Foundation delivery

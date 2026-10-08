@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { ApiError } from '../api/errors.ts';
 import { strictObject, uuid } from '../api/validation.ts';
-const actions = ['file.accessed', 'proof.accessed', 'membership.changed', 'pricing.changed', 'support.accessed', 'system.probe'] as const;
+const actions = ['file.accessed', 'proof.accessed', 'membership.changed', 'pricing.changed', 'support.accessed', 'tenant.accessed', 'system.probe'] as const;
 export type AuditAction = typeof actions[number];
 export type AuditInput = {
   action: AuditAction; actorType: 'user' | 'system'; actorId: string | null; tenantId: string | null;

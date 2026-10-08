@@ -1,5 +1,16 @@
 # Virtual Ink Backend Phase 1 validation
 
+## Latest check — Backend Phase 2, 2026-10-09
+
+51 Node tests pass and strict backend TypeScript checks pass. Hosted Phase 2 SQL
+tests passed as virtual_ink_api with rollback fixtures: tenant scope/lists/joins,
+forbidden mutations/escalation, inactive/disabled identity, delivery restriction,
+operator grant expiry and scoped audits. All seven new tables contain zero rows
+after rollback. Security advisors: no findings; performance advisors: only three
+unused-index INFO notices after RLS context warnings were fixed. See
+[Phase 2 evidence](backend-phase-2.md). Live Auth-to-driver/TLS, frontend builds and
+owned PostgreSQL replay remain unverified. Earlier sections preserve Phase 1 evidence.
+
 Date: 2026-10-08. Scope: starting backend slice and UI source foundation. This records engineering evidence, not Uchi's product approval.
 
 ## Observed checks

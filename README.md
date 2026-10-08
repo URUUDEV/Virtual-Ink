@@ -6,9 +6,16 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+Current slice: [Backend Phase 2 identity and tenant access](docs/backend-phase-2.md).
+Read the [latest team report](docs/team-report.md) for each lead's starting point.
+Code and hosted RLS tests are delivered; genuine sign-in-to-API setup remains open.
+Every completed build slice now includes a dated Markdown and Word team report.
+
 | Document | Purpose |
 | --- | --- |
-| [Current build plan](docs/build-plan.md) | Starting scope, architecture, vertical slices and Backend Phase 2 prompt |
+| [Current build plan](docs/build-plan.md) | Starting scope, architecture and vertical slices |
+| [Backend Phase 2](docs/backend-phase-2.md) | Identity, tenant access, hosted migrations, tests and remaining runtime setup |
+| [Latest team report](docs/team-report.md) | Current progress, Word report and starting instructions by role |
 | [Supabase and owned-database plan](docs/supabase-migration-plan.md) | Initial hosted provider, portable boundaries and later migration checklist |
 | [Backend foundation](docs/backend-foundation.md) | Pre-edit inspection, delivered modules, setup and next backend order |
 | [Permissions plan](docs/permissions-plan.md) | Customer/Guest, VendorOwner, VendorStaff, PlatformOperator and DeliveryPartner |
@@ -40,11 +47,11 @@ Runnable now: dependency-free Node.js 24 backend with shared TypeScript helpers,
 
 Source delivered for the next verified steps: PostgreSQL infrastructure migration, permission assertions, a labelled no-op demo job/seed, and a Next.js/React/TypeScript shell with the approved logo, Poppins, Tailwind, Lucide, homepage and searchable category preview. Frontend installation/build/browser verification and SQL runtime checks are blocked in this session; see validation notes. No real database/storefront/auth connection or storage bucket is configured.
 
-The build excludes full marketplace, checkout, uploads, dashboards, customer mobile account UI, 3D preview, real payments, live tracking, messaging, printer control and production deployment. Vendor/pricing/commission/tax/coverage rules remain open. Auth, tenant policies and durable transaction-aware audit writes follow in Backend Phase 2. Operational logs are not durable business audits.
+The build excludes full marketplace, checkout, uploads, dashboards, customer mobile account UI, 3D preview, real payments, live tracking, messaging, printer control and production deployment. Vendor/pricing/commission/tax/coverage rules remain open. Backend Phase 2 now adds narrow identity/tenant-access policies and durable allowed-read audits; live setup and expanded workflows remain pending. Operational status logs are separate from these business audits.
 
 The repository is at `D:\Work\Projects\virtual-ink`. Preserve `asssets/` (the supplied spelling). The approved logo is used unchanged; reference boards are clearly labelled concepts, not live products, prices or functioning controls. No replacement images are generated.
 
-Supabase-managed PostgreSQL is the initial hosted backend direction. The free-tier development project `odgxcuwueessxfsoveza` is active in `eu-west-1` at `https://odgxcuwueessxfsoveza.supabase.co`. Provider configuration, a SQL transaction interface and a server-only REST transport are prepared. The project is intentionally empty: hosted schema, application permissions, Auth and Storage still require an approved migration slice. Application tables/permissions remain standard PostgreSQL and server-owned so the database can move to owned PostgreSQL later.
+Supabase-managed PostgreSQL is the initial hosted backend direction. The free-tier development project `odgxcuwueessxfsoveza` is active in `eu-west-1` at `https://odgxcuwueessxfsoveza.supabase.co`. Backend Phase 2 has added seven private application tables, scoped RLS, identity/tenant access and durable read audits. There are zero business rows after rolled-back security tests. Runtime driver/login, genuine Auth verification and private Storage setup remain open. Application tables/permissions remain standard PostgreSQL and server-owned so the database can move to owned PostgreSQL later.
 
 ## Run locally
 
@@ -76,6 +83,14 @@ The versioned endpoint wraps this payload in `{ data, meta: { requestId } }`; er
 Invalid settings fail before the service starts, without printing supplied values. A port already in use produces `server_error`; change `PORT` to another valid local port. The default loopback binding keeps development access local. An externally reachable deployment requires Mumba's hosting, TLS and access review; setting `NODE_ENV=production` alone does not make this service production ready.
 
 Optional jobs/storage settings are disabled by default. See `.env.example` and the backend documentation. File access remains closed regardless of the config flag until authorization and a provider adapter are implemented.
+
+`AUTH_ENABLED=false` is the default. `/api/v1/me` and
+`/api/v1/tenants/:tenantId/access` return 401 without a bearer token and 503 for a
+token when identity infrastructure is disabled. To activate the development slice,
+follow [Phase 2 setup](docs/backend-phase-2.md): install `pg` with an actual lockfile,
+configure a restricted non-owner API login and verified CA, then provision an
+approved application identity/membership. No role or vendor context is accepted
+from client headers. Health remains process liveness only.
 
 ## Next.js frontend setup
 
@@ -138,4 +153,7 @@ The Git repository uses branch `main` and remote `origin` at `https://github.com
 
 ## Next step
 
-Uchi and Mumba review the foundation and resolve blocked verification. Use the **Backend Phase 2 roles, permissions and tenant model prompt** in [the build plan](docs/build-plan.md). Full marketplace development needs accepted criteria, UX handover, verified operations requirements and proven authorization boundaries.
+Uchi and Mumba review the implemented identity/tenant slice, resolve restrictive
+defaults and complete trusted provisioning plus real login-to-API verification.
+Use the next prompt in [the team report](docs/team-report.md). Full marketplace
+development needs accepted criteria, UX handover and verified operations facts.

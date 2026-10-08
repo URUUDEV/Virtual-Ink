@@ -4,11 +4,16 @@ Uchi Chinyama and Mumba Chitonge coordinate each accepted vertical slice. Taizya
 
 ## Current slice boundaries
 
+2026-10-09: [Backend Phase 2](backend-phase-2.md) now implements the narrow
+identity/tenant-access/audit read with hosted RLS verification. Trusted provisioning
+and genuine login-to-API verification are next; [the team report](team-report.md)
+contains each lead's starting point. Every completed slice includes Word/Markdown reports.
+
 **Backend Phase 1:** health, config, standard errors, validation, audit helper, private-file contracts, demo-only queue/migration/seed, tests and documentation. **UI foundation:** approved logo, tokens, Poppins, reusable navigation/buttons, homepage and responsive shell, a searchable category taxonomy and explanatory destination pages. No account/cart/vendor/admin controls are exposed before their approved slice exists.
 
 The architecture is a combined Next.js web/API application in `apps/web`, with shared TypeScript backend code in `src/backend`. A dependency-free Node adapter remains available for local backend development. PostgreSQL is the persistent-data direction; private S3-compatible storage is a contract pending provider choice. Background jobs currently support only a clearly labelled synthetic no-op probe.
 
-**Provider update:** Start hosted backend work with Supabase-managed PostgreSQL. The free-tier development project `odgxcuwueessxfsoveza` is active in `eu-west-1`, but it is intentionally empty. Keep standard application SQL, server-owned permissions and repository interfaces so the database can move to owned PostgreSQL later. Supabase Auth/Storage stay behind adapters; their exit paths require separate preparation. See [Supabase migration plan](supabase-migration-plan.md). Hosted schema migration and application connection verification are not yet performed.
+**Provider update:** Supabase-managed PostgreSQL hosts the new private identity/tenant schema in development project `odgxcuwueessxfsoveza` (eu-west-1), with zero business rows after rollback tests. Standard application SQL, server-owned permissions and repository interfaces preserve the owned PostgreSQL direction. Auth/Storage remain separate adapters. See [Supabase migration plan](supabase-migration-plan.md). Genuine Auth-to-runtime connection verification still requires setup.
 
 The supplied `asssets/` spelling is preserved. `Virtual Ink Gradient Logo.png` is used unchanged, via a shared component. The showcase board is displayed only as a labelled concept reference; its screens, product mockups and illustrative prices are not live controls or commercial facts. No new image or replacement logo is generated. The two remaining boards guide later customizer/vendor slices.
 
@@ -18,7 +23,7 @@ The supplied `asssets/` spelling is preserved. `Virtual Ink Gradient Logo.png` i
 | --- | --- | --- | --- |
 | 1 — Backend Phase 1 | Shared health, config, validation, errors, audit/storage contracts; infrastructure SQL and demo seed | Node tests, type checks, dedicated SQL assertions | Backend tests/type check pass; SQL runtime blocked locally |
 | 2 — Brand/application shell | Supplied logo, tokens, responsive shell and homepage; honest taxonomy preview | Install dependencies, TypeScript, Next build, keyboard/mobile/browser checks, every visible link | Source created; install/build/browser checks blocked |
-| 3 — Backend Phase 2 | Customer/Guest, VendorOwner, VendorStaff, PlatformOperator, DeliveryPartner identity and tenant model | Uchi-approved permission matrix; denial, inactive membership and two-tenant tests; durable audit integration | Planned, not implemented |
+| 3 — Backend Phase 2 | Customer/Guest, VendorOwner, VendorStaff, PlatformOperator, DeliveryPartner identity and tenant model | Permission matrix review; denial, inactive membership and two-tenant tests; durable audit integration | Narrow access slice and hosted SQL tests delivered; live setup and Uchi review pending |
 | 4 — Marketplace discovery | Verified storefronts, bounded catalogue/search and product details; server quote contracts | Lubasi evidence; Uchi criteria; Taizya UX; authorized API integration | Planned |
 | 5 — Private design/customization | Private validated/quarantined files, briefs/proofs and T-shirt editor | Retention/access policy; file isolation/audit tests; editor persistence; true model or labelled 2D fallback | Planned |
 | 6 — Customer journey | Approved account, cart/order and payment-record UI; clear simulated/live boundaries | Real server price authority; no fake payment success; accepted collection/delivery rules | Planned |

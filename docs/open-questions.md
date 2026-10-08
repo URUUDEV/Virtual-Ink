@@ -45,7 +45,7 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 - **HB-01 — Uchi with Mumba:** What recurring budget, billing owner, region and environment count are approved?
 - **HB-02 — Mumba:** The current brief specifies a Next.js/React TypeScript direction, PostgreSQL, private object storage and background jobs. The source foundation follows this direction. Which identity provider, runtime database adapter, private S3-compatible provider and hosting are approved? Frontend dependency resolution/build verification is still pending.
 - **HB-03 — Mumba with Uchi:** What backup recovery objectives, retention, monitoring, secrets management and release controls are required?
-- **HB-04 — Decision direction supplied by Uchi:** Start with Supabase-managed PostgreSQL while keeping application SQL/repositories portable to owned PostgreSQL. Which development project, region, organization, billing owner and budget should be used? No project is provisioned or connected yet.
+- **HB-04 — Confirmed development direction by Uchi:** Supabase free tier ($0/month), new Virtual Ink project `odgxcuwueessxfsoveza` in `eu-west-1`, created in URUUDEV's Org. Hosted Phase 2 schema and rollback security tests are delivered. Restricted runtime login, genuine Auth smoke test, operating/billing owner and production budget still need review.
 - **HB-05 — Uchi with Mumba:** Does a future owned-database move retain Supabase Auth/Storage, replace those adapters, or self-host the whole Supabase stack? What downtime, rollback window and operating responsibilities are acceptable? See [migration plan](supabase-migration-plan.md).
 
 ## Printer details
@@ -88,5 +88,19 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 - **LP-04 — Uchi with Taizya:** Which consent, policy acknowledgement and accessibility requirements affect user flows?
 
 ## Dependency guidance
+
+### 2026-10-09 implementation defaults — Proposed
+
+| ID | Restrictive default implemented | Owner / review |
+| --- | --- | --- |
+| BQ-02 | Vendor organisations are tenants; memberships can span vendors; only own selected active scope is visible | Uchi with Mumba; acknowledgement pending |
+| BQ-04 | Guests and anonymous Auth users receive no private capability | Uchi; expanded guest flow remains open |
+| ROLE-01 | DeliveryPartner denies vendor/file/proof access even with other memberships | Uchi with Lubasi; mixed-role semantics pending |
+| AUDIT-01 | Durable allowed tenant-read events exist; denial-event storage and retention still open | Uchi with Mumba |
+| AUTH-01 | Auth-server verification is delivered; immediate logout/session revocation needs a separate adapter before sensitive workflows | Mumba with Uchi |
+| REPORT-01 | Every completed build slice includes dated Markdown and Word reports | Confirmed user instruction, 2026-10-09; all leads |
+
+These defaults grant no commercial capability and no user is automatically
+provisioned. They are a reviewable engineering slice, not business signoff.
 
 Local health/config/test work and review templates can proceed while these questions are open. Tenant persistence and authorization need BQ-02 and HB-02. Vendor onboarding needs VL-01/VL-02. Quotes need PC-01 through PC-04. Delivery workflows need LA-01 and DZ-01/DZ-02. Payment workflows need PM-01 through PM-03 and policy approval. Public launch needs the applicable legal/policy decisions and hosting review.

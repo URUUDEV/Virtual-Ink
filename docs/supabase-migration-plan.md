@@ -1,6 +1,6 @@
 # Virtual Ink — Supabase first, owned PostgreSQL later
 
-Decision requested by Uchi: use Supabase as the initial managed backend provider while preserving an exit path to PostgreSQL under Shadow Root Security Technologies' control. Mumba owns implementation and migration evidence. Status: the free-tier development project has been created and is healthy; hosted schema, auth, storage and migrations remain intentionally unconfigured.
+Decision requested by Uchi: use Supabase as the initial managed backend provider while preserving an exit path to PostgreSQL under Shadow Root Security Technologies' control. Mumba owns implementation and migration evidence. Current status: the development project has seven private Phase 2 tables, scoped RLS and passing rollback security tests. Identity/access code is delivered; live runtime driver/Auth setup and Storage remain open. See [Backend Phase 2](backend-phase-2.md). Sections below preserve the portability plan and initial config preparation.
 
 The connected account also lists two inactive projects: `shadowroot` (`mddzmeukciacvugixwnr`) and `URUUDEV's Project` (`rxbbibzyyhyksqzlcnll`). Virtual Ink uses the new project `odgxcuwueessxfsoveza`, named `Virtual Ink`, in `eu-west-1`, with status `ACTIVE_HEALTHY`. The project URL is `https://odgxcuwueessxfsoveza.supabase.co`. No API keys or database passwords are stored in this repository.
 

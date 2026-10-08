@@ -2,6 +2,11 @@
 
 ## Project overview
 
+Team reporting update, 2026-10-09: each completed build slice must include a dated
+Markdown and Word progress/handover report. Preserve historical reports and use
+[the latest team report](team-report.md) as the current starting point. Include
+actual tests, blockers, open questions and the next action for each lead.
+
 Virtual Ink is a planned print services platform under Shadow Root Security Technologies. Future product work may cover customer print requests, vendor fulfilment and delivery coordination once discovery and approvals are complete. Business rules and launch details remain unconfirmed.
 
 ## Phase 1 goal

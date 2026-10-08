@@ -43,6 +43,15 @@ test('Node adapter serves the shared versioned TypeScript health route', async (
   assert.equal(body.meta.requestId, response.headers.get('x-request-id'));
 });
 
+test('protected Node endpoints reject guests and give unavailable status before configuration', async (t) => {
+  const base = await start(t);
+  for (const path of ['/api/v1/me', '/api/v1/tenants/22222222-2222-4222-8222-222222222222/access']) {
+    assert.equal((await fetch(`${base}${path}`)).status, 401);
+    assert.equal((await fetch(`${base}${path}`, { headers: { Authorization: 'Bearer synthetic-token' } })).status, 503);
+    assert.equal((await fetch(`${base}${path}`, { method: 'POST' })).status, 405);
+  }
+});
+
 test('unknown API and private file/proof routes remain unavailable', async (t) => {
   const base = await start(t);
   for (const path of ['/api/v1/unknown', '/api/v1/files/private', '/api/v1/proofs/private']) {

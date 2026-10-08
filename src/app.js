@@ -3,22 +3,27 @@ import { createServer } from 'node:http';
 import { healthResponse } from './backend/health.ts';
 import { ApiError } from './backend/api/errors.ts';
 import { handleApi } from './backend/api/responses.ts';
+import { accessResponse } from './backend/identity/routes.ts';
 
-export function createApp({ logger = () => {} } = {}) {
+export function createApp({ logger = () => {}, access } = {}) {
   const server = createServer({ maxHeaderSize: 16 * 1024 }, async (req, res) => {
     const pathname = (req.url ?? '').split('?')[0];
     if (pathname.startsWith('/api/')) {
       const acceptedMethod = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'].includes(req.method);
       // Fetch Request rejects TRACE/CONNECT/TRACK; normalize before constructing
       // it, then reject the original unsupported method without crashing HTTP.
-      const request = new Request('http://127.0.0.1/api/v1/health', {
+      const protectedRoute = pathname === '/api/v1/me' || /^\/api\/v1\/tenants\/[^/]+\/access$/.test(pathname);
+      const duplicateAuth = req.rawHeaders.filter((value, index) => index % 2 === 0 && value.toLowerCase() === 'authorization').length > 1;
+      const request = new Request(`http://127.0.0.1${req.url}`, {
         method: acceptedMethod ? req.method : 'GET',
+        headers: protectedRoute && req.headers.authorization ? { Authorization: duplicateAuth ? 'ambiguous' : req.headers.authorization } : {},
       });
-      const response = pathname !== '/api/v1/health' ?
+      const response = protectedRoute ? (acceptedMethod ? await accessResponse(request, access, logger) :
+        await handleApi(request, () => { throw new ApiError('METHOD_NOT_ALLOWED'); }, logger)) : pathname !== '/api/v1/health' ?
         await handleApi(request, () => { throw new ApiError('NOT_FOUND'); }, logger) :
         acceptedMethod ? await healthResponse(request, logger) :
           await handleApi(request, () => { throw new ApiError('METHOD_NOT_ALLOWED'); }, logger);
-      if (response.status === 405) response.headers.set('Allow', 'GET, HEAD');
+      if (response.status === 405) response.headers.set('Allow', protectedRoute ? 'GET' : 'GET, HEAD');
       res.writeHead(response.status, Object.fromEntries(response.headers));
       res.end(req.method === 'HEAD' ? undefined : await response.text());
       return;

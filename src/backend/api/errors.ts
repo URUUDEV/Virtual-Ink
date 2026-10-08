@@ -9,6 +9,7 @@ const errors = {
   PAYLOAD_TOO_LARGE: { status: 413, message: 'Request body is too large.' },
   UNSUPPORTED_MEDIA_TYPE: { status: 415, message: 'Content-Type must be application/json.' },
   AUDIT_UNAVAILABLE: { status: 503, message: 'Required audit recording is unavailable.' },
+  IDENTITY_UNAVAILABLE: { status: 503, message: 'Identity service is unavailable.' },
   INTERNAL_ERROR: { status: 500, message: 'An unexpected error occurred.' },
 } as const;
 export type ErrorCode = keyof typeof errors;

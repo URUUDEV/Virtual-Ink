@@ -1,5 +1,9 @@
 # Virtual Ink technical foundation — Mumba's baseline plan
 
+Current engineering update: [Backend Phase 2](backend-phase-2.md) now delivers a
+narrow identity/tenant-access slice and hosted RLS tests. The wider module list is
+still a roadmap; read [the team report](team-report.md) for actual results and owners.
+
 Owner: Mumba Chitonge. Status: proposed architecture; Phase 1 local health/config/test baseline implemented. Final framework, database, identity provider, hosting and tenant semantics need recorded decisions with Uchi. Refer to BQ-02 and HB-02 in [open questions](open-questions.md).
 
 **Current build update:** This document preserves the original role-handover proposal. The latest user brief adopts the Next.js/TypeScript and PostgreSQL direction. Current implementation, test evidence and remaining runtime blockers are recorded in [Backend Phase 1](backend-foundation.md), [the build plan](build-plan.md) and [validation notes](backend-validation.md). The original stack description below is historical; it is not the current completion report.
