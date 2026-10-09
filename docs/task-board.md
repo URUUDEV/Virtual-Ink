@@ -79,6 +79,7 @@ Weekly review: Uchi checks ownership, missing acknowledgements, blocked decision
 | BF-03 | Uchi with Mumba | Backend Phase 2 roles, permissions and tenant model | Review | Narrow identity/tenant read, durable audit and hosted isolation tests delivered; review conservative defaults and finish live setup |
 | BF-04 | Mumba | Trusted development account/vendor/staff provisioning | Review | Private CLI, separate group, immutable audit and deferred commit constraints verified; see trusted-provisioning.md |
 | BF-05 | Mumba with Uchi | Genuine login-to-API and real onboarding verification | Blocked | Registry proxy rejects pg installation; separate logins/CA and approved development identity/evidence needed; live smoke script delivered |
+| BF-06 | Mumba | Safe setup and runtime database readiness checks | Review | Disabled service accounts, preserved environment initialization, catalog/column checks and 78-test evidence; see live-backend-setup.md |
 | R-01 | Build owner with Uchi reviewing | Dated team progress report after every slice | Ongoing | Markdown + Word report; see team-report.md and AGENTS.md |
 
 These entries supersede the original provisional-stack tasks where applicable. They do not close lead acknowledgement or signoff on anyone's behalf. Follow [the build plan](build-plan.md) one slice at a time.

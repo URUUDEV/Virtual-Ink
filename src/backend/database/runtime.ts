@@ -3,9 +3,9 @@ import { readFile } from 'node:fs/promises';
 import { loadDatabaseConfig } from './config.ts';
 import { createPooledDatabase, type ConnectionPool } from './pool.ts';
 import type { SqlDatabase } from './ports.ts';
+import { assertDatabaseFoundation, type DatabaseGroup } from './readiness.ts';
 
 type Environment = Record<string, string | undefined>;
-type DatabaseGroup = 'virtual_ink_api' | 'virtual_ink_provisioner';
 type PoolConstructor = new (config: Record<string, unknown>) => ConnectionPool & { on(event: string, handler: () => void): void };
 
 export async function assertDatabaseRole(database: SqlDatabase, group: DatabaseGroup): Promise<void> {
@@ -42,7 +42,7 @@ export async function openRestrictedDatabase(env: Environment, group: DatabaseGr
     ssl: sslRequired ? { ca, rejectUnauthorized: true } : false });
   pool.on('error', () => { /* Raw driver messages can include secrets. */ });
   const database = createPooledDatabase(pool);
-  try { await assertDatabaseRole(database, group); }
+  try { await assertDatabaseRole(database, group); await assertDatabaseFoundation(database, group); }
   catch { await database.close(); throw new Error('Database startup rejected the configured login.'); }
   return database;
 }

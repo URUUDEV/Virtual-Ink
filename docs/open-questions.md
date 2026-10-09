@@ -101,6 +101,7 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 | PROV-01 | Private CLI references external approval/reviewer UUIDs; define who authorizes vendor owner/staff access and where real evidence is held | Uchi with Lubasi; review pending |
 | PROV-02 | Development Customer/vendor/staff creation only; operator/delivery bootstrap, revocation, owner transfer and reactivation need a separate accepted workflow | Uchi with Mumba; no privileged grants implemented |
 | LIVE-01 | Genuine login smoke and real onboarding are blocked by pg registry access, separate restricted logins/CA and approved development identity | Mumba; configure privately, never send tokens/passwords to reports |
+| LIVE-02 | Separate service accounts exist as NOLOGIN with no passwords; who configures private passwords/CA and approves enabling each development login? | Mumba with Uchi; setup guide and checks delivered, activation pending |
 | REPORT-01 | Every completed build slice includes dated Markdown and Word reports | Confirmed user instruction, 2026-10-09; all leads |
 
 These defaults grant no commercial capability and no user is automatically

@@ -1,5 +1,18 @@
 # Virtual Ink Backend Phase 1 validation
 
+## Latest check — Setup and readiness, 2026-10-09
+
+78 Node tests pass and strict backend/scripts/test TypeScript check passes. Hosted
+catalog checks pass for both new service accounts; both remain NOLOGIN without
+passwords. The actual startup foundation query verifies eight tables and detects
+column-only audit access. Temporary SET/column grants were rolled back. Security
+advisor: no findings. Auth and application user counts remain zero.
+
+setup:init safely creates disabled missing settings and preserves existing files;
+setup:check reports incomplete driver/config/CA/smoke inputs without secret values.
+The pg installation retry failed through the proxy. Genuine login/pg/TLS, owned
+replay, browser QA and human signoff remain unverified. See [live setup](live-backend-setup.md).
+
 ## Latest check — Trusted provisioning, 2026-10-09
 
 66 Node tests pass, including 15 new provisioning/runtime/smoke tests. Strict

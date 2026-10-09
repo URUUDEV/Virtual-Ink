@@ -27,6 +27,8 @@ Backend Phase 2 contains a narrow identity/tenant-access read with durable audit
 Private development onboarding now uses a separate provisioning CLI/group and
 matching transaction audit constraints. Keep its credentials out of HTTP/web
 environments. No real onboarding or genuine login verification has been completed.
+Separate database service accounts exist as NOLOGIN with no passwords. Configure
+credentials/CA and enable LOGIN privately after review; setup tools print no secrets.
 No payments, checkout, uploads, courier integration or printer automation is enabled.
 Supabase development target: odgxcuwueessxfsoveza. Keep application schema portable
 to owned PostgreSQL, and keep auth/storage provider adapters separate.

@@ -6,8 +6,8 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
-Current slice: [Trusted development provisioning](docs/trusted-provisioning.md),
-following [Backend Phase 2 identity and tenant access](docs/backend-phase-2.md).
+Current slice: [Live backend setup and readiness](docs/live-backend-setup.md),
+following private provisioning and Backend Phase 2 identity/tenant access.
 Read the [latest team report](docs/team-report.md) for each lead's starting point.
 Code and hosted RLS tests are delivered; genuine sign-in-to-API setup remains open.
 Every completed build slice now includes a dated Markdown and Word team report.
@@ -17,6 +17,7 @@ Every completed build slice now includes a dated Markdown and Word team report.
 | [Current build plan](docs/build-plan.md) | Starting scope, architecture and vertical slices |
 | [Backend Phase 2](docs/backend-phase-2.md) | Identity, tenant access, hosted migrations, tests and remaining runtime setup |
 | [Trusted provisioning](docs/trusted-provisioning.md) | Private onboarding CLI, approval references, commit audits and live smoke setup |
+| [Live backend setup](docs/live-backend-setup.md) | Disabled service accounts, safe environment initialization and secret-free readiness checks |
 | [Latest team report](docs/team-report.md) | Current progress, Word report and starting instructions by role |
 | [Supabase and owned-database plan](docs/supabase-migration-plan.md) | Initial hosted provider, portable boundaries and later migration checklist |
 | [Backend foundation](docs/backend-foundation.md) | Pre-edit inspection, delivered modules, setup and next backend order |
@@ -58,6 +59,12 @@ Supabase-managed PostgreSQL is the initial hosted backend direction. The free-ti
 ## Run locally
 
 Prerequisites for the backend: Node.js **24.x**, npm and a terminal. Root npm scripts and tests use built-in Node modules and native TypeScript execution; no install step is required. Frontend packages live separately in `apps/web`.
+
+`npm run setup:init` safely creates disabled .env and .private/provisioning.env
+templates only when missing. `npm run setup:check` reports setup blockers without
+network access or secret values. Add `-- --database` for explicit read-only database
+checks after configuration passes. Follow [the private setup guide](docs/live-backend-setup.md)
+to configure the created NOLOGIN service accounts; genuine login remains unverified.
 
 ```powershell
 Set-Location D:\Work\Projects\virtual-ink

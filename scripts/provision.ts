@@ -6,14 +6,8 @@ import { loadSupabaseRestConfig } from '../src/backend/database/supabase-rest.ts
 import { createSupabaseIdentityVerifier } from '../src/backend/identity/supabase.ts';
 import { createProvisioningService, parseProvisioningCommand, ProvisioningError } from '../src/backend/provisioning/service.ts';
 import { readPrivateToken } from './private-token.ts';
-
-export function provisioningEnvironment(env: Record<string, string | undefined>) {
-  if (env.PROVISIONING_ENABLED !== 'true' || !['development', 'test'].includes(env.NODE_ENV ?? 'development') ||
-    !env.PROVISIONING_DATABASE_URL || env.PROVISIONING_DATABASE_URL === env.DATABASE_URL) {
-    throw new Error('Provisioning requires explicit development enablement and a separate restricted login.');
-  }
-  return { ...env, DATABASE_URL: env.PROVISIONING_DATABASE_URL, MIGRATION_DATABASE_URL: undefined };
-}
+import { provisioningEnvironment } from '../src/backend/provisioning/config.ts';
+export { provisioningEnvironment } from '../src/backend/provisioning/config.ts';
 
 export function validateProvisioningMode(mode: string, file: string, extra: readonly string[]) {
   if (!['preview', 'apply'].includes(mode) || !file || extra.length ||

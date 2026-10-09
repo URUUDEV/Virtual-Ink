@@ -19,6 +19,8 @@
     "test:db": "node --env-file-if-exists=.env scripts/database.ts test",
     "jobs:once": "node --env-file-if-exists=.env scripts/database.ts probe",
     "admin:provision": "node --env-file-if-exists=.private/provisioning.env scripts/provision.ts",
-    "test:auth:live": "node --env-file-if-exists=.env scripts/auth-smoke.ts"
+    "test:auth:live": "node --env-file-if-exists=.env scripts/auth-smoke.ts",
+    "setup:check": "node scripts/setup-check.ts",
+    "setup:init": "node scripts/setup-init.ts"
   }
 }

@@ -4,6 +4,11 @@ Date: 2026-10-09. Owner: Mumba Chitonge; product reviewer: Uchi Chinyama.
 Status: implemented and tested for review. Genuine sign-in, driver/TLS setup and
 human approval remain outstanding. No account, vendor or staff member was created.
 
+Follow-on: [live setup and readiness](live-backend-setup.md) adds disabled database
+service accounts, environment initialization and catalog startup checks. Those
+service accounts are distinct from application or Auth users. Current root test
+count is 78; the 66-test record below belongs to this provisioning slice.
+
 ## Scope and trust boundary
 
 This is a private development CLI, separate from the customer API and Next.js
@@ -68,9 +73,10 @@ Migration administrators remain a privileged trust boundary.
 
 1. On a connected machine, run `npm install --save-exact pg` at root and commit the
    actual lockfile. The current registry proxy refuses connections; pg is absent.
-2. Create two reviewed non-owner database logins privately: one inheriting only
-   virtual_ink_api, the other only virtual_ink_provisioner, without ADMIN OPTION or
-   privileged role flags. Assign passwords privately, not through Git/SQL reports.
+2. Configure the two non-owner service accounts created by the follow-on setup
+   migration: each inherits only its API or provisioner group, without ADMIN OPTION
+   or privileged flags. Set passwords privately and enable LOGIN after review as
+   described in live-backend-setup.md. Both accounts are disabled initially.
 3. Put the provisioner settings only in ignored `.private/provisioning.env`:
    NODE_ENV=development, PROVISIONING_ENABLED=true, PROVISIONING_DATABASE_URL and
    DATABASE_PROVIDER/DATABASE_CONNECTION_MODE, project ref, verified CA path,
