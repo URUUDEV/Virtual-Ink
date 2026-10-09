@@ -1,8 +1,10 @@
 # Virtual Ink team report
 
-Latest: [9 October 2026 — Backend readiness](reports/2026-10-09-backend-readiness.md).
+Latest: [9 October 2026 — Local preview](reports/2026-10-09-local-preview.md).
 
-Word: [Team report — Backend readiness](reports/2026-10-09-backend-readiness.docx).
+Word: [Team report — Local preview](reports/2026-10-09-local-preview.docx).
+
+Latest build slice: [Backend readiness report](reports/2026-10-09-backend-readiness.docx).
 
 Previous: [Phase 1 progress and starting points](Virtual-Ink-Team-Progress-Report.docx).
 
@@ -17,7 +19,7 @@ request is recorded in AGENTS.md. Reports do not mark product or lead approval.
 Regenerate a report with Python and python-docx installed for document tooling:
 
 ```powershell
-python scripts/generate_team_report.py docs/reports/2026-10-09-backend-readiness.md
+python scripts/generate_team_report.py docs/reports/2026-10-09-local-preview.md
 ```
 
 The generator validates OOXML package and fixed table geometry, preserves the
