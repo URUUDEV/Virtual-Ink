@@ -1,5 +1,21 @@
 # Virtual Ink Backend Phase 1 validation
 
+## Latest check — Trusted provisioning, 2026-10-09
+
+66 Node tests pass, including 15 new provisioning/runtime/smoke tests. Strict
+backend/scripts/test TypeScript check passes. Hosted provisioning SQL and the
+existing tenant-isolation regression pass with rollback fixtures. Deferred commit
+checks reject unaudited account, tenant and staff inserts. All eight application
+tables contain zero rows. Security advisor: no findings; performance advisor: four
+unused-index informational notices. Demo preview works; apply without setup and
+demo apply fail safely. See [provisioning evidence](trusted-provisioning.md).
+
+pg install was retried once and failed through the registry proxy. Genuine
+Auth/driver/TLS, real onboarding, owned PostgreSQL replay, pooling concurrency,
+Next build/browser QA, immediate session revocation and human signoff remain open.
+The dated Word report passes structural checks; LibreOffice is missing, preventing
+visual rendering. Earlier sections preserve the previous slices' evidence.
+
 ## Latest check — Backend Phase 2, 2026-10-09
 
 51 Node tests pass and strict backend TypeScript checks pass. Hosted Phase 2 SQL

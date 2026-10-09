@@ -1,8 +1,11 @@
 # Virtual Ink Backend Phase 2 — identity and tenant access
 
 Date: 2026-10-09. Owners: Uchi Chinyama (product), Mumba Chitonge (technical).
-Status: narrow implementation and hosted SQL verification delivered; full live
-sign-in-to-API verification, provisioning workflow and product signoff remain open.
+Status: narrow implementation and hosted SQL verification delivered. The subsequent
+[trusted provisioning slice](trusted-provisioning.md) adds private onboarding and
+commit audit constraints. Full live sign-in-to-API verification and product signoff
+remain open. The seven-table/51-test figures below are the original slice record;
+current totals are eight tables and 66 passing tests.
 
 ## Scope and conservative decisions
 
@@ -13,7 +16,7 @@ DeliveryPartner roles are separate. These restrictive defaults implement a revie
 foundation; BQ-02/BQ-04 remain proposed decisions awaiting Uchi's acknowledgement.
 
 No user, identity, vendor or membership is automatically provisioned. Trusted
-administrative provisioning is the next slice. There is no role-selection request,
+administrative provisioning is now a separate private development CLI. There is no role-selection request,
 auth.users trigger, demo login, service-role API client or signup UI. Subjects map
 to application-owned UUIDs without a foreign key to Supabase auth.users.
 
@@ -157,7 +160,8 @@ delete schemas, roles or data without reviewing backups and deployment consumers
 Hosted changes are in a development project with no business rows. For a fresh
 isolated replay, use the versioned files; for future changes use forward migrations.
 
-Next slice: trusted identity/membership provisioning and genuine login-to-API smoke
-verification. Uchi reviews guest/vendor/role-conflict defaults; Mumba connects the
+Trusted identity/membership provisioning is now delivered in the linked private
+CLI slice. Next: genuine login-to-API smoke verification and reviewed live setup.
+Uchi reviews guest/vendor/role-conflict defaults; Mumba connects the
 restricted driver; Taizya supplies denied/expired-session UX; Lubasi confirms staff,
 delivery and support responsibilities. File/marketplace work follows those gates.

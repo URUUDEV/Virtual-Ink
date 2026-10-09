@@ -132,3 +132,13 @@ SQL assertions cover migration presence, role flags, forbidden API/worker reads,
 6. Add server-side quotes only from approved rules; then orders, proofs and operational records, each as a tested vertical slice.
 
 See [build plan](build-plan.md) for the frontend sequence and [validation notes](backend-validation.md) for observed results and blockers.
+
+## Current follow-on implementation — 2026-10-09
+
+[Backend Phase 2](backend-phase-2.md) and [trusted provisioning](trusted-provisioning.md)
+now provide identity/tenant reads, hosted forced RLS, durable access audits, a private
+onboarding CLI and commit audit constraints. Eight application tables have zero rows
+after rollback tests. The complete root suite has 66 passing tests. Earlier local
+infrastructure verification blockers remain specific to Phase 1 replay; hosted
+Phase 2 isolation and provisioning assertions pass. Genuine Auth/pg/TLS, owned
+PostgreSQL replay, Next build/browser QA and human approval remain pending.

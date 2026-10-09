@@ -6,7 +6,8 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
-Current slice: [Backend Phase 2 identity and tenant access](docs/backend-phase-2.md).
+Current slice: [Trusted development provisioning](docs/trusted-provisioning.md),
+following [Backend Phase 2 identity and tenant access](docs/backend-phase-2.md).
 Read the [latest team report](docs/team-report.md) for each lead's starting point.
 Code and hosted RLS tests are delivered; genuine sign-in-to-API setup remains open.
 Every completed build slice now includes a dated Markdown and Word team report.
@@ -15,6 +16,7 @@ Every completed build slice now includes a dated Markdown and Word team report.
 | --- | --- |
 | [Current build plan](docs/build-plan.md) | Starting scope, architecture and vertical slices |
 | [Backend Phase 2](docs/backend-phase-2.md) | Identity, tenant access, hosted migrations, tests and remaining runtime setup |
+| [Trusted provisioning](docs/trusted-provisioning.md) | Private onboarding CLI, approval references, commit audits and live smoke setup |
 | [Latest team report](docs/team-report.md) | Current progress, Word report and starting instructions by role |
 | [Supabase and owned-database plan](docs/supabase-migration-plan.md) | Initial hosted provider, portable boundaries and later migration checklist |
 | [Backend foundation](docs/backend-foundation.md) | Pre-edit inspection, delivered modules, setup and next backend order |
@@ -45,13 +47,13 @@ Every completed build slice now includes a dated Markdown and Word team report.
 
 Runnable now: dependency-free Node.js 24 backend with shared TypeScript helpers, `/health`, `/api/v1/health`, safe config/error handling, bounded request validation, a fail-closed audit interface and private-file contracts. Backend tests require no dependency install. Health is process liveness, not database/storage readiness.
 
-Source delivered for the next verified steps: PostgreSQL infrastructure migration, permission assertions, a labelled no-op demo job/seed, and a Next.js/React/TypeScript shell with the approved logo, Poppins, Tailwind, Lucide, homepage and searchable category preview. Frontend installation/build/browser verification and SQL runtime checks are blocked in this session; see validation notes. No real database/storefront/auth connection or storage bucket is configured.
+Source delivered for the next verified steps: PostgreSQL infrastructure migration, permission assertions, a labelled no-op demo job/seed, and a Next.js/React/TypeScript shell with the approved logo, Poppins, Tailwind, Lucide, homepage and searchable category preview. Hosted Phase 2 SQL isolation/provisioning checks pass. Frontend installation/build/browser verification and the original local Phase 1 database replay remain blocked; see validation notes. No real application database/Auth connection or storage bucket is configured.
 
 The build excludes full marketplace, checkout, uploads, dashboards, customer mobile account UI, 3D preview, real payments, live tracking, messaging, printer control and production deployment. Vendor/pricing/commission/tax/coverage rules remain open. Backend Phase 2 now adds narrow identity/tenant-access policies and durable allowed-read audits; live setup and expanded workflows remain pending. Operational status logs are separate from these business audits.
 
 The repository is at `D:\Work\Projects\virtual-ink`. Preserve `asssets/` (the supplied spelling). The approved logo is used unchanged; reference boards are clearly labelled concepts, not live products, prices or functioning controls. No replacement images are generated.
 
-Supabase-managed PostgreSQL is the initial hosted backend direction. The free-tier development project `odgxcuwueessxfsoveza` is active in `eu-west-1` at `https://odgxcuwueessxfsoveza.supabase.co`. Backend Phase 2 has added seven private application tables, scoped RLS, identity/tenant access and durable read audits. There are zero business rows after rolled-back security tests. Runtime driver/login, genuine Auth verification and private Storage setup remain open. Application tables/permissions remain standard PostgreSQL and server-owned so the database can move to owned PostgreSQL later.
+Supabase-managed PostgreSQL is the initial hosted backend direction. The free-tier development project `odgxcuwueessxfsoveza` is active in `eu-west-1` at `https://odgxcuwueessxfsoveza.supabase.co`. Backend Phase 2 and provisioning have added eight private application tables, scoped RLS, identity/tenant access, durable read audits and onboarding commit audit constraints. There are zero business rows after rolled-back security tests. Runtime driver/logins, genuine Auth verification and private Storage setup remain open. Application tables/permissions remain standard PostgreSQL and server-owned so the database can move to owned PostgreSQL later.
 
 ## Run locally
 
@@ -91,6 +93,18 @@ follow [Phase 2 setup](docs/backend-phase-2.md): install `pg` with an actual loc
 configure a restricted non-owner API login and verified CA, then provision an
 approved application identity/membership. No role or vendor context is accepted
 from client headers. Health remains process liveness only.
+
+Private provisioning is separate from the API process. Safe preview:
+
+```powershell
+npm run admin:provision -- preview examples/provisioning/create-account.demo.json
+```
+
+The demo file is preview-only and cannot be applied. Real apply needs reviewed
+external approval references, a separate restricted login and a genuine token
+passed through stdin. See [provisioning setup](docs/trusted-provisioning.md).
+`npm run test:auth:live` is an explicitly configured genuine login smoke script;
+it has not passed here. Keep provisioning credentials out of web/server environments.
 
 ## Next.js frontend setup
 
@@ -153,7 +167,8 @@ The Git repository uses branch `main` and remote `origin` at `https://github.com
 
 ## Next step
 
-Uchi and Mumba review the implemented identity/tenant slice, resolve restrictive
-defaults and complete trusted provisioning plus real login-to-API verification.
+Uchi and Mumba review the implemented identity/tenant and private provisioning
+slices, resolve restrictive defaults, configure reviewed onboarding and complete
+real login-to-API verification.
 Use the next prompt in [the team report](docs/team-report.md). Full marketplace
 development needs accepted criteria, UX handover and verified operations facts.

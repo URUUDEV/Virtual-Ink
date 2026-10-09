@@ -98,6 +98,9 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 | ROLE-01 | DeliveryPartner denies vendor/file/proof access even with other memberships | Uchi with Lubasi; mixed-role semantics pending |
 | AUDIT-01 | Durable allowed tenant-read events exist; denial-event storage and retention still open | Uchi with Mumba |
 | AUTH-01 | Auth-server verification is delivered; immediate logout/session revocation needs a separate adapter before sensitive workflows | Mumba with Uchi |
+| PROV-01 | Private CLI references external approval/reviewer UUIDs; define who authorizes vendor owner/staff access and where real evidence is held | Uchi with Lubasi; review pending |
+| PROV-02 | Development Customer/vendor/staff creation only; operator/delivery bootstrap, revocation, owner transfer and reactivation need a separate accepted workflow | Uchi with Mumba; no privileged grants implemented |
+| LIVE-01 | Genuine login smoke and real onboarding are blocked by pg registry access, separate restricted logins/CA and approved development identity | Mumba; configure privately, never send tokens/passwords to reports |
 | REPORT-01 | Every completed build slice includes dated Markdown and Word reports | Confirmed user instruction, 2026-10-09; all leads |
 
 These defaults grant no commercial capability and no user is automatically

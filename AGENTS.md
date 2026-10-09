@@ -24,6 +24,9 @@ For every completed build slice or handover:
 ## Current boundary
 
 Backend Phase 2 contains a narrow identity/tenant-access read with durable audits.
+Private development onboarding now uses a separate provisioning CLI/group and
+matching transaction audit constraints. Keep its credentials out of HTTP/web
+environments. No real onboarding or genuine login verification has been completed.
 No payments, checkout, uploads, courier integration or printer automation is enabled.
 Supabase development target: odgxcuwueessxfsoveza. Keep application schema portable
 to owned PostgreSQL, and keep auth/storage provider adapters separate.

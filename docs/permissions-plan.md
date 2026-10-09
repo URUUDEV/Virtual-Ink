@@ -31,3 +31,14 @@ Operator capabilities should be separately granted (for example support vs recon
 Create synthetic fixtures for two vendors/tenants, two customers, owner, staff, operator and delivery identities. They are test fixtures, not real businesses. Prove unauthenticated denial, guest limits, wrong role, inactive membership, guessed IDs, cross-tenant lists/mutations/joins, unassigned staff work and delivery exclusion from files/proofs. Confirm missing audit persistence blocks required sensitive operations. Test storage and background scopes when those adapters are introduced.
 
 Uchi supplies the accepted permission matrix and guest/tenant decisions. Mumba supplies schema, migrations, verified identity implementation, negative tests and setup/rollback notes. Taizya specifies permission/expired-session UX. Lubasi confirms assignments and support responsibilities.
+
+## Private development provisioning
+
+The [trusted provisioning CLI](trusted-provisioning.md) uses a separate restricted
+database group/login. It may inspect onboarding identifiers across vendors, insert
+Customer mappings, create reviewed vendor/owner rows and add reviewed staff. This
+administrative trust boundary is never available through customer/vendor HTTP.
+The API login cannot inherit provisioning rights. No operator/delivery grants,
+reactivation, owner transfer, file access or production onboarding is implemented.
+External approval references require human verification; deferred database checks
+require matching transaction audit evidence before onboarding inserts can commit.

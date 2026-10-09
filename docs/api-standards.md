@@ -51,3 +51,11 @@ Use server-generated UUIDs and strict boundary validation. IDs are opaque refere
 ## Server-side pricing rule
 
 Client price totals, discounts, commission rates, tax formulas and delivery charges are untrusted. Later APIs accept approved product/options/quantity inputs, then calculate the authoritative quote on the server using versioned, verified rules and exact decimal/minor-unit money with currency. Reject unapproved fields and stale quotes according to an accepted contract. No pricing engine or business formula is implemented in this foundation. Illustrative values in supplied concept images are not prices for a real offering.
+
+## Administrative onboarding boundary
+
+There is no public provisioning API. The development CLI uses its own restricted
+credential, a verified target identity and externally reviewed approval references.
+Its grants and immutable audit commit together; deferred database constraints also
+reject unaudited inserts. Customer APIs cannot supply role/identity/membership
+commands. See [trusted provisioning](trusted-provisioning.md) for the private setup.

@@ -74,10 +74,11 @@ Weekly review: Uchi checks ownership, missing acknowledgements, blocked decision
 | --- | --- | --- | --- | --- |
 | BF-01 | Mumba | Backend Phase 1 health/config/error/validation/audit foundation | Review | Backend tests and strict TypeScript checks; see backend-validation.md |
 | BF-02 | Mumba | PostgreSQL migration, demo queue/seed and SQL assertions | Blocked | Files delivered; isolated server could not start; run against dedicated test DB |
-| BF-02A | Mumba | Supabase-first provider boundary and owned-PostgreSQL exit plan | Review | Provider config, SQL port, server-only REST adapter and migration plan delivered; active empty project `odgxcuwueessxfsoveza` created; hosted schema verification pending |
+| BF-02A | Mumba | Supabase-first provider boundary and owned-PostgreSQL exit plan | Review | Hosted development schema and rollback isolation/provisioning checks pass; owned PostgreSQL replay remains open |
 | UI-01 | Taizya with Mumba implementing | Supplied logo, tokens, homepage and responsive shell | Blocked | Source delivered; npm install/build/browser verification needs registry access |
 | BF-03 | Uchi with Mumba | Backend Phase 2 roles, permissions and tenant model | Review | Narrow identity/tenant read, durable audit and hosted isolation tests delivered; review conservative defaults and finish live setup |
-| BF-04 | Mumba | Trusted provisioning and genuine login-to-API verification | Ready | Install pg/lockfile, configure restricted login/CA and implement approved identity/membership provisioning |
+| BF-04 | Mumba | Trusted development account/vendor/staff provisioning | Review | Private CLI, separate group, immutable audit and deferred commit constraints verified; see trusted-provisioning.md |
+| BF-05 | Mumba with Uchi | Genuine login-to-API and real onboarding verification | Blocked | Registry proxy rejects pg installation; separate logins/CA and approved development identity/evidence needed; live smoke script delivered |
 | R-01 | Build owner with Uchi reviewing | Dated team progress report after every slice | Ongoing | Markdown + Word report; see team-report.md and AGENTS.md |
 
 These entries supersede the original provisional-stack tasks where applicable. They do not close lead acknowledgement or signoff on anyone's behalf. Follow [the build plan](build-plan.md) one slice at a time.
