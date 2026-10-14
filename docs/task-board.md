@@ -4,13 +4,17 @@ This Markdown board can be used directly or copied into the team's chosen task t
 
 ## Uchi Chinyama — Product and Project Lead
 
+Phase closure requires the [Vercel completion checklist](phase-completion-checklist.md):
+local operation, passing tests, all hosting checks and the actual deployed URL.
+Reviewable documentation/build slices remain separate from completed phases.
+
 | ID | Task | Status | Dependency | Deliverable | Reviewer |
 | --- | --- | --- | --- | --- | --- |
 | U-01 | Review Phase 1 scope and nominate canonical repo/board | Ready | Foundation pack | Scope acknowledgement and repository ownership record | Uchi |
 | U-02 | Confirm customer/vendor/admin roles and initial tenant/access model with Mumba | Backlog | U-01, M-01 proposal | Approved role and tenant decision with denial cases | Uchi |
 | U-03 | Resolve launch, commercial and policy decisions from discovery | Backlog | L-01, L-02 | Updated open questions and approved decision references | Uchi |
 | U-04 | Approve one Phase 2 infrastructure acceptance record | Backlog | U-02, M-01 | Acceptance record; UX/operations N/A reason if appropriate | Uchi |
-| U-05 | Review Phase 1 evidence and record signoff | Ready | Delivered docs and backend; lead acknowledgements needed for closure | Completed phase checklist | Uchi |
+| U-05 | Review Phase 1 evidence and record signoff | Blocked | Vercel VH-01–VH-17 evidence, deployed URL and lead acknowledgements pending; HB-06 | Completed phase checklist after local/testing/hosting gates pass | Uchi |
 
 ## Mumba Chitonge — Technical Lead
 
@@ -47,6 +51,24 @@ This Markdown board can be used directly or copied into the team's chosen task t
 
 These artifacts are delivered for review. Their existence does not imply the leads have acknowledged them or that business decisions are approved.
 
+## Vendor onboarding preparation — 12 October 2026
+
+| ID | Task | Status | Evidence / next gate |
+| --- | --- | --- | --- |
+| UI-04 | Public vendor profile preparation | Review | Three steps, bounded details/services, review and local JSON download at `/vendors/join`; [scope](vendor-onboarding.md). Uchi/Taizya review required fields and UX; Lubasi defines capability checks and private intake. |
+| UI-05 | Resume local work and export the 3D view | Review | Editable shirt files, 3D PNGs, explicit vendor device/file drafts and undo restore. [Evidence](reports/2026-10-13-functional-workspaces.md): 127 application tests, nine React/mesh checks, 116 security tests, build/type checks and 53 HTTP assertions pass. File-picker automation, full visual/accessibility acceptance and live intake remain open. |
+| VON-01 | Authenticated submission and reviewed activation | Backlog | Resolve [VL-03](open-questions.md), genuine identity/runtime setup and acceptance before submission, persistence or account enablement. Mumba owns the next contract; provisioning credentials remain separate. |
+| VON-02 | Review disabled persistent vendor foundation | Review | [14 October evidence](reports/2026-10-14-vendor-foundation-review.md): five contract tests and isolated PostgreSQL 18 lifecycle/RLS rollback pass; empty selectors fixed. Mumba reviews provider bridge, expiry/failure/concurrency and genuine Auth before migration/HTTP wiring; Uchi/Lubasi resolve VL-05. |
+
+## Vercel hosting verification — all phases
+
+| ID | Owner | Task | Status | Evidence / next action | Reviewer |
+| --- | --- | --- | --- | --- | --- |
+| DEP-01 | Mumba | Connect project and verify Preview/Production on Vercel | Blocked | HB-06: Uchi confirms team/project ownership, budget and domain responsibility; Mumba records actual connection, builds, environment scopes and URLs | Uchi |
+| DEP-02 | Mumba | Verify deployed database, storage, Auth, dashboards, APIs and protection | Backlog | DEP-01 and accepted implementations; complete VH-05–VH-11 with synthetic data and denial evidence | Uchi |
+| DEP-03 | Taizya | Verify deployed public pages, mobile layouts and browser console | Backlog | Working preview/production URLs; record VH-12–VH-14 results with Mumba | Uchi |
+| DEP-04 | Uchi | Review hosting evidence before any phase closure | Blocked | Every VH item, local/testing results, documented domain and actual deployment URLs; Lubasi confirms operational workflows | Uchi |
+
 ## Work item template
 
 ```text
@@ -61,6 +83,8 @@ UX and operations handover links (or N/A with reason):
 Data classification / permissions / tenant impact:
 Deliverables:
 Tests / evidence required:
+Phase closure: local operation / test results / Vercel VH-01–VH-17 evidence:
+Preview and production deployment URLs / IDs / tested commits:
 Open blockers / owner / next action:
 Handover date / receiving acknowledgement:
 Review decision / reviewer / date / evidence:
@@ -75,11 +99,21 @@ Weekly review: Uchi checks ownership, missing acknowledgements, blocked decision
 | BF-01 | Mumba | Backend Phase 1 health/config/error/validation/audit foundation | Review | Backend tests and strict TypeScript checks; see backend-validation.md |
 | BF-02 | Mumba | PostgreSQL migration, demo queue/seed and SQL assertions | Blocked | Files delivered; isolated server could not start; run against dedicated test DB |
 | BF-02A | Mumba | Supabase-first provider boundary and owned-PostgreSQL exit plan | Review | Hosted development schema and rollback isolation/provisioning checks pass; owned PostgreSQL replay remains open |
-| UI-01 | Taizya with Mumba implementing | Supplied logo, tokens, homepage and responsive shell | Blocked | Source delivered; npm install/build/browser verification needs registry access |
+| UI-01 | Taizya with Mumba implementing | Supplied logo, tokens, homepage and responsive shell | Review | Build/TypeScript and sampled Chrome probes pass on private reviewed Node; full accessibility and human acceptance pending |
+| UI-02 | Taizya with Mumba implementing; Uchi reviews | Supplied HTML translated into public visual collection | Review | 11 October report: build, 45 HTTP assertions, responsive DOM probes and hydrated controls pass; image containment and HTTP 404 fixed |
+| UI-03 | Taizya with Mumba; Uchi reviews | Local T-shirt 2D/3D workspace, fonts and acceptance | Review | 12 October font/3D report: seven font choices and procedural 3D preview; 121 root tests, seven React/mesh checks, 110 security regressions pass; Chrome font/view/zoom/keyboard controls verified; Uchi reports artwork working; automated texture/export and UX-02/03/full accessibility acceptance remain open; FILE-01/02 precede server uploads |
 | BF-03 | Uchi with Mumba | Backend Phase 2 roles, permissions and tenant model | Review | Narrow identity/tenant read, durable audit and hosted isolation tests delivered; review conservative defaults and finish live setup |
 | BF-04 | Mumba | Trusted development account/vendor/staff provisioning | Review | Private CLI, separate group, immutable audit and deferred commit constraints verified; see trusted-provisioning.md |
 | BF-05 | Mumba with Uchi | Genuine login-to-API and real onboarding verification | Blocked | Registry proxy rejects pg installation; separate logins/CA and approved development identity/evidence needed; live smoke script delivered |
 | BF-06 | Mumba | Safe setup and runtime database readiness checks | Review | Disabled service accounts, preserved environment initialization, catalog/column checks and 78-test evidence; see live-backend-setup.md |
+| BF-07 | Mumba with Uchi | Caller-owned active membership list | Review | Endpoint, pagination, private audit, nine-table readiness and 90-test/hosted isolation evidence; genuine setup/product acceptance pending |
+| BF-08 | Mumba with Uchi | Membership lifecycle, revocation and abuse controls | Backlog | AUTH-01/02, MEMBER-01/02 and SEC-01 decisions; audited mutations, concurrency and denial evidence |
+| BF-09 | Mumba with Uchi | Restricted audit review and denial-event policy | Backlog | AUDIT-01/02; separate purpose-bound authority, redaction, pagination and access audits |
+| ESC-01 | Uchi with Mumba and Lubasi | Escrow simulation readiness and complete transition/ledger contract | Backlog | Source PDF; approved quote/order prerequisites; resolve ESC-01 through ESC-04 in open questions; no live funds |
+| DOC-01 | All leads; Uchi coordinates | Supplied PDF baseline and gap review | Review | source-document-baseline.md and dated source-review report; no signoff inferred from PDF wording |
+| DOC-02 | Mumba and Taizya; Uchi reviews | Role kickoff PDFs and first-session handoff | Review | Two three-page PDFs linked in team-report.md; Mumba verifies genuine runtime, Taizya reviews shell and drafts workspace states; acknowledgement pending |
+| SEC-05 | Mumba; each build owner executes | Security review after every meaningful step | Ongoing | AGENTS.md and security-review.md; regression tests, safe scan, runtime gate and dated evidence |
+| SEC-06 | Mumba | Patch runtime and reverify release gates | Blocked | Verified private Node 24.21.0 passes runtime/tests/build; default 24.14.1 still fails; durable default/deployment patch and SEC-03/04 remain open |
 | R-01 | Build owner with Uchi reviewing | Dated team progress report after every slice | Ongoing | Markdown + Word report; see team-report.md and AGENTS.md |
 
 These entries supersede the original provisional-stack tasks where applicable. They do not close lead acknowledgement or signoff on anyone's behalf. Follow [the build plan](build-plan.md) one slice at a time.

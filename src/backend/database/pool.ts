@@ -27,7 +27,8 @@ export function createPooledDatabase(pool: ConnectionPool): SqlDatabase {
         await connection.query("SET LOCAL statement_timeout = '5s'");
         await connection.query(`SELECT set_config('app.user_id', '', true), set_config('app.tenant_id', '', true),
           set_config('app.request_id', '', true), set_config('app.identity_provider', '', true),
-          set_config('app.identity_issuer', '', true), set_config('app.identity_subject', '', true)`);
+          set_config('app.identity_issuer', '', true), set_config('app.identity_subject', '', true),
+          set_config('app.access_mode', '', true)`);
         const tx: SqlExecutor = {
           async query<Row extends Record<string, unknown>>(statement: string, parameters: readonly SqlParameter[]) {
             if (!live) throw new Error('Transaction already finished');

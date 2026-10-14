@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { ApiError } from '../api/errors.ts';
 import { strictObject, uuid } from '../api/validation.ts';
-const actions = ['file.accessed', 'proof.accessed', 'membership.changed', 'pricing.changed', 'support.accessed', 'tenant.accessed', 'system.probe'] as const;
+const actions = ['file.accessed', 'proof.accessed', 'membership.changed', 'memberships.listed', 'pricing.changed', 'support.accessed', 'tenant.accessed', 'system.probe'] as const;
 export type AuditAction = typeof actions[number];
 export type AuditInput = {
   action: AuditAction; actorType: 'user' | 'system'; actorId: string | null; tenantId: string | null;
@@ -17,7 +17,8 @@ export function createAuditEvent(input: AuditInput): AuditEvent {
   const tenantId = input.tenantId === null ? null : uuid(record.tenantId, 'tenantId');
   if ((input.actorType === 'user' && actorId === null) ||
     (input.actorType === 'system' && (actorId !== null || input.action !== 'system.probe')) ||
-    (input.action !== 'system.probe' && (tenantId === null || input.actorType !== 'user'))) {
+    (input.action === 'memberships.listed' && (tenantId !== null || input.actorType !== 'user' || input.resourceId !== actorId || input.outcome !== 'allowed')) ||
+    (!['system.probe', 'memberships.listed'].includes(input.action) && (tenantId === null || input.actorType !== 'user'))) {
     throw new ApiError('VALIDATION_FAILED', ['audit']);
   }
   return Object.freeze({ id: randomUUID(), occurredAt: new Date().toISOString(), action: input.action,

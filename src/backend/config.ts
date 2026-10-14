@@ -38,10 +38,7 @@ export function validateDatabaseUrl(value: string): URL {
 }
 
 export function loadInfrastructureConfig(env: Environment = process.env) {
-  if (Object.entries(env).some(([key, value]) => key.startsWith('NEXT_PUBLIC_') && (
-    /^NEXT_PUBLIC_(DATABASE|MIGRATION|TEST_DATABASE|S3_|STORAGE_|AUTH_|AUDIT_|JOB)/.test(key) ||
-    /^NEXT_PUBLIC_SUPABASE_(SECRET|SERVICE_ROLE|ACCESS_TOKEN|DB_PASSWORD|JWT_SECRET)/.test(key) ||
-    value?.startsWith('sb_secret_')))) {
+  if (hasPublicSecret(env)) {
     throw new Error('Sensitive configuration must remain server-side.');
   }
   const runtime = loadConfig(env);
@@ -62,4 +59,12 @@ export function loadInfrastructureConfig(env: Environment = process.env) {
     } catch { throw new Error('S3_ENDPOINT must use HTTPS, except local development HTTP.'); }
   }
   return Object.freeze({ ...runtime, jobsEnabled, storageEnabled, databaseConfigured: Boolean(env.DATABASE_URL) });
+}
+
+// Shared by startup and readiness. This rejects recognized dangerous names and
+// credential formats; it cannot detect arbitrary secrets under innocent names.
+export function hasPublicSecret(env: Environment): boolean {
+  return Object.entries(env).some(([key, value]) => /^NEXT_PUBLIC_/i.test(key) && (
+    /DATABASE|PASSWORD|TOKEN|SECRET|SERVICE.?ROLE|PRIVATE|PROVISIONING|S3_|STORAGE_|AUTH_|AUDIT_|JOB/i.test(key) ||
+    /^(sb_secret_|postgres(?:ql)?:\/\/|eyJ)/.test(value?.trim() ?? '')));
 }

@@ -1,6 +1,6 @@
 # Virtual Ink open questions and decisions
 
-Unanswered entries remain **Open**. No commercial, legal, hosting or launch facts below are confirmed. Uchi coordinates resolution; Mumba owns technical proposals, Taizya owns design proposals, and Lubasi owns operational evidence. Open questions block only the work that depends on them. The latest build brief supplies the software direction, role names, approved assets and UI palette; these do not settle business rules.
+Unanswered entries remain **Open**. Only entries explicitly recorded as Confirmed represent user decisions; other commercial, legal, hosting and launch facts remain unconfirmed. Uchi coordinates resolution; Mumba owns technical proposals, Taizya owns design proposals, and Lubasi owns operational evidence. Open questions block only the work that depends on them. The latest build brief supplies the software direction, role names, approved assets and UI palette; these do not settle business rules.
 
 Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | decision | decision owner | reviewer | date | evidence reference | affected task IDs | next action`. Use approved private evidence references for sensitive records. A proposed answer is not confirmation. Preserve decision history when an answer changes.
 
@@ -20,6 +20,14 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 
 - **VL-01 — Lubasi:** Which vendors have actually been identified and authorized for discovery? Where is their verified evidence stored privately?
 - **VL-02 — Lubasi with Uchi:** What checks, agreements, service capabilities and account permissions are required before vendor onboarding?
+- **VL-03 — Open; Uchi with Lubasi, Mumba and Taizya:** Review the [vendor preparation form](vendor-onboarding.md). Which fields and consent text are required, what approved private intake/submission channel should receive profiles, who reviews them, and what retention, duplicate and capability-verification rules apply? Current downloads are self-declared and unsubmitted; they grant no vendor access.
+- **VL-04 — Open; Uchi with Taizya and Lubasi:** Review explicit vendor device/file drafts and their contact-data wording. Confirm intended private-device use, supported shared-device behaviour and the eventual server retention policy. Device saving is optional and explicit; same-origin scripts can read it. See [functional update](reports/2026-10-13-functional-workspaces.md).
+
+Vendor follow-up: **VL-05 — Open; Uchi with Lubasi and Mumba:** Review the disabled
+[persistent foundation](vendor-onboarding-foundation.md). Who can grant/revoke
+reviewer access, what expiry/MFA freshness and recovery are required, which evidence
+references prove checks, and what consent, duplicate and retention rules govern
+activation? Local rollback fixtures are synthetic and establish no human approval.
 
 ## Pricing and commission
 
@@ -42,6 +50,9 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 
 ## Hosting budget
 
+- **HOST-01 — Confirmed by Uchi, 2026-10-14:** Vercel hosting verification is mandatory for every phase. Local operation, passing tests and successful deployment with the URL in the completion report are required. See [all verification items](phase-completion-checklist.md). This decision supplies no deployment evidence or completed phase signoff.
+- **HB-06 — Open; Uchi with Mumba:** Which Vercel team/project and billing owner should hold the Git connection, which environments/regions and production branch are approved, and who owns custom-domain/DNS setup? Record connection and deployment evidence after setup; do not include credentials. Vercel is required by HOST-01; account ownership, budget and domain details remain open.
+
 - **HB-01 — Uchi with Mumba:** What recurring budget, billing owner, region and environment count are approved?
 - **HB-02 — Mumba:** The current brief specifies a Next.js/React TypeScript direction, PostgreSQL, private object storage and background jobs. The source foundation follows this direction. Which identity provider, runtime database adapter, private S3-compatible provider and hosting are approved? Frontend dependency resolution/build verification is still pending.
 - **HB-03 — Mumba with Uchi:** What backup recovery objectives, retention, monitoring, secrets management and release controls are required?
@@ -56,7 +67,31 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 ## Brand assets
 
 - **BA-01 — Confirmed by supplied brief:** Use `asssets/Virtual Ink Gradient Logo.png` unchanged, Poppins and the specified palette. The supplied reference boards are design concepts; depicted prices/vendor claims are not commercial approval. Are separate brand-use rights or production-specific assets needed before launch?
-- **BA-02 — Taizya:** What accessibility target and component review evidence are agreed? Actual 3D models and individual approved product mockups are not supplied; use labelled 2D/text fallbacks for future work.
+- **BA-02 — Taizya:** What accessibility target and component review evidence are agreed? The supplied HTML now provides six individual 2D product mockups, used as visual fixtures. Review their differing embedded brand treatments, quality and rights before publication. Actual 3D models are still absent.
+- **BA-03 — Taizya with Uchi:** Review the implemented HTML visual direction at desktop/mobile widths and confirm product imagery and hierarchy. See [UI visualization and pending browser checklist](ui-visualization.md); no design signoff is inferred from the supplied HTML.
+
+## Workspace UX and API labels
+
+- **UX-03 — Open; Taizya with Uchi and Lubasi:** Review the bundled font choices and interactive procedural 3D shirt. Agree required garment/model fidelity, accessible controls and concept-to-proof expectations. No production garment dimensions or print-area approval is inferred from the model. See [font/3D evidence](reports/2026-10-12-fonts-and-3d-shirt.md).
+
+- **UX-02 — Open; Taizya with Uchi and Lubasi:** Review the delivered local front-only T-shirt concept editor and agree control/error states, accessibility, device-draft privacy wording and concept-to-print-proof handoff. Confirm real print-area/garment/colour constraints with operations before production promises. Contrast/help/status fixes and sampled focus/error checks are verified; live raster-import, screen-reader/actual zoom/full accessibility and human acceptance remain pending. See [workspace scope](tshirt-workspace.md) and [latest review](reports/2026-10-12-editor-accessibility-review.md).
+
+- **UX-01 — Open; Taizya with Uchi and Mumba:** What authorized display label may the workspace-selection flow show? The current membership API returns only tenantId and role. Agree the label source, disclosure permissions and neutral fallback before adding vendor names, logos or approval badges. Start with text wireframes; see the [Taizya kickoff](handovers/2026-10-09-taizya-kickoff.md).
+
+## Backend lifecycle and security gates
+
+These IDs are referenced in the current build baseline and kickoff. All remain
+open; recording them grants no runtime authority.
+
+- **MEMBER-01 — Uchi with Mumba:** Who may invite, create, suspend, reactivate or change vendor memberships, and what resource-scoped approval is needed for each action?
+- **MEMBER-02 — Uchi with Mumba:** How must last-owner protection, simultaneous ownership changes and recovery work? Define concurrency and audit evidence before mutations.
+- **MEMBER-03 — Mumba with Uchi:** Which stable identifier and update contract should a membership mutation use? Existing memberships have a composite tenant/user key; do not invent an existing standalone membership ID.
+- **AUTH-02 — Mumba with Uchi:** Must deactivation cancel requests already in flight or only deny new transactions? Current transaction snapshots do not prove immediate in-flight revocation. Specify the required guarantee and concurrency tests.
+- **SEC-01 — Mumba with Uchi:** What login/API abuse limits and operator MFA controls must precede sensitive workflows, and who owns recovery and enforcement?
+- **SEC-02 — Open; Mumba:** Arrange durable reviewed default/deployment runtimes. On 11 October the official private Node 24.21.0 archive matched its SHA-256 entry and passed the runtime gate, tests and production build. Default Node remains 24.14.1 and still fails. Earlier download failures are historical. Individual runtime CVE exploitation in this application is not demonstrated.
+- **SEC-03 — Open; Mumba with Uchi:** What deployment rate limits, edge controls and worker capacity are approved? The new 16-slot per-worker protected-work ceiling is a local resource bound, not distributed or per-user abuse protection.
+- **SEC-04 — Open; Mumba with Taizya:** Finish exact framework patch/advisory, release-bundle/history secret and full accessibility review. Production build, 45 HTTP assertions and sampled Chrome controls/layout pass on 11 October. The rechecked cache advisory requires a root catch-all page (absent); patched-version text remains unresolved. Zero npm audit findings do not close release assurance.
+- **AUDIT-02 — Mumba with Uchi:** Who may review which audit fields for which purpose and duration? Define redaction, bounded pagination, retention and auditing of reviewer access; ordinary API accounts must not gain unrestricted audit reads.
 
 ## Pricing rules
 
@@ -98,10 +133,6 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 | ROLE-01 | DeliveryPartner denies vendor/file/proof access even with other memberships | Uchi with Lubasi; mixed-role semantics pending |
 | AUDIT-01 | Durable allowed tenant-read events exist; denial-event storage and retention still open | Uchi with Mumba |
 | AUTH-01 | Auth-server verification is delivered; immediate logout/session revocation needs a separate adapter before sensitive workflows | Mumba with Uchi |
-| PROV-01 | Private CLI references external approval/reviewer UUIDs; define who authorizes vendor owner/staff access and where real evidence is held | Uchi with Lubasi; review pending |
-| PROV-02 | Development Customer/vendor/staff creation only; operator/delivery bootstrap, revocation, owner transfer and reactivation need a separate accepted workflow | Uchi with Mumba; no privileged grants implemented |
-| LIVE-01 | Genuine login smoke and real onboarding are blocked by pg registry access, separate restricted logins/CA and approved development identity | Mumba; configure privately, never send tokens/passwords to reports |
-| LIVE-02 | Separate service accounts exist as NOLOGIN with no passwords; who configures private passwords/CA and approves enabling each development login? | Mumba with Uchi; setup guide and checks delivered, activation pending |
 | REPORT-01 | Every completed build slice includes dated Markdown and Word reports | Confirmed user instruction, 2026-10-09; all leads |
 
 These defaults grant no commercial capability and no user is automatically

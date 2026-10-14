@@ -57,6 +57,12 @@ Complete [the operations handover template](operations-handover-template.md). Di
 
 ## Definition of done
 
+Updated 14 October 2026: no phase is complete unless its feature works locally,
+passes testing and is successfully hosted on Vercel with the deployed URL in the
+completion report. Every [Vercel verification item](phase-completion-checklist.md)
+is required, alongside the conditions below. Historical foundation delivery alone
+does not close Phase 1; unbuilt or unverified deployed flows remain blockers.
+
 - Required Phase 1 documents exist, link correctly, and name the four confirmed leads.
 - Role tasks have an owner, dependency, deliverable and reviewer; unresolved work is visible.
 - All unconfirmed business rules are recorded in the open questions register.

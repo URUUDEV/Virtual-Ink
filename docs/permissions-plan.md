@@ -42,3 +42,17 @@ The API login cannot inherit provisioning rights. No operator/delivery grants,
 reactivation, owner transfer, file access or production onboarding is implemented.
 External approval references require human verification; deferred database checks
 require matching transaction audit evidence before onboarding inserts can commit.
+
+## Supplied architecture alignment
+
+The caller-owned [membership list](membership-discovery.md) is delivered with
+bounded pagination and durable self-scoped audit, including empty results. It
+does not disclose other users' memberships or grant workspace mutation rights.
+
+Use the [source-document baseline](source-document-baseline.md) for the Phase 2
+and security PDFs. Their technical administrator is a separately controlled
+maintenance identity, not a sixth customer-selectable application role or business
+approval bypass. Membership lifecycle and restricted audit-review capabilities
+remain planned. Resolve immediate deactivation, invitation authority and last-owner
+rules before changing the current read-only API grants. DeliveryPartner exclusions
+include payment details as well as files/proofs; no delivery business endpoint exists.

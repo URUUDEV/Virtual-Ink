@@ -3,6 +3,10 @@ import { safeError } from './errors.ts';
 export type RequestContext = Readonly<{ requestId: string }>;
 export type RuntimeEvent = Readonly<{ event: 'http_request_completed'; requestId: string; statusCode: number }>;
 export type ApiHandler = (request: Request, context: RequestContext) => unknown | Promise<unknown>;
+const pageMarker = Symbol('Virtual Ink paginated result');
+export function paginatedResult<T>(data: readonly T[], pagination: Readonly<{ limit: number; nextCursor: string | null }>) {
+  return Object.freeze({ [pageMarker]: true as const, data, pagination });
+}
 export function jsonResponse(body: unknown, requestId: string, status = 200): Response {
   return new Response(JSON.stringify(body), { status, headers: {
     'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store',
@@ -14,7 +18,11 @@ export async function handleApi(request: Request, handler: ApiHandler,
   const context = Object.freeze({ requestId: randomUUID() });
   let response: Response;
   try {
-    response = jsonResponse({ data: await handler(request, context), meta: context }, context.requestId);
+    const result = await handler(request, context);
+    if (result && typeof result === 'object' && pageMarker in result && result[pageMarker] === true) {
+      const page = result as ReturnType<typeof paginatedResult>;
+      response = jsonResponse({ data: page.data, meta: { ...context, pagination: page.pagination } }, context.requestId);
+    } else response = jsonResponse({ data: result, meta: context }, context.requestId);
   } catch (error) {
     const safe = safeError(error);
     response = jsonResponse({ error: safe.body, meta: context }, context.requestId, safe.status);

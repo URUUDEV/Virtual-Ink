@@ -1,5 +1,128 @@
 # Virtual Ink Backend Phase 1 validation
 
+## Current check — Vendor foundation review, 2026-10-14
+
+132 application tests, 121 security tests, nine React/3D checks, web and strict
+backend/shared TypeScript, runtime/heuristics and 53 existing-preview HTTP assertions
+pass. Production audit reports zero vulnerabilities. Eight Phase 2 migrations and
+vendor core/commands replay on isolated PostgreSQL 18; lifecycle/RLS fixtures roll
+back, with zero applications/storefronts afterward. PostgreSQL 17, provider bridge,
+genuine Auth, hosted migration and intake/activation remain open. Browser inspection
+failed; file-open/visual acceptance remain unverified. No fresh production build.
+See [dated review](reports/2026-10-14-vendor-foundation-review.md).
+
+## Current check — Functional local workspaces handover, 2026-10-13
+
+Application checks on 12 October: 127 application tests, nine React/3D checks, 116 security tests, runtime/heuristics,
+TypeScript, production build and 53 loopback HTTP assertions pass. Production
+dependency audit reports zero vulnerabilities. Actual 3D PNG and design/vendor
+JSON downloads were checked. Vendor explicit save/reload/load, step selection,
+renewed confirmation, undo restore and removal preserving the open form pass in
+Chrome. Both pages fit five actual viewport widths without horizontal overflow.
+Native file-selection automation is denied; full live file-open round-trips and
+new page screenshot review remain incomplete. The downloaded 3D PNG was visually
+inspected. No backend/Auth/provider changes or genuine activation occurred.
+See [functional evidence](reports/2026-10-13-functional-workspaces.md).
+
+## Current check — Vendor preparation, 2026-10-12
+
+125 root tests, eight React/3D checks, 114 security regressions, TypeScript,
+runtime/heuristics and production build pass. Production dependency audit has zero
+reported vulnerabilities; 53 rebuilt HTTP assertions pass, including unavailable
+vendor intake. Chrome verifies required/negative fields, review confirmation,
+Back retention, reload reset and actual synthetic JSON download. Five widths fit
+without horizontal overflow; mobile screenshots confirm the Back contrast fix.
+The packet grants no identity/tenant authority; no schema/provider setup changed.
+Genuine Auth/activation and full accessibility/human acceptance remain open.
+See [vendor evidence](reports/2026-10-12-vendor-profile-preparation.md).
+
+## Current check — Fonts and 3D shirt, 2026-10-12
+
+121 root tests, seven React/mesh checks, 110 security regressions, TypeScript and
+runtime/repository checks pass. Dependency installation and production audit
+report zero vulnerabilities. Chrome verifies selected fonts, colour, WebGL shirt,
+front/back/reset/zoom and keyboard rotation. The dated report records final build,
+HTTP/layout checks and limits. No backend/schema/auth setup changed.
+See [font/3D evidence](reports/2026-10-12-fonts-and-3d-shirt.md).
+
+## Current check — Editor accessibility review, 2026-10-12
+
+After the CSS/label/help/status changes, 120 root tests, six React checks,
+109 security regressions, runtime/heuristic checks, TypeScript and production
+build pass on private reviewed Node 24.21.0. Frontend audit reports zero findings;
+49 loopback HTTP assertions pass. Instruction contrast is 5.79:1 after the fix.
+Linked help, safe fourth-line rejection, visible sampled focus and five widths
+without horizontal overflow are verified. Live artwork, actual zoom, assistive
+technology and human acceptance remain open; no backend setup changed.
+See [dated evidence](reports/2026-10-12-editor-accessibility-review.md).
+
+## Current check — Local T-shirt editor, 2026-10-12
+
+On reviewed private Node 24.21.0, 120 root tests, six source React checks and
+109 security regressions pass. Web/shared TypeScript, runtime baseline, repository
+heuristics and production build pass; frontend audit reports zero findings.
+Forty-nine rebuilt loopback HTTP assertions pass. Live Chrome checks confirm
+text/history/keyboard/pointer controls, synthetic device draft round-trip/removal,
+PNG export and five responsive widths without horizontal overflow. WebP-header
+admission and strict shirt-type regressions fail before fixes and pass afterward.
+
+Live raster import is blocked by extension file-URL permission; its success/error
+states and artwork draft round-trip remain unverified. Full accessibility and
+human acceptance remain pending. No backend/schema/provider setup changed; prior
+genuine Auth/pg/TLS and default-runtime gates remain. See [dated evidence](reports/2026-10-12-tshirt-workspace.md).
+
+## Current check — UI build/runtime verification, 2026-10-11
+
+Official portable Node 24.21.0 was checksum-verified in ignored private tooling.
+111 backend/catalogue tests, five React rendering checks, 100 security regressions,
+web/shared TypeScript, runtime gate and production build pass under that runtime.
+45 loopback HTTP assertions pass, including unknown-product 404, guest/write API
+denials and external-image rejection. Sampled Chrome controls and 15 route/width
+DOM measurements pass. See [the dated report](reports/2026-10-11-ui-build-verification.md).
+
+Default Node remains 24.14.1. Complete accessibility, release/history/bundle scans,
+genuine Auth/pg/TLS and owned database replay remain open. Earlier results below
+are historical, including sandbox build and official-download blockers.
+
+## Latest check — Security review, 2026-10-09
+
+105 backend tests and the 100-test security subset pass; web/shared and strict
+backend/scripts/tests TypeScript pass. Hosted membership rollback assertions,
+forced RLS/public-role catalog checks and security advisor pass. Dependency audit
+reports zero findings. Local HTTP framing/header probes pass. See the
+[dated security report](reports/2026-10-09-security-review.md) for before/after
+reproductions, fixed boundaries and threat prerequisites.
+
+The runtime gate fails on installed Node 24.14.1 (reviewed minimum 24.21.0).
+Official download was blocked by the local proxy. Genuine Auth/pg/TLS, browser,
+production build and release/history/bundle verification remain open. This does
+not certify production security; historical results below are retained.
+
+## Latest check — Membership discovery, 2026-10-09
+
+90 Node tests pass (12 new). Strict backend/scripts/tests TypeScript and
+npm run typecheck:web pass using installed frontend development dependencies.
+GET /api/v1/memberships returns only active own vendor scopes with actor-bound
+cursor pagination and durable self-scoped audits, including empty lists.
+
+Hosted discovery, existing tenant isolation, provisioning and runtime-account
+regressions pass with rolled-back fixtures. Actual runtime foundation SQL passes
+under both disabled service accounts for nine tables. Eight Phase 2 migrations
+are recorded. Auth and all nine application tables contain zero rows afterward.
+Security advisor: no findings. Duplicate SELECT-policy performance warnings were
+fixed in a follow-up migration and isolation tests rerun. Five
+[unused-index INFO notices](https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index)
+remain on the empty database; FK/audit indexes are retained pending workload evidence.
+
+npm run build:web failed with spawn EPERM. Browser/mobile and actual Next HTTP
+execution remain unverified; route source/type checks are separate evidence.
+setup:check --database reports incomplete driver/config/CA/enablement/smoke inputs
+and databaseChecksPerformed=false. Genuine Auth/pg/TLS, owned replay, concurrent
+pool runtime, immediate revocation and human acceptance remain open.
+
+See [membership implementation](membership-discovery.md) and the latest dated
+Markdown/Word report. Historical sections below preserve their original results.
+
 ## Latest check — Setup and readiness, 2026-10-09
 
 78 Node tests pass and strict backend/scripts/test TypeScript check passes. Hosted

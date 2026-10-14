@@ -1,7 +1,7 @@
 import type { SqlDatabase } from './ports.ts';
 
 export type DatabaseGroup = 'virtual_ink_api' | 'virtual_ink_provisioner';
-const names = ['users', 'identities', 'user_roles', 'tenants', 'memberships', 'operator_grants', 'access_audits', 'provisioning_audits'] as const;
+const names = ['users', 'identities', 'user_roles', 'tenants', 'memberships', 'operator_grants', 'access_audits', 'provisioning_audits', 'membership_list_audits'] as const;
 
 // Catalog-only check: no customer rows, Auth records, tokens or private evidence.
 export const foundationStatement = `WITH expected(table_name,can_select,can_insert) AS (VALUES
@@ -12,7 +12,8 @@ export const foundationStatement = `WITH expected(table_name,can_select,can_inse
   ('memberships',true,$1='virtual_ink_provisioner'),
   ('operator_grants',$1='virtual_ink_api',false),
   ('access_audits',false,$1='virtual_ink_api'),
-  ('provisioning_audits',$1='virtual_ink_provisioner',$1='virtual_ink_provisioner'))
+  ('provisioning_audits',$1='virtual_ink_provisioner',$1='virtual_ink_provisioner'),
+  ('membership_list_audits',false,$1='virtual_ink_api'))
 SELECT e.table_name,e.can_select,e.can_insert,c.relkind,c.relrowsecurity,c.relforcerowsecurity,
   has_table_privilege(current_user,c.oid,'SELECT') AS actual_select,
   has_table_privilege(current_user,c.oid,'INSERT') AS actual_insert,
@@ -41,9 +42,9 @@ export async function assertDatabaseFoundation(database: SqlDatabase, group: Dat
   if (rows.length !== names.length || new Set(rows.map((row) => row.table_name)).size !== names.length || rows.some((row) => {
     if (!names.includes(row.table_name as typeof names[number])) return true;
     const needsAudit = ['users', 'identities', 'user_roles', 'tenants', 'memberships'].includes(String(row.table_name));
-    const select = group === 'virtual_ink_api' ? !['access_audits', 'provisioning_audits'].includes(String(row.table_name)) :
-      !['access_audits', 'operator_grants'].includes(String(row.table_name));
-    const insert = group === 'virtual_ink_api' ? row.table_name === 'access_audits' : select;
+    const select = group === 'virtual_ink_api' ? !['access_audits', 'provisioning_audits', 'membership_list_audits'].includes(String(row.table_name)) :
+      !['access_audits', 'operator_grants', 'membership_list_audits'].includes(String(row.table_name));
+    const insert = group === 'virtual_ink_api' ? ['access_audits', 'membership_list_audits'].includes(String(row.table_name)) : select;
     return row.relkind !== 'r' || row.relrowsecurity !== true || row.relforcerowsecurity !== true ||
       row.actual_select !== select || row.actual_insert !== insert || row.column_select !== select || row.column_insert !== insert ||
       row.unsafe_table_rights !== false || row.unsafe_column_rights !== false || row.schema_usage !== true || row.schema_create !== false ||

@@ -1,5 +1,19 @@
 # Virtual Ink Phase 1 completion checklist
 
+## Mandatory completion gate — updated 14 October 2026
+
+Phase 1 remains incomplete until the application works locally, passes testing
+and is successfully hosted on Vercel, with the deployed URL in the completion
+report. Complete every item in the [phase completion and Vercel checklist](phase-completion-checklist.md).
+Its database, storage, Auth, customer/vendor/admin dashboard and deployment checks
+remain pending/blocked where unbuilt or unverified. Historical checked delivery
+items below do not satisfy this gate or constitute phase completion.
+
+- [ ] Local application operation and required testing verified for completion.
+- [ ] Vercel hosting verification VH-01 through VH-17 passed with evidence.
+- [ ] Actual production deployment URL and tested preview URL recorded.
+- [ ] Required human acceptance and phase signoff recorded after all gates pass.
+
 Historical Phase 1 approval checklist. [Backend Phase 2](backend-phase-2.md) now
 adds a narrow identity/tenant read, hosted schema/RLS tests and durable read audits.
 Live setup and human approvals still remain open. Refer to [the latest team

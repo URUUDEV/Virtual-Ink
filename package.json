@@ -5,15 +5,20 @@
   "description": "Virtual Ink modular TypeScript backend foundation and application starter",
   "type": "module",
   "engines": {
-    "node": ">=24 <25"
+    "node": ">=24.21.0 <25"
   },
   "scripts": {
     "start": "node --env-file-if-exists=.env src/server.js",
     "dev": "node --watch --env-file-if-exists=.env src/server.js",
     "test": "node --test --test-isolation=none",
+    "security:check": "node scripts/security-check.ts",
+    "security:runtime": "node scripts/security-runtime.ts",
+    "test:security": "node --test --test-isolation=none test/security.test.ts test/security-check.test.ts test/identity.test.ts test/memberships.test.ts test/backend.test.ts test/app.test.js test/database-config.test.ts test/provisioning.test.ts test/setup.test.ts test/supabase-rest.test.ts test/design-workspace.test.ts test/vendor-application.test.ts test/vendor-onboarding.test.ts",
     "dev:web": "npm --prefix apps/web run dev",
     "build:web": "npm --prefix apps/web run build",
     "typecheck:web": "npm --prefix apps/web run typecheck",
+    "test:web": "node --test --test-isolation=none scripts/web-ui-checks.mjs",
+    "check:web:http": "node scripts/web-http-checks.mjs",
     "db:migrate": "node --env-file-if-exists=.env scripts/database.ts migrate",
     "db:seed": "node --env-file-if-exists=.env scripts/database.ts seed",
     "test:db": "node --env-file-if-exists=.env scripts/database.ts test",

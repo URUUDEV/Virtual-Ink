@@ -1,7 +1,7 @@
 # Virtual Ink — Backend Phase 1
 
 Historical foundation record. The current slice is
-[Backend Phase 2 identity and tenant access](backend-phase-2.md), with seven hosted
+[Backend Phase 2 identity and tenant access](backend-phase-2.md), with nine hosted
 private tables and passing RLS assertions. Earlier planned statements below describe
 the Phase 1 boundary; consult Phase 2 for today's auth/audit/setup status.
 
@@ -137,8 +137,8 @@ See [build plan](build-plan.md) for the frontend sequence and [validation notes]
 
 [Backend Phase 2](backend-phase-2.md) and [trusted provisioning](trusted-provisioning.md)
 now provide identity/tenant reads, hosted forced RLS, durable access audits, a private
-onboarding CLI and commit audit constraints. Eight application tables have zero rows
-after rollback tests. The complete root suite has 66 passing tests. Earlier local
+onboarding CLI and commit audit constraints. Nine application tables have zero rows
+after rollback tests. The complete root suite has 90 passing tests; caller-owned membership discovery is also delivered. Earlier local
 infrastructure verification blockers remain specific to Phase 1 replay; hosted
 Phase 2 isolation and provisioning assertions pass. Genuine Auth/pg/TLS, owned
 PostgreSQL replay, Next build/browser QA and human approval remain pending.

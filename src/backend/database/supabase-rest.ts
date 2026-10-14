@@ -1,4 +1,5 @@
 import { ApiError } from '../api/errors.ts';
+import { readUpstreamJson } from '../api/upstream-json.ts';
 
 type Environment = Record<string, string | undefined>;
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
@@ -21,7 +22,9 @@ function projectUrl(value: string): string {
 }
 
 function publishableKey(value: string): string {
-  if (!value.trim() || value.startsWith('sb_secret_') || /service[_-]?role/i.test(value)) {
+  // No legacy JWT keys: their type cannot be established by trusting decoded
+  // claims. A wrongly supplied privileged key must never reach this transport.
+  if (!/^sb_publishable_[A-Za-z0-9_-]+$/.test(value) || value !== value.trim()) {
     throw new Error('Supabase REST client requires a publishable key.');
   }
   return value;
@@ -55,21 +58,25 @@ export function createSupabaseRestClient(config: SupabaseRestConfig, fetcher: ty
       validateRequest(request);
       const url = new URL(`${endpoint}/${request.path}`);
       for (const [name, value] of Object.entries(request.query ?? {})) url.searchParams.set(name, value);
-      const response = await fetcher(url, {
-        method: request.method,
-        headers: {
-          apikey: key,
-          ...(request.accessToken ? { Authorization: `Bearer ${request.accessToken}` } : {}),
-          ...(request.body === undefined ? {} : { 'Content-Type': 'application/json', Prefer: 'return=representation' }),
-        },
-        body: request.body === undefined ? undefined : JSON.stringify(request.body),
-      });
+      let response: Response;
+      try {
+        response = await fetcher(url, {
+          method: request.method,
+          cache: 'no-store', redirect: 'error', signal: AbortSignal.timeout(5000),
+          headers: {
+            apikey: key,
+            ...(request.accessToken ? { Authorization: `Bearer ${request.accessToken}` } : {}),
+            ...(request.body === undefined ? {} : { 'Content-Type': 'application/json', Prefer: 'return=representation' }),
+          },
+          body: request.body === undefined ? undefined : JSON.stringify(request.body),
+        });
+      } catch { throw new ApiError('INTERNAL_ERROR'); }
       if (!response.ok) {
         // Do not return provider response text; it may include table names or policy details.
         throw new ApiError(response.status === 401 ? 'UNAUTHENTICATED' : response.status === 403 ? 'FORBIDDEN' : 'INTERNAL_ERROR');
       }
       if (response.status === 204) return undefined as T;
-      try { return await response.json() as T; } catch { throw new ApiError('INTERNAL_ERROR'); }
+      try { return await readUpstreamJson(response) as T; } catch { throw new ApiError('INTERNAL_ERROR'); }
     },
   });
 }

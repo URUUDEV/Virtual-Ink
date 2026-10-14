@@ -5,7 +5,14 @@ Status: narrow implementation and hosted SQL verification delivered. The subsequ
 [trusted provisioning slice](trusted-provisioning.md) adds private onboarding and
 commit audit constraints. Full live sign-in-to-API verification and product signoff
 remain open. The seven-table/51-test figures below are the original slice record;
-current totals are eight tables and 66 passing tests.
+latest completed build evidence records nine tables and 90 passing tests.
+
+The supplied Backend Phase 2 PDF is mapped in
+[the source baseline](source-document-baseline.md). Its caller-owned membership list
+is now delivered with [audit and pagination evidence](membership-discovery.md).
+Membership create/change and scoped audit-review APIs remain unimplemented. The
+private provisioning CLI does not satisfy those HTTP contracts. Complete genuine
+setup and review before the next lifecycle slice; keep full Phase 2 acceptance pending.
 
 ## Scope and conservative decisions
 
@@ -25,6 +32,7 @@ to application-owned UUIDs without a foreign key to Supabase auth.users.
 | Endpoint | Access | Data returned |
 | --- | --- | --- |
 | GET /api/v1/me | Verified permanent identity + active application mapping | Application user UUID and active global roles |
+| GET /api/v1/memberships | Verified active mapping; own active vendor memberships only | Minimal tenantId/role list and bounded pagination; durable self-scoped audit |
 | GET /api/v1/tenants/:tenantId/access | Active own vendor membership or explicit live tenant.review operator grant | Selected tenant UUID, own membership/capability, access basis |
 
 Other methods receive 405. Missing/malformed Bearer tokens receive 401. With auth

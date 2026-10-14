@@ -12,7 +12,7 @@ export function createApp({ logger = () => {}, access } = {}) {
       const acceptedMethod = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'].includes(req.method);
       // Fetch Request rejects TRACE/CONNECT/TRACK; normalize before constructing
       // it, then reject the original unsupported method without crashing HTTP.
-      const protectedRoute = pathname === '/api/v1/me' || /^\/api\/v1\/tenants\/[^/]+\/access$/.test(pathname);
+      const protectedRoute = pathname === '/api/v1/me' || pathname === '/api/v1/memberships' || /^\/api\/v1\/tenants\/[^/]+\/access$/.test(pathname);
       const duplicateAuth = req.rawHeaders.filter((value, index) => index % 2 === 0 && value.toLowerCase() === 'authorization').length > 1;
       const request = new Request(`http://127.0.0.1${req.url}`, {
         method: acceptedMethod ? req.method : 'GET',

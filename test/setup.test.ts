@@ -84,9 +84,9 @@ test('certificate checks parse public CA material and reject missing, expired or
 });
 
 function foundationRows(group: DatabaseGroup): Record<string, unknown>[] {
-  return ['users', 'identities', 'user_roles', 'tenants', 'memberships', 'operator_grants', 'access_audits', 'provisioning_audits'].map((table_name) => {
-    const select = group === 'virtual_ink_api' ? !['access_audits', 'provisioning_audits'].includes(table_name) : !['access_audits', 'operator_grants'].includes(table_name);
-    const insert = group === 'virtual_ink_api' ? table_name === 'access_audits' : select;
+  return ['users', 'identities', 'user_roles', 'tenants', 'memberships', 'operator_grants', 'access_audits', 'provisioning_audits', 'membership_list_audits'].map((table_name) => {
+    const select = group === 'virtual_ink_api' ? !['access_audits', 'provisioning_audits', 'membership_list_audits'].includes(table_name) : !['access_audits', 'operator_grants', 'membership_list_audits'].includes(table_name);
+    const insert = group === 'virtual_ink_api' ? ['access_audits', 'membership_list_audits'].includes(table_name) : select;
     return { table_name, relkind: 'r', relrowsecurity: true, relforcerowsecurity: true,
       actual_select: select, actual_insert: insert, column_select: select, column_insert: insert,
       unsafe_table_rights: false, unsafe_column_rights: false, schema_usage: true, schema_create: false,
@@ -100,7 +100,7 @@ function catalogDatabase(rows: Record<string, unknown>[]): SqlDatabase {
   }, async close() {}, async transaction() { throw new Error('Catalog checks do not create business transactions.'); } };
 }
 
-test('foundation check accepts only the current eight tables and exact group permissions', async () => {
+test('foundation check accepts only the current nine tables and exact group permissions', async () => {
   for (const group of ['virtual_ink_api', 'virtual_ink_provisioner'] as const) {
     await assertDatabaseFoundation(catalogDatabase(foundationRows(group)), group);
   }

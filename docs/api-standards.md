@@ -1,5 +1,12 @@
 # Virtual Ink API standards
 
+Security review additions (9 October 2026): protected reads have a shared 16-slot
+per-worker admission ceiling and return safe 503 `SERVICE_BUSY` when full, before
+provider/DB work. This is not distributed rate limiting. Provider JSON responses
+are limited to 1 MiB decoded bytes; REST/Auth transports use safe error mapping.
+REST uses modern publishable keys only, no redirects/cache and a five-second abort
+signal. See [recurring review](security-review.md) for evidence and remaining gates.
+
 Owner: Mumba Chitonge, with Uchi Chinyama reviewing product behavior. Versioned APIs use `/api/v1`. The legacy `/health` retains its original response for compatibility.
 
 ## API response format
@@ -45,6 +52,14 @@ Use an explicit verified actor, authorized tenant, opaque resource ID, generated
 Future lists use a deterministic `(created_at, id)` order, default limit 20, maximum 100 and a validated opaque cursor. The current foundation parser accepts a UUID cursor; before a list implementation, resolve it within the authorized scope and encode/validate the ordering tuple or adopt a versioned opaque token. Do not use an unscoped lookup to resolve it. Reject invalid limits, duplicate pagination parameters and unapproved query fields. A list response should add `meta.pagination: { limit, nextCursor }`; `nextCursor` is null at the end. No list API or fabricated total count is implemented now.
 
 ## ID handling rule
+
+Membership discovery uses the documented pagination exception in
+[membership-discovery.md](membership-discovery.md): default 20, maximum 100,
+stable tenant UUID order within the caller, and a bounded versioned actor-bound
+base64url cursor resolved through active own scope. Existing membership rows lack
+created_at and a standalone ID. A cursor grants no authority; stale/inactive or
+other-user positions fail with safe validation errors. Other future lists retain
+the general ordering rule above.
 
 Use server-generated UUIDs and strict boundary validation. IDs are opaque references, not secrets and not grants. Validate tenant scope on every lookup, nested relationship and file grant. Avoid reflecting IDs into filesystem paths; the private-key helper only accepts valid UUIDs. Never use customer filenames as storage keys. Do not expose another tenant's existence in error details.
 

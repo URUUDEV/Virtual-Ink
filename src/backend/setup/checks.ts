@@ -1,4 +1,5 @@
 import { X509Certificate } from 'node:crypto';
+import { hasPublicSecret } from '../config.ts';
 import { loadDatabaseConfig } from '../database/config.ts';
 import { loadSupabaseRestConfig } from '../database/supabase-rest.ts';
 import { createSupabaseIdentityVerifier } from '../identity/supabase.ts';
@@ -35,9 +36,7 @@ export function checkSetup(api: Environment, provisioning: Environment,
   add('PROVISIONING_ENV_FILE', facts.provisioningFilePresent);
   add('API_ENV_SEPARATION', !['PROVISIONING_DATABASE_URL', 'PROVISIONING_ENABLED', 'MIGRATION_DATABASE_URL', 'TEST_DATABASE_URL',
     'SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_SECRET_KEY'].some((key) => Boolean(api[key])));
-  add('PUBLIC_SECRET_BOUNDARY', ![api, provisioning].some((env) => Object.keys(env).some((key) =>
-    /^NEXT_PUBLIC_/i.test(key) && (/DATABASE|PASSWORD|TOKEN|SECRET|SERVICE.?ROLE|PRIVATE|PROVISIONING/i.test(key) ||
-      /^(sb_secret_|postgres(?:ql)?:\/\/|eyJ)/.test(env[key] ?? '')))));
+  add('PUBLIC_SECRET_BOUNDARY', ![api, provisioning].some(hasPublicSecret));
   add('API_CONFIGURATION', settingsValid(api));
   add('PROVISIONING_CONFIGURATION', settingsValid(provisioning, true));
   add('AUTH_ENABLED', api.AUTH_ENABLED === 'true');

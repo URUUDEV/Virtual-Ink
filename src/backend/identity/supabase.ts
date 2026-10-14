@@ -1,4 +1,5 @@
 import { ApiError } from '../api/errors.ts';
+import { readUpstreamJson } from '../api/upstream-json.ts';
 import { uuid } from '../api/validation.ts';
 import { loadSupabaseRestConfig, type SupabaseRestConfig } from '../database/supabase-rest.ts';
 
@@ -34,7 +35,7 @@ export function createSupabaseIdentityVerifier(config: SupabaseRestConfig,
       if ([400, 401, 403].includes(response.status)) throw new ApiError('UNAUTHENTICATED');
       if (!response.ok) throw new ApiError('IDENTITY_UNAVAILABLE');
       try {
-        const user: unknown = await response.json();
+        const user = await readUpstreamJson(response);
         if (!user || typeof user !== 'object' || Array.isArray(user)) throw new Error();
         const record = user as Record<string, unknown>;
         // Missing anonymous status is denied too; there is no private guest access.

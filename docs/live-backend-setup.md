@@ -1,15 +1,53 @@
 # Virtual Ink — live backend setup and readiness
 
+14 October boundary: [vendor foundation](vendor-onboarding-foundation.md) is
+reviewed only in an isolated local PostgreSQL 18 database. Its provider bridge
+is unverified. Do not apply it or enable vendor service credentials as part of
+this nine-table runtime setup; migration, genuine Auth and acceptance remain open.
+
 Date: 2026-10-09. Technical owner: Mumba Chitonge; product reviewer: Uchi Chinyama.
 Status: setup tooling and disabled service accounts delivered for review. Genuine
 login-to-API verification has not been completed. No production deployment exists.
 
+The [Vercel phase completion gate](phase-completion-checklist.md) additionally
+requires deployed database, storage, Auth, role dashboards, API and protected-route
+evidence. Local readiness and liveness cannot substitute for these checks. Preview
+and Production environment configuration and actual URLs must be recorded without
+credential values; provisioning credentials remain outside HTTP/web environments.
+
 ## Current inspection
+
+### 11 October local runtime/preview update
+
+Official Node 24.21.0 was downloaded privately and its ZIP SHA-256 matched the
+official checksum entry. The runtime gate, 111 backend/catalogue tests, five React
+checks, 100 security tests, TypeScript, production build and 45 HTTP assertions
+pass using it. Default Node is still 24.14.1. No service login was enabled and no
+genuine Auth/database verification was performed by these public preview checks.
+
+For this workstation's current terminal, select the reviewed private runtime:
+
+```powershell
+$reviewedNode = (Resolve-Path .private/runtime/node-v24.21.0-win-x64).Path
+$env:PATH = "$reviewedNode;$env:PATH"
+node --version
+npm run security:runtime
+npm run build:web
+npm --prefix apps/web run start
+```
+
+Run `npm run check:web:http` from a second terminal using that runtime. It targets
+only loopback port 3001 and passes no credentials. The private downloaded runtime
+is ignored by Git; other workstations need their own reviewed installation.
+This terminal selection does not patch the system default or a deployment.
+See [dated verification](reports/2026-10-11-ui-build-verification.md).
+
+The original backend setup inspection below is retained as historical context.
 
 Node.js 24 with native TypeScript runs the backend; npm is the package manager.
 The separate apps/web Next.js source shell is preserved. Hosted PostgreSQL has
-eight private application tables and six Phase 2 migrations. Identity/tenant read
-and private account/vendor/staff provisioning are implemented; files/payments remain
+nine private application tables and eight Phase 2 migrations. Identity/tenant read
+and caller-owned membership discovery/private account/vendor/staff provisioning are implemented; files/payments remain
 closed. The pg driver is absent and npm installation still fails through the proxy.
 There were no local private environment files at inspection. setup:init created
 disabled starter files safely. Supabase Auth and application users both have zero rows.
@@ -36,7 +74,7 @@ trust or a working TLS handshake; obtain the certificate from the approved sourc
 
 The default check makes no network calls. --database opens the two restricted
 connections only after configuration checks all pass. Those checks inspect catalogs
-only: role flags/memberships, eight tables, exact table/column privileges, forced
+only: role flags/memberships, nine tables, exact table/column privileges, forced
 RLS, audit constraints and forbidden CREATE/unexpected-table rights. It reads no
 customer or Auth records and performs no application write. The JSON distinguishes
 requested/performed database checks and always says genuineLoginVerified=false.
@@ -65,7 +103,7 @@ The hosted migration version is 20261009110852, virtual_ink_disabled_runtime_acc
 Its source is database/phase2/runtime-accounts.sql and the exact hosted copy is in
 supabase/migrations. The connected migration tool supplied the actual version;
 the Windows Supabase CLI binary remains unavailable. Do not reapply it to this
-project. Fresh owned PostgreSQL 17 needs all six Phase 2 migrations replayed in order
+project. Fresh owned PostgreSQL 17 needs all eight Phase 2 migrations replayed in order
 and verified; that replay has not been performed here.
 
 ## Mumba's private setup sequence
@@ -115,9 +153,9 @@ Official references: [Supabase roles](https://supabase.com/docs/guides/database/
 
 ## Verification and open limits
 
-- npm test: 78 pass; twelve new setup/readiness tests. Strict TypeScript passes.
+- npm test: 90 pass; twelve new membership tests follow the setup/readiness slice. Strict TypeScript passes.
 - Hosted catalog assertions pass for both disabled service accounts. Executing the
-  actual startup foundation query under each role reports eight tables with matching
+  actual startup foundation query under each role reports nine tables with matching
   privileges/RLS/constraints. A column-only audit SELECT grant is detected.
 - Role-switch and column grants used in tests were rolled back. rolcanlogin remains
   false for both accounts; neither can log in.

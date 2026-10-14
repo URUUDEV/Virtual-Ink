@@ -1,0 +1,67 @@
+{
+  "source": "virtual ink html.html",
+  "sourceSha256": "feda32323943a7a6f7d7da922ac953b5680bcb9a809803302bab91982a5b958a",
+  "encoding": "WebP quality 90, same dimensions, no visual edits",
+  "images": [
+    {
+      "name": "cotton-t-shirt",
+      "alt": "Cotton T-Shirt",
+      "dimensions": [
+        1234,
+        1274
+      ],
+      "sourceSha256": "0c3f2e6ef6fca8827bea9125edff30a6dab97489e70249ddc1f91c555e496d8d",
+      "webBytes": 143132
+    },
+    {
+      "name": "polo-shirt",
+      "alt": "Polo Shirt",
+      "dimensions": [
+        1196,
+        1315
+      ],
+      "sourceSha256": "233cf90e512f3ed1379a14a6bcefa2931cc2789c2dcf6de597d23dacb211ba00",
+      "webBytes": 253216
+    },
+    {
+      "name": "hoodie",
+      "alt": "Hoodie",
+      "dimensions": [
+        1295,
+        1214
+      ],
+      "sourceSha256": "a02c50f2946e76ec8aa33a31e7e3346b25d6eb64132f61528de218dfd4f95e63",
+      "webBytes": 152080
+    },
+    {
+      "name": "business-cards",
+      "alt": "Business Cards",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "sourceSha256": "47f673e748f2c13797df6ba6f1c8adb6832a197c6968d8cce46df1cd49afe7a7",
+      "webBytes": 183172
+    },
+    {
+      "name": "flyers-a5",
+      "alt": "Flyers A5",
+      "dimensions": [
+        1246,
+        1262
+      ],
+      "sourceSha256": "91694dbfb7ae78eba02dcf0a94617b4ce263a03fa1da6cce9f1753af3f5ccc72",
+      "webBytes": 160472
+    },
+    {
+      "name": "roll-up-banner",
+      "alt": "Roll Up Banner",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "sourceSha256": "d29693e685bb0e948c2cb11c839de3d3071acdb28625ddd098691f4c39d1528e",
+      "webBytes": 175754
+    }
+  ]
+}

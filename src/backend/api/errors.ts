@@ -10,6 +10,7 @@ const errors = {
   UNSUPPORTED_MEDIA_TYPE: { status: 415, message: 'Content-Type must be application/json.' },
   AUDIT_UNAVAILABLE: { status: 503, message: 'Required audit recording is unavailable.' },
   IDENTITY_UNAVAILABLE: { status: 503, message: 'Identity service is unavailable.' },
+  SERVICE_BUSY: { status: 503, message: 'Service is busy. Please retry later.' },
   INTERNAL_ERROR: { status: 500, message: 'An unexpected error occurred.' },
 } as const;
 export type ErrorCode = keyof typeof errors;

@@ -10,7 +10,7 @@ type RoleRow = Record<string, unknown> & { role: GlobalRole };
 type MembershipRow = Record<string, unknown> & { role: VendorRole };
 type TenantRow = Record<string, unknown> & { id: string; active: boolean };
 
-async function identify(tx: SqlExecutor, identity: VerifiedIdentity): Promise<{ userId: string; roles: readonly GlobalRole[] }> {
+export async function identify(tx: SqlExecutor, identity: VerifiedIdentity): Promise<{ userId: string; roles: readonly GlobalRole[] }> {
   // Context is server-verified and transaction-local, never a public header.
   await tx.query("SELECT set_config('app.identity_provider', $1, true), set_config('app.identity_issuer', $2, true), set_config('app.identity_subject', $3, true)",
     [identity.provider, identity.issuer, uuid(identity.subject)]);

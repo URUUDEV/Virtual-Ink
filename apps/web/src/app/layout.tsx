@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body>
     <a className="skip-link" href="#main">Skip to content</a>
-    <div className="preview-banner">Foundation preview · Orders, payments and vendor accounts are not live.</div>
+    <div className="preview-banner">Visual preview · Illustrative products and prices. Orders, payments and vendor accounts are not live.</div>
     <SiteHeader />
     <main id="main">{children}</main>
     <SiteFooter />

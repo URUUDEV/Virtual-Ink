@@ -75,6 +75,16 @@ Include success, invalid data, unauthenticated access, wrong role, cross-tenant 
 - Work item and implementation/design references:
 - Criterion-by-criterion results:
 - Automated test command, date and result:
+- Local application/feature operation evidence:
+- Vercel project, connected repository and tested commit:
+- Tested preview deployment URL, ID, date and results before production:
+- Successful production deployment URL, ID, commit and build evidence:
+- [Vercel verification VH-01 through VH-17](phase-completion-checklist.md): actual
+  results, safe evidence references and owners for every unmet check:
+- Environment variable names/scopes only; frontend secret-exposure review:
+- Deployed database, upload/storage, Auth and customer/vendor/admin dashboards:
+- Deployed API/protected-route denials, public/mobile pages and console results:
+- Sanitized build logs/warning explanations and custom-domain preparation/status:
 - UX review and operations confirmation where relevant:
 - Permissions and tenant isolation evidence where relevant:
 - Setup, migration and rollback instructions where relevant:
@@ -86,3 +96,8 @@ Include success, invalid data, unauthenticated access, wrong role, cross-tenant 
 | Uchi Chinyama | Pending | Pending | Pending | [Owner] |
 
 Product signoff is recorded only after Uchi reviews the evidence. Changes to accepted scope require an updated record.
+
+No phase may be marked complete until the feature works locally, passes testing
+and is successfully hosted on Vercel with the deployed URL supplied. Missing
+deployment evidence or any unmet VH item blocks phase completion; a placeholder
+URL or N/A label does not satisfy this requirement.

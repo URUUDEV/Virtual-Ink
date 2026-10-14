@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { request as httpRequest } from 'node:http';
+import { createConnection } from 'node:net';
 import test from 'node:test';
 import { createApp } from '../src/app.js';
 
@@ -107,4 +108,45 @@ test('request logs exclude sensitive inputs and use server-generated unique IDs'
   assert.deepEqual(Object.keys(events[0]).sort(), ['event', 'requestId', 'statusCode']);
   assert.equal(events[0].statusCode, 200);
   assert.equal(/secret|untrusted/.test(JSON.stringify(events)), false);
+});
+
+async function rawRequest(base, wire) {
+  const url = new URL(base);
+  return new Promise((resolve, reject) => {
+    const socket = createConnection({ host: '127.0.0.1', port: Number(url.port) });
+    let response = '';
+    const timer = setTimeout(() => { socket.destroy(); reject(new Error('Local security probe timed out')); }, 3000);
+    socket.on('connect', () => socket.end(wire));
+    socket.on('data', (chunk) => { response += chunk.toString(); });
+    socket.on('error', (error) => { clearTimeout(timer); reject(error); });
+    socket.on('close', () => { clearTimeout(timer); resolve(response); });
+  });
+}
+
+test('security: raw duplicate authorization is rejected before the identity provider', async (t) => {
+  let calls = 0;
+  const base = await start(t, { access: {
+    verifier: { async verify() { calls++; throw new Error('Provider must not be called'); } },
+    database: {},
+  } });
+  const response = await rawRequest(base, 'GET /api/v1/me HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer synthetic-one\r\nAuthorization: Bearer synthetic-two\r\nConnection: close\r\n\r\n');
+  assert.match(response, /^HTTP\/1\.1 401/);
+  assert.equal(calls, 0);
+  assert.equal(response.includes('synthetic-one'), false);
+  assert.equal((await fetch(`${base}/health`)).status, 200);
+});
+
+test('security: oversized headers fail at the HTTP parser and health stays available', async (t) => {
+  const base = await start(t);
+  const response = await rawRequest(base, `GET /health HTTP/1.1\r\nHost: localhost\r\nX-Synthetic: ${'x'.repeat(17000)}\r\nConnection: close\r\n\r\n`);
+  assert.match(response, /^HTTP\/1\.1 431/);
+  assert.equal((await fetch(`${base}/health`)).status, 200);
+});
+
+test('security: conflicting HTTP body framing fails without request reflection or process loss', async (t) => {
+  const base = await start(t);
+  const response = await rawRequest(base, 'POST /api/v1/health HTTP/1.1\r\nHost: localhost\r\nContent-Length: 1\r\nTransfer-Encoding: chunked\r\nConnection: close\r\n\r\n0\r\n\r\n');
+  assert.match(response, /^HTTP\/1\.1 400/);
+  assert.equal(response.includes('Content-Length'), false);
+  assert.equal((await fetch(`${base}/health`)).status, 200);
 });
