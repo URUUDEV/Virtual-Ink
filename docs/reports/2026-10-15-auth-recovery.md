@@ -32,6 +32,7 @@ Virtual Ink typography, colors, callout and form styles.
 | Next production build | Passed; includes `/forgot-password`, `/reset-password` and `/auth/recovery-callback` |
 | Existing UI suite | 9 passed |
 | Local Chrome profile `shadow` | Forgot-password screen rendered with a fixed notice and disabled controls while Auth is off; guest reset-page navigation redirects to login; no browser console errors captured |
+| Vercel Preview | Ready deployment `FL46saDJnCuvFqj44pPLLiVUkvfg`, commit `07af4b1`; deployed forgot-password screen and guest reset-page redirect checked in Chrome; no browser errors captured |
 | Repository security heuristic | Passed; 237 files scanned, 47 skipped, zero findings |
 | Git whitespace check | Passed |
 
@@ -43,10 +44,12 @@ reviewed SMTP settings. No environment values were recorded or exposed.
 Synthetic provider checks do not establish email delivery, expiry/one-time use
 configuration, genuine account restoration or password reset in hosted Supabase.
 The actual customer test mailbox remains unapproved; no account was created.
-Preview/Production recovery was not tested. Protected Preview keeps its access
-protection. No database migration or privileged credential was added. Fresh
-loopback HTTP checks returned 200 for `/forgot-password` and a guest 307 redirect
-to `/login` for `/reset-password`.
+The deployed Preview verifies only the Auth-off page state and anonymous redirect;
+Production recovery, real authenticated Preview recovery, and every other role
+workflow remain untested. Preview protection remains enabled. No database
+migration or privileged credential was added. Fresh loopback HTTP checks returned
+200 for `/forgot-password` and a guest 307 redirect to `/login` for
+`/reset-password`.
 
 ## Security review
 
@@ -88,10 +91,16 @@ sensitive administration. Admin MFA enforcement is still unimplemented.
 ## GitHub and deployment status
 
 Review branch [`codex/phase-1-auth-recovery`](https://github.com/URUUDEV/Virtual-Ink/tree/codex/phase-1-auth-recovery)
-is pushed to `origin` at commit `6e141a6`. The existing user-owned
+is pushed to `origin` through report commit `07af4b1`. Vercel Preview URL:
+[branch alias](https://virtual-ink-git-codex-phase-1-auth-recovery-shadowrootsec-5679.vercel.app)
+and [tested deployment URL](https://virtual-mbe2i0pjp-shadowrootsec-5679.vercel.app),
+deployment ID `FL46saDJnCuvFqj44pPLLiVUkvfg`, status Ready. Checks were made at
+14:15 UTC on 15 October 2026. The existing user-owned
 `apps/web/next-env.d.ts` edit was left unstaged. A review branch push does not
 merge to `main` or close Phase 1. No Preview deployment for this commit or
-authenticated Production recovery has yet been verified.
+authenticated Preview password-reset journey was tested; authenticated Production
+recovery remains unverified. Only the public form state and anonymous reset-page
+redirect were checked on the deployed Preview.
 
 The next backend slice is the eight-role authorization matrix and trusted role
 storage/capability mapping. This slice did not complete AUTH-01/AUTH-02/AUTHZ-01,
