@@ -1,5 +1,11 @@
 # Virtual Ink Backend Phase 1 validation
 
+Later 15 October: [Production recovery](reports/2026-10-15-production-recovery.md)
+supersedes the earlier startup/image failures. Source 5c55364 is on GitHub main
+and Vercel Ready; twenty public page/image/health/guest checks pass. Local suites,
+coverage, type checks and production build pass again. Genuine Auth/database/files,
+full order/role workflows, complete browser acceptance and phase closure remain open.
+
 15 October: [current verification and delivery](reports/2026-10-15-phase-1-verification.md).
 167 root/156 security, nine React and nine SDK/Next Auth tests, both type checks
 and the production build pass. Backend/shared inventory coverage: 99.02% lines,

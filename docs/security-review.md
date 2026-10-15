@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+Later 15 October: [Production recovery](reports/2026-10-15-production-recovery.md)
+renames only the unused public legacy-key entry to a server-only name without
+revealing/changing its stored value. The guard remains intact. Source 5c55364 is
+pushed/deployed and twenty public/image/health/guest checks pass; no private
+workflow was enabled. Four allowlisted supplied-image call sites use direct static
+delivery after hosted optimizer 404s were reproduced. Fourteen deployed script
+assets from five pages have no matching secret patterns; this is a bounded
+heuristic, not complete credential assurance. Prior scoped coverage and genuine
+Auth/private-data/release gates remain separate and open.
+
 15 October: [Phase 1 verification](reports/2026-10-15-phase-1-verification.md) fixes
 uncancelled rejected upstream bodies and the JSON-prefix media check; synthetic
 reproductions fail before and pass after the fixes. 167 root/156 security tests,

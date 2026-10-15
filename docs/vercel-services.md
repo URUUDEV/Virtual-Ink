@@ -3,13 +3,14 @@
 Updated: 15 October 2026. Owner: Uchi, backend and product lead. Mumba is inactive.
 Uchi authorized proceeding with the proposed graph. The existing project is
 `shadowrootsec-5679/virtual-ink`; its Root Directory is now the repository root.
-[Source commit 1341eb3](https://github.com/URUUDEV/Virtual-Ink/commit/1341eb359c46f2e543ba5bbb7b4f1fe4e3960c0d)
-is pushed on `codex/phase-1-verification`; its
-[Preview](https://virtual-8pfjihiax-shadowrootsec-5679.vercel.app) is Ready and sampled
-homepage/shop checks pass through the signed-in browser. Automated requests are
-blocked by Vercel protection; full binding/API verification remains incomplete.
-[Existing Production](https://virtual-ink.vercel.app) has dynamic HTTP 500s from
-its public-config guard. See [actual evidence](reports/2026-10-15-phase-1-verification.md).
+[Source commit 5c55364](https://github.com/URUUDEV/Virtual-Ink/commit/5c55364e0f9dcfc10094ebd99d3054cb8f033bef)
+is pushed on main and the review branch. Its
+[Preview](https://virtual-fz5akalkc-shadowrootsec-5679.vercel.app) was Ready and visually
+verified before Production. Preview protection remains intact. The
+[Production alias](https://virtual-ink.vercel.app) now passes twenty page, rendered-image,
+health and guest-denial checks after the configuration/image fixes. Genuine
+Auth/database/storage and complete role workflows remain unverified. See
+[recovery evidence](reports/2026-10-15-production-recovery.md).
 
 ## Service ownership
 
@@ -60,8 +61,8 @@ Do not copy the provisioning CLI environment into either HTTP service. See
 [account setup](phase-1-account-access.md) and [restricted backend setup](live-backend-setup.md).
 The exact HTTPS APP_ORIGIN and confirmation redirect must match each environment.
 
-The graph confirmation was supplied on 15 October. Keep Preview protection intact
-and remediate Production configuration privately before rollout. Record results against
+The graph confirmation and public recovery rollout occurred on 15 October. Keep
+Preview protection intact and finish private application setup. Record results against
 [all 17 hosting gates](phase-completion-checklist.md); no phase is complete here.
 
 ## Local services testing

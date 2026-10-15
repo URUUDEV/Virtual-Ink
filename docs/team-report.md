@@ -1,6 +1,20 @@
 # Virtual Ink team report
 
-Latest verification: [15 October 2026 — Phase 1 verification and GitHub delivery](reports/2026-10-15-phase-1-verification.md).
+Latest recovery: [15 October 2026 — Production startup and image recovery](reports/2026-10-15-production-recovery.md).
+
+Word: [Production recovery team report](reports/2026-10-15-production-recovery.docx).
+
+[Production](https://virtual-ink.vercel.app) is recovered: source 5c55364 is pushed
+to main and Vercel Ready; all twenty page/rendered-image/health/guest-denial checks
+pass. The unused public legacy variable was renamed server-only with its value
+untouched. Four image call sites now serve the supplied assets directly; all eight
+shop image instances load. Preview desktop/mobile/menu checks pass; Production
+desktop passes, full Production mobile remains open. All local suites/type/build
+checks pass; backend/shared coverage remains 99.02%/95.14%/97.84%. Genuine Auth,
+private database/files/order/role workflows remain blocked or unbuilt. No phase is
+complete; Word visual QA is unavailable without LibreOffice.
+
+Previous verification: [15 October 2026 — Phase 1 verification and GitHub delivery](reports/2026-10-15-phase-1-verification.md).
 
 Word: [Phase 1 verification team report](reports/2026-10-15-phase-1-verification.docx).
 

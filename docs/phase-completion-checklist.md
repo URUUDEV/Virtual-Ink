@@ -29,14 +29,15 @@ integrations, full-product completeness or human acceptance.
 
 ## Vercel hosting verification
 
-15 October status: project/repository/root and actual URLs are observed;
-[current gate record](reports/2026-10-15-phase-1-verification.md) separates passes,
-failed Production configuration and blocked/unbuilt workflows. Preview is Ready
-with sampled public-page checks. No complete phase or genuine integration is verified.
+15 October status: project/repository/root and actual URLs are observed. The
+[recovery record](reports/2026-10-15-production-recovery.md) supersedes the earlier
+Production failures: source 5c55364 is Ready and twenty public/image/health/guest
+checks pass. Preview was visually tested before rollout. No complete phase,
+genuine private integration or authenticated role workflow is verified.
 
 - [x] VH-01 — Project is connected to Vercel. Record project/repository and
   branch/root configuration references without access tokens.
-- [ ] VH-02 — Production deployment completes without build errors. Record
+- [x] VH-02 — Production deployment completes without build errors. Record
   deployment ID, commit, time and successful build evidence.
 - [ ] VH-03 — Preview deployment works for testing before production. Record
   preview URL, tested commit and results before production promotion/deployment.

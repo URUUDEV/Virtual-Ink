@@ -21,6 +21,12 @@ Source is pushed on `codex/phase-1-verification`; the protected
 sampled homepage/shop success. Existing Production dynamic routes fail their
 public-config startup guard. See the dated report for actual limits and blockers.
 
+Later 15 October recovery supersedes that outage: source `5c55364` is pushed to
+main and [Production](https://virtual-ink.vercel.app) passes twenty public-page,
+rendered-image, health and guest-denial checks. The startup configuration conflict
+and hosted image 404s are fixed. Genuine Auth/private files/orders and phase
+acceptance remain pending. See [recovery evidence](docs/reports/2026-10-15-production-recovery.md).
+
 14 October hosting update: Uchi reports Vercel deployment and Supabase connection.
 The new [multi-service configuration](docs/vercel-services.md) is locally tested:
 public Next.js `web` calls internal Node `app` through an injected binding.

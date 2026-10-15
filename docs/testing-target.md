@@ -33,10 +33,12 @@ Genuine hosted workflows need approved synthetic identities/data, role/tenant
 denials and safe failure evidence. Keep unimplemented functionality marked pending.
 
 `npm run check:hosted` performs thirteen read-only page, health, guest-protection and
-missing-route checks against `https://virtual-ink.vercel.app`. To test Preview, set
+missing-route checks plus checks of each unique rendered image (twenty requests for
+the current seven-image catalogue) against `https://virtual-ink.vercel.app`. To test Preview, set
 `HOSTED_CHECK_URL` to an actual deployment URL copied from this project's Vercel
 record. Only the known project domain/account naming is accepted. Do not guess URLs.
-The result is `coverage/hosted-smoke.json`; it logs paths/statuses, never response
+The result is `coverage/hosted-smoke.json`; bounded HTML inspection ensures page
+200 responses cannot hide broken image URLs. It logs paths/statuses, never response
 contents, cookies, credentials or provider errors. It supplies no genuine Auth,
 database, upload, dashboard, browser/mobile or phase-completion evidence.
 

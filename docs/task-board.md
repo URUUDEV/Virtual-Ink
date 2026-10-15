@@ -66,9 +66,9 @@ These artifacts are delivered for review. Their existence does not imply the lea
 
 | ID | Owner | Task | Status | Evidence / next action | Reviewer |
 | --- | --- | --- | --- | --- | --- |
-| DEP-01 | Uchi | Verify existing project and Preview/Production on Vercel | Review | [15 October evidence](reports/2026-10-15-phase-1-verification.md): project/repo/root observed; Preview Ready and sampled pages work; Production has eleven dynamic 500 failures; remaining integrations/domain pending | Uchi |
-| DEP-SVC-01 | Uchi | Confirm and deploy multi-service graph | Review | Uchi authorized proceeding; repository root saved and source 1341eb3 pushed; full Preview binding/API checks remain blocked by protection/browser API navigation | Uchi |
-| DEP-ENV-01 | Uchi | Remediate Production public configuration privately | Blocked | Instrumentation guard aborts startup; review legacy public Auth variable without revealing values or weakening the guard; verify before rollout | Uchi |
+| DEP-01 | Uchi | Verify existing project and Preview/Production on Vercel | Review | [Recovery](reports/2026-10-15-production-recovery.md): source 5c55364 pushed to main, Preview tested before Production Ready; twenty public/image/health/guest checks pass; genuine integrations/domain pending | Uchi |
+| DEP-SVC-01 | Uchi | Confirm and deploy multi-service graph | Review | Approved root service layout deployed; bound health GET/HEAD and guest denials pass in Production; genuine authenticated role/tenant workflows remain unverified | Uchi |
+| DEP-ENV-01 | Uchi | Remediate Production public configuration privately | Review | Unused legacy public variable renamed server-only with value untouched; startup recovered and guard retained. Restricted application credentials/CAs and genuine Auth still need private setup | Uchi |
 | DEP-02 | Uchi | Verify deployed database, storage, Auth, dashboards, APIs and protection | Backlog | DEP-01 and accepted implementations; complete VH-05–VH-11 with synthetic data and denial evidence | Uchi |
 | DEP-03 | Taizya | Verify deployed public pages, mobile layouts and browser console | Backlog | Working preview/production URLs; record VH-12–VH-14 results with Uchi | Uchi |
 | DEP-04 | Uchi | Review hosting evidence before any phase closure | Blocked | Every VH item, local/testing results, documented domain and actual deployment URLs; Lubasi confirms operational workflows | Uchi |
