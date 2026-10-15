@@ -1,6 +1,7 @@
 # Phase 1 role and resource permission matrix
 
-Status: **target policy; not yet implemented or human-approved**. Owners: Uchi
+Status: **target policy with a locally tested pure evaluator; route, RLS and
+Storage enforcement and human approval remain pending**. Owners: Uchi
 Chinyama and Mumba Chitonge. This translates the 15 October Phase 1 mission into
 an enforceable server-side policy. A page or button never grants permission.
 
@@ -19,8 +20,9 @@ an enforceable server-side policy. A page or button never grants permission.
 - Missing identity, inactive/suspended account, stale version, failed resource
   scope, unsafe file state, missing grant or audit sink means **DENY**. Denials
   must not leak whether another tenant's resource exists.
-- Evaluate one active role and resource scope for each action. Additional roles
-  never broaden that action. A delivery assignment never grants print-file access.
+- Evaluate one active role and resource scope for each action. Until mixed-role
+  rules are accepted, a principal with multiple active roles is denied by the
+  Phase 1 evaluator. A delivery role never grants print-file access.
 
 ## Customer and fulfilment actions
 
@@ -35,13 +37,13 @@ approval.
 | Upload customer source | OWN order | — | — | — | Permitted organization order | Organization scope | GRANT by case purpose | GRANT by case purpose |
 | Download customer source | OWN + SAFE | ASSIGNED + SAFE production copy only | ASSIGNED + SAFE design copy only | — | OWN scope + SAFE + order grant | OWN scope + SAFE + order grant | GRANT by case purpose | Explicit `file.break_glass` GRANT, reason and audit |
 | Provide or change quotation | — | ASSIGNED, before customer acceptance | — | — | — | — | GRANT `quote.manage`, reason/audit | GRANT `quote.manage`, reason/audit |
-| Accept or reject quotation | OWN | — | — | — | GRANT `order.approve` | GRANT `order.approve` | GRANT `order.override`, reason/audit | GRANT `order.override`, step-up and audit |
+| Accept or reject quotation | OWN | — | — | — | GRANT `quote.respond` | GRANT `quote.respond` | GRANT `order.override`, reason/audit | GRANT `order.override`, step-up and audit |
 | Accept or decline assigned job | — | ASSIGNED to same vendor | ASSIGNED design task only | — | — | — | GRANT `assignment.manage`, reason/audit | GRANT `assignment.manage`, step-up and audit |
 | Assign vendor to order | — | **Never self-assign** | — | — | — | — | GRANT `order.assign`, select verified vendor, audit | GRANT `order.assign`, verified vendor, step-up and audit |
 | Upload/version proof | — | ASSIGNED | ASSIGNED design task | — | — | — | GRANT `proof.manage`, reason/audit | GRANT `proof.manage`, step-up and audit |
-| Approve latest proof / request changes | OWN; explicit response | — | — | — | GRANT `order.approve` | GRANT `order.approve` | GRANT `order.override`, reason/audit | GRANT `order.override`, step-up and audit |
+| Approve latest proof / request changes | OWN; explicit response | — | — | — | GRANT `proof.approve` | GRANT `proof.approve` | GRANT `order.override`, reason/audit | GRANT `order.override`, step-up and audit |
 | Start or advance production | — | ASSIGNED + payment/proof gates | — | — | — | — | GRANT `production.override`, reason/audit | GRANT `production.override`, step-up and audit |
-| Upload production evidence | — | ASSIGNED; new immutable version | — | — | — | — | GRANT by case purpose | Explicit `file.break_glass` GRANT, reason and audit |
+| Upload production evidence | — | ASSIGNED; new immutable version | — | — | — | — | GRANT `production.evidence.upload` by case purpose | GRANT `production.evidence.upload`, step-up, reason and audit |
 | Perform QC / record result | — | ASSIGNED checklist; failure cannot complete | — | — | — | — | GRANT `qc.override`, reason/audit | GRANT `qc.override`, step-up and audit |
 | Cancel order | OWN; state rule | Decline before acceptance or request cancellation | Request design-task cancellation | Cancel own assigned delivery only | OWN order scope | Organization scope | GRANT `order.cancel`, reason/audit | GRANT `order.cancel`, step-up and audit |
 | Confirm delivery handoff | — | — | — | Assigned task; minimum delivery data | — | — | GRANT `delivery.resolve`, reason/audit | GRANT `delivery.resolve`, step-up and audit |
@@ -79,12 +81,29 @@ approval.
 
 ## Decisions requiring product/operations review
 
-`OWN organization scope`, who grants order-specific `order.approve`, mixed-role
+`OWN organization scope`, who delegates quotation/proof approval, mixed-role
 enrollment, order states that permit cancellation, delivery fields, support
 break-glass approval, step-up frequency, MFA recovery and audit retention require
 explicit Uchi/operations review. Affected capabilities stay blocked until those
 decisions are accepted.
 
-No role implementation, migration, MFA enforcement or human approval is claimed
-by this document. The existing narrow role enum remains unchanged until migration
-and RLS plans are reviewed against this target.
+The [pure evaluator handover](reports/2026-10-15-authorization-evaluator.md)
+records local role/resource tests. All privileged evaluator actions require AAL2
+and a resource-specific, unexpired grant with purpose and reason. Vendor actions
+also require a verified vendor. Production files must be approved, SAFE and active;
+inactive versions are denied. Vendor assignment is limited to pre-production
+states. Cancellation is conservatively limited to DRAFT through AWAITING_PAYMENT;
+later cancellation needs a separately reviewed workflow. Grant-only names such as
+`production.override` are not standalone business actions and cannot skip gates.
+
+Organization quote response uses `quote.respond`; proof approval uses
+`proof.approve`. Each requires a separate order-scoped delegation. Organization
+management must target the organization itself. Delivery order/timeline reads
+still require field projection by the future repository/route layer. The evaluator
+does not validate database freshness, commit a mutation/audit, filter response
+fields, issue signed URLs or prove MFA enrollment. The future trusted context
+loader must supply those facts from verified identity and database records.
+
+No route integration, migration, hosted MFA enforcement or human approval is
+claimed. The existing narrow role enum remains unchanged until migration and
+RLS plans are reconciled with this target.

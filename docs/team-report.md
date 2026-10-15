@@ -1,6 +1,8 @@
 # Virtual Ink team report
 
-Latest handover: [15 October 2026 — Phase 1 permission matrix](reports/2026-10-15-permission-matrix.md) and [Word copy](reports/2026-10-15-permission-matrix.docx). Structural document validation passes; visual pagination needs unavailable LibreOffice. The eight-role matrix is proposed for review; no route, database or storage grants were widened. Phase 1 remains PARTIAL. Uchi and Mumba collaborate on backend work; human decisions/signoff remain pending.
+Latest build handover: [15 October 2026 — Authorization evaluator](reports/2026-10-15-authorization-evaluator.md) and [Word copy](reports/2026-10-15-authorization-evaluator.docx). The pure policy layer covers all eight roles, assignments, scoped grants and safe-file/payment/proof gates. All 178 backend tests pass; 33-file coverage reaches 99.18% lines, 96.26% branches and 98.10% functions. UI/Auth regressions, strict types and the production build pass. Routes, trusted context, RLS/Storage and genuine role workflows remain unimplemented by this slice; Phase 1 is PARTIAL with no final requirement group fully accepted. Word visual pagination remains unavailable without LibreOffice.
+
+Previous handover: [15 October 2026 — Phase 1 permission matrix](reports/2026-10-15-permission-matrix.md) and [Word copy](reports/2026-10-15-permission-matrix.docx). Structural document validation passes; visual pagination needs unavailable LibreOffice. The eight-role matrix is proposed for review; no route, database or storage grants were widened. Phase 1 remains PARTIAL. Uchi and Mumba collaborate on backend work; human decisions/signoff remain pending.
 
 Previous build handover: [15 October 2026 — Password recovery slice](reports/2026-10-15-auth-recovery.md) and [Word copy](reports/2026-10-15-auth-recovery.docx). Synthetic local Auth/Next tests, build, TypeScript and 95% scoped coverage pass. Genuine email delivery, provider setup and deployed password reset remain unverified.
 

@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+15 October 2026: [Pure authorization evaluator](reports/2026-10-15-authorization-evaluator.md)
+adds tested eight-role/resource decisions without opening routes or database/
+Storage grants. Synthetic review fixed organization-target confusion, missing
+vendor verification, invalid assignment/acceptance states, standalone override
+capabilities and inactive/unapproved file access. Scoped coverage passes at
+99.18% lines, 96.26% branches and 98.10% functions. Trusted context, response
+field projection, atomic state/audit writes and hosted RLS/Storage remain open;
+these tests do not establish production authorization or full phase completion.
+
 15 October 2026: [Phase 1 permission matrix handover](reports/2026-10-15-permission-matrix.md)
 defines proposed role/resource deny rules. No executable enforcement changed in this
 documentation step. Conditional IDOR, forged-role, mixed-role and delivery-file

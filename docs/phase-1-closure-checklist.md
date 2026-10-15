@@ -94,6 +94,17 @@ the human and Vercel gates pass.
 
 ## Decisions and ownership
 
+### Delivered sub-slice — AUTHZ-POL (15 October 2026)
+
+- [x] Pure permission evaluator and ten synthetic test groups cover all eight
+  roles, assignment/organization scope, exact privileged grants, suspension,
+  delivery-file denial and file/payment/proof gates. All 178 backend tests,
+  95%-scoped coverage, strict types and the production build pass. See the
+  [dated evaluator report](reports/2026-10-15-authorization-evaluator.md).
+- [ ] Verified identity/database context, route/action integration, RLS/Storage,
+  transactional audits and genuine deployed role tests remain open. AUTHZ-01 is
+  not complete. Zero of the seventeen final requirement groups is fully proven.
+
 ### Delivered sub-slice — AUTH-REC (15 October 2026)
 
 - [x] Recovery request, fixed PKCE callback and authenticated password update
