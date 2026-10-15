@@ -99,7 +99,7 @@ phase complete. Current deployment evidence remains unverified.
 | Person | Role |
 | --- | --- |
 | Uchi Chinyama | Product, Project and Backend Lead |
-| Mumba Chitonge | Inactive; no current tasks assigned |
+| Mumba Chitonge | Backend Engineering collaborator with Uchi Chinyama |
 | Taizya Nakapende | UX and Visual Design Lead |
 | Lubasi Monde | Partnerships and Operations Lead |
 

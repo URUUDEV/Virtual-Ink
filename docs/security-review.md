@@ -1,5 +1,13 @@
 # Virtual Ink recurring security review
 
+15 October 2026: [Password recovery slice](reports/2026-10-15-auth-recovery.md)
+adds a fixed PKCE callback, bounded password update, generic reset response and
+provider-verified session requirement. Synthetic tests cover callback query
+tampering, no-session denial, origin checks and provider error redaction; no bypass
+or account enumeration was reproduced. Genuine reset email, provider expiration,
+distributed abuse limits, production session revocation and administrator MFA
+remain blocked/unverified. Full notes and prerequisites are in the dated report.
+
 Later 15 October: [Production recovery](reports/2026-10-15-production-recovery.md)
 renames only the unused public legacy-key entry to a server-only name without
 revealing/changing its stored value. The guard remains intact. Source 5c55364 is

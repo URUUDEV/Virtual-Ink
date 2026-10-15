@@ -1,6 +1,6 @@
 # Virtual Ink task board
 
-Current ownership, 14 October 2026: Uchi owns backend engineering and product leadership. Mumba is inactive and has no current tasks. Existing M-prefixed IDs are retained for continuity. Build product phases sequentially; Phase 1 remains open.
+Current ownership, 15 October 2026: Uchi Chinyama and Mumba Chitonge collaborate on backend engineering; Uchi retains product leadership. This reflects the latest Phase 1 mission and supersedes older notes that Mumba was inactive. Existing M-prefixed IDs are retained for continuity. Build product phases sequentially; Phase 1 remains open. Track acceptance in the [Phase 1 closure checklist](phase-1-closure-checklist.md).
 
 This Markdown board can be used directly or copied into the team's chosen task tool. Statuses: **Backlog → Ready → In progress → Review → Done**. Use **Blocked** with a named question/decision, owner and next action. One active owner per task. Uchi prioritizes the queue. Ready means dependencies and required acceptance details are available; Done requires review evidence and recorded acceptance.
 
@@ -12,13 +12,19 @@ Reviewable documentation/build slices remain separate from completed phases.
 
 | ID | Task | Status | Dependency | Deliverable | Reviewer |
 | --- | --- | --- | --- | --- | --- |
+| P1-00 | Inspect Phase 1 baseline and map requirements | Review | User mission | [Gap report](reports/2026-10-15-phase-1-gap-report.md) and [closure checklist](phase-1-closure-checklist.md); 168/168 root tests and loopback health/guest baseline pass | Uchi and Mumba |
+| P1-01 | Complete genuine Auth lifecycle and server role boundary | In progress | Password-recovery slice locally verified; private test identity/setup and role matrix remain | AUTH-01/AUTH-02/AUTHZ-01 acceptance evidence | Uchi and Mumba |
+| P1-02 | Private print-file lifecycle and scanning | Backlog | Auth/RLS, retention/limits/scanner decisions | FILES-01/FILES-02 verified with negative access tests | Uchi and Mumba |
+| P1-03 | Transactional order, quote, proof and production lifecycle | Backlog | Role matrix, pricing/payment/operations decisions, migration reconciliation | ORDER/PROOF/PROD entities, APIs and state tests | Uchi and Mumba |
+| P1-04 | Customer, vendor and admin dashboards | Backlog | Accepted APIs and Taizya UX handover | DASH-01 responsive, accessible workflows | Taizya with Uchi review |
+| P1-05 | Full security, manual acceptance and Vercel closure | Blocked | Prior work packages and real test identities | TEST-01/02, SEC-01, VERCEL-01 and GATE-01 evidence | Uchi and Mumba |
 | U-01 | Review Phase 1 scope and nominate canonical repo/board | Ready | Foundation pack | Scope acknowledgement and repository ownership record | Uchi |
 | U-02 | Confirm customer/vendor/admin roles and initial tenant/access model with Uchi | Backlog | U-01, M-01 proposal | Approved role and tenant decision with denial cases | Uchi |
 | U-03 | Resolve launch, commercial and policy decisions from discovery | Backlog | L-01, L-02 | Updated open questions and approved decision references | Uchi |
 | U-04 | Approve one Phase 2 infrastructure acceptance record | Backlog | U-02, M-01 | Acceptance record; UX/operations N/A reason if appropriate | Uchi |
 | U-05 | Review Phase 1 evidence and record signoff | Blocked | Vercel VH-01–VH-17 evidence, deployed URL and lead acknowledgements pending; HB-06 | Completed phase checklist after local/testing/hosting gates pass | Uchi |
 
-## Uchi Chinyama — Backend Lead
+## Uchi Chinyama and Mumba Chitonge — Backend Leads
 
 | ID | Task | Status | Dependency | Deliverable | Reviewer |
 | --- | --- | --- | --- | --- | --- |

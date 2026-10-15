@@ -1,6 +1,6 @@
 # Virtual Ink permissions plan
 
-Owners: Uchi Chinyama and Mumba Chitonge. Status: **Backend Phase 2 narrow implementation delivered**; business capability matrix below describes future access. Implemented now: verified permanent identity and active application mapping, own vendor tenant scope, explicit expiring operator tenant review grants and transaction-bound access audits. All private files/proofs, role changes and pricing capabilities remain closed. Guest/tenant defaults still need Uchi acknowledgement. See [current implementation](backend-phase-2.md).
+Owners: Uchi Chinyama and Mumba Chitonge, collaborating on backend engineering per the 15 October Phase 1 mission. Status: **Backend Phase 2 narrow implementation delivered**; business capability matrix below describes future access. Implemented now: verified permanent identity and active application mapping, own vendor tenant scope, explicit expiring operator tenant review grants and transaction-bound access audits. All private files/proofs, role changes and pricing capabilities remain closed. Guest/tenant defaults still need Uchi acknowledgement. See [current implementation](backend-phase-2.md).
 
 ## Role access and prohibitions
 

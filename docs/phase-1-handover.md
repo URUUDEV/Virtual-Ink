@@ -2,8 +2,9 @@
 
 ## Project overview
 
-Current direction, 14 October 2026: Uchi owns backend engineering and product
-leadership; Mumba is inactive. The original foundation handover below is historical
+Current direction, 15 October 2026: Uchi owns product leadership; Uchi and Mumba
+collaborate on backend engineering. This supersedes the 14 October note that Mumba
+was inactive. The original foundation handover below is historical
 scope. Current work implements the full four product phases sequentially, starting
 with Phase 1 registration/roles, private uploads, orders, vendor quotes and admin
 manual payment/delivery status. Every phase requires the full E2E flow, security,

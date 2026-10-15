@@ -30,6 +30,18 @@ export function webAuthGateway(client: ReturnType<typeof webAuthClient>): WebAut
         if (result.error) throw new ApiError('IDENTITY_UNAVAILABLE');
       }
     },
+    async requestPasswordReset(email, callbackUrl) {
+      const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: callbackUrl });
+      if (error) throw new ApiError('IDENTITY_UNAVAILABLE');
+    },
+    async updatePassword(password) {
+      const { data, error: sessionError } = await client.auth.getUser();
+      if (sessionError || !data.user || data.user.is_anonymous !== false || !data.user.email_confirmed_at) {
+        throw new ApiError('UNAUTHENTICATED');
+      }
+      const { error } = await client.auth.updateUser({ password });
+      if (error) throw new ApiError(!error.status || error.status === 429 || error.status >= 500 ? 'IDENTITY_UNAVAILABLE' : 'VALIDATION_FAILED');
+    },
     async logout() {
       const { error } = await client.auth.signOut({ scope: 'local' });
       if (error) throw new ApiError('IDENTITY_UNAVAILABLE');

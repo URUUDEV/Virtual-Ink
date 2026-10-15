@@ -30,6 +30,7 @@ const { webAuthClient, webAuthGateway } = load(resolve(root, 'apps/web/src/lib/w
 const { webAuthResponse } = load(resolve(root, 'src/backend/identity/web-auth.ts'));
 const authRoute = load(resolve(root, 'apps/web/src/app/api/auth/[action]/route.ts'));
 const callbackRoute = load(resolve(root, 'apps/web/src/app/auth/callback/route.ts'));
+const recoveryCallbackRoute = load(resolve(root, 'apps/web/src/app/auth/recovery-callback/route.ts'));
 const { proxy } = load(resolve(root, 'apps/web/src/proxy.ts'));
 const { NextRequest } = webRequire('next/server');
 const env = { WEB_AUTH_ENABLED: 'true', APP_ORIGIN: 'https://virtual-ink.example.test',
@@ -112,6 +113,49 @@ test('registration uses PKCE and fixed callback without role metadata or auto-lo
   assert.ok(f.writes.some((item) => item.name.endsWith('code-verifier') && item.value));
   assert.ok(!f.writes.some((item) => !item.name.endsWith('code-verifier') && item.value));
 });
+test('password recovery sends only the address to the fixed same-origin callback and keeps response generic', async () => {
+  const f = clientFixture();
+  await syntheticFetch((url, init) => {
+    assert.equal(url.pathname, '/auth/v1/recover');
+    assert.equal(url.searchParams.get('redirect_to'), `${env.APP_ORIGIN}/auth/recovery-callback`);
+    const body = JSON.parse(init.body);
+    assert.equal(body.email, credentials.email);
+    assert.equal(body.gotrue_meta_security.captcha_token, undefined);
+    assert.equal(typeof body.code_challenge, 'string'); assert.equal(body.code_challenge_method, 's256');
+    return json({});
+  }, async () => {
+    await webAuthGateway(f.client).requestPasswordReset(credentials.email, `${env.APP_ORIGIN}/auth/recovery-callback`);
+    const response = await webAuthResponse(new Request(`${env.APP_ORIGIN}/api/auth/password-reset`, {
+      method: 'POST', headers: { Origin: env.APP_ORIGIN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: credentials.email }),
+    }), () => webAuthGateway(f.client), env);
+    assert.equal(response.status, 200);
+    assert.deepEqual((await response.json()).data, { state: 'if_account_exists' });
+  });
+});
+test('password update verifies a confirmed server session and sends the password only to Auth', async () => {
+  const f = clientFixture();
+  await syntheticFetch((url, init) => {
+    if (url.pathname === '/auth/v1/token') return json(session);
+    if (url.pathname === '/auth/v1/user' && init.method === 'GET') return json(user);
+    assert.equal(url.pathname, '/auth/v1/user'); assert.equal(init.method, 'PUT');
+    assert.equal(new Headers(init.headers).get('authorization'), `Bearer ${session.access_token}`);
+    const body = JSON.parse(init.body);
+    assert.equal(body.password, credentials.password);
+    assert.equal(body.code_challenge, null); assert.equal(body.code_challenge_method, null);
+    return json({ user });
+  }, async () => {
+    await webAuthGateway(f.client).login(credentials);
+    await webAuthGateway(f.client).updatePassword(credentials.password);
+  });
+});
+test('password update rejects calls without a verified server session', async () => {
+  const f = clientFixture(); let requests = 0;
+  await syntheticFetch(() => { requests++; return json(user); }, async () => {
+    await assert.rejects(webAuthGateway(f.client).updatePassword(credentials.password), (error) => error.code === 'UNAUTHENTICATED');
+  });
+  assert.equal(requests, 0);
+});
 test('registration clears a provider auto-confirmed session and logout removes session cookies', async () => {
   const f = clientFixture(); let logouts = 0;
   await syntheticFetch((url) => {
@@ -172,9 +216,37 @@ test('callback denies missing PKCE, repeated code and redirect injection without
   });
   assert.equal(calls, 0);
 }));
+test('recovery callback establishes only a fixed reset destination after verified PKCE exchange', async () => configured(async () => {
+  const f = clientFixture();
+  await syntheticFetch((url, init) => {
+    if (url.pathname === '/auth/v1/recover') return json({});
+    assert.equal(url.pathname, '/auth/v1/token'); assert.equal(url.searchParams.get('grant_type'), 'pkce');
+    assert.equal(JSON.parse(init.body).auth_code, 'synthetic-recovery-code');
+    return json(session);
+  }, async () => {
+    await webAuthGateway(f.client).requestPasswordReset(credentials.email, `${env.APP_ORIGIN}/auth/recovery-callback`);
+    const cookie = [...f.cookies].map(([name, value]) => `${name}=${value}`).join('; ');
+    const response = await recoveryCallbackRoute.GET(new NextRequest(`${env.APP_ORIGIN}/auth/recovery-callback?code=synthetic-recovery-code`, { headers: { cookie } }));
+    assert.equal(response.status, 303); assert.equal(response.headers.get('location'), '/reset-password');
+    assert.ok(response.cookies.getAll().some((item) => !item.name.endsWith('code-verifier') && item.value));
+  });
+}));
+test('recovery callback rejects missing, repeated and redirected recovery codes without provider work', async () => configured(async () => {
+  let calls = 0;
+  await syntheticFetch(() => { calls++; return json(session); }, async () => {
+    for (const query of ['', 'code=a&code=b', 'code=a&next=https://attacker.example.test', 'code=%3Cscript%3E']) {
+      const response = await recoveryCallbackRoute.GET(new NextRequest(`${env.APP_ORIGIN}/auth/recovery-callback${query ? `?${query}` : ''}`));
+      assert.equal(response.status, 303); assert.equal(response.headers.get('location'), '/login?recovery=failed');
+      assert.equal(response.cookies.getAll().length, 0);
+    }
+  });
+  assert.equal(calls, 0);
+}));
 test('Next proxy redirects guests and tampered sessions before page rendering and admits verified users', async () => configured(async () => {
   const guest = await proxy(new NextRequest(`${env.APP_ORIGIN}/account`));
   assert.equal(guest.status, 307); assert.equal(guest.headers.get('location'), `${env.APP_ORIGIN}/login`);
+  const guestRecovery = await proxy(new NextRequest(`${env.APP_ORIGIN}/reset-password`));
+  assert.equal(guestRecovery.status, 307); assert.equal(guestRecovery.headers.get('location'), `${env.APP_ORIGIN}/login`);
   const forged = await proxy(new NextRequest(`${env.APP_ORIGIN}/account`, {
     headers: { cookie: 'sb-odgxcuwueessxfsoveza-auth-token=base64-tampered-synthetic', 'X-Role': 'PlatformOperator' },
   }));

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadWebAuthConfig, validateCredentials, webAuthResponse, type WebAuthGateway } from '../src/backend/identity/web-auth.ts';
+import { loadWebAuthConfig, validateCredentials, validateEmailInput, validateNewPassword, webAuthResponse, type WebAuthGateway } from '../src/backend/identity/web-auth.ts';
 import { ApiError } from '../src/backend/api/errors.ts';
 
 const env = { WEB_AUTH_ENABLED: 'true', APP_ORIGIN: 'http://127.0.0.1:3001',
@@ -16,6 +16,8 @@ function fixture() {
   const gateway: WebAuthGateway = {
     async login(input) { assert.deepEqual(input, credentials); calls.push('login'); },
     async register(input, callback) { assert.deepEqual(input, credentials); assert.equal(callback, `${env.APP_ORIGIN}/auth/callback`); calls.push('register'); },
+    async requestPasswordReset(email, callback) { assert.equal(email, credentials.email); assert.equal(callback, `${env.APP_ORIGIN}/auth/recovery-callback`); calls.push('password-reset'); },
+    async updatePassword(password) { assert.equal(password, credentials.password); calls.push('password-update'); },
     async logout() { calls.push('logout'); },
   };
   return { calls, run: (input: Request, configuration = env) => webAuthResponse(input, () => gateway, configuration) };
@@ -40,10 +42,24 @@ test('credential validation rejects authority injection, malformed emails and un
   assert.equal(validateCredentials(spaces, 'register').password, spaces.password);
   assert.equal(validateCredentials({ ...credentials, password: 'old' }, 'login').password, 'old');
 });
-test('login, registration and logout reach the provider adapter with no credentials in responses', async () => {
+test('password recovery validates email and new-password inputs without accepting authority fields', () => {
+  assert.deepEqual(validateEmailInput({ email: credentials.email }), { email: credentials.email });
+  assert.deepEqual(validateNewPassword({ password: credentials.password }), { password: credentials.password });
+  for (const value of [{ email: credentials.email, role: 'ADMIN' }, { email: 'bad' },
+    { email: `${'a'.repeat(250)}@example.test` }]) assert.throws(() => validateEmailInput(value), ApiError);
+  for (const value of [{ password: 'short' }, { password: 'x'.repeat(129) },
+    { password: credentials.password, role: 'SUPER_ADMIN' }, { password: 'password\nsecret' }]) {
+    assert.throws(() => validateNewPassword(value), ApiError);
+  }
+});
+
+test('login, registration, password recovery and logout reach the provider adapter safely', async () => {
   const f = fixture();
-  for (const [action, state] of [['login', 'signed_in'], ['register', 'confirmation_required'], ['logout', 'signed_out']]) {
-    const response = await f.run(request(action, action === 'logout' ? {} : credentials));
+  for (const [action, state] of [['login', 'signed_in'], ['register', 'confirmation_required'],
+    ['password-reset', 'if_account_exists'], ['password-update', 'password_updated'], ['logout', 'signed_out']]) {
+    const body = action === 'logout' ? {} : action === 'password-reset' ? { email: credentials.email } :
+      action === 'password-update' ? { password: credentials.password } : credentials;
+    const response = await f.run(request(action, body));
     assert.equal(response.status, 200);
     const text = await response.text();
     assert.equal(JSON.parse(text).data.state, state);
@@ -51,7 +67,7 @@ test('login, registration and logout reach the provider adapter with no credenti
     assert.match(response.headers.get('cache-control')!, /private.*no-store/);
     assert.equal(response.headers.get('vary'), 'Cookie, Origin');
   }
-  assert.deepEqual(f.calls, ['login', 'register', 'logout']);
+  assert.deepEqual(f.calls, ['login', 'register', 'password-reset', 'password-update', 'logout']);
 });
 test('cross-site, absent/null Origin and forwarded-host spoof do not reach the provider', async () => {
   const f = fixture();
@@ -90,9 +106,14 @@ test('disabled or malformed configuration fails closed without falling back to a
 });
 test('provider failures do not expose upstream errors or report authentication success', async () => {
   const broken: WebAuthGateway = { async login() { throw new Error('postgres://private:secret@host'); },
-    async register() { throw new ApiError('IDENTITY_UNAVAILABLE'); }, async logout() { throw new ApiError('IDENTITY_UNAVAILABLE'); } };
-  for (const action of ['login', 'register', 'logout']) {
-    const response = await webAuthResponse(request(action, action === 'logout' ? {} : credentials), () => broken, env);
+    async register() { throw new ApiError('IDENTITY_UNAVAILABLE'); },
+    async requestPasswordReset() { throw new ApiError('IDENTITY_UNAVAILABLE'); },
+    async updatePassword() { throw new ApiError('IDENTITY_UNAVAILABLE'); },
+    async logout() { throw new ApiError('IDENTITY_UNAVAILABLE'); } };
+  for (const action of ['login', 'register', 'password-reset', 'password-update', 'logout']) {
+    const body = action === 'logout' ? {} : action === 'password-reset' ? { email: credentials.email } :
+      action === 'password-update' ? { password: credentials.password } : credentials;
+    const response = await webAuthResponse(request(action, body), () => broken, env);
     assert.ok(response.status >= 500);
     assert.ok(!(await response.text()).includes('private:secret'));
   }
@@ -101,7 +122,8 @@ test('parallel Auth work has a bounded worker admission ceiling and recovers aft
   let release!: () => void;
   const barrier = new Promise<void>((resolve) => { release = resolve; });
   let started = 0;
-  const waiting: WebAuthGateway = { async login() { started++; await barrier; }, async register() {}, async logout() {} };
+  const waiting: WebAuthGateway = { async login() { started++; await barrier; }, async register() {},
+    async requestPasswordReset() {}, async updatePassword() {}, async logout() {} };
   const running = Array.from({ length: 8 }, () => webAuthResponse(request(), () => waiting, env));
   while (started < 8) await new Promise((resolve) => setImmediate(resolve));
   assert.equal((await webAuthResponse(request(), () => waiting, env)).status, 503);

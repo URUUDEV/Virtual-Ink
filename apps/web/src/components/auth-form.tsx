@@ -46,5 +46,6 @@ export function AuthForm({ action, available }: { action: 'login' | 'register'; 
       </form>}
     <p className="auth-switch">{action === 'register' ? 'Already have an account? ' : 'New to Virtual Ink? '}
       <Link href={action === 'register' ? '/login' : '/register'}>{action === 'register' ? 'Log in' : 'Create an account'}</Link></p>
+    {action === 'login' && <p className="auth-switch"><Link href="/forgot-password">Forgot your password?</Link></p>}
   </div>;
 }

@@ -29,10 +29,12 @@ frontend/browser checks, SQL, hosted integrations and functional acceptance
 separately. Do not label unbuilt or untested features verified, omit unimported
 source files to inflate coverage, or equate code coverage with product completion.
 
-Current ownership (Uchi, 2026-10-14): Uchi handles backend engineering and product
-leadership. Mumba is inactive; assign current technical work to Uchi. Preserve
-historical ownership and reports. Complete product phases in order, starting with
-the full Phase 1 MVP; a delivered slice does not close a phase.
+Current ownership (user instruction, 2026-10-15): Uchi Chinyama and Mumba
+Chitonge collaborate on backend engineering; Uchi handles product leadership.
+This supersedes the 2026-10-14 note that Mumba was inactive. Preserve historical
+ownership and reports. Complete product phases in order, starting with the full
+Phase 1 MVP; a delivered slice does not close a phase. See
+docs/phase-1-closure-checklist.md for the current requirement mapping.
 
 Uchi requested on 2026-10-09: always generate a report for the team after build work.
 For every completed build slice or handover:
