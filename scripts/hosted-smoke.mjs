@@ -13,15 +13,18 @@ if (target.protocol !== 'https:' || target.username || target.password || target
 }
 const results = [];
 async function check(path, expected, inspect, method = 'GET') {
-  let status = null, passed = false;
+  let status = null, passed = false, protectedPreview = false;
   try {
     const response = await fetch(new URL(path, target), { method, redirect: 'manual', cache: 'no-store', signal: AbortSignal.timeout(15000) });
     status = response.status;
+    const redirect = new URL(response.headers.get('location') ?? '/', target);
+    protectedPreview = [302, 303, 307, 308].includes(status) && redirect.hostname === 'vercel.com' && redirect.pathname.startsWith('/sso-api');
     passed = status === expected && await inspect(response);
     // Page content, redirect queries, response headers and errors are not logged.
     await response.body?.cancel().catch(() => {});
   } catch { /* Fixed safe result only. Never print upstream text or private data. */ }
-  results.push({ path, method, expected, actual: status, status: passed ? 'pass' : 'failed' });
+  results.push({ path, method, expected, actual: status, status: passed ? 'pass' : protectedPreview ? 'blocked' : 'failed',
+    ...(protectedPreview ? { reason: 'vercel_deployment_protection' } : {}) });
 }
 for (const path of ['/', '/shop', '/login', '/register', '/vendors/join']) {
   await check(path, 200, response => response.headers.get('content-type')?.startsWith('text/html'));
@@ -44,7 +47,7 @@ await check('/account', 307, response => {
 });
 await check('/api/v1/unimplemented-smoke-route', 404, async response => (await readUpstreamJson(response)).error?.code === 'NOT_FOUND');
 const report = { check: 'hosted_read_only_smoke', date: new Date().toISOString(), origin: target.origin,
-  status: results.every(result => result.status === 'pass') ? 'pass' : 'failed', results,
+  status: results.every(result => result.status === 'pass') ? 'pass' : results.some(result => result.status === 'failed') ? 'failed' : 'blocked', results,
   limits: ['Guest reads only', 'Not genuine Auth/database/storage evidence', 'Not phase completion', 'No protection bypass'] };
 await mkdir(resolve(root, 'coverage'), { recursive: true });
 await writeFile(resolve(root, 'coverage/hosted-smoke.json'), `${JSON.stringify(report, null, 2)}\n`);

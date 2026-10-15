@@ -66,8 +66,9 @@ These artifacts are delivered for review. Their existence does not imply the lea
 
 | ID | Owner | Task | Status | Evidence / next action | Reviewer |
 | --- | --- | --- | --- | --- | --- |
-| DEP-01 | Uchi | Verify existing project and Preview/Production on Vercel | Review | Uchi reports deployment/Supabase connection; DEP-URL-01 still needs actual URLs/project evidence and HB-06 ownership/domain details | Uchi |
-| DEP-SVC-01 | Uchi | Confirm and deploy multi-service graph | Review | [Services](vercel-services.md): locally verified public web/internal app/web-to-app binding; confirm names, ingress and binding before hosted rollout | Uchi |
+| DEP-01 | Uchi | Verify existing project and Preview/Production on Vercel | Review | [15 October evidence](reports/2026-10-15-phase-1-verification.md): project/repo/root observed; Preview Ready and sampled pages work; Production has eleven dynamic 500 failures; remaining integrations/domain pending | Uchi |
+| DEP-SVC-01 | Uchi | Confirm and deploy multi-service graph | Review | Uchi authorized proceeding; repository root saved and source 1341eb3 pushed; full Preview binding/API checks remain blocked by protection/browser API navigation | Uchi |
+| DEP-ENV-01 | Uchi | Remediate Production public configuration privately | Blocked | Instrumentation guard aborts startup; review legacy public Auth variable without revealing values or weakening the guard; verify before rollout | Uchi |
 | DEP-02 | Uchi | Verify deployed database, storage, Auth, dashboards, APIs and protection | Backlog | DEP-01 and accepted implementations; complete VH-05–VH-11 with synthetic data and denial evidence | Uchi |
 | DEP-03 | Taizya | Verify deployed public pages, mobile layouts and browser console | Backlog | Working preview/production URLs; record VH-12–VH-14 results with Uchi | Uchi |
 | DEP-04 | Uchi | Review hosting evidence before any phase closure | Blocked | Every VH item, local/testing results, documented domain and actual deployment URLs; Lubasi confirms operational workflows | Uchi |
@@ -77,6 +78,7 @@ These artifacts are delivered for review. Their existence does not imply the lea
 | ID | Owner | Task | Status | Evidence / next action |
 | --- | --- | --- | --- | --- |
 | QA-01 | Uchi | Review four-phase completion audit | Review | [Audit](reports/2026-10-14-phase-completion-audit.md): all phases incomplete; no full order or Vercel evidence; human review pending |
+| QA-95-01 | Uchi | Enforce measured 95% coverage and phase GitHub delivery | Review | [Testing target](testing-target.md): 167 root tests; all 32 scoped files; lines 99.02%, branches 95.14%, functions 97.84%; source pushed and exact remote commit verified; full-product tests remain incomplete |
 | MVP-01 | Uchi | Define accepted persistent print-order journey | Ready | Resolve PHASE-01, PC/FILE/AUTH/operations rules; Taizya supplies actual role/order states and Lubasi verified options/manual statuses |
 | MVP-02 | Uchi | Implement Auth/files/order/vendor quote/admin manual-status E2E | In progress | MVP-01 and genuine runtime setup; inspect records at every stage, add denial/concurrency/audit tests and verify Vercel before phase approval |
 | MVP-AUTH-01 | Uchi | Review account entry/server session slice and finish genuine Auth | Review | [Account slice](phase-1-account-access.md): handlers/UI, role-field denial, PKCE, cookie and protected redirect checks pass; hosted setup/test email/application mapping still pending |

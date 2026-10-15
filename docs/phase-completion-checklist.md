@@ -29,10 +29,12 @@ integrations, full-product completeness or human acceptance.
 
 ## Vercel hosting verification
 
-Current status: all items below are unverified. This checklist update does not
-establish a Vercel connection or successful deployment.
+15 October status: project/repository/root and actual URLs are observed;
+[current gate record](reports/2026-10-15-phase-1-verification.md) separates passes,
+failed Production configuration and blocked/unbuilt workflows. Preview is Ready
+with sampled public-page checks. No complete phase or genuine integration is verified.
 
-- [ ] VH-01 — Project is connected to Vercel. Record project/repository and
+- [x] VH-01 — Project is connected to Vercel. Record project/repository and
   branch/root configuration references without access tokens.
 - [ ] VH-02 — Production deployment completes without build errors. Record
   deployment ID, commit, time and successful build evidence.
@@ -67,7 +69,7 @@ establish a Vercel connection or successful deployment.
   evidence and explain warnings; build errors cannot be waived as warnings.
 - [ ] VH-16 — Custom domain is prepared, or documented if not yet connected.
   Record intended domain, ownership/DNS next action and current status.
-- [ ] VH-17 — Deployment URL is included in the completion report. Provide the
+- [x] VH-17 — Deployment URL is included in the completion report. Provide the
   actual production URL and the tested preview URL; placeholders are not evidence.
 
 ## Completion evidence record

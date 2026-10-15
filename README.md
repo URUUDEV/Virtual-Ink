@@ -13,6 +13,14 @@ Backend remains [caller-owned membership discovery](docs/membership-discovery.md
 following private provisioning, readiness and Backend Phase 2 identity/tenant access.
 Read the [latest team report](docs/team-report.md) for each lead's starting point.
 
+15 October verification: [testing target](docs/testing-target.md) adds a 95% gate
+for inventoried backend/shared lines, branches and functions. All 167 root tests
+pass at 99.02%/95.14%/97.84%; this is not full-product coverage or phase completion.
+Source is pushed on `codex/phase-1-verification`; the protected
+[Vercel Preview](https://virtual-8pfjihiax-shadowrootsec-5679.vercel.app) is Ready with
+sampled homepage/shop success. Existing Production dynamic routes fail their
+public-config startup guard. See the dated report for actual limits and blockers.
+
 14 October hosting update: Uchi reports Vercel deployment and Supabase connection.
 The new [multi-service configuration](docs/vercel-services.md) is locally tested:
 public Next.js `web` calls internal Node `app` through an injected binding.

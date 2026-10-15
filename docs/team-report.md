@@ -1,6 +1,20 @@
 # Virtual Ink team report
 
-Latest build: [14 October 2026 — Vercel services configuration](reports/2026-10-14-vercel-services.md).
+Latest verification: [15 October 2026 — Phase 1 verification and GitHub delivery](reports/2026-10-15-phase-1-verification.md).
+
+Word: [Phase 1 verification team report](reports/2026-10-15-phase-1-verification.docx).
+
+167 root and 156 security tests, nine React and nine SDK/Next Auth checks, both
+type checks and the production build pass. All 32 backend/shared inventoried files
+reach 99.02% lines, 95.14% branches and 97.84% functions; full-product testing remains
+incomplete. Source commit 1341eb3 is pushed on codex/phase-1-verification. The actual
+[Preview](https://virtual-8pfjihiax-shadowrootsec-5679.vercel.app) is Ready with sampled
+homepage/shop success; protected automated/API checks remain blocked. Existing
+[Production](https://virtual-ink.vercel.app) has dynamic HTTP 500s from its public-config
+guard. Genuine Auth/files/order/role journeys, release and human acceptance remain
+open. No phase is complete. Word visual QA remains unavailable without LibreOffice.
+
+Previous build: [14 October 2026 — Vercel services configuration](reports/2026-10-14-vercel-services.md).
 
 Word: [Team report — Vercel services configuration](reports/2026-10-14-vercel-services.docx).
 

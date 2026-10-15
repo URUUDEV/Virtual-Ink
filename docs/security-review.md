@@ -1,5 +1,16 @@
 # Virtual Ink recurring security review
 
+15 October: [Phase 1 verification](reports/2026-10-15-phase-1-verification.md) fixes
+uncancelled rejected upstream bodies and the JSON-prefix media check; synthetic
+reproductions fail before and pass after the fixes. 167 root/156 security tests,
+React/Auth checks, type checks and production build pass. Scoped backend/shared
+coverage reaches 99.02% lines, 95.14% branches and 97.84% functions across all 32
+inventoried files; frontend/SQL/genuine hosted workflows remain separate. Preview
+is Ready with sampled page checks; protection blocks automated integration checks.
+Existing Production's instrumentation guard rejects public configuration and returns
+dynamic HTTP 500s. No credential value was revealed or changed. The new October
+Node high-severity release notice and genuine Auth/files/order gates remain open.
+
 Current services slice: [14 October evidence](reports/2026-10-14-vercel-services.md).
 150 application, 139 security, nine React and nine Auth integration tests pass;
 both TypeScript checks, production build, 39 real Vercel-router assertions and

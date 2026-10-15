@@ -1,5 +1,15 @@
 # Virtual Ink Backend Phase 1 validation
 
+15 October: [current verification and delivery](reports/2026-10-15-phase-1-verification.md).
+167 root/156 security, nine React and nine SDK/Next Auth tests, both type checks
+and the production build pass. Backend/shared inventory coverage: 99.02% lines,
+95.14% branches, 97.84% functions across all 32 files. This is a scoped metric;
+frontend/SQL/genuine integrations and product completeness remain separate. Source
+1341eb3 is pushed; Preview is Ready with sampled page checks and a health-handler
+200 runtime event. Automated Preview checks are blocked by Vercel protection;
+existing Production returns dynamic 500s from its public-config startup guard.
+No phase is complete; genuine Auth/private files/order/role workflows remain open.
+
 14 October services slice: [current evidence](reports/2026-10-14-vercel-services.md).
 150 application, 139 security, nine React and nine Auth integration tests, both
 TypeScript checks and production build pass. Native Vercel entrypoint/binding

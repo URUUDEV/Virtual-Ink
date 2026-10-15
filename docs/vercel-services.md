@@ -1,10 +1,15 @@
 # Virtual Ink — Vercel services
 
-Date: 14 October 2026. Owner: Uchi, backend and product lead. Mumba is inactive.
-Status: implemented and locally verified; service names/ingress/binding await
-Uchi's explicitly requested confirmation. Uchi reports an existing Vercel deployment
-connected to Supabase; its URL, service deployment and functional connection have
-not been independently verified in this slice.
+Updated: 15 October 2026. Owner: Uchi, backend and product lead. Mumba is inactive.
+Uchi authorized proceeding with the proposed graph. The existing project is
+`shadowrootsec-5679/virtual-ink`; its Root Directory is now the repository root.
+[Source commit 1341eb3](https://github.com/URUUDEV/Virtual-Ink/commit/1341eb359c46f2e543ba5bbb7b4f1fe4e3960c0d)
+is pushed on `codex/phase-1-verification`; its
+[Preview](https://virtual-8pfjihiax-shadowrootsec-5679.vercel.app) is Ready and sampled
+homepage/shop checks pass through the signed-in browser. Automated requests are
+blocked by Vercel protection; full binding/API verification remains incomplete.
+[Existing Production](https://virtual-ink.vercel.app) has dynamic HTTP 500s from
+its public-config guard. See [actual evidence](reports/2026-10-15-phase-1-verification.md).
 
 ## Service ownership
 
@@ -55,8 +60,8 @@ Do not copy the provisioning CLI environment into either HTTP service. See
 [account setup](phase-1-account-access.md) and [restricted backend setup](live-backend-setup.md).
 The exact HTTPS APP_ORIGIN and confirmation redirect must match each environment.
 
-Confirm the graph before changing the existing hosted project's configuration or
-redeploying this slice. Record actual Preview/Production URLs and results against
+The graph confirmation was supplied on 15 October. Keep Preview protection intact
+and remediate Production configuration privately before rollout. Record results against
 [all 17 hosting gates](phase-completion-checklist.md); no phase is complete here.
 
 ## Local services testing
