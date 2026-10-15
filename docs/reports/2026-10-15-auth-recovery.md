@@ -85,10 +85,18 @@ sensitive administration. Admin MFA enforcement is still unimplemented.
 - Lubasi: confirm the account-help and deletion-request operating process; no
   recovery or deletion service promise is made here.
 
+## GitHub and deployment status
+
+Review branch [`codex/phase-1-auth-recovery`](https://github.com/URUUDEV/Virtual-Ink/tree/codex/phase-1-auth-recovery)
+is pushed to `origin` at commit `6e141a6`. The existing user-owned
+`apps/web/next-env.d.ts` edit was left unstaged. A review branch push does not
+merge to `main` or close Phase 1. No Preview deployment for this commit or
+authenticated Production recovery has yet been verified.
+
 The next backend slice is the eight-role authorization matrix and trusted role
 storage/capability mapping. This slice did not complete AUTH-01/AUTH-02/AUTHZ-01,
 the Phase 1 closure checklist, Vercel workflow gates or human acceptance. No phase
-completion, production URL verification or GitHub push is claimed by this report.
+completion or Production URL verification is claimed by this report.
 
 ## Document quality
 
