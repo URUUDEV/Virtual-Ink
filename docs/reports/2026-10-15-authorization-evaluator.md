@@ -156,22 +156,34 @@ callback and recovery URLs. See the existing account and private setup guides.
 
 ## GitHub and Vercel evidence
 
-Branch: `codex/phase-1-auth-recovery`. This slice's source/report commit and push
-are pending the final document/diff checks; delivery evidence will be appended
-after push. No merge or production promotion has been performed.
+Branch: `codex/phase-1-auth-recovery`. Source/report commit:
+`dea0d6f508897355cfaac454dff97b027ce4a5a7`. The push command stalled without
+terminal output and was interrupted; a non-interactive `git ls-remote` subsequently
+confirmed that exact commit on GitHub. Staged diff validation passed and the user
+`next-env.d.ts` edit remained unstaged. No merge or production promotion was made.
+
+Current-slice Preview: https://virtual-nhoy63uw4-shadowrootsec-5679.vercel.app
+Vercel deployment `BphbmS5cVfmChpLeZcXapJpMY54u` is Ready for source `dea0d6f`,
+as observed in the project deployment list on 15 October 2026. Chrome used the
+requested Shadow Root profile. A subsequent deployment-detail/live-page check
+timed out and reset browser control. The deployment build passes; current Preview
+UI/API smoke checks are blocked, not passed. No protection setting or authentication
+bypass was changed. The evaluator is not called by a deployed route, so Ready does
+not establish hosted role authorization.
 
 Last tested Auth recovery Preview:
 https://virtual-mbe2i0pjp-shadowrootsec-5679.vercel.app
 Deployment `FL46saDJnCuvFqj44pPLLiVUkvfg`, source `07af4b1`, Ready and sampled
 on 15 October 2026 at 14:15 UTC. Auth is disabled there. Forgot-password shows the
 disabled state; guest reset redirects to login. This is earlier evidence and does
-not verify the current evaluator on a deployed route. Current-slice Preview
-build/public regression verification remains pending after push.
+not verify the current evaluator on a deployed route.
 
 Existing Production: https://virtual-ink.vercel.app
-The latest previously tested application source is `5c55364`; it predates this
-slice. Its public/health/guest checks passed. No production role/file/order
-workflow is verified, and this slice has not been promoted to Production.
+The dashboard now shows Ready deployment `4oeSmHcDPSgwoDeHXVm3gbefvgMd`, source
+`e5ce1cf`, from the separate Web Analytics merge on `main`. That existing work is
+preserved and was not tested by this slice. The latest previously tested
+application source is `5c55364`; its public/health/guest checks passed. No
+production role/file/order workflow is verified, and this slice was not promoted.
 
 ## Known limitations and exact next action
 
