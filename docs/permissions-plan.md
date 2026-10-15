@@ -2,6 +2,8 @@
 
 Owners: Uchi Chinyama and Mumba Chitonge, collaborating on backend engineering per the 15 October Phase 1 mission. Status: **Backend Phase 2 narrow implementation delivered**; business capability matrix below describes future access. Implemented now: verified permanent identity and active application mapping, own vendor tenant scope, explicit expiring operator tenant review grants and transaction-bound access audits. All private files/proofs, role changes and pricing capabilities remain closed. Guest/tenant defaults still need Uchi acknowledgement. See [current implementation](backend-phase-2.md).
 
+For Phase 1's requested eight-role target, see the [new resource permission matrix](phase-1-permission-matrix.md). It is design only; the narrower roles below describe the code that currently exists.
+
 ## Role access and prohibitions
 
 | Role | Intended allowed access, after implementation | Must never access |

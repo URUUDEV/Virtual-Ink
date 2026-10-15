@@ -1,6 +1,8 @@
 # Virtual Ink team report
 
-Latest build handover: [15 October 2026 — Password recovery slice](reports/2026-10-15-auth-recovery.md) and [Word copy](reports/2026-10-15-auth-recovery.docx). Synthetic local Auth/Next tests, build, TypeScript and 95% scoped coverage pass. Genuine email delivery, provider setup and deployed password reset remain unverified; Phase 1 is PARTIAL. The [inspection/gap report](reports/2026-10-15-phase-1-gap-report.md) and [closure checklist](phase-1-closure-checklist.md) remain the requirement baseline. Uchi Chinyama and Mumba Chitonge collaborate on backend work. No human signoff is claimed.
+Latest handover: [15 October 2026 — Phase 1 permission matrix](reports/2026-10-15-permission-matrix.md) and [Word copy](reports/2026-10-15-permission-matrix.docx). Structural document validation passes; visual pagination needs unavailable LibreOffice. The eight-role matrix is proposed for review; no route, database or storage grants were widened. Phase 1 remains PARTIAL. Uchi and Mumba collaborate on backend work; human decisions/signoff remain pending.
+
+Previous build handover: [15 October 2026 — Password recovery slice](reports/2026-10-15-auth-recovery.md) and [Word copy](reports/2026-10-15-auth-recovery.docx). Synthetic local Auth/Next tests, build, TypeScript and 95% scoped coverage pass. Genuine email delivery, provider setup and deployed password reset remain unverified.
 
 Previous handover: [15 October 2026 — Phase 1 inspection and gap report](reports/2026-10-15-phase-1-gap-report.md) and [Word copy](reports/2026-10-15-phase-1-gap-report.docx). The matching DOCX structural audit passes; visual pagination QA needs LibreOffice, which is absent.
 

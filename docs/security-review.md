@@ -1,5 +1,12 @@
 # Virtual Ink recurring security review
 
+15 October 2026: [Phase 1 permission matrix handover](reports/2026-10-15-permission-matrix.md)
+defines proposed role/resource deny rules. No executable enforcement changed in this
+documentation step. Conditional IDOR, forged-role, mixed-role and delivery-file
+threats require route/RLS/Storage tests before enabling workflows; no new route or
+data grant was opened. Organization authority, break-glass, MFA and retention
+decisions remain pending.
+
 15 October 2026: [Password recovery slice](reports/2026-10-15-auth-recovery.md)
 adds a fixed PKCE callback, bounded password update, generic reset response and
 provider-verified session requirement. Synthetic tests cover callback query

@@ -30,7 +30,7 @@ the human and Vercel gates pass.
   vendor application/verification, administrator-controlled privileged account
   creation, suspended-account denial and a documented/enforced administrator
   MFA path. Include negative UI/API tests in Preview and Production.
-- [ ] **AUTHZ-01 — Authorization:** approved role/resource permission matrix and
+- [ ] **AUTHZ-01 — Authorization:** approved [role/resource permission matrix](phase-1-permission-matrix.md) and
   server checks for routes/actions/admin operations; PostgreSQL RLS and private
   Storage policies; own-order, assigned-vendor, organization scope and delivery
   exclusion tests; no vendor self-assignment or self-approved customer proof.
