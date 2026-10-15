@@ -17,7 +17,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
   const product = findDemoProduct((await params).slug);
   if (!product) notFound();
   return <section className="section container"><Link href="/shop" className="text-link detail-back"><ArrowLeft size={16} /> All products</Link>
-    <div className="product-detail-grid"><figure className="detail-image"><Image src={productImage(product)} alt={`${product.name} supplied mockup; final colours and specifications unconfirmed`} width={900} height={900} sizes="(max-width: 780px) 90vw, 50vw" priority /><figcaption>Supplied product mockup · 2D reference</figcaption></figure>
+    <div className="product-detail-grid"><figure className="detail-image"><Image src={productImage(product)} unoptimized alt={`${product.name} supplied mockup; final colours and specifications unconfirmed`} width={900} height={900} sizes="(max-width: 780px) 90vw, 50vw" priority /><figcaption>Supplied product mockup · 2D reference</figcaption></figure>
       <div className="detail-copy"><p className="eyebrow">{product.group.toUpperCase()} / VISUAL COLLECTION</p><h1>{product.name}</h1><p className="detail-description">{product.description}</p>
         <div className="detail-price"><strong>From {formatDemoPrice(product.price)}</strong><span>Illustrative price · {product.unit}</span></div>
         <dl className="detail-specs"><div><dt>Finish</dt><dd>{product.finish}</dd></div><div><dt>Vendor</dt><dd>To be confirmed</dd></div><div><dt>Options & availability</dt><dd>Awaiting vendor specifications</dd></div><div><dt>Collection & delivery</dt><dd>Zones and turnaround unconfirmed</dd></div></dl>

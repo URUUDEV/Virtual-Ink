@@ -10,7 +10,7 @@ export function ProductShowcase() {
   return <section className="product-showcase" aria-label="Product showcase" aria-roledescription="carousel">
     <div className="showcase-top"><span>THE POSSIBILITIES, IN PRINT</span><span className="showcase-badge">Visual collection</span></div>
     <div className="showcase-stage"><div className="showcase-ring" aria-hidden="true" />
-      <Image key={product.slug} src={productImage(product)} alt={`${product.name} supplied product mockup, static 2D image`} width={600} height={600} sizes="(max-width: 780px) 90vw, 45vw" priority />
+      <Image key={product.slug} src={productImage(product)} unoptimized alt={`${product.name} supplied product mockup, static 2D image`} width={600} height={600} sizes="(max-width: 780px) 90vw, 45vw" priority />
     </div>
     <div className="showcase-bottom"><div aria-live="polite" aria-atomic="true"><p>{product.name}</p><span>{String(index + 1).padStart(2, '0')} / 06 · {product.finish}</span></div>
       <Link href={`/shop/${product.slug}`} className="showcase-detail" aria-label={`Explore ${product.name}`}><ArrowUpRight size={22} /></Link></div>

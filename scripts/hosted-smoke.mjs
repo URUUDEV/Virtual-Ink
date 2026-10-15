@@ -12,6 +12,30 @@ if (target.protocol !== 'https:' || target.username || target.password || target
   throw new Error('Use an HTTPS Virtual Ink deployment URL copied from the approved Vercel project.');
 }
 const results = [];
+const imagePaths = new Set();
+async function inspectPage(response) {
+  if (!response.headers.get('content-type')?.startsWith('text/html')) return false;
+  const reader = response.body.getReader();
+  const chunks = []; let bytes = 0;
+  try {
+    while (true) {
+      const {done, value} = await reader.read(); if (done) break;
+      bytes += value.byteLength;
+      if (bytes > 1024 * 1024) { await reader.cancel(); throw new Error('Page size bound exceeded'); }
+      chunks.push(value);
+    }
+  } finally { reader.releaseLock(); }
+  const html = Buffer.concat(chunks).toString('utf8');
+  let images = 0;
+  for (const match of html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)) {
+    const image = new URL(match[1].replaceAll('&amp;', '&'), target);
+    if (image.origin !== target.origin || image.username || image.password ||
+      !['/_next/image','/_next/static/media/','/images/products/'].some(path => image.pathname === path || path.endsWith('/') && image.pathname.startsWith(path))) return false;
+    imagePaths.add(`${image.pathname}${image.search}`); images++;
+    if (imagePaths.size > 20) return false;
+  }
+  return images > 0;
+}
 async function check(path, expected, inspect, method = 'GET') {
   let status = null, passed = false, protectedPreview = false;
   try {
@@ -27,8 +51,9 @@ async function check(path, expected, inspect, method = 'GET') {
     ...(protectedPreview ? { reason: 'vercel_deployment_protection' } : {}) });
 }
 for (const path of ['/', '/shop', '/login', '/register', '/vendors/join']) {
-  await check(path, 200, response => response.headers.get('content-type')?.startsWith('text/html'));
+  await check(path, 200, inspectPage);
 }
+for (const path of imagePaths) await check(path, 200, response => response.headers.get('content-type')?.startsWith('image/'));
 for (const path of ['/health', '/api/v1/health']) {
   await check(path, 200, async response => {
     const body = await readUpstreamJson(response);
