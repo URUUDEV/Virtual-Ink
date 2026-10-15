@@ -50,7 +50,7 @@ export function TshirtWorkspace() {
         target instanceof HTMLElement && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))) return;
       const key = event.key.toLowerCase();
       if (key !== 'z' && key !== 'y') return;
-      event.preventDefault(); dispatch({ type: key === 'y' || event.shiftKey ? 'redo' : 'undo' });
+      event.preventDefault(); setError(''); dispatch({ type: key === 'y' || event.shiftKey ? 'redo' : 'undo' });
     }
     window.addEventListener('keydown', keyboard);
     return () => window.removeEventListener('keydown', keyboard);
@@ -135,9 +135,9 @@ export function TshirtWorkspace() {
   ] as const;
   return <div className="design-workspace">
     <div className="workspace-actions"><div><span className="workspace-step">01 / CREATE YOUR CONCEPT</span><p>Cotton T-Shirt <span>·</span> Front placement guide</p></div>
-      <div className="workspace-history"><button type="button" className="workspace-icon" aria-label="Undo design change" disabled={busy || !history.past.length && !history.start} onClick={() => dispatch({ type: 'undo' })}><Undo2 size={18} /></button>
-        <button type="button" className="workspace-icon" aria-label="Redo design change" disabled={busy || !history.future.length} onClick={() => dispatch({ type: 'redo' })}><Redo2 size={18} /></button>
-        <button type="button" className="workspace-icon" aria-label="Reset design" disabled={busy} onClick={() => { dispatch({ type: 'change', design: initialDesign }); setLayer('text'); setMessage('Design reset. Undo brings your previous design back.'); }}><RotateCcw size={18} /></button></div></div>
+      <div className="workspace-history"><button type="button" className="workspace-icon" aria-label="Undo design change" disabled={busy || !history.past.length && !history.start} onClick={() => { setError(''); dispatch({ type: 'undo' }); }}><Undo2 size={18} /></button>
+        <button type="button" className="workspace-icon" aria-label="Redo design change" disabled={busy || !history.future.length} onClick={() => { setError(''); dispatch({ type: 'redo' }); }}><Redo2 size={18} /></button>
+        <button type="button" className="workspace-icon" aria-label="Reset design" disabled={busy} onClick={() => { setError(''); dispatch({ type: 'change', design: initialDesign }); setLayer('text'); setMessage('Design reset. Undo brings your previous design back.'); }}><RotateCcw size={18} /></button></div></div>
     <div className="workspace-grid"><aside className="workspace-tools" aria-label="Design controls"><fieldset disabled={busy}>
       <div className="workspace-panel-heading"><Type size={19} /><h2>Your words, your way.</h2></div>
       <label className="workspace-field" htmlFor="design-text">Text<textarea id="design-text" aria-describedby="design-text-help" value={design.text} maxLength={72} rows={3} onFocus={begin} onBlur={end} onChange={event => {

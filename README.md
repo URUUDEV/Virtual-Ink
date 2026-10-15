@@ -13,6 +13,26 @@ Backend remains [caller-owned membership discovery](docs/membership-discovery.md
 following private provisioning, readiness and Backend Phase 2 identity/tenant access.
 Read the [latest team report](docs/team-report.md) for each lead's starting point.
 
+14 October hosting update: Uchi reports Vercel deployment and Supabase connection.
+The new [multi-service configuration](docs/vercel-services.md) is locally tested:
+public Next.js `web` calls internal Node `app` through an injected binding.
+Service names/ingress/binding await Uchi's requested confirmation; hosted URLs and
+the new deployed integration checks remain unverified.
+
+14 October ownership and implementation: Uchi handles backend engineering and
+product leadership; Mumba is inactive. Work through product phases sequentially.
+Phase 1 now has [account entry and server session handling](docs/phase-1-account-access.md)
+for registration/login/email confirmation/logout and a protected account page.
+Hosted Auth is disabled pending private setup and genuine testing. The remaining
+MVP order journey and every Vercel gate still block phase completion.
+
+14 October strict QA: **all four product phases remain incomplete**. The MVP
+order/quote/payment/delivery journey is unbuilt and Vercel deployment is unverified.
+Current [phase audit](docs/reports/2026-10-14-phase-completion-audit.md) records
+fresh tests/build/browser/SQL evidence and two fixed UI defects. Hosted catalog
+now has 18 private tables and 10 migrations; the API readiness contract covers
+the original nine tables. Provider bridge and genuine runtime connection remain open.
+
 14 October: [vendor backend foundation review](docs/vendor-onboarding-foundation.md)
 adds isolated portable SQL replay evidence and fixes empty pagination validation.
 It remains disconnected from HTTP; genuine provider verification, hosted migration
@@ -64,8 +84,8 @@ phase complete. Current deployment evidence remains unverified.
 
 | Person | Role |
 | --- | --- |
-| Uchi Chinyama | Product and Project Lead |
-| Mumba Chitonge | Technical Lead |
+| Uchi Chinyama | Product, Project and Backend Lead |
+| Mumba Chitonge | Inactive; no current tasks assigned |
 | Taizya Nakapende | UX and Visual Design Lead |
 | Lubasi Monde | Partnerships and Operations Lead |
 
@@ -125,7 +145,7 @@ The build excludes full marketplace, checkout, server uploads, dashboards, custo
 
 The repository is at `D:\Work\Projects\virtual-ink`. Preserve `asssets/` (the supplied spelling). The approved logo is used unchanged; reference boards are clearly labelled concepts, not live products, prices or functioning controls. No replacement images are generated.
 
-Supabase-managed PostgreSQL is the initial hosted backend direction. The free-tier development project `odgxcuwueessxfsoveza` is active in `eu-west-1` at `https://odgxcuwueessxfsoveza.supabase.co`. Backend Phase 2 now has nine private application tables, scoped RLS, identity/tenant access, durable read audits and onboarding commit audit constraints. There are zero business rows after rolled-back security tests. Runtime driver/logins, genuine Auth verification and private Storage setup remain open. Application tables/permissions remain standard PostgreSQL and server-owned so the database can move to owned PostgreSQL later.
+Supabase-managed PostgreSQL is the initial hosted backend direction. The free-tier development project `odgxcuwueessxfsoveza` is active in `eu-west-1` at `https://odgxcuwueessxfsoveza.supabase.co`. The 14 October catalog verifies 18 private application tables with enabled/forced RLS and 10 migrations, including vendor core/commands. All 18 table counts are zero after rollback tests. The original API readiness contract still checks nine foundation tables. Root pg 8.23.1 is installed. Vendor provider bridge, HTTP intake, restricted runtime logins/CA, genuine Auth and private Storage remain unverified/disabled. The two hosted vendor migration versions need repository reconciliation. Application tables/permissions remain standard PostgreSQL and server-owned so the database can move to owned PostgreSQL later.
 
 ## Run locally
 

@@ -1,13 +1,22 @@
 # Virtual Ink — live backend setup and readiness
 
-14 October boundary: [vendor foundation](vendor-onboarding-foundation.md) is
-reviewed only in an isolated local PostgreSQL 18 database. Its provider bridge
-is unverified. Do not apply it or enable vendor service credentials as part of
-this nine-table runtime setup; migration, genuine Auth and acceptance remain open.
+14 October Vercel update: Uchi reports deployment and Supabase connection.
+[Multi-service setup](vercel-services.md) is implemented and locally verified;
+the project must read root vercel.json. Service names/ingress/binding await
+confirmation; actual hosted URLs and functional Auth/database checks remain open.
 
-Date: 2026-10-09. Technical owner: Mumba Chitonge; product reviewer: Uchi Chinyama.
+14 October QA boundary: [vendor foundation](vendor-onboarding-foundation.md) core
+and transaction scope are present in the hosted development catalog. There are
+18 private tables and 10 migrations; original API readiness checks nine tables.
+Provider bridge and HTTP intake are absent. Hosted/local rollback fixtures pass,
+but credentials/CA/Auth and migration-history reconciliation remain blocked.
+The application driver is now installed as pinned `pg` 8.23.1; setup reports
+`PG_DRIVER=pass`. Do not reapply core SQL or enable credentials from these findings.
+
+Original setup date: 2026-10-09. Current backend owner and product lead: Uchi Chinyama (updated 2026-10-14). Mumba is inactive.
 Status: setup tooling and disabled service accounts delivered for review. Genuine
-login-to-API verification has not been completed. No production deployment exists.
+login-to-API verification has not been completed. Vercel deployment is unverified;
+no Preview/Production URL was supplied for the latest QA.
 
 The [Vercel phase completion gate](phase-completion-checklist.md) additionally
 requires deployed database, storage, Auth, role dashboards, API and protected-route
@@ -106,11 +115,12 @@ the Windows Supabase CLI binary remains unavailable. Do not reapply it to this
 project. Fresh owned PostgreSQL 17 needs all eight Phase 2 migrations replayed in order
 and verified; that replay has not been performed here.
 
-## Mumba's private setup sequence
+## Uchi's private setup sequence
 
-1. Restore legitimate npm registry access on a connected machine, then install
-   pg with npm install --save-exact pg and commit the actual package-lock.json.
-   Do not fabricate a version/lockfile or reuse an unrelated project's driver.
+1. Restore dependencies with `npm ci` at repository root and
+   `npm --prefix apps/web ci` using reviewed Node. The root driver is pinned at
+   `pg` 8.23.1; retain its generated lockfile. See [account setup](phase-1-account-access.md)
+   for the separate Next.js environment and Auth switch.
 2. Download the correct project CA from the approved Supabase dashboard source.
    Keep it in a private local path and use actual Connect-panel endpoints. This
    slice does not create or substitute a certificate.

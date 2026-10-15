@@ -1,6 +1,46 @@
 # Virtual Ink team report
 
-Latest handover: [14 October 2026 — Vercel phase completion gate](reports/2026-10-14-vercel-completion-gate.md).
+Latest build: [14 October 2026 — Vercel services configuration](reports/2026-10-14-vercel-services.md).
+
+Word: [Team report — Vercel services configuration](reports/2026-10-14-vercel-services.docx).
+
+Root services configuration, native Node entrypoint and runtime web-to-app binding
+are implemented and locally verified. Proposed graph: public web catch-all,
+internal app, web calls app through generated APP_SERVICE_URL. 150 application,
+139 security, nine React and nine Auth integration tests, both type checks and
+production build pass. Real Vercel local routing/binding passes 39 assertions
+across 16 requests; standalone checks pass 53 + 44 assertions. Uchi reports existing
+Vercel/Supabase setup; actual URLs and new hosted checks remain unverified. Names,
+public paths/internal exposure and binding await Uchi's explicit confirmation.
+No phase is complete. Word structural checks apply; page rendering is unavailable.
+
+Previous build: [14 October 2026 — Phase 1 account access and ownership](reports/2026-10-14-phase-1-account-access.md).
+
+Word: [Team report — Phase 1 account access and ownership](reports/2026-10-14-phase-1-account-access.docx).
+
+Uchi now owns backend engineering and product leadership; Mumba is inactive.
+Registration/login/PKCE confirmation/logout, server sessions and protected account
+entry are implemented with hosted Auth disabled pending genuine setup. 141 application,
+130 security, nine React and nine real SDK/Next integration tests pass; both type checks,
+clean production build, 53 existing and 44 account HTTP assertions pass. The protected
+redirect bug is fixed and retested. Driver `pg` 8.23.1 is installed; private DB/Auth
+and Vercel verification remain blocked. Phase 1 remains incomplete; build phases in order.
+
+Previous verification: [14 October 2026 — Strict phase completion audit](reports/2026-10-14-phase-completion-audit.md).
+
+Word: [Team report — Strict phase completion audit](reports/2026-10-14-phase-completion-audit.docx).
+
+Verdict: Phase incomplete. Estimated coverage: MVP 17%, Trust/operations 8%,
+Marketplace growth 5%, Differentiation 43%; estimates are not phase approvals.
+The full order journey is missing and Vercel URLs/checks are unverified.
+132 application tests, 121 security tests, nine React/3D checks, both TypeScript
+checks, production build with documented warnings, 53 HTTP assertions and 67
+additional denial assertions pass. Browser Undo/FAQ bugs are fixed and retested.
+Hosted identity/vendor rollback tests pass; current catalog has 18 private tables,
+10 migrations and zero business records/Storage objects. Genuine runtime/Auth,
+native file selection, full accessibility and migration reconciliation remain open.
+
+Previous handover: [14 October 2026 — Vercel phase completion gate](reports/2026-10-14-vercel-completion-gate.md).
 
 Word: [Team report — Vercel phase completion gate](reports/2026-10-14-vercel-completion-gate.docx).
 
@@ -126,7 +166,7 @@ request is recorded in AGENTS.md. Reports do not mark product or lead approval.
 Regenerate a report with Python and python-docx installed for document tooling:
 
 ```powershell
-python scripts/generate_team_report.py docs/reports/2026-10-14-vercel-completion-gate.md
+python scripts/generate_team_report.py docs/reports/2026-10-14-phase-completion-audit.md
 ```
 
 The generator validates OOXML package and fixed table geometry, preserves the

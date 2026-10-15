@@ -17,6 +17,11 @@ human acceptance gates in force.
 
 ## Team reporting
 
+Current ownership (Uchi, 2026-10-14): Uchi handles backend engineering and product
+leadership. Mumba is inactive; assign current technical work to Uchi. Preserve
+historical ownership and reports. Complete product phases in order, starting with
+the full Phase 1 MVP; a delivered slice does not close a phase.
+
 Uchi requested on 2026-10-09: always generate a report for the team after build work.
 For every completed build slice or handover:
 
@@ -58,9 +63,14 @@ This is standing authorization for relevant tests and controlled local probes.
 
 Backend Phase 2 contains a narrow identity/tenant-access read with durable audits.
 Caller-owned membership discovery now adds bounded pagination and a self-scoped
-append-only audit table. Runtime readiness requires nine tables; source PDFs guide
+append-only audit table. API runtime readiness checks the original nine tables; source PDFs guide
 remaining lifecycle/audit-review gates. Genuine Auth setup and human acceptance
 remain pending; don't claim the full Phase 2 PDF is complete.
+The 2026-10-14 QA catalog now verifies 18 hosted private application tables and
+10 migrations, including vendor core/transaction scope. The provider bridge and
+HTTP vendor intake are absent. Reconcile the two hosted vendor migration versions
+with repository migration history before further rollout. Hosted schema presence
+does not establish genuine Auth, application DB connection or phase completion.
 Private development onboarding now uses a separate provisioning CLI/group and
 matching transaction audit constraints. Keep its credentials out of HTTP/web
 environments. No real onboarding or genuine login verification has been completed.

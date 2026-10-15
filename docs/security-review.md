@@ -1,5 +1,39 @@
 # Virtual Ink recurring security review
 
+Current services slice: [14 October evidence](reports/2026-10-14-vercel-services.md).
+150 application, 139 security, nine React and nine Auth integration tests pass;
+both TypeScript checks, production build, 39 real Vercel-router assertions and
+53 + 44 standalone assertions pass. Internal bridge allowlists reads, preserves
+bearer verification/RLS, bounds upstream JSON and strips unsafe headers/redirects.
+Missing deployed binding and runtime startup errors return safe denials. Auth
+proxy/build code never reads the binding. Root/web audits report zero vulnerabilities.
+No hosted schema/user/permission/deployment change was made; graph confirmation
+and genuine deployed security/integration checks remain pending.
+
+Current account-access slice: [14 October evidence](reports/2026-10-14-phase-1-account-access.md).
+141 application, 130 security, nine React and nine real SDK/Next handler tests pass;
+both TypeScript checks, clean production build, 53 existing and 44 account HTTP
+assertions pass. Origin/role injection, invalid bodies, tampered cookies and PKCE
+redirect misuse are denied. Protected account now redirects with HTTP 307 before
+rendering. Root/web dependency audits report zero vulnerabilities; 48 built static
+files have no matching secret patterns. Expected malformed-cookie SDK warnings
+occur in the negative integration test and are documented. Genuine Auth, role
+mapping, distributed abuse controls, private files and Vercel remain unverified;
+hosted Auth stays disabled. No new hosted grant, user or business record was created.
+
+Current application QA: [14 October strict phase audit](reports/2026-10-14-phase-completion-audit.md).
+Guest/role-header spoof, malformed identity, protected writes and missing/private
+workflow probes return safe denials: 67 additional assertions pass. 132 application
+tests, 121 security regressions, nine React/3D checks, type checks, build and 53
+HTTP assertions pass; driver/root warnings remain. Hosted identity/vendor rollback
+fixtures pass; all 18 table counts return to zero. All tables have forced RLS;
+client roles cannot access private vendor tables/functions. Storage has zero objects.
+43 local static JS/JSON/map files have no matching secret patterns; this is heuristic
+and does not verify deployed bundles/history. One INFO security advisor finding
+remains intentionally fail-closed; performance findings are documented in the report.
+Genuine Auth/session, future financial/file controls and all Vercel gates remain open.
+No authorization bypass or credential disclosure was reproduced in this scope.
+
 Current documentation handover: [14 October Vercel completion gate](reports/2026-10-14-vercel-completion-gate.md).
 Phase closure now requires local/testing evidence and every Vercel verification
 item, including deployed frontend-secret and protected-route checks. Evidence
@@ -56,7 +90,7 @@ Private official-checksum-verified Node 24.21.0 passes the runtime gate, tests a
 production build. Default Node 24.14.1 still fails. Public HTTP/browser probes
 improve local evidence; genuine backend setup, bundle/history and release gates remain.
 
-Owner: Mumba Chitonge. Product decisions: Uchi Chinyama.
+Owner and product decisions: Uchi Chinyama. Mumba is inactive as of 14 October 2026.
 Standing instruction: review, test, fix and report after every meaningful build
 step or handover. The gate is recorded in AGENTS.md. It is not a background scanner
 or a claim that the whole system has been penetration tested.

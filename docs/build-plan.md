@@ -1,8 +1,25 @@
 # Virtual Ink starting build plan
 
-Uchi Chinyama and Mumba Chitonge coordinate each accepted vertical slice. Taizya Nakapende supplies UX evidence; Lubasi Monde supplies verified operations facts. This sequence combines the backend foundation brief with the master UI direction without treating all future modules as completed work.
+Vercel services addition, 14 October: [setup](vercel-services.md) defines public
+web and internal app with a runtime caller-owned binding. Local code/build/router
+checks pass; confirm service graph and verify actual Preview/Production before
+using the change as phase completion evidence.
+
+Uchi Chinyama owns backend engineering and product leadership as of 14 October 2026; Mumba is inactive. Taizya Nakapende supplies UX evidence; Lubasi Monde supplies verified operations facts. Work through the full product phases in order, starting with the Phase 1 MVP. Each slice has verification and a report; phase closure additionally requires the full user flow and Vercel evidence.
+
+First MVP slice: [account access](phase-1-account-access.md) adds real provider
+integration code with local synthetic verification, while genuine hosted Auth remains
+disabled. Next: application role mapping, private file/order persistence, vendor quotes,
+admin manual status workflow and Vercel Preview/Production E2E verification.
 
 ## Current slice boundaries
+
+2026-10-14 strict QA: Uchi's product MVP/Trust/Marketplace/Differentiation checklists
+are broader than existing Backend Phase 1/2 slice names. All product phases are
+incomplete; full order-to-delivery and Vercel verification are missing. Use the
+[criterion-by-criterion audit](reports/2026-10-14-phase-completion-audit.md) to
+prioritize Auth/private files/order/quote/manual-status work. Public/local editor
+delivery and synthetic SQL success do not replace those flows or human acceptance.
 
 2026-10-14: the unfinished vendor backend foundation has isolated PostgreSQL 18
 replay/rollback evidence and corrected empty pagination validation. Provider bridge,

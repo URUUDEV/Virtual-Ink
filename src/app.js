@@ -5,8 +5,8 @@ import { ApiError } from './backend/api/errors.ts';
 import { handleApi } from './backend/api/responses.ts';
 import { accessResponse } from './backend/identity/routes.ts';
 
-export function createApp({ logger = () => {}, access } = {}) {
-  const server = createServer({ maxHeaderSize: 16 * 1024 }, async (req, res) => {
+export function createRequestHandler({ logger = () => {}, access } = {}) {
+  return async (req, res) => {
     const pathname = (req.url ?? '').split('?')[0];
     if (pathname.startsWith('/api/')) {
       const acceptedMethod = ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'].includes(req.method);
@@ -56,7 +56,11 @@ export function createApp({ logger = () => {}, access } = {}) {
     const payload = JSON.stringify(body);
     res.setHeader('Content-Length', Buffer.byteLength(payload));
     res.end(req.method === 'HEAD' ? undefined : payload);
-  });
+  };
+}
+
+export function createApp(options = {}) {
+  const server = createServer({ maxHeaderSize: 16 * 1024 }, createRequestHandler(options));
 
   server.requestTimeout = 15_000;
   server.headersTimeout = 10_000;

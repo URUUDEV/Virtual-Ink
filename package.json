@@ -13,12 +13,16 @@
     "test": "node --test --test-isolation=none",
     "security:check": "node scripts/security-check.ts",
     "security:runtime": "node scripts/security-runtime.ts",
-    "test:security": "node --test --test-isolation=none test/security.test.ts test/security-check.test.ts test/identity.test.ts test/memberships.test.ts test/backend.test.ts test/app.test.js test/database-config.test.ts test/provisioning.test.ts test/setup.test.ts test/supabase-rest.test.ts test/design-workspace.test.ts test/vendor-application.test.ts test/vendor-onboarding.test.ts",
+    "test:security": "node --test --test-isolation=none test/security.test.ts test/security-check.test.ts test/identity.test.ts test/memberships.test.ts test/backend.test.ts test/app.test.js test/database-config.test.ts test/provisioning.test.ts test/setup.test.ts test/supabase-rest.test.ts test/design-workspace.test.ts test/vendor-application.test.ts test/vendor-onboarding.test.ts test/web-auth.test.ts test/service-binding.test.ts test/vercel-runtime.test.js",
+    "dev:services": "vercel dev --local --listen 127.0.0.1:3100",
+    "test:auth:web": "node --test --test-isolation=none scripts/web-auth-checks.mjs",
     "dev:web": "npm --prefix apps/web run dev",
     "build:web": "npm --prefix apps/web run build",
     "typecheck:web": "npm --prefix apps/web run typecheck",
     "test:web": "node --test --test-isolation=none scripts/web-ui-checks.mjs",
     "check:web:http": "node scripts/web-http-checks.mjs",
+    "check:auth:http": "node scripts/web-auth-http-checks.mjs",
+    "check:services:http": "node scripts/vercel-services-http-checks.mjs",
     "db:migrate": "node --env-file-if-exists=.env scripts/database.ts migrate",
     "db:seed": "node --env-file-if-exists=.env scripts/database.ts seed",
     "test:db": "node --env-file-if-exists=.env scripts/database.ts test",
@@ -27,5 +31,8 @@
     "test:auth:live": "node --env-file-if-exists=.env scripts/auth-smoke.ts",
     "setup:check": "node scripts/setup-check.ts",
     "setup:init": "node scripts/setup-init.ts"
+  },
+  "dependencies": {
+    "pg": "8.23.1"
   }
 }

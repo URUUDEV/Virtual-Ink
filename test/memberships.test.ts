@@ -211,7 +211,10 @@ test('self-scoped audit accepts only membership-list events and Next route deleg
     assert.throws(() => createAuditEvent({ ...input, ...change }), ApiError);
   }
   const source = await readFile('apps/web/src/app/api/v1/memberships/route.ts', 'utf8');
-  assert.ok(source.includes("import { accessResponse } from '@backend/identity/routes.ts'"));
-  assert.ok(source.includes('await backendAccess()'));
+  assert.ok(source.includes("import { backendAccessResponse } from '@/lib/backend-access'"));
+  assert.ok(source.includes('export const GET = backendAccessResponse'));
+  const adapter = await readFile('apps/web/src/lib/backend-access.ts', 'utf8');
+  assert.ok(adapter.includes("import { accessResponse } from '@backend/identity/routes.ts'"));
+  assert.ok(adapter.includes('boundAppResponse(request)') && adapter.includes('await backendAccess()'));
   for (const method of ['HEAD','POST','PUT','PATCH','DELETE','OPTIONS']) assert.ok(source.includes(`export const ${method} = GET`));
 });

@@ -2,6 +2,11 @@
 
 ## Mandatory completion gate — updated 14 October 2026
 
+Latest [strict product-phase audit](reports/2026-10-14-phase-completion-audit.md):
+Phase incomplete. This historical foundation checklist does not cover the broader
+MVP order/quote/payment/delivery requirements. Those journeys and Vercel evidence
+are missing; keep phase closure unchecked regardless of foundation delivery checks.
+
 Phase 1 remains incomplete until the application works locally, passes testing
 and is successfully hosted on Vercel, with the deployed URL in the completion
 report. Complete every item in the [phase completion and Vercel checklist](phase-completion-checklist.md).
@@ -56,7 +61,7 @@ This checklist records Phase 1 behavior only. Database, auth, tenant isolation, 
 ## Lead acknowledgement and approval
 
 - [ ] Uchi Chinyama acknowledges scope, task ownership and review procedure.
-- [ ] Mumba Chitonge acknowledges baseline, technical decisions and security obligations.
+- [ ] Uchi reviews baseline, technical decisions and security obligations as the current backend owner. Mumba is inactive.
 - [ ] Taizya Nakapende acknowledges UX handover and placeholder approach.
 - [ ] Lubasi Monde acknowledges discovery, evidence and operations handover requirements.
 - [ ] Canonical repository access and board ownership agreed.
@@ -67,14 +72,14 @@ This checklist records Phase 1 behavior only. Database, auth, tenant isolation, 
 | Lead | Decision / acknowledgement | Date | Evidence / remaining action |
 | --- | --- | --- | --- |
 | Uchi Chinyama | Pending | Pending | Scope and final review required |
-| Mumba Chitonge | Pending | Pending | Baseline and stack/tenant proposal review required |
+| Backend owner: Uchi Chinyama | Pending | Pending | Technical evidence review required; Mumba inactive from 2026-10-14 |
 | Taizya Nakapende | Pending | Pending | UX template acknowledgement required |
 | Lubasi Monde | Pending | Pending | Discovery template acknowledgement required |
 
 ## Phase 2 readiness
 
 - [ ] Uchi approves one infrastructure acceptance record and its permission/tenant boundaries.
-- [ ] Mumba records stack/database/identity and tenant/access decisions.
+- [ ] Uchi records stack/database/identity and tenant/access decisions.
 - [ ] Required blockers have owners and the next approved work item is Ready.
 - [ ] Relevant UX and operations handovers are accepted, or N/A is recorded with a reason for the infrastructure slice.
 

@@ -1,5 +1,32 @@
 # Virtual Ink Backend Phase 1 validation
 
+14 October services slice: [current evidence](reports/2026-10-14-vercel-services.md).
+150 application, 139 security, nine React and nine Auth integration tests, both
+TypeScript checks and production build pass. Native Vercel entrypoint/binding
+negatives pass; real vercel dev --local routing passes 39 assertions over 16
+requests. Standalone 53 + 44 assertions pass. Uchi reports hosted deployment/
+Supabase connection; URLs, graph confirmation and deployed functional checks remain open.
+
+14 October account slice: [current evidence](reports/2026-10-14-phase-1-account-access.md).
+141 application, 130 security, nine React and nine real SDK/Next handler tests,
+web/strict backend TypeScript, clean production build, 53 existing and 44 new
+loopback HTTP assertions pass. Root `pg` 8.23.1 is installed; PG_DRIVER passes.
+Restricted login/CA/config, genuine provider signup/confirmation/application mapping
+and Vercel remain blocked. Hosted Auth is disabled; no phase is complete.
+
+## Current check — Strict product phase audit, 2026-10-14
+
+Verdict: Phase incomplete against Uchi's four product-phase checklists and Vercel
+gate. 132 application tests, 121 security tests, nine React/3D checks, both TypeScript
+checks, build, 53 HTTP checks and 67 additional live denial assertions pass. Build
+warns about missing pg and workspace-root inference. Genuine setup remains blocked;
+role/order/financial/delivery flows are missing. Two browser-reproduced UI defects
+were fixed/retested. Hosted identity/vendor rollback fixtures pass; 18 private RLS
+tables, 10 migrations and zero business rows/buckets/objects are verified. The
+provider bridge is absent and two hosted migration versions need reconciliation.
+No genuine role-session or full order-to-delivery E2E was possible. See
+[full completion audit](reports/2026-10-14-phase-completion-audit.md).
+
 ## Current check — Vendor foundation review, 2026-10-14
 
 132 application tests, 121 security tests, nine React/3D checks, web and strict

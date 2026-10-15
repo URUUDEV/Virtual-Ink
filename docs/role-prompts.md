@@ -2,6 +2,11 @@
 
 Copy a prompt and replace the bracketed task reference. Read the linked documents first. Keep credentials, personal contacts, customer files and payment evidence out of prompts and Git.
 
+Current ownership, 14 October 2026: Uchi handles both backend and product work;
+Mumba is inactive. The older Mumba prompts below are historical handover templates.
+For current implementation, use Uchi as the technical owner and the full product
+phase criteria in [the completion checklist](phase-completion-checklist.md).
+
 ## Uchi product lead prompt
 
 ```text

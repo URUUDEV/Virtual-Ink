@@ -1,7 +1,8 @@
-# Vendor onboarding foundation — local review
+# Vendor onboarding foundation — verification boundary
 
-Updated: 14 October 2026. Status: disabled foundation reviewed locally.
-See [team evidence](reports/2026-10-14-vendor-foundation-review.md).
+Updated: 14 October 2026. Status: private core hosted; application intake disabled.
+See [current QA evidence](reports/2026-10-14-phase-completion-audit.md).
+The [previous local review](reports/2026-10-14-vendor-foundation-review.md) is preserved.
 
 The public [vendor preparation flow](vendor-onboarding.md) remains local. Newer
 backend source defines a separate proposed persistent contract; public JSON
@@ -18,9 +19,12 @@ packets are not API payloads or authorization evidence for that contract.
 - `database/vendor-onboarding/supabase-bridge.sql`: unverified provider adapter
   draft, excluded from portable SQL replay and not applied by this review.
 
-No HTTP intake, genuine login, notifications or hosted migration is enabled.
-The hosted nine-table readiness contract stays unchanged. Do not apply these SQL
-files to the hosted development project as routine setup instructions.
+No HTTP intake, genuine login or notification dispatch is enabled. Current catalog
+has 18 private tables and 10 migrations, including hosted vendor core/transaction
+scope. The provider bridge is absent. The API readiness contract still covers the
+original nine tables and restricted group rights. Two hosted vendor migration
+versions are absent from local supabase/migrations; reconcile history before any
+rollout. Do not reapply these SQL files as routine hosted setup instructions.
 
 The proposed lifecycle includes draft, submitted, changes requested, approved and
 rejected. Local approval fixtures exercise identity creation when needed, vendor
@@ -33,6 +37,11 @@ service assumes a trusted adapter derives context. Arbitrary SQL/context access
 remains inside that trust boundary.
 
 ## Local verification
+
+Fresh QA also ran the existing identity/tenant and vendor rollback fixtures on
+the hosted development database; both passed and all 18 table counts returned
+to zero. All 18 tables have enabled/forced RLS; service groups remain NOLOGIN.
+This verifies domain SQL and denial controls, not genuine provider/application Auth.
 
 Eight existing Phase 2 migrations, core and commands replayed on isolated,
 password-protected PostgreSQL 18 bound to loopback. The existing synthetic

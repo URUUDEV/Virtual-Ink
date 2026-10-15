@@ -27,6 +27,7 @@ export function SiteHeader() {
       {links.map(([href, label]) => <Link key={href} href={href} aria-current={(href === '/shop' ? pathname.startsWith('/shop') : pathname === href) ? 'page' : undefined}
         onClick={() => setOpen(false)}>{label}</Link>)}
       <Link href="/roadmap" className="nav-roadmap" onClick={() => setOpen(false)}>Build roadmap <ArrowRight size={15} /></Link>
+      <Link href="/account" onClick={() => setOpen(false)}>My account</Link>
     </nav>
   </div></header>;
 }

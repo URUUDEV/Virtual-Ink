@@ -54,7 +54,7 @@ export default function Home() {
     <section className="section container faq"><p className="eyebrow">GOOD TO KNOW</p><h2>A clear start.</h2>
       <details><summary>Can I place an order today?</summary><p>This is a foundation preview. Ordering will follow verified vendor discovery, approved pricing and tested permissions.</p></details>
       <details><summary>Where are my uploaded files stored?</summary><p>Uploads are not enabled. The backend plan requires private storage and audited access before files can be accepted.</p></details>
-      <details><summary>Does the customizer work in 3D?</summary><p>The <Link href="/customize/cotton-t-shirt">T-shirt workspace</Link> is a 2D placement guide with text and artwork kept in your browser. Genuine 3D models are a later step.</p></details>
+      <details><summary>Does the customizer work in 3D?</summary><p>The <Link href="/customize/cotton-t-shirt">T-shirt workspace</Link> includes a 2D placement guide and an interactive 3D concept shirt. Text and artwork stay in your browser. Production garment models and print proofs come later.</p></details>
       <details><summary>Are payments or delivery partners connected?</summary><p>No live payment or courier integration is configured. Those decisions remain open with Uchi and Lubasi.</p></details>
     </section>
   </>;
