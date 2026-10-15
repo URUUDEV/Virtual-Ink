@@ -5,6 +5,7 @@ import '@fontsource/poppins/700.css';
 import './globals.css';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
+import { Analytics } from '@vercel/analytics/next';
 export const metadata: Metadata = {
   title: { default: 'Virtual Ink — Your Ideas. Our Print. Delivered.', template: '%s | Virtual Ink' },
   description: 'Printing, design and custom merchandise. Virtual Ink foundation preview by Shadow Root Security Technologies.',
@@ -17,5 +18,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <SiteHeader />
     <main id="main">{children}</main>
     <SiteFooter />
+    <Analytics />
   </body></html>;
 }
