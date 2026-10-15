@@ -166,6 +166,18 @@ test('public identity boundary gives honest missing-config states and rejects se
   assert.equal((await accessResponse(new Request(`${url}?vendor_id=${other}`, { headers }), dependencies)).status, 400);
 });
 
+test('protected HTTP tenant reads retain authorization and unknown authenticated routes remain closed', async () => {
+  const { db } = database();
+  const dependencies = { verifier: { async verify() { return identity; } }, database: db };
+  const headers = { authorization: 'Bearer synthetic-token' };
+  const allowed = await accessResponse(new Request(`http://localhost/api/v1/tenants/${tenant}/access`, { headers }), dependencies);
+  assert.equal(allowed.status, 200);
+  assert.equal((await allowed.json()).data.tenantId, tenant);
+  const denied = await accessResponse(new Request('http://localhost/api/v1/private-admin', { headers }), dependencies);
+  assert.equal(denied.status, 404);
+  assert.equal((await denied.json()).error.code, 'NOT_FOUND');
+});
+
 test('transaction adapter keeps context/audit on one connection, resets context and rolls back on failure', async () => {
   const statements: string[] = [];
   const releases: (boolean | Error | undefined)[] = [];

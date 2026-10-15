@@ -15,6 +15,12 @@ connected domain. Open high-risk security findings still block release.
 
 ## Local operation and testing
 
+15 October instruction: commit/push each completed phase to GitHub and pursue at
+least 95% measured test coverage, with exact scope and counts recorded. All
+required executed tests must pass. See [testing target](testing-target.md); the
+backend/shared coverage result cannot stand in for frontend, SQL, genuine hosted
+integrations, full-product completeness or human acceptance.
+
 - [ ] The application and phase features work locally using the documented setup.
 - [ ] Relevant automated, integration, security and user-flow tests pass;
   commands, dates, actual results and limitations are recorded.

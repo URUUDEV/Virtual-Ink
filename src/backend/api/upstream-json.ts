@@ -1,11 +1,17 @@
 export const MAX_UPSTREAM_JSON_BYTES = 1024 * 1024;
 
+// Release rejected provider responses without reading private error payloads or
+// waiting indefinitely for cancellation. Cancellation failure is not authority.
+export function discardUpstreamBody(response: Response): void {
+  void response.body?.cancel().catch(() => {});
+}
+
 // Bound actual decoded bytes, not just Content-Length (which may be absent or
 // describe compressed bytes). Callers map all failures to their safe API errors.
 export async function readUpstreamJson(response: Response): Promise<unknown> {
   const declared = response.headers.get('content-length');
   if (declared !== null && (!/^\d+$/.test(declared) || Number(declared) > MAX_UPSTREAM_JSON_BYTES)) {
-    void response.body?.cancel().catch(() => {});
+    discardUpstreamBody(response);
     throw new Error('Provider JSON exceeds the size contract.');
   }
   const reader = response.body?.getReader();

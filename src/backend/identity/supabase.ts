@@ -1,5 +1,5 @@
 import { ApiError } from '../api/errors.ts';
-import { readUpstreamJson } from '../api/upstream-json.ts';
+import { discardUpstreamBody, readUpstreamJson } from '../api/upstream-json.ts';
 import { uuid } from '../api/validation.ts';
 import { loadSupabaseRestConfig, type SupabaseRestConfig } from '../database/supabase-rest.ts';
 
@@ -32,8 +32,10 @@ export function createSupabaseIdentityVerifier(config: SupabaseRestConfig,
           cache: 'no-store', redirect: 'error', signal: AbortSignal.timeout(5000),
         });
       } catch { throw new ApiError('IDENTITY_UNAVAILABLE'); }
-      if ([400, 401, 403].includes(response.status)) throw new ApiError('UNAUTHENTICATED');
-      if (!response.ok) throw new ApiError('IDENTITY_UNAVAILABLE');
+      if (!response.ok) {
+        discardUpstreamBody(response);
+        throw new ApiError([400, 401, 403].includes(response.status) ? 'UNAUTHENTICATED' : 'IDENTITY_UNAVAILABLE');
+      }
       try {
         const user = await readUpstreamJson(response);
         if (!user || typeof user !== 'object' || Array.isArray(user)) throw new Error();

@@ -3,7 +3,7 @@ import { handleApi } from './responses.ts';
 import { bearerToken } from '../identity/supabase.ts';
 import { parseMembershipPagination } from '../identity/memberships.ts';
 import { uuid } from './validation.ts';
-import { readUpstreamJson } from './upstream-json.ts';
+import { discardUpstreamBody, readUpstreamJson } from './upstream-json.ts';
 type Environment = Record<string, string | undefined>;
 
 export function usesAppBinding(env: Environment = process.env): boolean {
@@ -42,7 +42,11 @@ export async function boundAppResponse(request: Request, env: Environment = proc
         cache: 'no-store', redirect: 'error', signal: AbortSignal.timeout(10000) });
     } catch { throw new ApiError('IDENTITY_UNAVAILABLE'); }
     if (![200, 400, 401, 403, 404, 405, 413, 415, 503].includes(upstream.status) ||
-      !upstream.headers.get('content-type')?.toLowerCase().startsWith('application/json')) throw new ApiError('IDENTITY_UNAVAILABLE');
+      upstream.headers.get('content-type')?.split(';')[0].trim().toLowerCase() !== 'application/json') {
+      discardUpstreamBody(upstream);
+      throw new ApiError('IDENTITY_UNAVAILABLE');
+    }
+    if (request.method === 'HEAD') discardUpstreamBody(upstream);
     if (request.method !== 'HEAD') {
       // Bound the private service response and reject unexpected/redirect bodies.
       let body: unknown;

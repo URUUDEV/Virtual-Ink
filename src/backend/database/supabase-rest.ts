@@ -1,5 +1,5 @@
 import { ApiError } from '../api/errors.ts';
-import { readUpstreamJson } from '../api/upstream-json.ts';
+import { discardUpstreamBody, readUpstreamJson } from '../api/upstream-json.ts';
 
 type Environment = Record<string, string | undefined>;
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
@@ -72,6 +72,7 @@ export function createSupabaseRestClient(config: SupabaseRestConfig, fetcher: ty
         });
       } catch { throw new ApiError('INTERNAL_ERROR'); }
       if (!response.ok) {
+        discardUpstreamBody(response);
         // Do not return provider response text; it may include table names or policy details.
         throw new ApiError(response.status === 401 ? 'UNAUTHENTICATED' : response.status === 403 ? 'FORBIDDEN' : 'INTERNAL_ERROR');
       }

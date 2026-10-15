@@ -17,6 +17,18 @@ human acceptance gates in force.
 
 ## Team reporting
 
+Uchi's standing instruction, 2026-10-15: commit and push to the configured GitHub
+remote after every completed phase. Preserve unrelated work; stage reviewed files
+explicitly, never force-push, and record commit/push/deployment evidence. Reviewable
+slices may use a review branch before a phase is complete. A Git push is not phase
+completion or human acceptance.
+
+Testing target: at least 95% measured coverage with its exact scope and denominator
+reported; all executed required tests must pass. Track backend unit coverage,
+frontend/browser checks, SQL, hosted integrations and functional acceptance
+separately. Do not label unbuilt or untested features verified, omit unimported
+source files to inflate coverage, or equate code coverage with product completion.
+
 Current ownership (Uchi, 2026-10-14): Uchi handles backend engineering and product
 leadership. Mumba is inactive; assign current technical work to Uchi. Preserve
 historical ownership and reports. Complete product phases in order, starting with

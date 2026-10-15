@@ -3,7 +3,7 @@ import { resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export type Finding = Readonly<{ path: string; line: number; rule: string }>;
-const textExtensions = new Set(['.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.sql', '.yml', '.yaml', '.toml', '.txt', '.example']);
+const textExtensions = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.json', '.md', '.sql', '.yml', '.yaml', '.toml', '.txt', '.example']);
 
 export function privatePath(path: string): boolean {
   const name = path.replaceAll('\\', '/');

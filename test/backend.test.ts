@@ -101,6 +101,17 @@ test('audit events require tenant context and reject private metadata', () => {
   assert.throws(() => createAuditEvent({ ...input, actorId: null }), code('VALIDATION_FAILED'));
   assert.throws(() => createAuditEvent({ ...input, address: 'private' } as AuditInput), code('VALIDATION_FAILED'));
 });
+
+test('audit inputs cannot forge system authority or unsupported outcomes and actions', () => {
+  for (const value of [
+    { ...input, action: 'synthetic.unsupported' }, { ...input, outcome: 'synthetic' },
+    { ...input, actorType: 'system', actorId: null }, { ...input, actorType: 'synthetic' },
+    { ...input, action: 'memberships.listed', tenantId: null, outcome: 'denied' },
+  ]) assert.throws(() => createAuditEvent(value as AuditInput), code('VALIDATION_FAILED'));
+  const system = createAuditEvent({ ...input, action: 'system.probe', actorType: 'system', actorId: null, tenantId: null });
+  assert.equal(system.actorType, 'system');
+  assert.equal(system.actorId, null);
+});
 test('required audit fails closed without a durable sink or on sink failure', async () => {
   await assert.rejects(recordAudit(input), code('AUDIT_UNAVAILABLE'));
   await assert.rejects(recordAudit(input, { append: async () => { throw new Error('private sink failure'); } }), code('AUDIT_UNAVAILABLE'));
