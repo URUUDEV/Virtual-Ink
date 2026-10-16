@@ -11,6 +11,8 @@ provider reuse is blocked by durable reservations plus signed application proof,
 and temporary grants/removals revoke real sessions. Provider secrets are encrypted
 and local logs pass scoped redaction checks. Managed-cloud/browser, recovery,
 provider-direct audit ingestion and isolated Preview acceptance remain pending.
+Native cross-challenge code reuse remains a provider-wide replay gap; application
+reservations record only application submissions. See SEC-REPLAY-01.
 No hosted writes or production enablement occur; the HIGH Node gate remains.
 
 16 October session/MFA prerequisite: [current evidence](reports/2026-10-16-session-step-up.md)

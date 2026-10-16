@@ -24,8 +24,8 @@ TOTP factor, matching server AMR and password/TOTP verification within five minu
 It also requires a server-signed application step-up cookie issued only after this
 application verifies a genuine challenge. The HttpOnly Secure SameSite=Strict
 cookie binds issuer, user, session and password/TOTP times; it expires within five
-minutes. It prevents a direct provider request from bypassing application replay
-reservations. The live provider checks remain mandatory; the cookie alone cannot
+minutes. It denies a direct provider token alone without application verification.
+The live provider checks remain mandatory; the cookie alone cannot
 authorize an action. Reauthentication and factor/password/logout changes clear it.
 This is a conservative implementation window, not human policy signoff. Existing
 administrator password-update and logout routes use the new boundary when enabled.
@@ -161,7 +161,10 @@ project is contacted. All 87 checks pass, including encryption envelope/decrypti
 primary login, QR enrollment, valid/invalid/expired/replayed codes, rate limits,
 separated role approval, expiry, removal/session revocation, audits and log scan.
 The provider accepts cross-challenge code reuse in the same time window; the
-application's durable reservation and signed step-up proof block that path.
+application's durable reservation blocks codes it has already observed, and its
+signed step-up proof rejects a provider token alone. Codes first used directly
+through the provider are outside the application ledger; provider-wide replay
+compliance remains incomplete and must be resolved before COMPLETE.
 This test does not scan a QR with a physical authenticator, exercise browser/TLS,
 deliver email, simulate human approval or establish Vercel acceptance. See the
 [inspection](reports/2026-10-16-mfa-privileged-gap-report.md) and

@@ -59,7 +59,8 @@ contain no generated credentials/tokens/secrets or structured six-digit code.
 
 This provider release rejects reuse of a challenge but accepts reuse of the same
 TOTP against another challenge during its time window. The application denies
-that reuse before contacting the provider. Direct-provider AAL2 without the
+reuse of codes already submitted through this application before contacting the
+provider. Direct-provider AAL2 without the
 application proof cannot use sensitive administration. A positive genuine
 protected lookup passes, preventing a broken verifier from masquerading as a
 successful denial. This is local evidence, not a claim about managed-cloud
@@ -187,6 +188,7 @@ Measured at 11:18 UTC; final genuine run at 11:46 UTC; Node 24.21.0 reviewed bas
 | SQL negatives | Customer/vendor/ADMIN/self denial, last-super, missing reason, expiry, stale assignment/approval, atomic revocation rollback, append-only audits, replay/budgets and environment isolation pass |
 | Concurrency | Advisory-lock contention and non-READ-COMMITTED denial pass; no broad load certification |
 | Genuine local Auth/application | 87 checks pass against real Auth 2.197.0, including privacy assertions |
+| Native cross-challenge reuse | Provider rejection is false; this separate observed limitation remains unresolved |
 | Local lifecycle | Genuine MFA, dual approval, temporary expiry, removal, immediate native session revocation and complete audits pass |
 | Native test cleanup | Only task-labelled containers/volumes/network removed; cleanup passes; no hosted identity created |
 | SQL fixture cleanup | Zero residue and local instance stop pass |
@@ -204,8 +206,9 @@ Initial build/provider runs hit Windows allocation failures and one restricted
 worker-spawn denial. Only verified task-owned containers were cleaned after the
 aborted process. Separate bounded-heap provider runs and a one-worker build pass.
 Native RLS/QR bugs were fixed and retested. Existing synthetic malformed-cookie/
-module/Three warnings contain no real secrets. No required local test remains
-failing. None of these tests establishes managed-cloud or human acceptance.
+module/Three warnings contain no real secrets. The enumerated unit/SQL/application
+assertions pass; the separate native cross-challenge observation remains an open
+requirement. None of these tests establishes managed-cloud or human acceptance.
 
 ## 7. Failed or incomplete requirements
 
@@ -215,6 +218,10 @@ failing. None of these tests establishes managed-cloud or human acceptance.
   resource is created or assumed authorized.
 - Managed-cloud enrollment/AAL2/code denials, effective encryption/session policy,
   provider-direct factor/logout audits and deployed log privacy remain unverified.
+- Provider-wide replay rejection is incomplete: the application ledger knows
+  codes submitted through its own verification path, not codes first used through
+  the provider API. The signed proof blocks a provider token alone; it does not
+  establish global provider replay enforcement. Resolve and retest this boundary.
 - Controlled recovery records/approvals exist; private identity review, provider
   operator execution/audit correlation and interrupted-operation reconciliation
   remain unaccepted. External alert delivery/direct event ingestion is absent.
@@ -231,7 +238,29 @@ failing. None of these tests establishes managed-cloud or human acceptance.
 
 ## 8. Vercel Preview URL and delivery
 
-DELIVERY_PENDING_FINAL_SOURCE
+Source ef44a90df1d6437412db029678b061eb43f01b42 is committed and pushed on
+codex/phase-1-mfa-privileged-security. Independent remote refs confirm the branch
+and unchanged main. Twenty-four reviewed files were staged explicitly; the user
+next-env edit and supplied attachments remain unstaged. Final evidence changes
+only handover documents; no runtime source follows the verified source commit.
+
+Vercel's read-only API confirms that exact source READY with matching gitSource
+SHA and review branch, deployment dpl_3WRKmvYKdHo3HVBRsFmTrZdbX455:
+https://virtual-dp8mb6t8m-shadowrootsec-5679.vercel.app.
+
+At 2026-10-16T12:07:25.022Z all four credential-free probes are BLOCKED by Vercel
+deployment protection: three GETs return 302 to Vercel SSO and the status POST
+returns Vercel's 401. Zero application passes are claimed. No callback, MFA, role
+write, hosted cookie/header/log or resource isolation result follows from these
+responses. No protection was disabled and no bypass token/private cookie was
+extracted. Isolated Preview acceptance remains pending.
+
+The private Node runtime initially exited before Vercel metadata was returned;
+the installed CLI runtime then succeeded for read-only metadata. Application
+tests remain on Node 24.21.0. Other active containers were detected, so the Docker
+engine was left running; only this task's labelled containers/volumes/network
+were removed. The in-app browser could not connect because of its kernel-asset
+OS error; it supplies no browser acceptance evidence.
 
 The previous source 63d969d was Ready at
 https://virtual-r618zjaoz-shadowrootsec-5679.vercel.app,
@@ -257,9 +286,11 @@ trusted server credential remains outside ordinary-user isolation.
 SEC-MFA-01: native Auth permits cross-challenge reuse within a TOTP window.
 An attacker already holding a valid factor code and primary session could try to
 bypass application reservations through the public provider API. Durable HMAC
-reservations and the session/AMR-bound signed application proof deny that route;
-genuine positive and negative tests pass. No claim of a hosted exploit or provider
-CVE is made. External Auth HTTP work and application audit commits are not one
+reservations deny application-observed reuse, and the session/AMR-bound proof
+denies a provider token alone; genuine positive and negative tests pass. Codes
+first used outside the application are not recorded in its ledger, so global
+provider replay compliance remains incomplete. No hosted exploit or provider CVE
+is claimed. External Auth HTTP work and application audit commits are not one
 transaction; pending intent reconciliation/provider audit ingestion remain open.
 
 SEC-NATIVE-RLS-01: native Auth RLS initially denied all restricted verifier reads;
@@ -298,8 +329,8 @@ synthetic identities, configure credentials privately and review the first two
 SUPER_ADMIN bootstrap records. Then apply the reviewed migrations there, bind
 the actual Preview origin and exact Auth callbacks, and run the genuine browser
 TOTP/role/negative/log acceptance in docs/phase-1-security-admin.md. The resource
-question remains open; “proceed” does not identify a project or approve billing.
-Resolve HIGH-NODE-01 and recovery/alert gaps before completion/promotion.
+question remains open. Resolve provider-wide replay, HIGH-NODE-01 and recovery/alert
+gaps before completion/promotion.
 
 - Uchi: confirm isolated resources, synthetic identities, bootstrap and policy
   choices; retain security/human gates.

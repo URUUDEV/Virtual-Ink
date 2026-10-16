@@ -79,7 +79,8 @@ This is standing authorization for relevant tests and controlled local probes.
 restricted dual-approved role writer, durable events/limits, immutable expiry and
 atomic assignment/audit/session revocation. All 87 genuine local Auth/application
 checks pass, including encrypted TOTP storage and replay/rate enforcement. Managed-
-cloud/browser, recovery and isolated Preview acceptance remain pending. Production enablement is
+cloud/browser, provider-wide replay, recovery and isolated Preview acceptance
+remain pending. Production enablement is
 rejected, no hosted SQL/roles/Auth changes are made, and no login/seed admin is
 created. Twelve local migrations exist; hosted remains ten. Read
 docs/phase-1-security-admin.md and its report before enabling anything. Earlier

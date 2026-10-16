@@ -102,10 +102,10 @@ the human and Vercel gates pass.
   distinct approval, audited execution, immutable expiry and session revocation
   pass scoped local checks. See [evidence](reports/2026-10-16-mfa-privileged-security.md).
 - [x] Genuine local Auth/application integration passes 87 checks, including
-  enrollment/AAL2, encrypted secrets, invalid/expired/replayed-code denials, rate
+  enrollment/AAL2, encrypted secrets, invalid/expired/application-replay denials, rate
   events, dual approval, expiry and immediate session revocation.
 - [ ] Managed-cloud/browser acceptance, isolated Preview resources, deployed
-  encryption/recovery/log evidence, HIGH runtime
+  encryption/recovery/log evidence, provider-wide replay rejection, HIGH runtime
   resolution and human acceptance remain pending. No security completion or final
   Phase 1 requirement group is closed. Production enablement is rejected.
 
