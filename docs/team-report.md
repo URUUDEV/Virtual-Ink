@@ -11,6 +11,13 @@ target. Isolated Preview resources, recovery and the HIGH runtime gate remain
 open. Overall status is PARTIAL. See the report for source/deployment evidence.
 The prior reports below remain historical; no hosted SQL/Auth/role write occurs.
 
+Source b60b59e is pushed and independently confirmed. Vercel confirms that exact
+source Ready at [Provider-guard Preview](https://virtual-f2xm5ktgv-shadowrootsec-5679.vercel.app),
+deployment dpl_72cNVh62FrBxx3gionSTz7LTMCqf. All four fresh guest probes are BLOCKED
+by deployment protection, not application passes. Main/Production remains a673637;
+no merge/promotion occurred. A self-hosted option also needs URL/key adapter review.
+Word structural checks pass; visual pagination remains unavailable without LibreOffice.
+
 Latest security handover: [16 October — MFA and privileged-role implementation](reports/2026-10-16-mfa-privileged-security.md) and [Word copy](reports/2026-10-16-mfa-privileged-security.docx). Provider-backed TOTP routes/UI, restricted dual-approved role changes, durable rate/replay/audit controls and atomic assignment/audit/session revocation are locally verified. All 87 genuine local Auth/application checks pass, including encrypted secrets and real role/session lifecycle. Managed-cloud/browser and isolated Preview acceptance remain pending; overall status is PARTIAL. Production enablement is rejected, the visible hosted database is unchanged, and the user next-env edit is preserved. See the [pre-edit gap report](reports/2026-10-16-mfa-privileged-gap-report.md) and [setup/recovery runbook](phase-1-security-admin.md).
 
 Source ef44a90 is pushed on codex/phase-1-mfa-privileged-security and independently confirmed. Vercel confirms that exact source Ready at [Security Preview](https://virtual-dp8mb6t8m-shadowrootsec-5679.vercel.app), deployment dpl_3WRKmvYKdHo3HVBRsFmTrZdbX455. All four fresh guest probes are BLOCKED by deployment protection; genuine isolated MFA/role acceptance is not passed. Production/main remains a673637; no merge/promotion occurred. Local results: 198 root/187 security tests, ten React/sixteen SDK-Next checks, 38-file coverage gate, twelve migrations/six SQL suites, 77 SQL security checks and 87 genuine Auth/application checks pass. Provider-wide replay remains incomplete: application-observed reuse is blocked, while native cross-challenge reuse is accepted. The report records denominators, remaining gates and team actions. Both Word documents pass structural checks; visual pagination is unavailable without LibreOffice. No escrow, blockchain or additional marketplace feature was implemented.

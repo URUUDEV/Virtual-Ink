@@ -14,7 +14,7 @@ assertions. A native provider hook closes direct-provider replay locally, and
 protected actions require its receipt. Managed hook availability requires
 Teams/Enterprise or an authorized self-hosted target. Managed-cloud/browser and
 isolated Preview acceptance remain pending. Production enablement is rejected; the visible hosted schema is
-unchanged. See [evidence](docs/reports/2026-10-16-mfa-privileged-security.md).
+unchanged. See [evidence](docs/reports/2026-10-16-provider-mfa-guard.md).
 
 Current UI slice: [Public UI visualization](docs/ui-visualization.md): the supplied
 HTML translated into a product-led homepage, searchable visual collection and six

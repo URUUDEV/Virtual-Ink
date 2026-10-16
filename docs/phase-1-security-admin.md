@@ -10,6 +10,9 @@ the thirteenth migration: a native verification hook, required provider receipt,
 provider-direct rate/alert controls and repaired administrative read queries.
 Managed Supabase currently offers this verification hook on Teams/Enterprise;
 an isolated compatible managed or authorized self-hosted target is required.
+The current web adapter restricts managed project URLs and publishable keys.
+Self-hosted deployment also needs an explicit URL/key adapter review; the local
+test transport rewrite is not a hosted adapter.
 
 ## Trusted paths
 

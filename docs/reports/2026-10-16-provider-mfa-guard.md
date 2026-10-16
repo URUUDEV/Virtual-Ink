@@ -72,6 +72,9 @@ currently lists MFA verification hooks for Teams and Enterprise. Local self-host
 support does not establish availability on the existing managed project. A
 compatible isolated managed project or authorized self-hosted service is required;
 no paid upgrade/resource creation is performed or presumed authorized.
+The current web adapter accepts managed project URLs and modern publishable keys.
+A self-hosted target additionally needs an explicit URL/key adapter review; the
+loopback test's transport rewrite is not a deployable self-hosted web adapter.
 
 ## 3. Privileged-role write path
 
@@ -121,6 +124,11 @@ schema CREATE. Application logins never receive those privileges.
 Read-only hosted role metadata confirms native Auth is non-superuser/NOBYPASSRLS;
 its existing provider CREATEROLE capability is unchanged. The existing migration
 administrator has BYPASSRLS/native session rights. Neither is a web runtime identity.
+At 17:08 UTC, the read-only hosted security advisor still reports only one
+existing INFO for the intentionally closed vendor-reviewer audit table with no
+RLS policy; [advisor guidance](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy).
+This does not assess the three unapplied Phase 1 migrations or establish their
+hosted acceptance.
 
 ## 5. Files changed
 
@@ -188,7 +196,24 @@ fixture failures were corrected and retested; final enumerated checks pass.
 
 ## 8. Vercel Preview and Git delivery
 
-DELIVERY_PENDING_FINAL_SOURCE
+Source b60b59e3488eed14a50c17286cf9ad9367d138a2 is committed and pushed on
+codex/phase-1-mfa-privileged-security. Independent remote refs confirm it and the
+unchanged main. Twenty reviewed files were staged explicitly; the user next-env
+edit and supplied attachments remain unstaged. Final evidence changes only docs;
+no runtime source follows this verified source commit.
+
+Vercel's read-only API confirms that exact source READY with matching gitSource
+SHA/review branch, deployment dpl_72cNVh62FrBxx3gionSTz7LTMCqf:
+https://virtual-f2xm5ktgv-shadowrootsec-5679.vercel.app.
+
+At 2026-10-16T17:07:00.873Z all four credential-free probes are BLOCKED by Vercel
+deployment protection. Three GETs return 302 to Vercel SSO; the status POST returns
+Vercel's 401. The probe exits 2 for blocked. Zero application passes are claimed;
+no genuine callback, MFA, role write, runtime log, secure-cookie/header or isolated
+resource result follows from those responses. No protection was disabled, bypass
+token retrieved or private cookie extracted. The installed CLI runtime was used
+only for read-only deployment metadata; application tests use Node 24.21.0.
+Source hosting does not install or enable the database/provider hook.
 
 The prior runtime source ef44a90 was Ready at
 https://virtual-dp8mb6t8m-shadowrootsec-5679.vercel.app. That earlier deployment does
