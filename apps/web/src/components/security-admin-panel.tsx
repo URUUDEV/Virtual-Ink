@@ -8,7 +8,7 @@ async function api(action:string,input:Record<string,unknown>={}) {
  const response=await fetch(`/api/security/${action}`,{method:'POST',credentials:'same-origin',cache:'no-store',
   headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});
  const result=await response.json();
- if(!response.ok)throw new Error(response.status===429?'Too many attempts. Wait five minutes.':
+ if(!response.ok)throw new Error(response.status===429?'Wait before trying again: authenticator verifications require a 90-second interval, and repeated failures can require five minutes.':
   response.status===401?'Sign in again with your password, then complete an authenticator challenge.':
   response.status===403?'This action is not authorized. You may need a distinct super administrator.':
   response.status===409?'The record changed or this request was already used. Reload and review it again.':
@@ -32,6 +32,7 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
   {status.assurance&&<p>Provider assurance: {status.assurance.currentLevel}. Required: aal2.</p>}
   {error&&<p role="alert" className="vendor-error">{error}</p>}{message&&<p role="status">{message}</p>}
   <section className="auth-card"><h2>Authenticator security</h2>
+   <p>After a successful authenticator verification, wait at least 90 seconds before verifying another code.</p>
    {status.factors&&!status.factors.some(f=>f.type==='totp'&&f.status==='verified')&&<p role="status">No verified authenticator is enrolled. Enroll an authenticator app, scan the QR code, then verify a fresh code.</p>}
    {status.factors?.some(f=>f.type==='totp'&&f.status==='verified')&&status.assurance?.currentLevel!=='aal2'&&<p role="status">Your primary sign-in is verified. Complete an authenticator challenge before sensitive administration.</p>}
    {status.needsStepUp&&status.assurance?.currentLevel==='aal2'&&<p role="status">Complete a fresh Virtual Ink authenticator challenge to authorize administrative changes.</p>}

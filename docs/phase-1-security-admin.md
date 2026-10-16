@@ -5,6 +5,12 @@ This review branch implements the provider-backed paths. Genuine local Auth
 engine checks pass; managed-cloud/browser and isolated Preview acceptance remain
 pending. Production enablement is rejected.
 
+The [provider MFA guard follow-up](reports/2026-10-16-provider-mfa-guard.md) adds
+the thirteenth migration: a native verification hook, required provider receipt,
+provider-direct rate/alert controls and repaired administrative read queries.
+Managed Supabase currently offers this verification hook on Teams/Enterprise;
+an isolated compatible managed or authorized self-hosted target is required.
+
 ## Trusted paths
 
 After primary login, the account page checks current server-owned assignments.
@@ -21,6 +27,12 @@ Every API request verifies the user online, verifies the same token's claims,
 binds issuer/subject/session and calls the database's current provider-session
 guard. Sensitive actions require token and live session AAL2, a verified same-user
 TOTP factor, matching server AMR and password/TOTP verification within five minutes.
+The live provider guard also requires an enabled matching-environment native hook
+and a reservation for the same user/factor within ten seconds before the native
+MFA AMR. Old AAL2 sessions without this evidence deny sensitive access. The native
+reservation is an intent, not a substitute for the verified native session.
+A later verification of the same factor supersedes earlier receipts; older
+privileged sessions can therefore need another step-up.
 It also requires a server-signed application step-up cookie issued only after this
 application verifies a genuine challenge. The HttpOnly Secure SameSite=Strict
 cookie binds issuer, user, session and password/TOTP times; it expires within five
@@ -39,6 +51,18 @@ new challenges and sessions without storing codes. The 32-byte private key must
 remain stable across instances. Provider failures and repeated failures create
 redacted security events; repeated failures and factor changes generate in-app
 alerts. No external notification delivery is configured or claimed.
+
+The native provider hook covers direct provider calls too. It accepts only the
+provider database identity, runs with invoker rights and serializes attempts by
+account. Five consumed attempts are permitted within a sliding five-minute window;
+rate-blocked retries do not extend it. After native success it rejects every valid
+verification for that factor for ninety seconds. This covers the provider's full
+30-second TOTP period plus one period of skew in each direction without receiving
+codes or secrets. A new valid code during the cooldown is also rejected. Existing
+native challenge history covers successes before hook activation. Native intent,
+invalid, cooldown and rate events appear in the existing restricted audit view.
+Missing configuration or failed native audit writes fail closed. Recovery and
+provider-direct factor-change audit ingestion remain separate pending gates.
 
 An unfinished unverified TOTP factor can be discarded after recent primary login.
 Verified-factor removal requires recent MFA and another verified factor. There
@@ -106,9 +130,10 @@ unbuilt operation. No escrow, blockchain or additional marketplace work is added
 1. Confirm a separate non-production Supabase target and approved synthetic
    identities. The visible active project is shared and has no development branch;
    this task does not create a billed resource or guess that it is isolated.
-2. Review all twelve migrations on that isolated target. Versions 20261016043927
-   and 20261016053031 remain unapplied on the visible hosted project. Portable
-   security.sql and provider security-supabase.sql compose the latter migration.
+2. Review all thirteen migrations on that isolated target. Versions 20261016043927,
+   20261016053031 and 20261016122143 remain unapplied on the visible hosted project.
+   The latest combines provider-mfa-guard.sql, security-audit-reads.sql and
+   provider-mfa-session.sql. Earlier migrations are unchanged.
    Never apply the disposable database/tests/security-auth-fixture.sql to Supabase.
 3. Privately configure a restricted non-owner login with only membership in
    virtual_ink_security_service, verified CA and timeouts. Do not give the web app
@@ -133,6 +158,15 @@ unbuilt operation. No escrow, blockchain or additional marketplace work is added
    role grant/removal, immediate denial, provider audit events and redacted logs.
    Test browser behavior and the Preview resource boundary without bypassing
    deployment protection or modifying production roles.
+   First configure the native MFA Verification Attempt hook to
+   pg-functions://postgres/virtual_ink_auth_guard/mfa_verification_attempt. Use
+   examples/security-admin/provider-auth-hook.env.example only for a dedicated
+   Auth service, never web environments. Privately set the new DB settings row
+   to enabled=true and the matching preview environment. Confirm managed plan
+   availability or the authorized self-hosted target; no billing is approved by
+   this template. Existing AAL2 administrators must wait for the ninety-second
+   interval and perform a fresh application challenge. Verify a successful
+   protected lookup and missing-receipt/disabled-hook denials before enablement.
 8. For lost-factor recovery, record the authenticated recovery request and two
    distinct recent-MFA SUPER_ADMIN approvals. Complete private identity review;
    an authorized provider operator performs recovery using the provider's genuine
@@ -147,7 +181,7 @@ unbuilt operation. No escrow, blockchain or additional marketplace work is added
 
 ## Verification scope
 
-Local evidence includes complete root/security suites, the 38-file 95% coverage
+Baseline evidence includes complete root/security suites, the 38-file 95% coverage
 gate, real SDK requests with synthetic HTTP, React SSR checks, strict types/build,
 twelve fresh PostgreSQL migrations, six legacy SQL suites and the actual restricted
 security command probes. The browser-artifact scan prints finding categories only.
@@ -157,14 +191,13 @@ and PostgreSQL 18 containers on loopback, uses synthetic identities and the actu
 application gateway/private command, and removes only its labelled containers,
 volumes and network. Docker must already be available; ports 55391/55392 must be
 free. Private generated credentials stay in ignored .private files. No hosted
-project is contacted. All 87 checks pass, including encryption envelope/decryption,
+project is contacted. All 87 baseline checks pass, including encryption envelope/decryption,
 primary login, QR enrollment, valid/invalid/expired/replayed codes, rate limits,
 separated role approval, expiry, removal/session revocation, audits and log scan.
-The provider accepts cross-challenge code reuse in the same time window; the
-application's durable reservation blocks codes it has already observed, and its
-signed step-up proof rejects a provider token alone. Codes first used directly
-through the provider are outside the application ledger; provider-wide replay
-compliance remains incomplete and must be resolved before COMPLETE.
+The unhooked provider accepts cross-challenge code reuse. The new native hook
+rejects provider-direct reuse and concurrency; deployment and managed acceptance
+of that hook remain incomplete. Both native receipt and signed application proof
+are required for sensitive actions. See the follow-up for final measured counts.
 This test does not scan a QR with a physical authenticator, exercise browser/TLS,
 deliver email, simulate human approval or establish Vercel acceptance. See the
 [inspection](reports/2026-10-16-mfa-privileged-gap-report.md) and

@@ -10,6 +10,7 @@ import {dirname} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import vm from 'node:vm';
 import pg from 'pg';
+import {checkProviderMfaGuard} from './provider-mfa-guard-check.mjs';
 const runFile=promisify(execFile),root=resolve('.');
 const webRequire=createRequire(resolve('apps/web/package.json'));
 const {createClient}=webRequire('@supabase/supabase-js');
@@ -76,7 +77,9 @@ try{
   ssl:false,connectionTimeoutMillis:1500,statement_timeout:10000});try{await c.connect();return c;}catch{await c.end().catch(()=>{});return undefined;}},30,'database_unavailable');
  console.log('Passed: disposable local database started.');
  // All SQL literals here are generated hex, never user data or shell interpolation.
- await client.query(`CREATE ROLE vi_local_auth LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS PASSWORD '${authPassword}';
+ await client.query(`CREATE ROLE supabase_auth_admin NOLOGIN NOSUPERUSER NOBYPASSRLS;
+  CREATE ROLE vi_local_auth LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS PASSWORD '${authPassword}';
+  GRANT supabase_auth_admin TO vi_local_auth;
   CREATE SCHEMA auth AUTHORIZATION vi_local_auth; GRANT CREATE ON DATABASE postgres TO vi_local_auth;
   ALTER ROLE vi_local_auth SET search_path=auth,public;
   CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; CREATE EXTENSION IF NOT EXISTS pgcrypto;`);
@@ -89,7 +92,7 @@ try{
   GOTRUE_SECURITY_DB_ENCRYPTION_ENCRYPT:'true',GOTRUE_SECURITY_DB_ENCRYPTION_ENCRYPTION_KEY_ID:'local-test',
   GOTRUE_SECURITY_DB_ENCRYPTION_ENCRYPTION_KEY:encryptionKey,GOTRUE_SECURITY_DB_ENCRYPTION_DECRYPTION_KEYS:`local-test:${encryptionKey}`};
  await writeFile(resolve(folder,'auth.env'),Object.entries(authEnvironment).map(([key,value])=>`${key}=${value}`).join('\n')+'\n');
- stage='start_auth';await container(`${prefix}-auth`,authImage,resolve(folder,'auth.env'),'127.0.0.1:55391:9999');
+ stage='start_auth';const originalAuth=await container(`${prefix}-auth`,authImage,resolve(folder,'auth.env'),'127.0.0.1:55391:9999');
  const health=await until(async()=>{const r=await fetch(`${authOrigin}/health`,{signal:AbortSignal.timeout(1500)});return r.ok?await r.json():undefined;},40,'auth_unavailable');
  report.providerVersion=health.version;console.log('Passed: real local Auth engine started; synthetic checks beginning.');
  let providerVerifications=0;
@@ -135,7 +138,7 @@ try{
  // Record cross-challenge behavior separately; the application has its own durable reservation.
  const another=await userClient.auth.mfa.challenge({factorId});
  const repeated=await userClient.auth.mfa.verify({factorId,challengeId:another.data.id,code:totp(totpSecret)});
- report.providerCrossChallengeReplayRejected=!!repeated.error;
+ report.unhookedProviderCrossChallengeReplayRejected=!!repeated.error;
  if(repeated.data?.access_token)privateValues.push(repeated.data.access_token,repeated.data.refresh_token);
  stage='encrypted_storage';const stored=await client.query('SELECT secret FROM auth.mfa_factors WHERE id=$1',[factorId]);
  check(stored.rows.length===1&&!stored.rows[0].secret.includes(totpSecret)&&stored.rows[0].secret.length>totpSecret.length&&!/^[A-Z2-7]+=*$/.test(stored.rows[0].secret),'provider_secret_encrypted_at_rest');
@@ -146,8 +149,9 @@ try{
  cipher.setAuthTag(ciphertext.subarray(-16));
  check(Buffer.concat([cipher.update(ciphertext.subarray(0,-16)),cipher.final()]).toString()===totpSecret,'provider_encryption_authentically_protects_original_totp');
  stage='application_authority_boundary';
- await client.query('CREATE ROLE anon NOLOGIN; CREATE ROLE authenticated NOLOGIN; CREATE ROLE service_role NOLOGIN NOBYPASSRLS;');
+ await client.query('CREATE ROLE anon NOLOGIN; CREATE ROLE authenticated NOLOGIN; CREATE ROLE service_role NOLOGIN BYPASSRLS;');
  for(const name of(await readdir(resolve('supabase/migrations'))).filter(name=>name.endsWith('.sql')).sort()){
+  if(name==='20261016122143_virtual_ink_provider_mfa_guard.sql')continue; // Apply after the twelve-migration baseline, to test cutover.
   await client.query(await readFile(resolve('supabase/migrations',name),'utf8'));
  }
  const appUser=randomUUID(),assignmentId=randomUUID();
@@ -265,6 +269,7 @@ try{
   providerErrorCode:appEnrollment.body.error?.code??null};
  check(appEnrollment.status===200&&appEnrollment.body.data.qr.startsWith('data:image/svg+xml;base64,')&&!!secondSecret,'application_real_enrollment_returns_qr_without_raw_secret');
  const secondFactor=appEnrollment.body.data.factorId;
+ second.totpSecret=secondSecret;
  const secondChallenge=await second.request('challenge',{factorId:secondFactor});
  check(secondChallenge.status===200,'second_administrator_challenge');
  check((await second.request('verify',{factorId:secondFactor,challengeId:secondChallenge.body.data.challengeId,code:totp(secondSecret)})).status===200,'second_administrator_genuine_step_up');
@@ -304,6 +309,30 @@ try{
   if(privateValues.some(value=>value.length>=20&&logs.includes(value))||/"(?:access_token|refresh_token|totp_secret|password)"\s*:|"code"\s*:\s*"\d{6}"/.test(logs))safeLogs=false;
  }
  check(safeLogs,'local_provider_logs_exclude_generated_secrets_and_tokens');
+ report.baselineChecks=checks;
+ stage='provider_hook_start';
+ await client.query(await readFile(resolve('supabase/migrations/20261016122143_virtual_ink_provider_mfa_guard.sql'),'utf8'));
+ await client.query("UPDATE virtual_ink_auth_guard.settings SET enabled=true,environment='local'");
+ await docker('stop','--timeout','10',originalAuth);
+ // All synthetic accounts share one loopback IP. Raise only this fixture's IP
+ // budget so it cannot mask the hook's per-account and concurrent denial tests.
+ const guardedEnvironment={...authEnvironment,GOTRUE_MFA_RATE_LIMIT_CHALLENGE_AND_VERIFY:'60',GOTRUE_HOOK_MFA_VERIFICATION_ATTEMPT_ENABLED:'true',
+  GOTRUE_HOOK_MFA_VERIFICATION_ATTEMPT_URI:'pg-functions://postgres/virtual_ink_auth_guard/mfa_verification_attempt'};
+ await writeFile(resolve(folder,'guarded-auth.env'),Object.entries(guardedEnvironment).map(([key,value])=>`${key}=${value}`).join('\n')+'\n');
+ await container(`${prefix}-guarded-auth`,authImage,resolve(folder,'guarded-auth.env'),'127.0.0.1:55391:9999');
+ await until(async()=>{const response=await nativeFetch(`${authOrigin}/health`,{signal:AbortSignal.timeout(1500)});return response.ok;},40,'guarded_auth_unavailable');
+ stage='provider_hook_checks';
+ await checkProviderMfaGuard({database:client,nativeDatabase:{host:'127.0.0.1',port:dbPort,database:'postgres',user:'vi_local_auth',password:authPassword,ssl:false},
+  admin,createClient,options,issuer,config,transport,totp,secret,privateValues,check,second,until,
+  createApplicationActor:(label,role='CUSTOMER')=>createActor(label,role),record:result=>{report.hookDiagnostics={...report.hookDiagnostics,...result};}});
+ report.hookedProviderCrossChallengeReplayRejected=true;
+ stage='provider_hook_log_privacy';
+ for(const id of created){const captured=await runFile('docker',['logs',id],{timeout:10000,maxBuffer:2*1024*1024,windowsHide:true});
+  const logs=captured.stdout+captured.stderr;
+  if(privateValues.some(value=>typeof value==='string'&&value.length>=20&&logs.includes(value))||/"(?:access_token|refresh_token|totp_secret|password)"\s*:|"code"\s*:\s*"\d{6}"/.test(logs))safeLogs=false;
+ }
+ check(safeLogs,'native_hook_logs_exclude_generated_secrets_and_tokens');
+ report.providerGuardChecks=checks-report.baselineChecks;
  report.status='pass';report.countedChecks=checks;
 }catch(error){report.status='blocked';report.failedStage=stage;report.errorCode=typeof error?.code==='string'&&/^[A-Z0-9_]{1,30}$/.test(error.code)?error.code:'LOCAL_CHECK_FAILED';
  report.errorType=['Error','TypeError','ReferenceError','SyntaxError'].includes(error?.name)?error.name:'OtherError';

@@ -1,5 +1,17 @@
 # Virtual Ink — live backend setup and readiness
 
+16 October native MFA follow-up: [provider guard evidence](reports/2026-10-16-provider-mfa-guard.md)
+adds the thirteenth migration and requires a native provider-hook receipt for
+sensitive actions. Local genuine checks total 185; SQL assertions total 82.
+Review all thirteen migrations on an isolated target. Configure the native
+verification hook there, then enable its private DB settings with the matching
+environment. Managed availability is Teams/Enterprise; self-hosted acceptance
+needs an authorized isolated Auth service. No plan/billing change is authorized
+or performed. The native Auth template belongs only to Auth, never Vercel web.
+The shared hosted project remains at ten migrations and receives no changes.
+Recovery, browser/Preview acceptance and the HIGH runtime gate remain open.
+Earlier setup notes below record their historical boundary.
+
 Current 16 October security review: [isolated setup/runbook](phase-1-security-admin.md)
 adds a disabled server-only security service and provider TOTP journey. Twelve
 local migrations exist; the visible hosted project still has ten. The new private

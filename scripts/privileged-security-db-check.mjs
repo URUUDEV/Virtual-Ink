@@ -16,6 +16,7 @@ try {
  assert.equal((await client.query("SELECT current_database()='postgres' AND EXISTS(SELECT FROM pg_roles WHERE rolname='vendor_replay' AND rolsuper) AS isolated")).rows[0].isolated,true);
  await client.query('BEGIN');
  await client.query("UPDATE virtual_ink_security.configuration SET enabled=true,environment='local',issuer=$1",[issuer]);
+ await client.query("UPDATE virtual_ink_auth_guard.settings SET enabled=true,environment='local'");
  for(let i=1;i<=10;i++) {
   const role=roles[i-1]??'ADMIN';
   await client.query('INSERT INTO virtual_ink.users(id) VALUES($1)',[id(i)]);
@@ -27,6 +28,7 @@ try {
   await client.query("INSERT INTO auth.sessions VALUES($1,$2,'aal2',$3,NULL)",[id(200+i),id(100+i),id(300+i)]);
   await client.query("INSERT INTO auth.mfa_factors VALUES($1,$2,'totp','verified',to_timestamp($3))",[id(300+i),id(100+i),current-100]);
   await client.query("INSERT INTO auth.mfa_amr_claims VALUES($1,'password',to_timestamp($2)),($1,'totp',to_timestamp($3))",[id(200+i),current-10,current-1]);
+  await client.query('INSERT INTO virtual_ink_auth_guard.factor_state VALUES($1,$2,to_timestamp($3))',[id(100+i),id(300+i),current-1]);
  }
  await client.query('SET CONSTRAINTS ALL IMMEDIATE');await client.query('SET CONSTRAINTS ALL DEFERRED');
  const context=(i,patch={})=>({issuer,environment:'local',subject:id(100+i),sessionId:id(200+i),aal:'aal2',mfaAt:current-1,primaryAt:current-10,stepUpAt:current-1,correlationId:randomUUID(),...patch});
@@ -39,6 +41,19 @@ try {
   if(result.error!==error)console.log('Synthetic SQL diagnostic:',(await client.query('SELECT metadata FROM virtual_ink_security.events WHERE id=$1',[result.auditId])).rows);
   assert.equal(result.error,error,JSON.stringify(result));assert.ok(result.auditId);checks++;return result;}
  const request=(target,role='ADMIN')=>({requestId:randomUUID(),targetUserId:id(target),expectedAssignmentId:id(400+target),role,reason:'Synthetic authorized security review',expiresAt:null});
+ assert.equal((await command(1,'events.list')).ok,true);checks++;
+ assert.equal((await command(1,'requests.list')).ok,true);checks++;
+ await client.query('SAVEPOINT native_receipt');await client.query('DELETE FROM virtual_ink_auth_guard.factor_state WHERE user_id=$1',[id(101)]);
+ await denied(1,'protected.check',{capability:'security.read'},'UNAUTHENTICATED');
+ await client.query('ROLLBACK TO SAVEPOINT native_receipt');
+ await client.query('SAVEPOINT stale_native_receipt');
+ await client.query('UPDATE virtual_ink_auth_guard.factor_state SET last_accepted_at=to_timestamp($1) WHERE user_id=$2',[current-30,id(101)]);
+ await denied(1,'protected.check',{capability:'security.read'},'UNAUTHENTICATED');
+ await client.query('ROLLBACK TO SAVEPOINT stale_native_receipt');
+ await client.query('SAVEPOINT disabled_native_guard');
+ await client.query('UPDATE virtual_ink_auth_guard.settings SET enabled=false');
+ await denied(1,'protected.check',{capability:'security.read'},'UNAUTHENTICATED');
+ await client.query('ROLLBACK TO SAVEPOINT disabled_native_guard');
  for(const i of [4,5])await denied(i,'role.request',request(i,'SUPER_ADMIN'));
  await denied(3,'role.request',request(4,'SUPER_ADMIN'));
  await denied(1,'role.request',request(1,'ADMIN'));

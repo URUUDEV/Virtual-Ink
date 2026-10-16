@@ -1,5 +1,16 @@
 # Virtual Ink recurring security review
 
+16 October native MFA guard: [evidence](reports/2026-10-16-provider-mfa-guard.md)
+records 185 genuine checks and 82 SQL assertions. Native verification hooks now
+block provider-first replay and concurrent reuse, require a matching receipt for
+protected actions, enforce account limits across factors and append provider
+alerts to the restricted audit view. Audit outage prevents AAL2 issuance.
+Native Auth uses invoker rights and cannot modify roles, guard settings or old
+administrative audits. The prior request/event SQL ambiguity is fixed and tested.
+Hook availability is Teams/Enterprise for managed Supabase; compatible isolated
+resources, recovery, provider-direct factor audits, Preview and Node gates remain.
+Earlier reviews below describe the pre-hook boundary, not current completion.
+
 16 October MFA/privileged-role review: [current implementation evidence](reports/2026-10-16-mfa-privileged-security.md)
 and [pre-edit inspection](reports/2026-10-16-mfa-privileged-gap-report.md) record
 Auth-first provider MFA, durable attempt/replay controls, distinct SUPER_ADMIN

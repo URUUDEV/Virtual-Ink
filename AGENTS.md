@@ -77,12 +77,14 @@ This is standing authorization for relevant tests and controlled local probes.
 
 16 October security review branch adds provider-backed TOTP routes/UI and a
 restricted dual-approved role writer, durable events/limits, immutable expiry and
-atomic assignment/audit/session revocation. All 87 genuine local Auth/application
-checks pass, including encrypted TOTP storage and replay/rate enforcement. Managed-
-cloud/browser, provider-wide replay, recovery and isolated Preview acceptance
-remain pending. Production enablement is
-rejected, no hosted SQL/roles/Auth changes are made, and no login/seed admin is
-created. Twelve local migrations exist; hosted remains ten. Read
+atomic assignment/audit/session revocation. The native provider-hook follow-up
+passes 185 genuine local checks and 82 SQL assertions: provider-direct replay,
+concurrency, account limits, required native receipts and audit outages are covered.
+Managed Supabase requires Teams/Enterprise for this hook; an isolated compatible
+managed or authorized self-hosted target remains missing. Managed-cloud/browser,
+recovery and isolated Preview acceptance remain pending. Production enablement
+is rejected, no hosted SQL/roles/Auth changes are made, and no login/seed admin is
+created. Thirteen local migrations exist; hosted remains ten. Read
 docs/phase-1-security-admin.md and its report before enabling anything. Earlier
 foundation notes below describe their historical delivery boundaries.
 

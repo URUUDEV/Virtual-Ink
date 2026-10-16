@@ -96,6 +96,17 @@ the human and Vercel gates pass.
 
 ## Decisions and ownership
 
+### Review implementation — AUTH-PROVIDER-GUARD (16 October 2026)
+
+- [x] Native verification hook, required receipt, direct-provider replay/race
+  denial, cross-factor attempt budget, audit-outage denial and readable native
+  alerts pass 185 genuine local checks and 82 SQL assertions. Thirteen migrations
+  replay. See [evidence](reports/2026-10-16-provider-mfa-guard.md).
+- [ ] A compatible isolated managed Teams/Enterprise or authorized self-hosted
+  target, genuine Preview/browser, recovery/provider-direct factor auditing,
+  runtime patch resolution and human acceptance remain open. No full Phase 1
+  mission group closes; Production remains disabled for this security boundary.
+
 ### Review implementation — AUTH-SECURITY (16 October 2026)
 
 - [x] Provider-backed TOTP API/UI, recent assurance, restricted role requests,

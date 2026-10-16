@@ -96,6 +96,7 @@ These artifacts are delivered for review. Their existence does not imply the lea
 | P1-09A | Uchi with Mumba | Review disabled assignment/audit schema and explicit reader | Review | [16 October evidence](reports/2026-10-16-role-assignment-foundation.md): 186 root tests, 35-file coverage gate, six SQL suites and actual loader/RLS/default-privilege probes pass; no hosted migration applied |
 | P1-09B | Uchi with Mumba | Review internal Auth-first session/MFA prerequisite | Review | [Step-up evidence](reports/2026-10-16-session-step-up.md): 191 root/180 security tests, 37-file coverage gate and seventeen actual SQL denials pass; no caller/Auth grant/genuine MFA enabled; provider policy and privileged writer remain open |
 | P1-10 | Uchi with Mumba | Genuine TOTP and trusted privileged-role administration | Partial | [Implementation](phase-1-security-admin.md): 87 real local Auth/application checks verify TOTP/encryption, replay/rate controls, dual-approved grants, expiry/removal/session revocation and audits; isolated Preview/browser, recovery, hosted logs and HIGH runtime gate remain open; no production or hosted DB changes |
+| P1-10A | Uchi with Mumba | Review native provider MFA verification guard | Partial | [Follow-up](reports/2026-10-16-provider-mfa-guard.md): 185 genuine checks and 82 SQL assertions pass; native replay/race/budget/receipt/audit controls verified locally. Compatible managed Teams/Enterprise or authorized self-hosted isolation, Preview, recovery and HIGH runtime gates remain open |
 
 ## Work item template
 
