@@ -15,11 +15,11 @@ export default async function SecurityPage() {
  const client=webAuthClient(config,()=>store.getAll(),()=>{});
  let status;
  try{
-  const dependencies=await securityDependencies(client);
+  const dependencies=await securityDependencies(client,{get:name=>store.get(name)?.value,set:()=>{}});
   const identity=await dependencies.auth.identity();
   const result=await dependencies.commands.run('status',{},identity,randomUUID());
   const [factors,assurance]=await Promise.all([dependencies.auth.factors(),dependencies.auth.assurance()]);
-  status={...result.data as {userId:string;role:string;canManageRoles:boolean},factors,assurance};
+  status={...result.data as {userId:string;role:string;canManageRoles:boolean},factors,assurance,needsStepUp:identity.stepUpAt===null};
  }catch{redirect('/account');}
  return <section className="section container auth-page"><p className="eyebrow">Restricted administration</p><h1>Account security and roles</h1>
   <SecurityAdminPanel initial={status}/></section>;

@@ -123,7 +123,7 @@ BEGIN
     cfg.issuer IS DISTINCT FROM p_context->>'issuer' THEN RAISE EXCEPTION 'IDENTITY_UNAVAILABLE'; END IF;
   high:=p_action IN('role.request','role.approve','role.execute','roles.lookup','requests.list','events.list','recovery.approve','protected.check')
     OR p_action='mfa.reserve' AND p_input->>'kind'='unenroll';
-  IF high AND p_context->>'aal' IS DISTINCT FROM 'aal2' THEN RAISE EXCEPTION 'UNAUTHENTICATED'; END IF;
+  IF high AND (p_context->>'aal' IS DISTINCT FROM 'aal2' OR nullif(p_context->>'stepUpAt','')::bigint IS DISTINCT FROM mfa OR mfa IS NULL) THEN RAISE EXCEPTION 'UNAUTHENTICATED'; END IF;
   recent:=high OR p_action='mfa.reserve' AND p_input->>'kind' IN('enroll','cancel-enrollment');
   -- Serialize the complete admin decision and re-read every role after locking.
   PERFORM pg_advisory_xact_lock(74016,1);
@@ -144,7 +144,8 @@ BEGIN
    result:=jsonb_build_object('role',actor_role,'userId',actor,'canManageRoles',actor_role='SUPER_ADMIN');
   ELSIF p_action='password.begin' THEN
    IF actor_role IN('ADMIN','SUPER_ADMIN','SECURITY_ADMIN','FINANCE_ADMIN','DISPUTE_REVIEWER','PAYOUT_APPROVER') AND
-     (p_context->>'aal' IS DISTINCT FROM 'aal2' OR NOT virtual_ink_security.provider_session(principal,sid,mfa,primary_time,true,true)) THEN RAISE EXCEPTION 'UNAUTHENTICATED'; END IF;
+     (p_context->>'aal' IS DISTINCT FROM 'aal2' OR nullif(p_context->>'stepUpAt','')::bigint IS DISTINCT FROM mfa OR mfa IS NULL OR
+      NOT virtual_ink_security.provider_session(principal,sid,mfa,primary_time,true,true)) THEN RAISE EXCEPTION 'UNAUTHENTICATED'; END IF;
    INSERT INTO virtual_ink_security.attempts VALUES(principal,'password.update',floor(extract(epoch FROM now_time)/300)::bigint,1)
     ON CONFLICT(subject,kind,bucket) DO UPDATE SET attempts=virtual_ink_security.attempts.attempts+1 RETURNING attempts INTO counter;
    IF counter>5 THEN failure:='RATE_LIMITED'; END IF;

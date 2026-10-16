@@ -6,7 +6,8 @@ local migrations exist; the visible hosted project still has ten. The new privat
 service group has no LOGIN/member credential and the database marker is disabled.
 Use only confirmed isolated resources and synthetic identities for Preview
 acceptance. Do not enable against the shared project or provision web owner/Auth-
-admin credentials. Genuine provider encryption, recovery and runtime acceptance
+admin credentials. Genuine local provider encryption and private role execution
+pass 87 checks. Managed-cloud/browser, recovery and Preview runtime acceptance
 remain unverified; the HIGH advisory blocks completion/promotion.
 
 16 October step-up update: the [internal server prerequisite](phase-1-session-step-up.md)

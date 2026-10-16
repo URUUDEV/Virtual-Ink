@@ -5,5 +5,9 @@ CREATE TABLE auth.users(id uuid PRIMARY KEY,is_anonymous boolean,email_confirmed
 CREATE TABLE auth.sessions(id uuid PRIMARY KEY,user_id uuid,aal text,factor_id uuid,not_after timestamptz);
 CREATE TABLE auth.mfa_factors(id uuid PRIMARY KEY,user_id uuid,factor_type text,status text,created_at timestamptz);
 CREATE TABLE auth.mfa_amr_claims(session_id uuid,authentication_method text,updated_at timestamptz,PRIMARY KEY(session_id,authentication_method));
+ALTER TABLE auth.users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE auth.sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE auth.mfa_factors ENABLE ROW LEVEL SECURITY;
+ALTER TABLE auth.mfa_amr_claims ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON SCHEMA auth FROM PUBLIC,anon,authenticated,service_role;
 REVOKE ALL ON ALL TABLES IN SCHEMA auth FROM PUBLIC,anon,authenticated,service_role;

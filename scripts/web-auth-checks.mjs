@@ -81,16 +81,18 @@ test('real provider SDK routes enrollment, challenge and verification through se
   let providerUser={...user,factors:[]};
   let active={...session,user:providerUser,access_token:jwt('aal1')};
   let verificationFailure=false;
+  let qrBody=`<svg xmlns="http://www.w3.org/2000/svg">${' '.repeat(400000)}</svg>`;
   const calls=[];
   const f=clientFixture();
-  const gateway=securityAuthGateway(f.client,{...config,environment:'local',codeKey:'a'.repeat(64)});
+  const gateway=securityAuthGateway(f.client,{...config,environment:'local',codeKey:'a'.repeat(64)},
+    {get:name=>f.cookies.get(name),set:cookie=>{f.writes.push(cookie);cookie.value?f.cookies.set(cookie.name,cookie.value):f.cookies.delete(cookie.name);}});
   await syntheticFetch((url,init)=>{
     calls.push(`${init.method??'GET'} ${url.pathname}`);
     if(url.pathname==='/auth/v1/token')return json(active);
     if(url.pathname==='/auth/v1/user')return json(providerUser);
     if(url.pathname==='/auth/v1/factors') {
       assert.equal(JSON.parse(init.body).factor_type,'totp');
-      return json({id:factorId,type:'totp',totp:{qr_code:'<svg xmlns="http://www.w3.org/2000/svg"></svg>',secret:'synthetic-test-secret',uri:'otpauth://synthetic'}});
+      return json({id:factorId,type:'totp',totp:{qr_code:qrBody,secret:'synthetic-test-secret',uri:'otpauth://synthetic'}});
     }
     if(url.pathname===`/auth/v1/factors/${factorId}/challenge`)return json({id:challengeId,type:'totp',expires_at:now+300});
     if(url.pathname===`/auth/v1/factors/${factorId}/verify`) {
@@ -108,9 +110,12 @@ test('real provider SDK routes enrollment, challenge and verification through se
     assert.equal((await gateway.assurance()).currentLevel,'aal1');
     const enrollment=await gateway.enroll();assert.equal(enrollment.factorId,factorId);
     assert.match(enrollment.qr,/^data:image\/svg\+xml;base64,/);assert.ok(!JSON.stringify(enrollment).includes('synthetic-test-secret'));
+    assert.ok(Buffer.from(enrollment.qr.split(',')[1],'base64').length>262144);
+    qrBody=' '.repeat(1048577);await assert.rejects(gateway.enroll(),{code:'IDENTITY_UNAVAILABLE'});
     assert.equal((await gateway.challenge(factorId)).challengeId,challengeId);
     assert.equal(await gateway.verify(factorId,challengeId,'123456'),undefined);
     assert.equal((await gateway.identity()).aal,'aal2');assert.equal((await gateway.identity()).mfaAt,now);
+    assert.equal((await gateway.identity()).stepUpAt,now);
     assert.equal((await gateway.factors())[0].status,'verified');
     for(const code of ['invalid','expired','replayed']) {verificationFailure=true;await assert.rejects(gateway.verify(factorId,challengeId,'123456'),{code:'UNAUTHENTICATED'},`${code} provider rejection is preserved`);}
     await gateway.unenroll(factorId);
@@ -118,7 +123,7 @@ test('real provider SDK routes enrollment, challenge and verification through se
   });
   assert.ok(calls.some(call=>call.includes('/verify'))&&calls.some(call=>call.includes('/challenge')));
   assert.ok(f.writes.some(cookie=>cookie.value));
-  for(const cookie of f.writes){assert.equal(cookie.options.httpOnly,true);assert.equal(cookie.options.secure,true);assert.equal(cookie.options.sameSite,'lax');}
+  for(const cookie of f.writes){assert.equal(cookie.options.httpOnly,true);assert.equal(cookie.options.secure,true);assert.equal(cookie.options.sameSite,cookie.name==='__Host-vi-step-up'?'strict':'lax');}
 });
 
 test('actual security routes and sensitive auth routes fail closed before contacting a shared production provider',async()=>configured(async()=>{

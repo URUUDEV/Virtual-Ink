@@ -1,4 +1,4 @@
-import { createHmac, randomUUID } from 'node:crypto';
+import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 import { ApiError, type ErrorCode } from '../api/errors.ts';
 import { handleApi } from '../api/responses.ts';
 import { boundedText, readJson, strictObject, uuid } from '../api/validation.ts';
@@ -24,7 +24,25 @@ export function loadSecurityConfig(env:Environment):SecurityConfig|undefined {
   }
   return Object.freeze({...auth,environment:env.SECURITY_ENVIRONMENT as 'preview'|'local',codeKey:env.SECURITY_CODE_HMAC_KEY!});
 }
-export type SecurityIdentity=Readonly<{subject:string;issuer:string;sessionId:string;aal:'aal1'|'aal2';mfaAt:number|null;primaryAt:number|null}>;
+export type SecurityIdentity=Readonly<{subject:string;issuer:string;sessionId:string;aal:'aal1'|'aal2';mfaAt:number|null;primaryAt:number|null;stepUpAt:number|null}>;
+function stepUpSignature(identity:SecurityIdentity,key:string,expiry:number):string {
+  return createHmac('sha256',Buffer.from(key,'hex')).update(JSON.stringify(['virtual-ink-step-up-v1',identity.issuer,
+    identity.subject,identity.sessionId,identity.mfaAt,identity.primaryAt,expiry])).digest('hex');
+}
+export function issueApplicationStepUp(identity:SecurityIdentity,key:string,now=Math.floor(Date.now()/1000)) {
+  if(identity.aal!=='aal2'||identity.mfaAt===null||identity.primaryAt===null||identity.mfaAt>now||identity.primaryAt>now)throw new ApiError('UNAUTHENTICATED');
+  const expiry=Math.min(identity.mfaAt+300,identity.primaryAt+300);
+  if(expiry<=now)throw new ApiError('UNAUTHENTICATED');
+  return Object.freeze({value:`v1.${expiry}.${stepUpSignature(identity,key,expiry)}`,maxAge:expiry-now});
+}
+export function withApplicationStepUp(identity:SecurityIdentity,cookie:string|undefined,key:string,now=Math.floor(Date.now()/1000)):SecurityIdentity {
+  const match=cookie?.match(/^v1\.([0-9]{1,16})\.([a-f0-9]{64})$/);
+  const expiry=match?Number(match[1]):0;
+  const valid=identity.aal==='aal2'&&identity.mfaAt!==null&&identity.primaryAt!==null&&match&&Number.isSafeInteger(expiry)&&expiry>now&&
+    expiry===Math.min(identity.mfaAt+300,identity.primaryAt+300)&&
+    timingSafeEqual(Buffer.from(match[2],'hex'),Buffer.from(stepUpSignature(identity,key,expiry),'hex'));
+  return Object.freeze({...identity,stepUpAt:valid?identity.mfaAt:null});
+}
 // Input claims must come from provider/JWKS verification of the SAME bearer.
 export function securityIdentityFromClaims(value:Record<string,unknown>,identity:VerifiedIdentity,now=Math.floor(Date.now()/1000)):SecurityIdentity {
   try {
@@ -38,7 +56,7 @@ export function securityIdentityFromClaims(value:Record<string,unknown>,identity
     if(amr.some(v=>!v||typeof v!=='object'||Array.isArray(v)||typeof v.method!=='string'||!validSecond(v.timestamp)||(v.timestamp as number)>(value.iat as number)))throw new Error();
     const method=(name:string)=>{const matches=amr.filter(v=>v.method===name);return matches.length===1?matches[0].timestamp as number:null;};
     return Object.freeze({subject:identity.subject,issuer:identity.issuer,sessionId:uuid(value.session_id),
-      aal:value.aal as 'aal1'|'aal2',mfaAt:method('totp'),primaryAt:method('password')});
+      aal:value.aal as 'aal1'|'aal2',mfaAt:method('totp'),primaryAt:method('password'),stepUpAt:null});
   }catch{throw new ApiError('UNAUTHENTICATED');}
 }
 export interface SecurityAuth {
@@ -121,7 +139,7 @@ export function securityResponse(request:Request,action:string,
     if(action==='status') {
       const result=await run('status');
       const [factors,assurance]=await Promise.all([auth.factors(),auth.assurance()]);
-      return {...result.data as object,factors,assurance,auditId:result.auditId};
+      return {...result.data as object,factors,assurance,needsStepUp:identity.stepUpAt===null,auditId:result.auditId};
     }
     if(['enroll','challenge','verify','reauthenticate','unenroll','cancel-enrollment'].includes(action)) {
       const reserved={kind:action,...(action==='verify'?{factorId:input.factorId,

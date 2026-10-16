@@ -1,7 +1,7 @@
 'use client';
 import {useState,type FormEvent} from 'react';
 import Link from 'next/link';
-type Status={userId:string;role:string;canManageRoles:boolean;factors?:readonly {id:string;status:string;type:string}[];assurance?:{currentLevel:string|null;nextLevel:string|null}};
+type Status={userId:string;role:string;canManageRoles:boolean;needsStepUp?:boolean;factors?:readonly {id:string;status:string;type:string}[];assurance?:{currentLevel:string|null;nextLevel:string|null}};
 type RequestRow={id:string;target_id:string;previous_role:string;new_role:string;reason:string;requester:string;approver:string|null;state:string};
 const roles=['ADMIN','SECURITY_ADMIN','FINANCE_ADMIN','DISPUTE_REVIEWER','PAYOUT_APPROVER','SUPER_ADMIN','CUSTOMER'];
 async function api(action:string,input:Record<string,unknown>={}) {
@@ -34,6 +34,7 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
   <section className="auth-card"><h2>Authenticator security</h2>
    {status.factors&&!status.factors.some(f=>f.type==='totp'&&f.status==='verified')&&<p role="status">No verified authenticator is enrolled. Enroll an authenticator app, scan the QR code, then verify a fresh code.</p>}
    {status.factors?.some(f=>f.type==='totp'&&f.status==='verified')&&status.assurance?.currentLevel!=='aal2'&&<p role="status">Your primary sign-in is verified. Complete an authenticator challenge before sensitive administration.</p>}
+   {status.needsStepUp&&status.assurance?.currentLevel==='aal2'&&<p role="status">Complete a fresh Virtual Ink authenticator challenge to authorize administrative changes.</p>}
    <form onSubmit={event=>{const data=fields(event);const form=event.currentTarget;void work(async()=>{
     try{await api('reauthenticate',{password:data.get('password')});setMessage('Password verified. Complete your authenticator challenge next.');}
     finally{form.reset();}});}}>

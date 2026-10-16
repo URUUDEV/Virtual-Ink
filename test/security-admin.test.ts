@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {ApiError} from '../src/backend/api/errors.ts';
-import {createSecurityCommands,loadSecurityConfig,securityIdentityFromClaims,securityResponse,securityCommandStatement,
+import {createSecurityCommands,loadSecurityConfig,securityIdentityFromClaims,securityResponse,securityCommandStatement,issueApplicationStepUp,withApplicationStepUp,
  type SecurityAuth,type SecurityCommands,type SecurityConfig, type SecurityIdentity} from '../src/backend/identity/security-admin.ts';
 import type {SqlExecutor,SqlParameter} from '../src/backend/database/ports.ts';
 const subject='11111111-1111-4111-8111-111111111111',sessionId='22222222-2222-4222-8222-222222222222',factorId='33333333-3333-4333-8333-333333333333';
@@ -9,7 +9,7 @@ const env={SECURITY_ADMIN_ENABLED:'true',WEB_AUTH_ENABLED:'true',SECURITY_ENVIRO
  APP_ORIGIN:'https://preview.example.test',SUPABASE_URL:'https://abcdefghijklmnopqrst.supabase.co',
  SECURITY_PROJECT_URL:'https://abcdefghijklmnopqrst.supabase.co',SUPABASE_PUBLISHABLE_KEY:'sb_publishable_synthetic',SECURITY_CODE_HMAC_KEY:'a'.repeat(64)};
 const config=loadSecurityConfig(env)!;
-const identity:SecurityIdentity={subject,issuer:`${env.SUPABASE_URL}/auth/v1`,sessionId,aal:'aal2',mfaAt:990,primaryAt:980};
+const identity:SecurityIdentity={subject,issuer:`${env.SUPABASE_URL}/auth/v1`,sessionId,aal:'aal2',mfaAt:990,primaryAt:980,stepUpAt:null};
 const claims={iss:identity.issuer,sub:subject,session_id:sessionId,role:'authenticated',aud:'authenticated',aal:'aal2',iat:1000,exp:1600,
  amr:[{method:'password',timestamp:980},{method:'totp',timestamp:990}]};
 const verified={provider:'supabase' as const,issuer:identity.issuer,subject};
@@ -60,6 +60,24 @@ test('security identity uses verified claims and denies stale, ambiguous and met
   {...claims,amr:[{method:'totp',timestamp:1001}]},{...claims,amr:[{method:'totp',timestamp:'990'}]},
   {...claims,session_id:'bad'}])assert.throws(()=>securityIdentityFromClaims(value,verified,1000),{code:'UNAUTHENTICATED'});
  const now=Math.floor(Date.now()/1000);assert.ok(securityIdentityFromClaims({...claims,iat:now,exp:now+100},verified));
+});
+test('application step-up credential rejects tampering, transfer, stale assurance and expiry',()=>{
+ const proof=issueApplicationStepUp(identity,config.codeKey,1000);
+ assert.equal(proof.maxAge,280);assert.equal(withApplicationStepUp(identity,proof.value,config.codeKey,1000).stepUpAt,990);
+ assert.equal(withApplicationStepUp(identity,proof.value,config.codeKey,1280).stepUpAt,null);
+ for(const value of [undefined,'',proof.value.replace('.1280.','.9999.'),proof.value.slice(0,-1)+'z','v1.9999999999999999.'+'0'.repeat(64)]){
+  assert.equal(withApplicationStepUp(identity,value,config.codeKey,1000).stepUpAt,null);
+ }
+ for(const change of [{subject:factorId},{sessionId:factorId},{issuer:'https://other.invalid/auth/v1'},{mfaAt:989},
+  {primaryAt:979},{aal:'aal1' as const},{mfaAt:null},{primaryAt:null}]){
+  assert.equal(withApplicationStepUp({...identity,...change},proof.value,config.codeKey,1000).stepUpAt,null);
+ }
+ assert.equal(withApplicationStepUp(identity,proof.value,'b'.repeat(64),1000).stepUpAt,null);
+ for(const change of [{aal:'aal1' as const},{mfaAt:null},{primaryAt:null},{mfaAt:1001},{primaryAt:1001},{primaryAt:0}]){
+  assert.throws(()=>issueApplicationStepUp({...identity,...change},config.codeKey,1000),{code:'UNAUTHENTICATED'});
+ }
+ const current=Math.floor(Date.now()/1000),fresh={...identity,mfaAt:current,primaryAt:current};
+ assert.equal(withApplicationStepUp(fresh,issueApplicationStepUp(fresh,config.codeKey).value,config.codeKey).stepUpAt,current);
 });
 test('security API requires same-origin POST, bounded input and no client-supplied actor or role authority',async()=>{
  const f=fixture();assert.equal((await f.request('status')).status,200);

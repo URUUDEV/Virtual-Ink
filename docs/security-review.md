@@ -5,8 +5,12 @@ and [pre-edit inspection](reports/2026-10-16-mfa-privileged-gap-report.md) recor
 Auth-first provider MFA, durable attempt/replay controls, distinct SUPER_ADMIN
 approval, current-role/expiry checks and atomic audit/session revocation. The
 existing primary-only password-update path is gated for administrators when the
-security boundary is enabled. All local tests pass; genuine Auth, provider-side
-encryption/recovery/audit coverage and isolated Preview acceptance remain pending.
+security boundary is enabled. Local checks include 87 genuine Auth/application
+assertions: native RLS and QR-size failures were found and fixed, cross-challenge
+provider reuse is blocked by durable reservations plus signed application proof,
+and temporary grants/removals revoke real sessions. Provider secrets are encrypted
+and local logs pass scoped redaction checks. Managed-cloud/browser, recovery,
+provider-direct audit ingestion and isolated Preview acceptance remain pending.
 No hosted writes or production enablement occur; the HIGH Node gate remains.
 
 16 October session/MFA prerequisite: [current evidence](reports/2026-10-16-session-step-up.md)

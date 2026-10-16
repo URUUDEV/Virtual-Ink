@@ -9,7 +9,8 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 Current security review: [MFA and privileged roles](docs/phase-1-security-admin.md)
 implements provider TOTP enrollment/challenge/verification, restricted dual-approved
 role changes, durable rate/replay/audit controls and a restricted administrator UI.
-Local verification passes, but genuine provider and isolated Preview acceptance
+Local verification includes 87 passing checks against real local Supabase Auth
+and the private role command. Managed-cloud/browser and isolated Preview acceptance
 remain pending. Production enablement is rejected; the visible hosted schema is
 unchanged. See [evidence](docs/reports/2026-10-16-mfa-privileged-security.md).
 

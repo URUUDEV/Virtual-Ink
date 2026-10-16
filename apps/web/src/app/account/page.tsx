@@ -25,7 +25,7 @@ export default async function AccountPage() {
   if(process.env.SECURITY_ADMIN_ENABLED==='true') {
     try {
       const {securityDependencies}=await import('@/lib/security-admin');
-      const dependencies=await securityDependencies(client);
+      const dependencies=await securityDependencies(client,{get:name=>store.get(name)?.value,set:()=>{}});
       const identity=await dependencies.auth.identity();
       const result=await dependencies.commands.run('account.status',{},identity,randomUUID());
       securityAdministrator=(privilegedRoles as readonly string[]).includes(String((result.data as {role?:string}).role));

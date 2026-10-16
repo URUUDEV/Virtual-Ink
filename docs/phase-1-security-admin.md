@@ -1,8 +1,9 @@
 # Phase 1 MFA and privileged-role administration
 
 16 October 2026. Owners: Uchi Chinyama and Mumba Chitonge. Status: PARTIAL.
-This review branch implements the provider-backed paths; genuine provider and
-isolated Preview acceptance are pending. Production enablement is rejected.
+This review branch implements the provider-backed paths. Genuine local Auth
+engine checks pass; managed-cloud/browser and isolated Preview acceptance remain
+pending. Production enablement is rejected.
 
 ## Trusted paths
 
@@ -20,6 +21,12 @@ Every API request verifies the user online, verifies the same token's claims,
 binds issuer/subject/session and calls the database's current provider-session
 guard. Sensitive actions require token and live session AAL2, a verified same-user
 TOTP factor, matching server AMR and password/TOTP verification within five minutes.
+It also requires a server-signed application step-up cookie issued only after this
+application verifies a genuine challenge. The HttpOnly Secure SameSite=Strict
+cookie binds issuer, user, session and password/TOTP times; it expires within five
+minutes. It prevents a direct provider request from bypassing application replay
+reservations. The live provider checks remain mandatory; the cookie alone cannot
+authorize an action. Reauthentication and factor/password/logout changes clear it.
 This is a conservative implementation window, not human policy signoff. Existing
 administrator password-update and logout routes use the new boundary when enabled.
 Ordinary account recovery does not acquire administrative authority.
@@ -79,6 +86,16 @@ timestamp, correlation ID, assurance, fixed source, expiry, outcome and redacted
 metadata. Events are append-only, including against ordinary administrator roles.
 Migration owners remain an administrative trust boundary.
 
+Native provider Auth tables have RLS without application policies. A private,
+fixed-search-path SECURITY DEFINER broker owned by the existing migration
+administrator returns only a subject/session-bound verification boolean or
+deletes one approved target's sessions. Only the restricted business function
+owner can execute it; the runtime service cannot call the broker directly. It
+checks the calling session's service membership. No Auth table grant, policy
+change, ownership, BYPASSRLS or elevated credential is given to the runtime.
+Read-only hosted metadata confirms the migration administrator's existing native
+rights; applying and verifying this adapter on isolated Preview remains pending.
+
 Vendor verification, suspension, refunds, releases and payout-account mutations
 are not implemented by this task. The shared guard rejects them without fresh
 assurance; its HTTP check returns unavailable/not-found rather than executing an
@@ -134,6 +151,18 @@ Local evidence includes complete root/security suites, the 38-file 95% coverage
 gate, real SDK requests with synthetic HTTP, React SSR checks, strict types/build,
 twelve fresh PostgreSQL migrations, six legacy SQL suites and the actual restricted
 security command probes. The browser-artifact scan prints finding categories only.
-It does not prove deployed logs, genuine Auth or encryption settings. See the
+It does not prove deployed logs or managed-cloud encryption settings. The opt-in
+`npm run check:security:auth:local` starts digest-pinned real Supabase Auth 2.197.0
+and PostgreSQL 18 containers on loopback, uses synthetic identities and the actual
+application gateway/private command, and removes only its labelled containers,
+volumes and network. Docker must already be available; ports 55391/55392 must be
+free. Private generated credentials stay in ignored .private files. No hosted
+project is contacted. All 87 checks pass, including encryption envelope/decryption,
+primary login, QR enrollment, valid/invalid/expired/replayed codes, rate limits,
+separated role approval, expiry, removal/session revocation, audits and log scan.
+The provider accepts cross-challenge code reuse in the same time window; the
+application's durable reservation and signed step-up proof block that path.
+This test does not scan a QR with a physical authenticator, exercise browser/TLS,
+deliver email, simulate human approval or establish Vercel acceptance. See the
 [inspection](reports/2026-10-16-mfa-privileged-gap-report.md) and
 [implementation evidence](reports/2026-10-16-mfa-privileged-security.md).

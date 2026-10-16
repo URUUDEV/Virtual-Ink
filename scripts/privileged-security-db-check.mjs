@@ -29,7 +29,7 @@ try {
   await client.query("INSERT INTO auth.mfa_amr_claims VALUES($1,'password',to_timestamp($2)),($1,'totp',to_timestamp($3))",[id(200+i),current-10,current-1]);
  }
  await client.query('SET CONSTRAINTS ALL IMMEDIATE');await client.query('SET CONSTRAINTS ALL DEFERRED');
- const context=(i,patch={})=>({issuer,environment:'local',subject:id(100+i),sessionId:id(200+i),aal:'aal2',mfaAt:current-1,primaryAt:current-10,correlationId:randomUUID(),...patch});
+ const context=(i,patch={})=>({issuer,environment:'local',subject:id(100+i),sessionId:id(200+i),aal:'aal2',mfaAt:current-1,primaryAt:current-10,stepUpAt:current-1,correlationId:randomUUID(),...patch});
  async function command(i,action,input={},patch={}) {
   await client.query('SET LOCAL ROLE virtual_ink_security_service');
   try{return (await client.query('SELECT virtual_ink_security.command($1,$2,$3) AS result',[action,input,context(i,patch)])).rows[0].result;}
@@ -52,6 +52,7 @@ try {
  await denied(1,'role.request',request(4),'IDENTITY_UNAVAILABLE',{environment:'preview'});
  await denied(1,'role.request',request(4),'UNAUTHENTICATED',{mfaAt:current-2});
  await denied(1,'role.request',request(4),'UNAUTHENTICATED',{aal:'aal1'});
+ await denied(1,'role.request',request(4),'UNAUTHENTICATED',{stepUpAt:null});
  await denied(1,'role.request',request(4),'UNAUTHENTICATED',{primaryAt:current-11});
  await client.query('SAVEPOINT no_mfa');await client.query("UPDATE auth.sessions SET aal='aal1' WHERE id=$1",[id(201)]);
  for(const capability of ['role.assign','role.remove','vendor.verify','account.suspend','refund.approve','payment.release','payout.change','security.settings','security.read']) {
