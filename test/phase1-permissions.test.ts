@@ -34,9 +34,10 @@ function permits(capability: string, request: Phase1Authorization): boolean {
   return permitsPhase1(capability, request);
 }
 
-test('declares the eight requested roles and fails closed on unknown or malformed context', () => {
+test('declares the original roles and specialist security roles and fails closed on malformed context', () => {
   assert.deepEqual(phase1Roles, ['CUSTOMER', 'VENDOR', 'DESIGNER', 'DELIVERY_PARTNER',
-    'ORGANIZATION_MEMBER', 'ORGANIZATION_ADMIN', 'ADMIN', 'SUPER_ADMIN']);
+    'ORGANIZATION_MEMBER', 'ORGANIZATION_ADMIN', 'ADMIN', 'SUPER_ADMIN',
+    'SECURITY_ADMIN', 'FINANCE_ADMIN', 'DISPUTE_REVIEWER', 'PAYOUT_APPROVER']);
   assert.ok(phase1Capabilities.includes('file.break_glass'));
   assert.equal(permits('role.assign', access('CUSTOMER')), false);
   assert.equal(permits('order.read', null as unknown as Phase1Authorization), false);
@@ -258,7 +259,8 @@ test('purpose-specific file and timeline permissions do not cross assignment or 
         `${role} ${purpose}`);
     }
     assert.equal(permits('audit.read', access(role, assignedFacts,
-      { ...actorFacts, grants: [...actorFacts.grants, grant('audit.read')] })), true, `${role} timeline`);
+      { ...actorFacts, grants: [...actorFacts.grants, grant('audit.read')] })),
+      !['SECURITY_ADMIN','FINANCE_ADMIN','DISPUTE_REVIEWER','PAYOUT_APPROVER'].includes(role), `${role} timeline`);
   }
   assert.equal(permits('file.download', access('ADMIN', { filePurpose: 'source', fileStatus: 'SAFE' },
     { aal: 'aal2', grants: [grant('file.download')] })), true);

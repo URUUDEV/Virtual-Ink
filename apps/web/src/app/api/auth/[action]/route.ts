@@ -4,6 +4,11 @@ import { webAuthClient, webAuthGateway, type AuthCookie } from '@/lib/web-auth';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 async function handle(request: NextRequest) {
+  const securedAction=new URL(request.url).pathname.match(/^\/api\/auth\/(logout|password-update)$/)?.[1];
+  if(process.env.SECURITY_ADMIN_ENABLED==='true'&&securedAction) {
+    const {handleSecurityRequest}=await import('@/lib/security-admin');
+    return handleSecurityRequest(request,securedAction);
+  }
   const pending: AuthCookie[] = [];
   const cacheHeaders: Record<string, string> = {};
   const result = await webAuthResponse(request, (config) => webAuthGateway(webAuthClient(config,

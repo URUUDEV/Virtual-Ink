@@ -1,5 +1,14 @@
 # Virtual Ink — live backend setup and readiness
 
+Current 16 October security review: [isolated setup/runbook](phase-1-security-admin.md)
+adds a disabled server-only security service and provider TOTP journey. Twelve
+local migrations exist; the visible hosted project still has ten. The new private
+service group has no LOGIN/member credential and the database marker is disabled.
+Use only confirmed isolated resources and synthetic identities for Preview
+acceptance. Do not enable against the shared project or provision web owner/Auth-
+admin credentials. Genuine provider encryption, recovery and runtime acceptance
+remain unverified; the HIGH advisory blocks completion/promotion.
+
 16 October step-up update: the [internal server prerequisite](phase-1-session-step-up.md)
 has synthetic Auth and actual local SQL evidence only. It is not connected to a
 runtime pool or route. No environment variable, credential, Auth-schema privilege

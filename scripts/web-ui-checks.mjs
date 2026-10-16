@@ -33,6 +33,18 @@ function load(path) {
   return module.exports;
 }
 const component = (path, name = 'default') => load(resolve(webRoot, 'src', path))[name];
+
+test('restricted admin interface presents TOTP and explicit role review without default super-admin access',()=>{
+  const Panel=component('components/security-admin-panel.tsx','SecurityAdminPanel');
+  const initial={userId:'11111111-1111-4111-8111-111111111111',role:'SUPER_ADMIN',canManageRoles:true};
+  const html=renderToStaticMarkup(React.createElement(Panel,{initial}));
+  assert.match(html,/Authenticator security/);assert.match(html,/Six-digit authenticator code/);
+  assert.match(html,/different super administrator/);assert.match(html,/Load current role/);
+  assert.doesNotMatch(html,/<option[^>]+value="SUPER_ADMIN"[^>]+selected/);
+  assert.doesNotMatch(html,/otpauth:|sb_secret_|access_token|refresh_token|mfaEnabled/);
+  const lower=renderToStaticMarkup(React.createElement(Panel,{initial:{...initial,role:'ADMIN',canManageRoles:false}}));
+  assert.doesNotMatch(lower,/Privileged role management/);assert.match(lower,/Authenticator security/);
+});
 test('homepage renders actual mockups and linked product cards', () => {
   const html = renderToStaticMarkup(React.createElement(component('app/page.tsx')));
   assert.match(html, /Your Ideas/);

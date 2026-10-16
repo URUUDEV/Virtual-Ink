@@ -75,6 +75,15 @@ This is standing authorization for relevant tests and controlled local probes.
 
 ## Current boundary
 
+16 October security review branch adds provider-backed TOTP routes/UI and a
+restricted dual-approved role writer, durable events/limits, immutable expiry and
+atomic assignment/audit/session revocation. Local tests pass; genuine provider,
+recovery and isolated Preview acceptance remain pending. Production enablement is
+rejected, no hosted SQL/roles/Auth changes are made, and no login/seed admin is
+created. Twelve local migrations exist; hosted remains ten. Read
+docs/phase-1-security-admin.md and its report before enabling anything. Earlier
+foundation notes below describe their historical delivery boundaries.
+
 Backend Phase 2 contains a narrow identity/tenant-access read with durable audits.
 Caller-owned membership discovery now adds bounded pagination and a self-scoped
 append-only audit table. API runtime readiness checks the original nine tables; source PDFs guide

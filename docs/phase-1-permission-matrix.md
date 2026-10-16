@@ -62,6 +62,12 @@ approval.
 
 ## Mandatory enforcement and tests
 
+The [current security review](phase-1-security-admin.md) adds four distinct
+specialist roles alongside ADMIN/SUPER_ADMIN. They gain no implicit order/file
+rights from their names. Privileged writes use current DB authority, recent
+provider MFA and distinct SUPER_ADMIN approval; the schema and genuine hosted
+acceptance are not enabled. Unbuilt financial/vendor mutations remain unavailable.
+
 The [internal session/MFA prerequisite](phase-1-session-step-up.md) now checks
 Auth-validated claims against current provider session/account/factor/AMR facts.
 It supplies no role/grant, has no runtime caller and does not change the assignment

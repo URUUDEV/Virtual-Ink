@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { resolve, dirname } from 'node:path';
 import vm from 'node:vm';
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -13,22 +13,24 @@ const modules = new Map();
 function load(path) {
   if (modules.has(path)) return modules.get(path).exports;
   const module = { exports: {} }; modules.set(path, module);
-  const source = ts.transpileModule(readFileSync(path, 'utf8'), {
+  const source = ts.transpileModule(readFileSync(path, 'utf8').replaceAll('import.meta.url',JSON.stringify(pathToFileURL(path).href)), {
     compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS, esModuleInterop: true },
   }).outputText;
   function localRequire(name) {
     if (name === 'server-only') return {};
     if (name.startsWith('@backend/')) return load(resolve(root, 'src/backend', name.slice(9)));
     if (name.startsWith('@/')) return load(resolve(root, 'apps/web/src', `${name.slice(2)}.ts`));
-    if (name.startsWith('.')) return load(resolve(dirname(path), name));
+    if (name.startsWith('.')) {const target=resolve(dirname(path),name);return load(/\.[cm]?[jt]sx?$/.test(target)?target:`${target}.ts`);}
     return webRequire(name);
   }
   vm.runInThisContext(`(function(require,module,exports){${source}\n})`, { filename: path })(localRequire, module, module.exports);
   return module.exports;
 }
 const { webAuthClient, webAuthGateway } = load(resolve(root, 'apps/web/src/lib/web-auth.ts'));
+const {securityAuthGateway}=load(resolve(root,'apps/web/src/lib/security-admin.ts'));
 const { webAuthResponse } = load(resolve(root, 'src/backend/identity/web-auth.ts'));
 const authRoute = load(resolve(root, 'apps/web/src/app/api/auth/[action]/route.ts'));
+const securityRoute=load(resolve(root,'apps/web/src/app/api/security/[action]/route.ts'));
 const callbackRoute = load(resolve(root, 'apps/web/src/app/auth/callback/route.ts'));
 const recoveryCallbackRoute = load(resolve(root, 'apps/web/src/app/auth/recovery-callback/route.ts'));
 const { proxy } = load(resolve(root, 'apps/web/src/proxy.ts'));
@@ -69,6 +71,75 @@ function clientFixture(initial = []) {
   });
   return { client, writes, headers, cookies };
 }
+
+test('real provider SDK routes enrollment, challenge and verification through server Auth and keeps upgraded tokens in HttpOnly cookies',async()=>{
+  const now=Math.floor(Date.now()/1000),factorId='33333333-3333-4333-8333-333333333333',challengeId='44444444-4444-4444-8444-444444444444';
+  const issuer=`${env.SUPABASE_URL}/auth/v1`;
+  const jwt=aal=>`${Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url')}.${Buffer.from(JSON.stringify({
+    iss:issuer,sub:user.id,session_id:challengeId,role:'authenticated',aud:'authenticated',iat:now,exp:now+3600,aal,
+    amr:[{method:'password',timestamp:now},...(aal==='aal2'?[{method:'totp',timestamp:now}]:[])]})).toString('base64url')}.c3ludGhldGlj`;
+  let providerUser={...user,factors:[]};
+  let active={...session,user:providerUser,access_token:jwt('aal1')};
+  let verificationFailure=false;
+  const calls=[];
+  const f=clientFixture();
+  const gateway=securityAuthGateway(f.client,{...config,environment:'local',codeKey:'a'.repeat(64)});
+  await syntheticFetch((url,init)=>{
+    calls.push(`${init.method??'GET'} ${url.pathname}`);
+    if(url.pathname==='/auth/v1/token')return json(active);
+    if(url.pathname==='/auth/v1/user')return json(providerUser);
+    if(url.pathname==='/auth/v1/factors') {
+      assert.equal(JSON.parse(init.body).factor_type,'totp');
+      return json({id:factorId,type:'totp',totp:{qr_code:'<svg xmlns="http://www.w3.org/2000/svg"></svg>',secret:'synthetic-test-secret',uri:'otpauth://synthetic'}});
+    }
+    if(url.pathname===`/auth/v1/factors/${factorId}/challenge`)return json({id:challengeId,type:'totp',expires_at:now+300});
+    if(url.pathname===`/auth/v1/factors/${factorId}/verify`) {
+      assert.deepEqual(JSON.parse(init.body),{challenge_id:challengeId,code:'123456'});
+      if(verificationFailure)return json({code:'mfa_verification_failed',msg:'private provider diagnostic'},400);
+      providerUser={...user,factors:[{id:factorId,status:'verified',factor_type:'totp',created_at:user.created_at,updated_at:user.created_at}]};
+      active={...session,user:providerUser,access_token:jwt('aal2')};
+      return json(active);
+    }
+    if(url.pathname===`/auth/v1/factors/${factorId}`&&init.method==='DELETE')return json({id:factorId});
+    throw new Error('Unexpected synthetic Auth request');
+  },async()=>{
+    await webAuthGateway(f.client).login(credentials);
+    assert.equal((await gateway.identity()).aal,'aal1');assert.deepEqual(await gateway.factors(),[]);
+    assert.equal((await gateway.assurance()).currentLevel,'aal1');
+    const enrollment=await gateway.enroll();assert.equal(enrollment.factorId,factorId);
+    assert.match(enrollment.qr,/^data:image\/svg\+xml;base64,/);assert.ok(!JSON.stringify(enrollment).includes('synthetic-test-secret'));
+    assert.equal((await gateway.challenge(factorId)).challengeId,challengeId);
+    assert.equal(await gateway.verify(factorId,challengeId,'123456'),undefined);
+    assert.equal((await gateway.identity()).aal,'aal2');assert.equal((await gateway.identity()).mfaAt,now);
+    assert.equal((await gateway.factors())[0].status,'verified');
+    for(const code of ['invalid','expired','replayed']) {verificationFailure=true;await assert.rejects(gateway.verify(factorId,challengeId,'123456'),{code:'UNAUTHENTICATED'},`${code} provider rejection is preserved`);}
+    await gateway.unenroll(factorId);
+    await gateway.reauthenticate(credentials.password);
+  });
+  assert.ok(calls.some(call=>call.includes('/verify'))&&calls.some(call=>call.includes('/challenge')));
+  assert.ok(f.writes.some(cookie=>cookie.value));
+  for(const cookie of f.writes){assert.equal(cookie.options.httpOnly,true);assert.equal(cookie.options.secure,true);assert.equal(cookie.options.sameSite,'lax');}
+});
+
+test('actual security routes and sensitive auth routes fail closed before contacting a shared production provider',async()=>configured(async()=>{
+  const keys=['SECURITY_ADMIN_ENABLED','SECURITY_ENVIRONMENT','SECURITY_PROJECT_URL','SECURITY_CODE_HMAC_KEY','VERCEL_ENV'];
+  const previous=Object.fromEntries(keys.map(key=>[key,process.env[key]]));
+  Object.assign(process.env,{SECURITY_ADMIN_ENABLED:'true',SECURITY_ENVIRONMENT:'preview',SECURITY_PROJECT_URL:env.SUPABASE_URL,
+    SECURITY_CODE_HMAC_KEY:'a'.repeat(64),VERCEL_ENV:'preview'});
+  try{
+    await syntheticFetch(()=>{throw new Error('A shared provider must not be contacted.');},async()=>{
+      for(const action of ['status','enroll','request']){
+        const request=new NextRequest(`${env.APP_ORIGIN}/api/security/${action}`,{method:'POST',headers:{Origin:env.APP_ORIGIN,'Content-Type':'application/json'},body:'{}'});
+        const response=await securityRoute.POST(request,{params:Promise.resolve({action})});
+        assert.equal(response.status,503);assert.match(response.headers.get('cache-control'),/private.*no-store/);
+      }
+      for(const action of ['logout','password-update']) {
+        const request=new NextRequest(`${env.APP_ORIGIN}/api/auth/${action}`,{method:'POST',headers:{Origin:env.APP_ORIGIN,'Content-Type':'application/json'},body:'{}'});
+        assert.equal((await authRoute.POST(request)).status,503);
+      }
+    });
+  }finally{for(const[key,value]of Object.entries(previous))value===undefined?delete process.env[key]:process.env[key]=value;}
+}));
 test('real SSR login writes HttpOnly Secure SameSite cookies and disables caching', async () => {
   const f = clientFixture();
   await syntheticFetch((url, init) => {

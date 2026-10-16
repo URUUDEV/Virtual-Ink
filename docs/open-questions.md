@@ -6,6 +6,10 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 
 ## Business ownership
 
+- **SEC-PREVIEW-01 — Open; Uchi with Mumba:** Identify the isolated non-production Supabase project and approved synthetic identities for genuine MFA/privileged-role acceptance. Only the active shared project and no development branches are visible. Configure credentials privately; no billed branch is created or assumed approved. See [runbook](phase-1-security-admin.md).
+- **SEC-RECOVERY-01 — Open; Uchi with Mumba and Lubasi:** Review the controlled bootstrap and operator recovery process, including the first two SUPER_ADMIN identities, two distinct MFA-backed recovery approvals, private identity evidence and provider audit correlation. The application cannot automatically disable the final verified factor. Genuine recovery is not accepted.
+- **MFA-POLICY-02 — Implemented conservative proposal; Uchi review pending:** This review branch uses five-minute recent password/TOTP assurance, fifteen-minute change requests and at most thirty-day temporary privileges. SUPER_ADMIN does not expire automatically. These implement the requested controls, not human policy approval; MFA-POLICY-01 and ROLE-BOOT-01 remain open.
+
 - **MFA-POLICY-01 — Open; Uchi with Mumba and Lubasi:** Approve the privileged-action freshness window, TOTP/recovery scope, effective provider inactivity/timebox policy and in-flight revocation behavior. The internal verifier requires an explicit 1–900 second technical window and has no enabled default; synthetic tests do not establish business approval or genuine provider MFA. See [prerequisite](phase-1-session-step-up.md).
 
 - **ROLE-BOOT-01 — Open; Uchi with Mumba and Lubasi:** Confirm who approves the first SUPER_ADMIN, privileged role grant/revoke authority, reviewer evidence and recovery. The explicit role foundation seeds no account and enables no writer; approval references in synthetic tests are not real acceptance or MFA proof.

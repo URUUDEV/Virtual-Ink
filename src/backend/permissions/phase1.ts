@@ -4,7 +4,8 @@
  * It is intentionally not wired to routes until the role/RLS migration lands.
  */
 export const phase1Roles = ['CUSTOMER', 'VENDOR', 'DESIGNER', 'DELIVERY_PARTNER',
-  'ORGANIZATION_MEMBER', 'ORGANIZATION_ADMIN', 'ADMIN', 'SUPER_ADMIN'] as const;
+  'ORGANIZATION_MEMBER', 'ORGANIZATION_ADMIN', 'ADMIN', 'SUPER_ADMIN',
+  'SECURITY_ADMIN', 'FINANCE_ADMIN', 'DISPUTE_REVIEWER', 'PAYOUT_APPROVER'] as const;
 export type Phase1Role = typeof phase1Roles[number];
 
 export const phase1Capabilities = ['order.create', 'order.read', 'file.upload.source',

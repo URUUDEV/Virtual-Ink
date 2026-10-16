@@ -11,6 +11,7 @@ const errors = {
   AUDIT_UNAVAILABLE: { status: 503, message: 'Required audit recording is unavailable.' },
   IDENTITY_UNAVAILABLE: { status: 503, message: 'Identity service is unavailable.' },
   SERVICE_BUSY: { status: 503, message: 'Service is busy. Please retry later.' },
+  RATE_LIMITED: { status: 429, message: 'Too many attempts. Wait before trying again.' },
   INTERNAL_ERROR: { status: 500, message: 'An unexpected error occurred.' },
 } as const;
 export type ErrorCode = keyof typeof errors;

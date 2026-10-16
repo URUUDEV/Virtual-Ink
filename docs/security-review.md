@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+16 October MFA/privileged-role review: [current implementation evidence](reports/2026-10-16-mfa-privileged-security.md)
+and [pre-edit inspection](reports/2026-10-16-mfa-privileged-gap-report.md) record
+Auth-first provider MFA, durable attempt/replay controls, distinct SUPER_ADMIN
+approval, current-role/expiry checks and atomic audit/session revocation. The
+existing primary-only password-update path is gated for administrators when the
+security boundary is enabled. All local tests pass; genuine Auth, provider-side
+encryption/recovery/audit coverage and isolated Preview acceptance remain pending.
+No hosted writes or production enablement occur; the HIGH Node gate remains.
+
 16 October session/MFA prerequisite: [current evidence](reports/2026-10-16-session-step-up.md)
 records Auth-first bearer validation, strict issuer/subject/AAL/AMR binding and
 current session/account/factor checks without cached proof authority. All 191 root/

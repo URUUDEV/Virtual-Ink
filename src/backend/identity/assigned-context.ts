@@ -5,7 +5,8 @@ import { identify } from './service.ts';
 import type { VerifiedIdentity } from './supabase.ts';
 
 export const assignedRoleStatement = `SELECT user_id, role, active, version
-  FROM virtual_ink_phase1.role_assignments WHERE user_id=$1 AND active LIMIT 2`;
+  FROM virtual_ink_phase1.role_assignments WHERE user_id=$1 AND active
+  AND (expires_at IS NULL OR expires_at>clock_timestamp()) LIMIT 2`;
 
 /** Explicit assignments only. No legacy fallback, MFA or resource authority. */
 export async function loadAssignedPhase1Actor(tx: SqlExecutor, identity: VerifiedIdentity): Promise<Phase1Actor> {

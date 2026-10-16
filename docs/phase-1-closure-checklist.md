@@ -96,6 +96,16 @@ the human and Vercel gates pass.
 
 ## Decisions and ownership
 
+### Review implementation — AUTH-SECURITY (16 October 2026)
+
+- [x] Provider-backed TOTP API/UI, recent assurance, restricted role requests,
+  distinct approval, audited execution, immutable expiry and session revocation
+  pass scoped local checks. See [evidence](reports/2026-10-16-mfa-privileged-security.md).
+- [ ] Genuine provider enrollment/challenge/invalid-expired-replay acceptance,
+  isolated Preview resources, encryption/recovery/log evidence, HIGH runtime
+  resolution and human acceptance remain pending. No security completion or final
+  Phase 1 requirement group is closed. Production enablement is rejected.
+
 ### Delivered sub-slice — AUTH-STEP (16 October 2026)
 
 - [x] Internal Auth-first session/MFA prerequisite passes 191 root/180 security

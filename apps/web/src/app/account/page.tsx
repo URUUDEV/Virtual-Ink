@@ -5,6 +5,8 @@ import { backendAccessResponse } from '@/lib/backend-access';
 import { globalRoles } from '@backend/permissions/policy.ts';
 import { webAuthClient } from '@/lib/web-auth';
 import { SignOut } from '@/components/sign-out';
+import {randomUUID} from 'node:crypto';
+import {privilegedRoles} from '@backend/identity/security-admin.ts';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Your account' };
 export default async function AccountPage() {
@@ -19,6 +21,17 @@ export default async function AccountPage() {
     if (!result.error && result.data.user?.is_anonymous === false && result.data.user.email_confirmed_at) user = result.data.user;
   } catch {}
   if (!user) redirect('/login');
+  let securityAdministrator=false;
+  if(process.env.SECURITY_ADMIN_ENABLED==='true') {
+    try {
+      const {securityDependencies}=await import('@/lib/security-admin');
+      const dependencies=await securityDependencies(client);
+      const identity=await dependencies.auth.identity();
+      const result=await dependencies.commands.run('account.status',{},identity,randomUUID());
+      securityAdministrator=(privilegedRoles as readonly string[]).includes(String((result.data as {role?:string}).role));
+    }catch{ /* No security authority or redirect is inferred from missing infrastructure. */ }
+  }
+  if(securityAdministrator)redirect('/admin/security');
   let roles: readonly string[] | undefined;
   try {
     // getSession only supplies a token AFTER online user verification. It never grants roles.

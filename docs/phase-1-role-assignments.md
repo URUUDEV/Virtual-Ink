@@ -3,6 +3,13 @@
 16 October 2026. Owners: Uchi Chinyama and Mumba Chitonge.
 Status: locally verified disabled schema/reader foundation; not hosted or enabled.
 
+Current review implementation: [MFA and privileged administration](phase-1-security-admin.md)
+adds expiry, four distinct specialist roles and a restricted dual-approved writer
+in migration 20261016053031. The current explicit loader requires that migration
+for expiry filtering. Both Phase 1 versions remain unapplied on the visible hosted
+project; genuine provider/Preview acceptance remains pending. The original
+foundation description below is preserved for its delivery boundary.
+
 The portable database/phase1/role-assignments.sql matches CLI-generated migration
 20261016043927_virtual_ink_phase1_role_assignments.sql. It adds a separate private
 virtual_ink_phase1 schema with role_assignments and role_assignment_audits. The
