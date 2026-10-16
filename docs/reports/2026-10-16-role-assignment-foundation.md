@@ -134,10 +134,20 @@ message, destructive hosted probe, simulated signoff or new real account was mad
 
 ## GitHub and Vercel
 
-Review branch: codex/phase-1-role-assignments. Source commit, push/merge and current
-deployment evidence will be recorded after staged review. No phase is complete.
-Existing Production URL: https://virtual-ink.vercel.app. A Vercel build of source
-does not apply this SQL migration or verify hosted roles/MFA. Production private
+Source commit cff8b48409c8dbed6f97d32038d65f29a6335aec is committed and pushed on
+codex/phase-1-role-assignments, then fast-forward merged and pushed to main.
+Independent git ls-remote confirms the same source on both remote branches.
+Only the twenty reviewed source/test/report files were staged; staged diff
+validation passes and the user next-env.d.ts edit remains unstaged.
+Vercel's read-only deployment API confirms that exact source on main is READY in
+Production, deployment dpl_GNtAr8FUSxmhaAQ9g1iBabRdjmh9:
+https://virtual-34hls77jl-shadowrootsec-5679.vercel.app. Inspecting the alias
+https://virtual-ink.vercel.app resolves to that deployment. At 04:57 UTC, after
+that exact source became Ready, all twenty public-page/image/health/guest-denial
+smoke checks pass. These are not genuine Auth/role acceptance tests.
+A post-deployment hosted catalog read still shows ten
+migrations and no new assignment schema or reader. A Vercel source build does not
+apply SQL or verify genuine roles/MFA. No phase is complete; production private
 workflow acceptance remains open.
 
 ## Team actions and report checks
@@ -154,5 +164,6 @@ workflow acceptance remains open.
 Word uses the established compact_reference_guide preset, memo_masthead and named
 report-style overrides. Structural document checks pass. Rendering was attempted
 and failed because LibreOffice is absent (WinError 2); visual pagination remains
-unverified. Link/privacy checks are recorded before delivery. Report delivery is
+unverified. All 202 local links, identical portable/migration SQL bytes, required
+report evidence, OOXML and privacy checks pass. Report delivery is
 not human signoff.
