@@ -135,7 +135,7 @@ rules. The disposable Auth-shaped SQL fixture is never a hosted migration.
 - Database: database/phase1/security.sql, security-supabase.sql,
   database/tests/security-auth-fixture.sql and the new versioned migration.
 - Checks: test/security-admin.test.ts, phase1-permissions.test.ts,
-  scripts/privileged-security-db-check.mjs, security-artifact-check.mjs,
+  scripts/privileged-security-db-check.mjs, security-artifact-check.mjs, security-preview-check.mjs,
   web-auth-checks.mjs, web-ui-checks.mjs and package.json's security subset.
 - Handover: AGENTS.md, README.md, setup/security/permission/checklist/task-board/
   decision/current-report docs, phase-1-security-admin.md, the disabled environment
@@ -170,6 +170,8 @@ Final coverage at 07:32 UTC, 16 October 2026; private reviewed Node 24.21.0.
 | Browser artifacts | All 53 generated browser text artifacts scanned; zero server-key, privileged-key, database-URL, token or enrollment-secret pattern findings |
 | Runtime baseline / repository checks | Pass |
 | Root/web dependency audits | Both zero known vulnerabilities |
+| Vercel source delivery | Exact source 63d969d is Ready in Preview; Production remains a673637 |
+| Credential-free Preview probes | All four BLOCKED by Vercel deployment protection; zero application passes claimed |
 
 Unit coverage excludes SQL, frontend/browser journeys, server lifecycle and genuine
 hosted integrations. SQL uses provider-shaped local tables and synthetic session
@@ -205,11 +207,30 @@ remain and do not contain real secrets.
 
 ## 8. Vercel Preview URL and delivery
 
-Review branch: codex/phase-1-mfa-privileged-security. Source commit/push and the
-actual Preview URL/state are pending initial report generation. No URL or hosted
-MFA result will be invented. This branch is not promoted to main/Production while
-genuine acceptance and release gates remain open. A Ready source build does not
-apply either Phase 1 migration or close a security requirement.
+Source commit 63d969dd0e5cc975171a40e2bb1fac2723700296 is committed and pushed on
+codex/phase-1-mfa-privileged-security. Independent remote-ref inspection confirms
+the source on GitHub. Thirty-eight reviewed files were staged explicitly; the
+user next-env edit remains unstaged. The final evidence commit also adds the
+reusable credential-free Preview probe; no application runtime source changes
+follow the verified source build.
+
+Vercel's read-only deployment API confirms that exact source READY on the review
+branch with matching gitSource SHA, deployment dpl_33vs5fHmCkGSmGH3rFE6Up5FTzt4:
+https://virtual-r618zjaoz-shadowrootsec-5679.vercel.app.
+Production remains a6736376b09ba7c3242495ff86b4bb2eea62f20c, deployment
+dpl_7f4Kj1XeRy1Mf3MrQiSV9PEs7PWB. This branch is not merged/promoted to main.
+
+At 2026-10-16T07:51:53.708Z all four credential-free probes are BLOCKED by Vercel
+deployment protection: login/admin/status GETs return 302 to Vercel SSO, and the
+status POST returns Vercel's 401 SSO JSON. The initial POST classification was
+corrected after checking fixed provider markers without printing the body. The
+probe exits 2 for blocked, not success. No application page/denial, callback, MFA,
+role write, secure-cookie or deployed-log result is claimed from those responses.
+No protection was disabled, bypass token retrieved or private cookie extracted.
+
+The Preview resource/authentication question remains unanswered. Source delivery
+is verified; genuine isolated Preview acceptance is not. A Ready source build
+does not apply either Phase 1 migration or close a security requirement.
 
 ## 9. Security findings and review
 
@@ -280,6 +301,6 @@ Resolve HIGH-NODE-01 before completion/promotion.
 Word uses compact_reference_guide with memo_masthead and the existing named report
 overrides. Both report documents pass structural checks. Rendering was attempted
 for both and failed because LibreOffice is absent (WinError 2); visual pagination
-remains unverified. Local links, composed SQL/checksum, required evidence, OOXML
-and privacy checks are performed separately. Report delivery does not mean human
+remains unverified. All 226 local links, composed SQL/checksum, required evidence,
+OOXML and privacy checks pass. Report delivery does not mean human
 acceptance or production readiness.
