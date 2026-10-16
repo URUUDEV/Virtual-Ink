@@ -49,8 +49,12 @@ the synthetic authenticated role schema/table/function defaults before migration
 the new explicit revokes remove them. PostgreSQL 17 and genuine provider sessions
 remain unverified. Unit coverage excludes SQL and hosted workflow acceptance.
 
-Next: review bootstrap/privileged lifecycle decisions, implement a real server
-session/MFA verification boundary and scoped role-write commands with concurrency,
-idempotency and atomic audit tests. Only then review hosted migration, credentials
+The [internal server session/MFA prerequisite](phase-1-session-step-up.md) now has
+synthetic Auth and actual local SQL verification. It has no runtime caller,
+credential or Auth grant; genuine MFA and effective provider policy remain open.
+
+Next: review bootstrap/privileged lifecycle decisions and implement disabled
+scoped role-write commands with concurrency, idempotency and atomic audit tests.
+Then complete genuine provider verification before reviewing hosted migration, credentials
 and route enforcement. Keep the Node advisory and human acceptance gates in force.
 See [dated team evidence](reports/2026-10-16-role-assignment-foundation.md).

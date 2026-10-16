@@ -92,6 +92,13 @@ migration (20261016043927), a separate private schema and a disabled reader grou
 Local replay/audit/RLS checks pass; hosted history remains ten migrations with no
 Phase 1 assignment schema. See docs/phase-1-role-assignments.md. No role-writer,
 genuine MFA or business-route integration is enabled.
+The 16 October internal session/MFA prerequisite validates Auth identity and
+rechecks current provider session/account/factor/AMR facts. Synthetic local tests
+pass, including seventeen SQL denials; genuine provider acceptance remains open.
+No caller, credential, Auth-schema grant or migration is added. The assignment
+loader still has AAL1/no grants. See docs/phase-1-session-step-up.md before wiring
+a privileged writer; freshness, inactivity/timebox and in-flight revocation gates
+remain unresolved. Do not treat its internal proof as persisted authority.
 Private development onboarding now uses a separate provisioning CLI/group and
 matching transaction audit constraints. Keep its credentials out of HTTP/web
 environments. No real onboarding or genuine login verification has been completed.

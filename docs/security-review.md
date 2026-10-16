@@ -1,5 +1,13 @@
 # Virtual Ink recurring security review
 
+16 October session/MFA prerequisite: [current evidence](reports/2026-10-16-session-step-up.md)
+records Auth-first bearer validation, strict issuer/subject/AAL/AMR binding and
+current session/account/factor checks without cached proof authority. All 191 root/
+180 security tests, 37-file coverage gate, UI/Auth regressions and types/build
+pass. Seventeen actual PostgreSQL denial cases and read-only rights pass with
+zero fixture residue. No genuine MFA or privileged writer is enabled, no Auth
+grant or hosted DDL is added; provider/timebox/concurrency and Node gates remain.
+
 16 October assignment foundation: [current evidence](reports/2026-10-16-role-assignment-foundation.md)
 records eight-role assignments, mandatory transaction audits, immutable snapshots,
 self-scoped RLS and explicit removal of creator-default grants. Fresh local replay,

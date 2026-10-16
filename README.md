@@ -14,6 +14,13 @@ following private provisioning, readiness and Backend Phase 2 identity/tenant ac
 Read the [latest team report](docs/team-report.md) for each lead's starting point.
 The Phase 1 requirement map and proposed [role/resource permission matrix](docs/phase-1-permission-matrix.md) are tracked with the [gap report](docs/reports/2026-10-15-phase-1-gap-report.md).
 
+16 October session/MFA prerequisite: [server step-up boundary](docs/phase-1-session-step-up.md)
+validates Auth identity before inspecting claims and rechecks current session,
+account, factor and MFA evidence. All 191 root/180 security tests, the 37-file
+coverage gate, UI/Auth regressions, types/build and seventeen actual SQL denial
+cases pass. No runtime caller, Auth privilege or genuine MFA is enabled. Phase 1
+remains PARTIAL; the assignment migration is still unapplied on hosted development.
+
 16 October explicit roles: [assignment/audit foundation](docs/phase-1-role-assignments.md)
 adds all eight roles, one-active-role uniqueness, audited grant/revoke history and
 an explicit-assignment loader. All 186 root tests, 35-file coverage gate, six SQL

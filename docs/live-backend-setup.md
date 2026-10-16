@@ -1,5 +1,13 @@
 # Virtual Ink — live backend setup and readiness
 
+16 October step-up update: the [internal server prerequisite](phase-1-session-step-up.md)
+has synthetic Auth and actual local SQL evidence only. It is not connected to a
+runtime pool or route. No environment variable, credential, Auth-schema privilege
+or migration is introduced. Future setup must review column-specific SELECT and
+timeouts for a project-specific provider adapter; do not supply owner/service-role
+credentials. Genuine MFA, inactivity/timebox policy and sensitive enablement remain
+pending. The assignment loader still supplies AAL1/no grants.
+
 16 October assignment update: [explicit role foundation](phase-1-role-assignments.md)
 has eleven local migrations, with 20261016043927 intentionally unapplied on hosted
 development. Hosted catalog reads still show ten migrations and no new schema/

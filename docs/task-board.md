@@ -94,6 +94,7 @@ These artifacts are delivered for review. Their existence does not imply the lea
 | P1-08 | Uchi with Mumba | Add initial trusted identity-to-role context and suspended-user denial | Review | [16 October context evidence](reports/2026-10-16-trusted-identity-context.md): conservative Customer/DeliveryPartner bridge, unsupported/ambiguous-role denials, actual local RLS and synthetic HTTP checks; full eight-role lifecycle, resource loading and audited route integration remain open |
 | P1-09 | Uchi with Mumba | Design explicit eight-role assignments and privileged lifecycle | In progress | [Assignment foundation](phase-1-role-assignments.md): local schema/reader/audited grant-revoke constraints verified; genuine MFA, privileged writer, bootstrap decisions and hosted rollout remain open |
 | P1-09A | Uchi with Mumba | Review disabled assignment/audit schema and explicit reader | Review | [16 October evidence](reports/2026-10-16-role-assignment-foundation.md): 186 root tests, 35-file coverage gate, six SQL suites and actual loader/RLS/default-privilege probes pass; no hosted migration applied |
+| P1-09B | Uchi with Mumba | Review internal Auth-first session/MFA prerequisite | Review | [Step-up evidence](reports/2026-10-16-session-step-up.md): 191 root/180 security tests, 37-file coverage gate and seventeen actual SQL denials pass; no caller/Auth grant/genuine MFA enabled; provider policy and privileged writer remain open |
 
 ## Work item template
 

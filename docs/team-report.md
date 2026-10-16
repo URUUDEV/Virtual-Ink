@@ -1,5 +1,9 @@
 # Virtual Ink team report
 
+Latest build handover: [16 October — Server session and MFA prerequisite](reports/2026-10-16-session-step-up.md) and [Word copy](reports/2026-10-16-session-step-up.docx). Auth-first claim binding and current server session/account/factor/AMR checks pass 191 root/180 security tests, the 37-file coverage gate, UI/Auth regressions, types/build and seventeen actual SQL denial cases. No caller, Auth privilege, genuine MFA or role writer is enabled. Phase 1 remains PARTIAL.
+
+Source delivery and exact-source Vercel evidence are pending initial report generation. The existing next-env edit remains unstaged. Eleven local/ten hosted migrations are unchanged; no hosted DDL was performed. Genuine provider policy, freshness/bootstrap decisions, concurrency and private workflow acceptance remain open.
+
 Latest build handover: [16 October — Explicit role assignment foundation](reports/2026-10-16-role-assignment-foundation.md) and [Word copy](reports/2026-10-16-role-assignment-foundation.docx). All eight explicit roles, required grant/revoke audits, immutable history, self-scoped RLS and a reader without legacy fallback are locally verified. All 186 root/175 security tests, the 35-file coverage gate, UI/Auth regressions, types/build, eleven local migrations, six SQL suites and actual loader/default-privilege probes pass. The new migration is unapplied on hosted development; no writer, genuine MFA or business-route enforcement is enabled. Phase 1 remains PARTIAL.
 
 Assignment source cff8b48 is committed, pushed and merged into main, with both GitHub branch refs independently confirmed. The existing next-env.d.ts edit remains unstaged. Deployment evidence is recorded in the dated report; a hosted source build does not apply the new database migration. Word structural/link/privacy checks pass; visual pagination is unavailable without LibreOffice.

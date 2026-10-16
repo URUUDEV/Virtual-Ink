@@ -96,6 +96,16 @@ the human and Vercel gates pass.
 
 ## Decisions and ownership
 
+### Delivered sub-slice — AUTH-STEP (16 October 2026)
+
+- [x] Internal Auth-first session/MFA prerequisite passes 191 root/180 security
+  tests, the 37-file coverage gate, strict types/build and seventeen actual SQL
+  denial cases. See [evidence](reports/2026-10-16-session-step-up.md).
+- [ ] No runtime caller, Auth privilege or genuine MFA acceptance is added.
+  Inactivity/timebox policy, per-action transaction boundaries, privileged writer,
+  bootstrap/freshness decisions and hosted workflows remain open. No final
+  requirement group is closed; Phase 1 remains PARTIAL.
+
 ### Delivered sub-slice — AUTH-ASSIGN (16 October 2026)
 
 - [x] Explicit eight-role assignment/audit foundation and reader pass local replay,

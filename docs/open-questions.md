@@ -6,6 +6,8 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 
 ## Business ownership
 
+- **MFA-POLICY-01 — Open; Uchi with Mumba and Lubasi:** Approve the privileged-action freshness window, TOTP/recovery scope, effective provider inactivity/timebox policy and in-flight revocation behavior. The internal verifier requires an explicit 1–900 second technical window and has no enabled default; synthetic tests do not establish business approval or genuine provider MFA. See [prerequisite](phase-1-session-step-up.md).
+
 - **ROLE-BOOT-01 — Open; Uchi with Mumba and Lubasi:** Confirm who approves the first SUPER_ADMIN, privileged role grant/revoke authority, reviewer evidence and recovery. The explicit role foundation seeds no account and enables no writer; approval references in synthetic tests are not real acceptance or MFA proof.
 
 - **DEP-SVC-01 — Confirmed to proceed by Uchi, 2026-10-15:** Continue the proposed `app`/`web` service layout: public web catch-all, internal app, caller-owned web-to-app binding. The prior 14 October confirmation request is resolved by Uchi's “now proceed.” Vercel root changed from `apps/web` to the repository root; new Preview verification remains required. See [services guide](vercel-services.md).

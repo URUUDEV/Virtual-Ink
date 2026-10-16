@@ -62,6 +62,11 @@ approval.
 
 ## Mandatory enforcement and tests
 
+The [internal session/MFA prerequisite](phase-1-session-step-up.md) now checks
+Auth-validated claims against current provider session/account/factor/AMR facts.
+It supplies no role/grant, has no runtime caller and does not change the assignment
+loader's AAL1. Synthetic verification is not genuine MFA or route enforcement.
+
 The [explicit assignment foundation](phase-1-role-assignments.md) now supports
 all eight role names using a separate private schema and required grant/revoke
 audit snapshots. Its loader has no legacy fallback and supplies no grants,
