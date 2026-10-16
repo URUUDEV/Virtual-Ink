@@ -165,10 +165,23 @@ next-env changes and supplied attachments remain unstaged.
 
 ## Git, Vercel and delivery
 
-The reviewed code/report will be committed and pushed on
-`codex/phase-1-mfa-privileged-security`; exact source and Preview evidence will be
-recorded after delivery. No merge or Production promotion is authorized by this
-report's local passes. Main/Production remains `a6736376b09ba7c3242495ff86b4bb2eea62f20c`.
+The twenty-one reviewed files are committed and pushed at
+`e43f2e75fa2d186584a3343b14c59b6d7867b840` on
+`codex/phase-1-mfa-privileged-security`. Independent remote refs confirm the
+review source and unchanged main. No merge or Production promotion occurred.
+Main/Production remains `a6736376b09ba7c3242495ff86b4bb2eea62f20c`.
+Vercel issued deployment `dpl_HX3eGspkxybi5DqZxJSPUJYvYnVS` at
+[replacement Preview](https://virtual-fhdkhjksp-shadowrootsec-5679.vercel.app),
+with matching commit/gitSource and review branch. Its final read-only state is
+READY, target Preview. At
+2026-10-16T18:06:09.307Z all four fresh credential-free probes were BLOCKED by deployment
+protection: three GETs returned Vercel SSO redirects and the POST returned Vercel's
+401. Zero application passes are claimed. No private cookie/bypass token was
+retrieved and no protection setting changed. Source hosting neither applies the
+four pending migrations nor configures isolated Auth, the hook or credentials.
+Final evidence delivery changes documentation only; no runtime source follows
+the verified source commit. The user next-env edit and supplied assets remain
+unstaged. This is source delivery with blocked hosted acceptance, not phase closure.
 The preceding [provider-guard Preview](https://virtual-f2xm5ktgv-shadowrootsec-5679.vercel.app)
 does not contain this slice. Hosted application acceptance remains pending.
 

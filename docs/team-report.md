@@ -10,6 +10,13 @@ and the 38-file coverage gate pass. Hosted acceptance, recovery, provider-direct
 audits and the HIGH runtime gate remain open. Phase 1 scope is retained until
 traction. Source/deployment evidence and team actions are in the report.
 
+Source `e43f2e7` is pushed and independently confirmed. Vercel reports that exact
+commit READY at [replacement Preview](https://virtual-fhdkhjksp-shadowrootsec-5679.vercel.app),
+deployment dpl_HX3eGspkxybi5DqZxJSPUJYvYnVS. All four post-Ready guest probes are
+BLOCKED by deployment protection; genuine hosted acceptance is not passed.
+Main/Production remains a673637, with no merge/promotion. Word structural/link/
+privacy checks pass; visual rendering remains unavailable without LibreOffice.
+
 Latest security handover: [16 October — Native provider MFA guard](reports/2026-10-16-provider-mfa-guard.md)
 and [Word copy](reports/2026-10-16-provider-mfa-guard.docx). All 185 genuine local
 Auth/application checks, 82 SQL checks, thirteen migrations and six legacy SQL
