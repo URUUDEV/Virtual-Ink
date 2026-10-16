@@ -53,6 +53,7 @@ Private Node 24.21.0; coverage recorded at 05:07 UTC on 16 October 2026.
 | Restricted provider fixture | Column-only SELECT succeeds; DELETE denies with SQLSTATE 42501 |
 | Fixture residue | Zero; synthetic Auth schema and role roll back, local instance stopped |
 | Hosted catalog / security advisor | Ten migrations, assignment schema/reader absent; one existing intentionally closed RLS-without-policy INFO |
+| Vercel exact source / public smoke | Source 3fae18a Ready; all twenty fresh public-page/image/health/guest-denial checks pass at 05:15 UTC |
 
 The committed scripts/session-step-up-db-check.mjs refuses any existing Auth
 schema and connects only to the disposable password-protected loopback replay
@@ -119,10 +120,24 @@ simulated human approval or unjustified privilege expansion occurred.
 
 ## GitHub and Vercel
 
-Source review, commit/push, main merge and exact-source Vercel verification are
-pending at initial report generation. Deployment URLs and smoke results will be
-recorded only after observation. A hosted source build does not apply SQL or
-establish genuine Auth/MFA. No phase is complete.
+Source commit 3fae18a6e0457a242e70466269930f30963e8330 is committed and pushed on
+codex/phase-1-session-step-up, then fast-forward merged and pushed to main.
+Independent git ls-remote confirms the same source on both remote branches.
+Eighteen reviewed source/test/report files were staged explicitly; staged diff
+validation passes and the user next-env edit remains unstaged. A transient Git
+sandbox denial was resolved through the approved command path; no force push or
+unrelated work removal occurred.
+
+Vercel's read-only deployment API confirms that exact source on main READY in
+Production, deployment dpl_Druki4V3afe5cx9Vs2GD96cZN9jZ:
+https://virtual-bfa5iqvsx-shadowrootsec-5679.vercel.app. The alias
+https://virtual-ink.vercel.app resolves to that deployment. At
+2026-10-16T05:15:34.461Z, after that source became Ready, all twenty fresh
+public-page/image/health/guest-denial smoke checks pass. These are regressions,
+not genuine MFA or privileged-role acceptance. A post-deployment hosted catalog
+read still shows ten migrations and no assignment schema/reader. A hosted source
+build does not apply SQL or establish genuine Auth/MFA. No phase is complete.
+This handover's final delivery evidence is recorded in a separate report commit.
 
 ## Team actions and document checks
 
@@ -139,5 +154,5 @@ establish genuine Auth/MFA. No phase is complete.
 Word uses the established compact_reference_guide preset, memo_masthead and named
 report-style overrides. Structural document checks pass. Rendering was attempted
 and failed because LibreOffice is absent (WinError 2); visual pagination remains
-unverified. Report evidence, local links, OOXML and privacy are checked separately.
+unverified. All 211 local links, report evidence, OOXML and privacy checks pass.
 Report delivery is not human signoff.
