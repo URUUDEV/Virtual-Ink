@@ -113,16 +113,22 @@ hosted probe, simulated signoff or new role activation was performed.
 The previous recovery/evaluator/reconciliation branch was integrated with main's
 separate Analytics change without conflicts. Merge commit a7a68f4 was pushed to
 main; an independent git ls-remote confirms it on GitHub. Analytics is preserved.
-The new context slice uses codex/phase-1-trusted-context; its final source commit
-and merge evidence will be added after staged review.
+The new context slice is committed as fc6f8a586738b82a3befd6645dff3705aa8a595b on
+codex/phase-1-trusted-context, pushed and fast-forward merged into main. An
+independent git ls-remote confirms the same source commit on both remote branches.
+Only the fourteen reviewed source/test/report files were staged; staged diff
+validation passes. The user next-env.d.ts edit remains unstaged.
 
 Production URL: https://virtual-ink.vercel.app
 At 04:18 UTC all twenty public-page, rendered-image, health and guest-denial smoke
 checks pass. These checks do not identify the served Git commit or prove genuine
-Auth/database/files. The approved CLI rerun confirms Production deployment
-dpl_963Xcve4U3B8NernKyiaj5jrJQqz is READY at
-https://virtual-o8ta7drjj-shadowrootsec-5679.vercel.app. The first inspect result
-omits source-commit metadata, so current Git-source linkage is not yet verified.
+Auth/database/files. The approved CLI rerun and read-only deployment API now
+confirm Production deployment dpl_7onH41KaiA46R1pEYVGKxG2av6jT is READY at
+https://virtual-3wmd22583-shadowrootsec-5679.vercel.app. Inspecting the Production
+alias resolves to that deployment, with exact source
+fc6f8a586738b82a3befd6645dff3705aa8a595b on main. At 04:32 UTC, after that source
+became Ready, a fresh run passes all twenty public-page/image/health/guest checks.
+Genuine Auth remains unverified.
 The initial sandbox CLI fetch/credential-access failure is resolved by that rerun.
 No protection setting or authentication bypass was changed. No phase is complete.
 
@@ -145,5 +151,6 @@ stay private and pending.
 Word uses the established compact_reference_guide preset, memo_masthead pattern
 and named report-style overrides. Structural checks pass. The renderer was
 attempted and failed because LibreOffice is absent (WinError 2); visual pagination
-remains unverified. Link/privacy checks are recorded before delivery. No human
+remains unverified. All 176 local links, required report evidence, OOXML and privacy
+checks pass. No human
 signoff or phase completion is claimed.
