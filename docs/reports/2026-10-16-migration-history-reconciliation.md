@@ -112,9 +112,11 @@ approval simulation was performed. This is a scoped application review.
 
 ## GitHub, Vercel and completion boundary
 
-Delivery uses the existing codex/phase-1-auth-recovery review branch. Commit/push
-evidence will be recorded after explicit staged-file review. Production is not
-promoted. This slice adds no application route or new hosted migration.
+Delivery uses the existing codex/phase-1-auth-recovery review branch. Source/report
+commit 9adda05 was pushed successfully to origin; git ls-remote independently
+confirms the remote branch. Only the thirteen reviewed files were staged, and
+the next-env.d.ts edit remains unstaged. Staged diff validation passes. Production
+is not promoted. This slice adds no application route or new hosted migration.
 
 Existing Production URL: https://virtual-ink.vercel.app
 Previous evaluator Preview: https://virtual-nhoy63uw4-shadowrootsec-5679.vercel.app
@@ -136,5 +138,7 @@ complete and no secret environment variable is required by this reconciliation.
 
 The matching Word report uses the established compact_reference_guide preset,
 memo_masthead pattern and existing named report-style overrides. Structural/link/
-privacy checks pass. The renderer was attempted and failed because LibreOffice
+privacy checks pass, including 183 local links and ten normalized hosted SHA-256
+matches after removing trailing blank lines from the two recovered files. The
+renderer was attempted and failed because LibreOffice
 is absent (WinError 2). Visual pagination is unverified; no human signoff is claimed.
