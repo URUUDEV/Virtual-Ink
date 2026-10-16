@@ -19,12 +19,18 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
  const [status,setStatus]=useState<Status>(initial);
  const [busy,setBusy]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('');
  const [qr,setQr]=useState(''),[factorId,setFactorId]=useState(initial.factors?.find(f=>f.type==='totp'&&f.status==='verified')?.id??''),[challengeId,setChallengeId]=useState('');
+ const [enrollmentFactor,setEnrollmentFactor]=useState(''),[replaceReview,setReplaceReview]=useState(false),[removeReview,setRemoveReview]=useState('');
  const [target,setTarget]=useState<{userId:string;assignmentId:string;role:string;expiresAt:string|null}>();
  const [proposal,setProposal]=useState<Record<string,unknown>>(),[requests,setRequests]=useState<RequestRow[]>([]);
  const [events,setEvents]=useState<{id:string;action:string;outcome:string;severity:string;occurred_at:string}[]>([]);
  async function work(task:()=>Promise<void>) {if(busy)return;setBusy(true);setError('');setMessage('');
   try{await task();}catch(e){setError(e instanceof Error?e.message:'The request failed.');}finally{setBusy(false);}}
  const fields=(event:FormEvent<HTMLFormElement>)=>{event.preventDefault();return new FormData(event.currentTarget);};
+ const verifiedFactors=status.factors?.filter(f=>f.type==='totp'&&f.status==='verified')??[];
+ async function enroll(action:'enroll'|'replace-enroll') {
+  const result=await api(action);setQr(result.qr);setEnrollmentFactor(result.factorId);setFactorId(result.factorId);setChallengeId('');setReplaceReview(false);setRemoveReview('');
+  setStatus(await api('status'));setMessage(`Scan this private QR code, then verify the new authenticator. Audit reference: ${result.auditId}.`);
+ }
  return <div className="security-admin-grid" aria-busy={busy}>
   <p>Signed in as {initial.userId}. Current administrative role: {status.role}.</p>
   <p className="info-callout">Administrative changes require a password sign-in and authenticator verification within five minutes. Role changes also require approval by a different super administrator.</p>
@@ -42,26 +48,34 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
     <label htmlFor="security-password">Confirm your password</label><input id="security-password" name="password" type="password" autoComplete="current-password" required maxLength={128} disabled={busy}/>
     <button disabled={busy} className="button button-plain">Verify primary sign-in</button>
    </form>
-   <button disabled={busy} type="button" className="button button-plain" onClick={()=>work(async()=>{
-    const result=await api('enroll');setQr(result.qr);setFactorId(result.factorId);setChallengeId('');
-    setMessage('Scan this QR code using your authenticator app. It is shown only for this setup attempt.');})}>Enroll authenticator</button>
+   {verifiedFactors.length===0?<button disabled={busy||!!qr} type="button" className="button button-plain" onClick={()=>work(()=>enroll('enroll'))}>Enroll authenticator</button>:
+    <><p>Keep your existing authenticator until the replacement is verified. If your device is lost, use controlled recovery below.</p>
+     <button disabled={busy||!!qr} type="button" className="button button-plain" onClick={()=>setReplaceReview(true)}>Replace authenticator</button></>}
+   {replaceReview&&<div role="group" aria-label="Confirm authenticator replacement"><h3>Add a replacement authenticator</h3>
+    <p>This adds a new sign-in factor and requires recent password and MFA verification. Your existing factor remains active. Verify the replacement before removing the old factor.</p>
+    <button disabled={busy} type="button" onClick={()=>work(()=>enroll('replace-enroll'))}>Confirm replacement enrollment</button>
+    <button disabled={busy} type="button" onClick={()=>setReplaceReview(false)}>Cancel replacement</button></div>}
    {qr&&<figure><img src={qr} width={240} height={240} alt="Scan in your authenticator app to enroll Virtual Ink MFA"/><figcaption>Keep this QR code private. It contains your enrollment secret.</figcaption></figure>}
-   <div className="vendor-field"><label htmlFor="security-factor">Authenticator factor</label><select id="security-factor" value={factorId} disabled={busy} onChange={event=>{setFactorId(event.target.value);setChallengeId('');}}>
-    <option value="">Choose your factor</option>{qr&&<option value={factorId}>New authenticator — verify enrollment</option>}
-    {status.factors?.filter(f=>f.type==='totp').map(f=><option key={f.id} value={f.id}>{f.id} ({f.status})</option>)}
+   <div className="vendor-field"><label htmlFor="security-factor">Authenticator factor</label><select id="security-factor" value={factorId} disabled={busy} onChange={event=>{setFactorId(event.target.value);setChallengeId('');setRemoveReview('');}}>
+    <option value="">Choose your factor</option>{qr&&<option value={enrollmentFactor}>New authenticator — verify enrollment</option>}
+    {status.factors?.filter(f=>f.type==='totp'&&(!qr||f.id!==enrollmentFactor)).map(f=><option key={f.id} value={f.id}>{f.id} ({f.status})</option>)}
    </select></div>
    <button type="button" disabled={busy||!factorId} onClick={()=>work(async()=>{
     const result=await api('challenge',{factorId});setChallengeId(result.challengeId);setMessage('Enter a fresh authenticator code. Expired and reused codes are rejected.');})}>Start MFA challenge</button>
    <form onSubmit={event=>{const data=fields(event);const form=event.currentTarget;void work(async()=>{
-    try{const result=await api('verify',{factorId,challengeId,code:data.get('code')});setQr('');setChallengeId('');setStatus(await api('status'));
+    try{const result=await api('verify',{factorId,challengeId,code:data.get('code')});if(factorId===enrollmentFactor){setQr('');setEnrollmentFactor('');}setChallengeId('');setRemoveReview('');setStatus(await api('status'));
      setMessage(`Authenticator verified. Audit reference: ${result.auditId}.`);}finally{form.reset();}});}}>
     <label htmlFor="security-totp">Six-digit authenticator code</label><input id="security-totp" name="code" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" minLength={6} maxLength={6} required disabled={busy||!challengeId}/>
     <button disabled={busy||!challengeId} className="button button-primary">Verify authenticator</button>
    </form>
    <p>Factor removal requires recent MFA and another verified factor. The final verified factor cannot be removed here.</p>
    <p>To restart an unfinished setup, select its unverified factor and discard it before enrolling again.</p>
-   <button type="button" disabled={busy||!factorId} onClick={()=>work(async()=>{const result=await api('cancel-enrollment',{factorId});setQr('');setFactorId('');setChallengeId('');setStatus(await api('status'));setMessage(`Unfinished enrollment discarded. Audit reference: ${result.auditId}.`);})}>Discard unfinished enrollment</button>
-   <button type="button" disabled={busy||!factorId} onClick={()=>work(async()=>{const result=await api('unenroll',{factorId});setQr('');setFactorId('');setStatus(await api('status'));setMessage(`Factor removed. Audit reference: ${result.auditId}.`);})}>Remove selected factor</button>
+   <button type="button" disabled={busy||!status.factors?.some(f=>f.id===factorId&&f.status==='unverified')} onClick={()=>work(async()=>{const result=await api('cancel-enrollment',{factorId});if(factorId===enrollmentFactor){setQr('');setEnrollmentFactor('');}setFactorId('');setChallengeId('');setStatus(await api('status'));setMessage(`Unfinished enrollment discarded. Audit reference: ${result.auditId}.`);})}>Discard unfinished enrollment</button>
+   <button type="button" disabled={busy||verifiedFactors.length<2||!verifiedFactors.some(f=>f.id===factorId)} onClick={()=>setRemoveReview(factorId)}>Remove selected factor</button>
+   {removeReview&&<div role="group" aria-label="Confirm authenticator removal"><h3>Remove authenticator {removeReview}</h3>
+    <p>This authenticator will stop working. Confirm you can use the other verified authenticator before continuing. The final verified factor cannot be removed.</p>
+    <button type="button" disabled={busy} onClick={()=>work(async()=>{const result=await api('unenroll',{factorId:removeReview});setRemoveReview('');setFactorId('');setChallengeId('');setStatus(await api('status'));setMessage(`Factor removed. Verify your remaining authenticator before further changes. Audit reference: ${result.auditId}.`);})}>Confirm factor removal</button>
+    <button type="button" disabled={busy} onClick={()=>setRemoveReview('')}>Keep this factor</button></div>}
    <form onSubmit={event=>{const data=fields(event);void work(async()=>{const result=await api('recovery-request',{reason:data.get('reason')});
     setMessage(`Recovery request ${result.data.requestId} recorded. Two super administrators and private identity review are required. MFA has not been disabled.`);});}}>
     <label htmlFor="recovery-reason">Lost authenticator: request controlled recovery</label><textarea id="recovery-reason" name="reason" required minLength={10} maxLength={500} disabled={busy}/>

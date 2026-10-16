@@ -1,5 +1,15 @@
 # Virtual Ink team report
 
+Latest security handover: [16 October — Authenticator replacement](reports/2026-10-16-authenticator-replacement.md)
+and [Word copy](reports/2026-10-16-authenticator-replacement.docx). Overall **PARTIAL**.
+Working-device replacement now uses recent native/application MFA, preserves the
+existing factor until verification and confirms removal. Durable reservations
+serialize application removals and retain uncertain outcomes for private review.
+All 207 genuine checks, 108 SQL assertions, 199 root/188 security tests, types/build
+and the 38-file coverage gate pass. Hosted acceptance, recovery, provider-direct
+audits and the HIGH runtime gate remain open. Phase 1 scope is retained until
+traction. Source/deployment evidence and team actions are in the report.
+
 Latest security handover: [16 October — Native provider MFA guard](reports/2026-10-16-provider-mfa-guard.md)
 and [Word copy](reports/2026-10-16-provider-mfa-guard.docx). All 185 genuine local
 Auth/application checks, 82 SQL checks, thirteen migrations and six legacy SQL

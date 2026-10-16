@@ -83,6 +83,7 @@ test('real provider SDK routes enrollment, challenge and verification through se
   let verificationFailure=false;
   let qrBody=`<svg xmlns="http://www.w3.org/2000/svg">${' '.repeat(400000)}</svg>`;
   const calls=[];
+  const enrollmentNames=new Set();
   const f=clientFixture();
   const gateway=securityAuthGateway(f.client,{...config,environment:'local',codeKey:'a'.repeat(64)},
     {get:name=>f.cookies.get(name),set:cookie=>{f.writes.push(cookie);cookie.value?f.cookies.set(cookie.name,cookie.value):f.cookies.delete(cookie.name);}});
@@ -92,6 +93,9 @@ test('real provider SDK routes enrollment, challenge and verification through se
     if(url.pathname==='/auth/v1/user')return json(providerUser);
     if(url.pathname==='/auth/v1/factors') {
       assert.equal(JSON.parse(init.body).factor_type,'totp');
+      const name=JSON.parse(init.body).friendly_name;
+      assert.match(name,/^Virtual Ink administrator [a-f0-9-]{36}$/);
+      assert.ok(!enrollmentNames.has(name),'each provider enrollment needs a distinct friendly name');enrollmentNames.add(name);
       return json({id:factorId,type:'totp',totp:{qr_code:qrBody,secret:'synthetic-test-secret',uri:'otpauth://synthetic'}});
     }
     if(url.pathname===`/auth/v1/factors/${factorId}/challenge`)return json({id:challengeId,type:'totp',expires_at:now+300});

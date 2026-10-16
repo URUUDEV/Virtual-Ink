@@ -1,6 +1,7 @@
 import 'server-only';
 import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
 import { ApiError } from '@backend/api/errors.ts';
 import { createPooledDatabase, type ConnectionPool } from '@backend/database/pool.ts';
 import { loadDatabaseConfig } from '@backend/database/config.ts';
@@ -40,7 +41,7 @@ export function securityAuthGateway(client:Client,config:SecurityConfig,cookies:
       return {currentLevel:result.data!.currentLevel,nextLevel:result.data!.nextLevel};
     },
     async enroll() {
-      const result=await client.auth.mfa.enroll({factorType:'totp',issuer:'Virtual Ink',friendlyName:'Virtual Ink administrator'});check(result.error);
+      const result=await client.auth.mfa.enroll({factorType:'totp',issuer:'Virtual Ink',friendlyName:`Virtual Ink administrator ${randomUUID()}`});check(result.error);
       const qr=result.data!.totp.qr_code;
       // Native Auth QR SVGs exceed 256 KiB for ordinary issuer/email payloads.
       if(!qr.startsWith('data:image/svg+xml;utf-8,')||qr.length>1048576)throw new ApiError('IDENTITY_UNAVAILABLE');

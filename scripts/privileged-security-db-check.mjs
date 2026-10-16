@@ -43,6 +43,29 @@ try {
  const request=(target,role='ADMIN')=>({requestId:randomUUID(),targetUserId:id(target),expectedAssignmentId:id(400+target),role,reason:'Synthetic authorized security review',expiresAt:null});
  assert.equal((await command(1,'events.list')).ok,true);checks++;
  assert.equal((await command(1,'requests.list')).ok,true);checks++;
+ await denied(1,'mfa.reserve',{kind:'replace-enroll'},'UNAUTHENTICATED',{aal:'aal1'});
+ await denied(1,'mfa.reserve',{kind:'replace-enroll'},'UNAUTHENTICATED',{stepUpAt:null});
+ await denied(1,'mfa.reserve',{kind:'replace-enroll'},'UNAUTHENTICATED',{primaryAt:current-301});
+ await denied(1,'mfa.reserve',{kind:'replace-enroll'},'UNAUTHENTICATED',{mfaAt:current-2});
+ for(const i of [4,5])await denied(i,'mfa.reserve',{kind:'replace-enroll'});
+ const replacementReservation=await command(1,'mfa.reserve',{kind:'replace-enroll'});assert.equal(replacementReservation.ok,true);checks++;
+ for(let n=0;n<4;n++)assert.equal((await command(1,'mfa.reserve',{kind:'replace-enroll'})).ok,true);
+ await denied(1,'mfa.reserve',{kind:'replace-enroll'},'RATE_LIMITED');
+ const removalCorrelation=randomUUID(),removalContext={correlationId:removalCorrelation};
+ assert.equal((await command(2,'mfa.reserve',{kind:'unenroll',factorId:id(302)},removalContext)).ok,true);checks++;
+ await denied(2,'mfa.reserve',{kind:'unenroll',factorId:id(302)},'CONFLICT');
+ assert.equal((await command(2,'mfa.result',{kind:'unenroll',outcome:'failure',providerAttempted:false},removalContext)).ok,true);checks++;
+ assert.equal((await client.query('SELECT count(*)::int AS n FROM virtual_ink_security.factor_removals')).rows[0].n,0);checks++;
+ const uncertainContext={correlationId:randomUUID()};
+ assert.equal((await command(2,'mfa.reserve',{kind:'unenroll',factorId:id(302)},uncertainContext)).ok,true);checks++;
+ assert.equal((await command(2,'mfa.result',{kind:'unenroll',outcome:'failure',providerAttempted:true},uncertainContext)).ok,true);checks++;
+ await denied(2,'mfa.reserve',{kind:'unenroll',factorId:id(302)},'CONFLICT');
+ await denied(2,'mfa.result',{kind:'unenroll',outcome:'success'},'FORBIDDEN');
+ assert.equal((await client.query('SELECT count(*)::int AS n FROM virtual_ink_security.factor_removals')).rows[0].n,1);checks++;
+ // A confirmed matching completion can settle the reservation; arbitrary
+ // browser fields or a different request cannot release another operation.
+ assert.equal((await command(2,'mfa.result',{kind:'unenroll',outcome:'success'},uncertainContext)).ok,true);checks++;
+ assert.equal((await client.query('SELECT count(*)::int AS n FROM virtual_ink_security.factor_removals')).rows[0].n,0);checks++;
  await client.query('SAVEPOINT native_receipt');await client.query('DELETE FROM virtual_ink_auth_guard.factor_state WHERE user_id=$1',[id(101)]);
  await denied(1,'protected.check',{capability:'security.read'},'UNAUTHENTICATED');
  await client.query('ROLLBACK TO SAVEPOINT native_receipt');
@@ -81,7 +104,7 @@ try {
  await client.query('ROLLBACK TO SAVEPOINT stale_primary');
  // Ordinary database roles cannot bypass the UI, the command, or append-only audits.
  for(const role of ['authenticated','anon','service_role','virtual_ink_api','virtual_ink_provisioner','virtual_ink_vendor_service','virtual_ink_security_service']) {
-  for(const statement of ["UPDATE virtual_ink_phase1.role_assignments SET role='SUPER_ADMIN'",'DELETE FROM virtual_ink_security.events',"UPDATE virtual_ink_security.configuration SET enabled=true"]) {
+  for(const statement of ["UPDATE virtual_ink_phase1.role_assignments SET role='SUPER_ADMIN'",'DELETE FROM virtual_ink_security.events',"UPDATE virtual_ink_security.configuration SET enabled=true",'DELETE FROM virtual_ink_security.factor_removals']) {
    await client.query('SAVEPOINT rights');await client.query(`SET LOCAL ROLE ${role}`);
    await assert.rejects(client.query(statement),{code:'42501'});checks++;await client.query('ROLLBACK TO SAVEPOINT rights');
   }

@@ -8,6 +8,11 @@ the human and Vercel gates pass.
 
 ## Baseline and work order
 
+Uchi's 16 October priority: get Phase 1 ready promptly and retain Phase 1 scope
+until traction. The critical path remains isolated Auth/MFA acceptance, then the
+existing private-file/order/vendor/manual-status MVP journey and deployment gates.
+This direction does not close a requirement or authorize future-phase features.
+
 - [x] **B-01 — Inspect and preserve:** Next.js 16.4 / React 19.2 strict TypeScript
   web app; Node 24 TypeScript API; PostgreSQL/Supabase adapters and migrations;
   Vercel web/app services. The existing generated `apps/web/next-env.d.ts`
@@ -95,6 +100,15 @@ the human and Vercel gates pass.
   Phase 2 work.
 
 ## Decisions and ownership
+
+### Review implementation — AUTH-FACTOR-REPLACEMENT (16 October 2026)
+
+- [x] Separate recent-MFA replacement enrollment, distinct provider names,
+  preservation of the existing factor, removal confirmation and durable
+  serialization pass 207 genuine local checks and 108 SQL assertions.
+- [ ] Compatible isolated hosted/browser and recovery/reconciliation acceptance
+  remain open. Fourteen local migrations are not hosted enablement. See
+  [evidence](reports/2026-10-16-authenticator-replacement.md).
 
 ### Review implementation — AUTH-PROVIDER-GUARD (16 October 2026)
 

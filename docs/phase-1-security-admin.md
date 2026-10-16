@@ -133,10 +133,11 @@ unbuilt operation. No escrow, blockchain or additional marketplace work is added
 1. Confirm a separate non-production Supabase target and approved synthetic
    identities. The visible active project is shared and has no development branch;
    this task does not create a billed resource or guess that it is isolated.
-2. Review all thirteen migrations on that isolated target. Versions 20261016043927,
-   20261016053031 and 20261016122143 remain unapplied on the visible hosted project.
-   The latest combines provider-mfa-guard.sql, security-audit-reads.sql and
-   provider-mfa-session.sql. Earlier migrations are unchanged.
+2. Review all fourteen migrations on that isolated target. Versions 20261016043927,
+   20261016053031, 20261016122143 and 20261016173857 remain unapplied on the visible
+   hosted project. The thirteenth combines provider-mfa-guard.sql,
+   security-audit-reads.sql and provider-mfa-session.sql; the fourteenth is
+   authenticator-replacement.sql. Earlier migrations are unchanged.
    Never apply the disposable database/tests/security-auth-fixture.sql to Supabase.
 3. Privately configure a restricted non-owner login with only membership in
    virtual_ink_security_service, verified CA and timeouts. Do not give the web app
@@ -183,6 +184,36 @@ unbuilt operation. No escrow, blockchain or additional marketplace work is added
     gates before promotion. A Ready source build is not MFA or phase completion.
 
 ## Verification scope
+
+Working-device replacement uses the separate `replace-enroll` action. Sign in
+with the primary factor, complete a recent native/application MFA challenge,
+review replacement enrollment, scan and verify the new QR, then explicitly review
+removal of the old factor. Enrollment never removes the existing verified factor.
+Only then can removal proceed; a single verified factor cannot be removed through
+the application. Distinct provider friendly names avoid collisions. This is not
+lost-device recovery, which retains the private dual-approval process above.
+
+Factor removal obtains a durable subject-scoped reservation before checking the
+provider and issuing a removal. The reservation spans application instances and
+does not expire automatically. A matching successful provider completion releases
+it; a failure before any provider removal was attempted also releases it. A
+timeout, crash, uncertain provider outcome or failed result audit leaves it held.
+Repeated requests cannot release a different operation. Such a conflict requires
+private reconciliation, not repeated retries or an ordinary administrator override.
+The restricted table records subject, factor/session/correlation identifiers and
+time. The audit carries factor ID and whether a failed removal contacted the
+provider; no code or secret is retained.
+
+For an abandoned reservation, an authorized database/provider operator must use
+the existing controlled recovery review: record the private authorization and
+reason; stop affected removal traffic/workers; verify the provider's final state
+and that no operation can still finish; revoke affected sessions; append a
+redacted `mfa.removal.reconcile` event with the original correlation, operator
+reference and reason; and remove only that exact reservation in the same
+transaction. No HTTP command, automatic expiry or support-staff bypass is added.
+This manual process remains unexecuted in hosted acceptance. Direct-provider
+factor changes still require provider audit ingestion/reconciliation; application
+serialization does not control an independent provider administration API.
 
 Baseline evidence includes complete root/security suites, the 38-file 95% coverage
 gate, real SDK requests with synthetic HTTP, React SSR checks, strict types/build,

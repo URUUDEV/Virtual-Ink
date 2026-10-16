@@ -44,6 +44,11 @@ test('restricted admin interface presents TOTP and explicit role review without 
   assert.doesNotMatch(html,/otpauth:|sb_secret_|access_token|refresh_token|mfaEnabled/);
   const lower=renderToStaticMarkup(React.createElement(Panel,{initial:{...initial,role:'ADMIN',canManageRoles:false}}));
   assert.doesNotMatch(lower,/Privileged role management/);assert.match(lower,/Authenticator security/);
+  const protectedAccount=renderToStaticMarkup(React.createElement(Panel,{initial:{...initial,needsStepUp:true,
+    factors:[{id:'33333333-3333-4333-8333-333333333333',type:'totp',status:'verified'}]}}));
+  assert.match(protectedAccount,/Replace authenticator/);assert.match(protectedAccount,/Keep your existing authenticator until the replacement is verified/);
+  assert.doesNotMatch(protectedAccount,/>Enroll authenticator</);
+  assert.match(protectedAccount,/<button[^>]*disabled=""[^>]*>Remove selected factor/);
 });
 test('homepage renders actual mockups and linked product cards', () => {
   const html = renderToStaticMarkup(React.createElement(component('app/page.tsx')));

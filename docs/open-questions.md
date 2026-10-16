@@ -1,5 +1,15 @@
 # Virtual Ink open questions and decisions
 
+- **SCOPE-P1-02 — Confirmed by Uchi, 16 October 2026:** Prioritize Phase 1 readiness
+  and retain Phase 1 scope until traction. Continue the MVP closure checklist;
+  future marketplace, escrow and blockchain work remains outside this task.
+- **SEC-FACTOR-02 — Local implementation; hosted/operator review open:** Working
+  authenticator replacement requires recent genuine MFA and preserves the old
+  factor until the new one is verified. Application removals are serialized;
+  uncertain provider outcomes retain a reservation for private reconciliation.
+  Review the availability tradeoff and controlled reconciliation before enablement.
+  See [evidence](reports/2026-10-16-authenticator-replacement.md).
+
 Unanswered entries remain **Open**. Only entries explicitly recorded as Confirmed represent user decisions; other commercial, legal, hosting and launch facts remain unconfirmed. Uchi coordinates resolution; Uchi owns backend engineering and technical proposals, Taizya owns design proposals, and Lubasi owns operational evidence. Open questions block only the work that depends on them. The latest build brief supplies the software direction, role names, approved assets and UI palette; these do not settle business rules.
 
 Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | decision | decision owner | reviewer | date | evidence reference | affected task IDs | next action`. Use approved private evidence references for sensitive records. A proposed answer is not confirmation. Preserve decision history when an answer changes.

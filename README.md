@@ -9,12 +9,14 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 Current security review: [MFA and privileged roles](docs/phase-1-security-admin.md)
 implements provider TOTP enrollment/challenge/verification, restricted dual-approved
 role changes, durable rate/replay/audit controls and a restricted administrator UI.
-Local verification now includes 185 real Auth/application checks and 82 SQL
-assertions. A native provider hook closes direct-provider replay locally, and
+Local verification now includes 207 real Auth/application checks and 108 SQL
+assertions. Working-authenticator replacement preserves the existing factor until
+the replacement is verified; application removals have durable serialization.
+A native provider hook closes direct-provider replay locally, and
 protected actions require its receipt. Managed hook availability requires
 Teams/Enterprise or an authorized self-hosted target. Managed-cloud/browser and
 isolated Preview acceptance remain pending. Production enablement is rejected; the visible hosted schema is
-unchanged. See [evidence](docs/reports/2026-10-16-provider-mfa-guard.md).
+unchanged. See [evidence](docs/reports/2026-10-16-authenticator-replacement.md).
 
 Current UI slice: [Public UI visualization](docs/ui-visualization.md): the supplied
 HTML translated into a product-led homepage, searchable visual collection and six

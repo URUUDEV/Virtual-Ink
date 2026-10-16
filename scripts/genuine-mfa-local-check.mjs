@@ -151,7 +151,7 @@ try{
  stage='application_authority_boundary';
  await client.query('CREATE ROLE anon NOLOGIN; CREATE ROLE authenticated NOLOGIN; CREATE ROLE service_role NOLOGIN BYPASSRLS;');
  for(const name of(await readdir(resolve('supabase/migrations'))).filter(name=>name.endsWith('.sql')).sort()){
-  if(name==='20261016122143_virtual_ink_provider_mfa_guard.sql')continue; // Apply after the twelve-migration baseline, to test cutover.
+  if(name>='20261016122143_virtual_ink_provider_mfa_guard.sql')continue; // Apply follow-up security migrations after the twelve-migration baseline.
   await client.query(await readFile(resolve('supabase/migrations',name),'utf8'));
  }
  const appUser=randomUUID(),assignmentId=randomUUID();
@@ -312,6 +312,7 @@ try{
  report.baselineChecks=checks;
  stage='provider_hook_start';
  await client.query(await readFile(resolve('supabase/migrations/20261016122143_virtual_ink_provider_mfa_guard.sql'),'utf8'));
+ await client.query(await readFile(resolve('supabase/migrations/20261016173857_virtual_ink_authenticator_replacement.sql'),'utf8'));
  await client.query("UPDATE virtual_ink_auth_guard.settings SET enabled=true,environment='local'");
  await docker('stop','--timeout','10',originalAuth);
  // All synthetic accounts share one loopback IP. Raise only this fixture's IP

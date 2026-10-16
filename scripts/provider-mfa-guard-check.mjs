@@ -88,6 +88,7 @@ export async function checkProviderMfaGuard({database,nativeDatabase,admin,creat
   const first=await createApplicationActor('native-guard-requester','SUPER_ADMIN');
   check((await first.sdk.auth.mfa.getAuthenticatorAssuranceLevel()).data?.currentLevel==='aal1','requester_genuine_primary_login_after_cutover');
   check((await first.request('lookup',{targetUserId:second.id})).status===401,'requester_primary_login_cannot_bypass_native_receipt');
+  check((await first.request('replace-enroll')).status===401,'primary_only_session_cannot_enroll_replacement');
   let firstSecret;
   const nativeEnroll=first.sdk.auth.mfa.enroll.bind(first.sdk.auth.mfa);
   first.sdk.auth.mfa.enroll=async input=>{const response=await nativeEnroll(input);firstSecret=response.data?.totp?.secret;if(firstSecret)privateValues.push(firstSecret);return response;};
@@ -117,6 +118,26 @@ export async function checkProviderMfaGuard({database,nativeDatabase,admin,creat
   check((await first.request('execute',{requestId:removalId})).status===200,'native_hook_guarded_removal_executes');
   check((await roleTarget.request('status')).status===401,'native_hook_guarded_removal_revokes_stale_session');
   check((await database.query("SELECT count(*)::int AS n FROM virtual_ink_security.events WHERE target_id=$1 AND action='role.execute' AND outcome='success' AND requester=$2 AND approver=$3 AND executor=$2 AND assurance='aal2'",[roleTarget.id,first.id,second.id])).rows[0].n===2,'native_hook_role_grant_and_removal_are_audited');
+  check((await first.request('enroll')).status===403,'first_enrollment_route_cannot_add_another_factor');
+  const replacement=await first.request('replace-enroll');
+  check(replacement.status===200&&!!firstSecret&&replacement.body.data.factorId!==firstFactor,'recent_native_mfa_enrolls_distinct_replacement');
+  const replacementFactor=replacement.body.data.factorId;
+  let replacementFactors=(await first.sdk.auth.mfa.listFactors()).data.all.filter(f=>f.factor_type==='totp');
+  check(replacementFactors.some(f=>f.id===firstFactor&&f.status==='verified')&&replacementFactors.some(f=>f.id===replacementFactor&&f.status==='unverified'),'replacement_setup_preserves_original_verified_factor');
+  check((await first.request('unenroll',{factorId:firstFactor})).status===403,'old_factor_cannot_be_removed_before_replacement_verification');
+  const replacementChallenge=await first.request('challenge',{factorId:replacementFactor});
+  check(replacementChallenge.status===200,'replacement_receives_genuine_challenge');
+  check((await first.request('verify',{factorId:replacementFactor,challengeId:replacementChallenge.body.data.challengeId,code:totp(firstSecret)})).status===200,'replacement_code_establishes_genuine_higher_assurance');
+  replacementFactors=(await first.sdk.auth.mfa.listFactors()).data.all.filter(f=>f.factor_type==='totp');
+  check(replacementFactors.filter(f=>f.status==='verified').length===2,'both_factors_verified_before_removal');
+  const concurrentRemoval=await Promise.all([first.request('unenroll',{factorId:firstFactor}),first.request('unenroll',{factorId:firstFactor})]);
+  check(concurrentRemoval.filter(r=>r.status===200).length===1,'concurrent_application_factor_removal_has_one_success');
+  check(concurrentRemoval.some(r=>[401,403,409].includes(r.status)),'concurrent_application_removal_rejects_other_request');
+  replacementFactors=(await first.sdk.auth.mfa.listFactors()).data.all.filter(f=>f.factor_type==='totp');
+  check(replacementFactors.length===1&&replacementFactors[0].id===replacementFactor&&replacementFactors[0].status==='verified','replacement_survives_provider_old_factor_removal');
+  check((await first.request('unenroll',{factorId:replacementFactor})).status!==200,'final_replacement_factor_cannot_be_removed');
+  const replacementAudits=(await database.query("SELECT action,outcome,severity FROM virtual_ink_security.events WHERE subject=$1 AND action IN('mfa.replace-enroll','mfa.unenroll')",[first.subject])).rows;
+  check(replacementAudits.some(e=>e.action==='mfa.replace-enroll'&&e.outcome==='success'&&e.severity==='alert')&&replacementAudits.some(e=>e.action==='mfa.unenroll'&&e.outcome==='success'&&e.severity==='alert'),'replacement_and_old_factor_removal_have_durable_alerts');
   for(const active of [first,second]){const session=(await active.sdk.auth.getSession()).data.session;if(session)privateValues.push(session.access_token,session.refresh_token);}
   check((await first.request('logout')).status===200,'native_hook_guarded_logout_is_audited');
   // Native identity can append only provider-scoped records, not role/audit data.

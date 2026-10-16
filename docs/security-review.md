@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+16 October authenticator replacement: [evidence](reports/2026-10-16-authenticator-replacement.md)
+records 207 genuine checks and 108 SQL assertions. Separate recent-MFA enrollment
+allows replacement of a working device while preserving the original factor.
+Removal confirmation and a durable subject reservation prevent overlapping
+application removals; uncertain native outcomes remain blocked for private
+reconciliation. The private reservation has forced RLS, no browser/runtime/native
+table grants and no automatic timeout. Fourteen local migrations replay; hosted
+remains unchanged. Genuine hosted/browser, operator recovery, provider-direct
+audit ingestion and the HIGH Node gate still block completion.
+
 16 October native MFA guard: [evidence](reports/2026-10-16-provider-mfa-guard.md)
 records 185 genuine checks and 82 SQL assertions. Native verification hooks now
 block provider-first replay and concurrent reuse, require a matching receipt for

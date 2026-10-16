@@ -89,7 +89,7 @@ export function createSecurityCommands(database:SqlExecutor,config:SecurityConfi
   }};
 }
 export type SecurityCommands=ReturnType<typeof createSecurityCommands>;
-const emptyActions=['status','enroll','requests','events','logout'];
+const emptyActions=['status','enroll','replace-enroll','requests','events','logout'];
 function inputFor(action:string,value:unknown):Record<string,unknown> {
   if(emptyActions.includes(action))return strictObject(value,[]);
   if(action==='challenge'||action==='unenroll'||action==='cancel-enrollment') {const v=strictObject(value,['factorId']);return {factorId:uuid(v.factorId)};}
@@ -141,15 +141,19 @@ export function securityResponse(request:Request,action:string,
       const [factors,assurance]=await Promise.all([auth.factors(),auth.assurance()]);
       return {...result.data as object,factors,assurance,needsStepUp:identity.stepUpAt===null,auditId:result.auditId};
     }
-    if(['enroll','challenge','verify','reauthenticate','unenroll','cancel-enrollment'].includes(action)) {
-      const reserved={kind:action,...(action==='verify'?{factorId:input.factorId,
+    if(['enroll','replace-enroll','challenge','verify','reauthenticate','unenroll','cancel-enrollment'].includes(action)) {
+      const reserved={kind:action,...(['unenroll','cancel-enrollment'].includes(action)?{factorId:input.factorId}:{}),...(action==='verify'?{factorId:input.factorId,
         digest:createHmac('sha256',config.codeKey).update(`${identity.subject}:${input.factorId}:${input.code}`).digest('hex')}:{})};
       await run('mfa.reserve',reserved); // Durable attempt budget before contacting the provider.
       let result:unknown;
+      let providerAttempted=false;
       try {
-        if(action==='enroll') {
+        if(action==='enroll'||action==='replace-enroll') {
           const factors=await auth.factors();
-          if(factors.some(f=>f.status==='verified'))throw new ApiError('FORBIDDEN'); // Additional factors use a reviewed future flow.
+          if(action==='enroll'?factors.some(f=>f.status==='verified'):
+            !factors.some(f=>f.status==='verified'&&f.type==='totp'))throw new ApiError('FORBIDDEN');
+          // Replacement has a separate strong database reservation. First-factor
+          // setup cannot be reused to add a factor to an already protected account.
           result=await auth.enroll();
         } else if(action==='challenge')result=await auth.challenge(input.factorId as string);
         else if(action==='verify') {await auth.verify(input.factorId as string,input.challengeId as string,input.code as string);identity=await auth.identity();result={state:'verified'};}
@@ -159,13 +163,14 @@ export function securityResponse(request:Request,action:string,
           if(action==='cancel-enrollment') {
             if(!factors.some(f=>f.id===input.factorId&&f.status==='unverified'&&f.type==='totp'))throw new ApiError('FORBIDDEN');
           }else if(factors.filter(f=>f.status==='verified').length<2||!factors.some(f=>f.id===input.factorId&&f.status==='verified'))throw new ApiError('FORBIDDEN');
+          providerAttempted=true;
           await auth.unenroll(input.factorId as string);result={state:'factor_removed'};
         }
       } catch(error) {
-        await run('mfa.result',{kind:action,outcome:'failure'});
+        await run('mfa.result',{kind:action,outcome:'failure',providerAttempted,factorId:input.factorId});
         throw error instanceof ApiError?error:new ApiError('IDENTITY_UNAVAILABLE');
       }
-      const event=await run('mfa.result',{kind:action,outcome:'success'});
+      const event=await run('mfa.result',{kind:action,outcome:'success',factorId:input.factorId??(result as {factorId?:string}|undefined)?.factorId});
       return {...result as object,auditId:event.auditId};
     }
     if(action==='logout') {

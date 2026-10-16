@@ -126,6 +126,23 @@ test('MFA controller reserves attempts before provider calls, returns no tokens 
  assert.ok(!unavailable.calls.some(c=>c.name==='provider.verify'));
  const lower=fixture({failAction:'mfa.reserve'});assert.equal((await lower.request('unenroll',{factorId})).status,401);
 });
+
+test('replacement enrollment has a separate strong reservation and preserves existing factors',async()=>{
+ const factors=[{id:factorId,status:'verified',type:'totp'}];
+ const successful=fixture({factors});
+ const response=await successful.request('replace-enroll');assert.equal(response.status,200);
+ const reserved=successful.calls.find(c=>c.name==='mfa.reserve');assert.equal(reserved?.input?.kind,'replace-enroll');
+ assert.ok(successful.calls.findIndex(c=>c.name==='mfa.reserve')<successful.calls.findIndex(c=>c.name==='provider.enroll'));
+ assert.ok(successful.calls.some(c=>c.name==='mfa.result'&&c.input?.kind==='replace-enroll'&&c.input.outcome==='success'));
+ assert.ok(!successful.calls.some(c=>c.name==='provider.unenroll'));
+ assert.equal((await fixture().request('replace-enroll')).status,403,'not an alternate first-factor route');
+ const denied=fixture({factors,failAction:'mfa.reserve'});assert.equal((await denied.request('replace-enroll')).status,401);
+ assert.ok(!denied.calls.some(c=>c.name==='provider.enroll'));
+ assert.equal((await successful.request('replace-enroll',{aal:'aal2',actorRole:'SUPER_ADMIN'})).status,400);
+ const failed=fixture({factors,providerFailure:true});assert.equal((await failed.request('replace-enroll')).status,503);
+ assert.ok(failed.calls.some(c=>c.name==='mfa.result'&&c.input?.kind==='replace-enroll'&&c.input.outcome==='failure'));
+ assert.equal((await successful.request('unenroll',{factorId})).status,403,'single factor remains protected');
+});
 test('role controller accepts reasoned target changes, never accepts actor identity and records logout outcomes',async()=>{
  const f=fixture();
  for(const [action,input] of [['lookup',{targetUserId:subject}],['request',{targetUserId:subject,expectedAssignmentId:sessionId,role:'ADMIN',reason:'A valid synthetic review reason',expiresAt:null}],

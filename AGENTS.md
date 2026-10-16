@@ -75,6 +75,15 @@ This is standing authorization for relevant tests and controlled local probes.
 
 ## Current boundary
 
+Uchi reaffirmed on 16 October: prioritize getting Phase 1 ready and remain within
+Phase 1 until traction and an explicit scope decision. Continue the existing MVP
+closure checklist; no escrow, blockchain or additional marketplace scope.
+
+Working-authenticator replacement now passes 207 genuine local checks and 108
+SQL assertions across fourteen migrations. Replacement requires recent genuine
+MFA; uncertain provider removals retain a durable reservation. Isolated hosted
+acceptance and private recovery/reconciliation remain open. See the latest report.
+
 16 October security review branch adds provider-backed TOTP routes/UI and a
 restricted dual-approved role writer, durable events/limits, immutable expiry and
 atomic assignment/audit/session revocation. The native provider-hook follow-up
