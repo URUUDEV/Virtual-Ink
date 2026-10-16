@@ -41,8 +41,12 @@ export function createSupabaseIdentityVerifier(config: SupabaseRestConfig,
         if (!user || typeof user !== 'object' || Array.isArray(user)) throw new Error();
         const record = user as Record<string, unknown>;
         // Missing anonymous status is denied too; there is no private guest access.
-        if (record.is_anonymous !== false || record.banned_until &&
-          Date.parse(String(record.banned_until)) > Date.now()) throw new ApiError('UNAUTHENTICATED');
+        if (record.is_anonymous !== false || record.deleted_at != null) throw new ApiError('UNAUTHENTICATED');
+        if (record.banned_until != null) {
+          // Invalid provider state must not turn a suspension check into NaN > now.
+          const bannedUntil = typeof record.banned_until === 'string' ? Date.parse(record.banned_until) : NaN;
+          if (!Number.isFinite(bannedUntil) || bannedUntil > Date.now()) throw new ApiError('UNAUTHENTICATED');
+        }
         return Object.freeze({ provider: 'supabase', issuer: `${checked.projectUrl}/auth/v1`, subject: uuid(record.id) });
       } catch (error) {
         if (error instanceof ApiError && error.code === 'UNAUTHENTICATED') throw error;

@@ -96,6 +96,17 @@ the human and Vercel gates pass.
 
 ## Decisions and ownership
 
+### Delivered sub-slice — AUTH-CTX (16 October 2026)
+
+- [x] Initial internal actor loader checks verified-identity mapping and active
+  user/role rows; only unambiguous legacy Customer/DeliveryPartner map. Customer
+  vendor memberships and unsupported/privileged roles deny. Actual local RLS,
+  synthetic provider/HTTP revocation checks and all 183 root tests pass; all 34
+  scoped files exceed the 95% gate. See [evidence](reports/2026-10-16-trusted-identity-context.md).
+- [ ] No new production route calls the loader. Full eight-role assignments,
+  resource scope, MFA, atomic action/audit and genuine deployed enforcement remain
+  open. This does not close AUTH-02, AUTHZ-01 or any final requirement group.
+
 ### Delivered sub-slice — AUTHZ-POL (15 October 2026)
 
 - [x] Pure permission evaluator and ten synthetic test groups cover all eight

@@ -62,6 +62,13 @@ approval.
 
 ## Mandatory enforcement and tests
 
+The [initial trusted actor bridge](phase-1-trusted-context.md) now reads active
+existing identity/user/role rows inside the caller's transaction. It supports only
+unambiguous Customer/DeliveryPartner and denies Customer vendor memberships,
+legacy PlatformOperator and other unsupported/mixed role facts. Its immutable
+actor has no grants, resource assignments or elevated MFA. The six remaining roles
+still need schema/lifecycle integration; no business route calls the loader yet.
+
 1. Resolve identity from a verified Supabase session, map it to the active
    application user, and fetch active roles/grants from trusted database rows.
    Never authorize from `user_metadata`, browser fields, headers or a client role.

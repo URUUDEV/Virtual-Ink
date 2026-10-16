@@ -14,6 +14,14 @@ following private provisioning, readiness and Backend Phase 2 identity/tenant ac
 Read the [latest team report](docs/team-report.md) for each lead's starting point.
 The Phase 1 requirement map and proposed [role/resource permission matrix](docs/phase-1-permission-matrix.md) are tracked with the [gap report](docs/reports/2026-10-15-phase-1-gap-report.md).
 
+16 October identity context: [initial trusted actor loading](docs/phase-1-trusted-context.md)
+uses active application rows and conservatively bridges Customer/DeliveryPartner.
+Unsupported/ambiguous roles deny; no privileged authority or resource route is
+enabled. Deleted/malformed-ban provider responses now deny. All 183 backend tests,
+34-file coverage, UI/Auth regressions, types, build and actual local RLS probes pass.
+The previous recovery/evaluator/reconciliation work is merged into main at a7a68f4.
+See [current evidence](docs/reports/2026-10-16-trusted-identity-context.md).
+
 16 October migration reconciliation: all ten local versions/names and normalized
 SQL SHA-256 checksums match hosted development history. The two vendor migrations
 are restored to the versioned directory; fresh PostgreSQL 18 replay and five

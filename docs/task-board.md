@@ -91,7 +91,8 @@ These artifacts are delivered for review. Their existence does not imply the lea
 | MVP-02 | Uchi | Implement Auth/files/order/vendor quote/admin manual-status E2E | In progress | MVP-01 and genuine runtime setup; inspect records at every stage, add denial/concurrency/audit tests and verify Vercel before phase approval |
 | MVP-AUTH-01 | Uchi | Review account entry/server session slice and finish genuine Auth | Review | [Account slice](phase-1-account-access.md): handlers/UI, role-field denial, PKCE, cookie and protected redirect checks pass; hosted setup/test email/application mapping still pending |
 | DB-RECON-01 | Uchi with Mumba | Reconcile hosted vendor migration history with repository | Review | [16 October evidence](reports/2026-10-16-migration-history-reconciliation.md): ten versions/names and normalized SQL SHA-256 checksums match; fresh PostgreSQL 18 replay and five rollback suites pass. No hosted DDL; human review pending |
-| P1-08 | Uchi with Mumba | Add trusted identity-to-role context and suspended-user denial | Ready | DB-RECON-01 evidence; map verified provider identity to active application facts, retain conservative role denials, add database/HTTP/audit tests before evaluator wiring |
+| P1-08 | Uchi with Mumba | Add initial trusted identity-to-role context and suspended-user denial | Review | [16 October context evidence](reports/2026-10-16-trusted-identity-context.md): conservative Customer/DeliveryPartner bridge, unsupported/ambiguous-role denials, actual local RLS and synthetic HTTP checks; full eight-role lifecycle, resource loading and audited route integration remain open |
+| P1-09 | Uchi with Mumba | Design explicit eight-role assignments and privileged lifecycle | Ready | Review P1-06 decisions and MFA/revocation requirements; new schema/RLS/audit and resource-context tests before route enforcement; no automatic legacy-operator promotion |
 
 ## Work item template
 

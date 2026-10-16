@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+16 October identity-context slice: [current evidence](reports/2026-10-16-trusted-identity-context.md)
+records conservative role loading and actual local RLS revocation tests. A
+synthetic before-fix probe reproduced accepted malformed ban/deleted provider
+records; the verifier now denies both before database work. This is conditional
+provider-state hardening, not a proven genuine Supabase suspension bypass. All 183
+root tests, 172 security tests, UI/Auth regressions, strict types/build and the
+34-file coverage gate pass. No schema/grant/role activation was performed.
+Node advisory and genuine Auth/session/resource enforcement gates remain open.
+
 16 October 2026: [Migration reconciliation](reports/2026-10-16-migration-history-reconciliation.md)
 matches ten hosted/local normalized SQL checksums. Fresh PostgreSQL 18 replay and
 five rollback suites pass; hosted reads confirm forced RLS on all 18 tables,

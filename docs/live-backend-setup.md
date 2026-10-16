@@ -1,5 +1,11 @@
 # Virtual Ink — live backend setup and readiness
 
+16 October actor-context update: [internal loader](phase-1-trusted-context.md)
+uses existing private rows; no migration, environment variable or additional
+service permission is required. It is not called by a production business route.
+Provider status validation is hardened; genuine Auth and sensitive enablement
+remain pending. See [verification and merge evidence](reports/2026-10-16-trusted-identity-context.md).
+
 16 October update: [migration reconciliation](reports/2026-10-16-migration-history-reconciliation.md)
 passes for all ten versions/names and normalized SQL SHA-256 checksums. Fresh
 PostgreSQL 18 replay and five rollback suites pass using local provider-role stubs.
