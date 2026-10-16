@@ -96,6 +96,17 @@ the human and Vercel gates pass.
 
 ## Decisions and ownership
 
+### Delivered sub-slice — AUTH-ASSIGN (16 October 2026)
+
+- [x] Explicit eight-role assignment/audit foundation and reader pass local replay,
+  required-audit/immutable-history/RLS denials and actual loader checks. All 186
+  root tests, 35-file 95% gate, strict types and build pass. See
+  [evidence](reports/2026-10-16-role-assignment-foundation.md).
+- [ ] Migration remains unapplied on hosted development; no writer or production
+  business route uses it. Genuine MFA/session verification, bootstrap/lifecycle,
+  resource scope, concurrency and deployed enforcement remain open. No final
+  requirement group is closed.
+
 ### Delivered sub-slice — AUTH-CTX (16 October 2026)
 
 - [x] Initial internal actor loader checks verified-identity mapping and active

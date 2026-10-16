@@ -1,5 +1,13 @@
 # Virtual Ink recurring security review
 
+16 October assignment foundation: [current evidence](reports/2026-10-16-role-assignment-foundation.md)
+records eight-role assignments, mandatory transaction audits, immutable snapshots,
+self-scoped RLS and explicit removal of creator-default grants. Fresh local replay,
+six SQL suites and actual loader/default-privilege probes pass with zero residue.
+All 186 root tests, 175 security tests, 35-file coverage gate, types/build and UI/
+Auth regressions pass. Hosted reads confirm no new schema/reader/migration applied.
+No privileged writer or genuine MFA is enabled; Node and release gates remain open.
+
 16 October identity-context slice: [current evidence](reports/2026-10-16-trusted-identity-context.md)
 records conservative role loading and actual local RLS revocation tests. A
 synthetic before-fix probe reproduced accepted malformed ban/deleted provider

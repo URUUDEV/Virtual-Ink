@@ -14,6 +14,13 @@ following private provisioning, readiness and Backend Phase 2 identity/tenant ac
 Read the [latest team report](docs/team-report.md) for each lead's starting point.
 The Phase 1 requirement map and proposed [role/resource permission matrix](docs/phase-1-permission-matrix.md) are tracked with the [gap report](docs/reports/2026-10-15-phase-1-gap-report.md).
 
+16 October explicit roles: [assignment/audit foundation](docs/phase-1-role-assignments.md)
+adds all eight roles, one-active-role uniqueness, audited grant/revoke history and
+an explicit-assignment loader. All 186 root tests, 35-file coverage gate, six SQL
+rollback suites, actual RLS/loader probes, UI/Auth regressions, types and build pass.
+The new migration is unapplied on hosted development; no writer, genuine MFA or
+business-route enforcement is enabled. Phase 1 remains PARTIAL.
+
 16 October identity context: [initial trusted actor loading](docs/phase-1-trusted-context.md)
 uses active application rows and conservatively bridges Customer/DeliveryPartner.
 Unsupported/ambiguous roles deny; no privileged authority or resource route is

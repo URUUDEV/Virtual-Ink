@@ -1,5 +1,10 @@
 # Phase 1 initial trusted actor context
 
+Later 16 October update: the separate [explicit assignment foundation](phase-1-role-assignments.md)
+now supplies a locally tested eight-role schema/reader with no legacy fallback.
+It remains unapplied on hosted development. This page describes the earlier
+legacy bridge; genuine MFA, privileged writers and resource routes remain open.
+
 16 October 2026. Owners: Uchi Chinyama and Mumba Chitonge.
 Status: locally tested internal foundation; full eight-role enforcement remains open.
 

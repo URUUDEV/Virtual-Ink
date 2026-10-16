@@ -62,6 +62,13 @@ approval.
 
 ## Mandatory enforcement and tests
 
+The [explicit assignment foundation](phase-1-role-assignments.md) now supports
+all eight role names using a separate private schema and required grant/revoke
+audit snapshots. Its loader has no legacy fallback and supplies no grants,
+resource scope or elevated MFA. It is locally verified but unapplied on hosted
+development; there is no runtime writer or business-route caller. The initial
+legacy bridge below remains a separate implementation, not automatic fallback.
+
 The [initial trusted actor bridge](phase-1-trusted-context.md) now reads active
 existing identity/user/role rows inside the caller's transaction. It supports only
 unambiguous Customer/DeliveryPartner and denies Customer vendor memberships,

@@ -1,5 +1,11 @@
 # Virtual Ink — live backend setup and readiness
 
+16 October assignment update: [explicit role foundation](phase-1-role-assignments.md)
+has eleven local migrations, with 20261016043927 intentionally unapplied on hosted
+development. Hosted catalog reads still show ten migrations and no new schema/
+reader. Do not enable a writer/login or apply it from these setup notes. Current
+API readiness still checks nine original tables; genuine Auth/MFA remain pending.
+
 16 October actor-context update: [internal loader](phase-1-trusted-context.md)
 uses existing private rows; no migration, environment variable or additional
 service permission is required. It is not called by a production business route.

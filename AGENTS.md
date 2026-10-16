@@ -87,6 +87,11 @@ reconciled against hosted history: all ten normalized SQL SHA-256 checksums matc
 and a fresh PostgreSQL 18 replay plus five rollback suites pass. See
 docs/reports/2026-10-16-migration-history-reconciliation.md. Hosted schema presence
 does not establish genuine Auth, application DB connection or phase completion.
+The 16 October explicit eight-role assignment foundation adds one unapplied local
+migration (20261016043927), a separate private schema and a disabled reader group.
+Local replay/audit/RLS checks pass; hosted history remains ten migrations with no
+Phase 1 assignment schema. See docs/phase-1-role-assignments.md. No role-writer,
+genuine MFA or business-route integration is enabled.
 Private development onboarding now uses a separate provisioning CLI/group and
 matching transaction audit constraints. Keep its credentials out of HTTP/web
 environments. No real onboarding or genuine login verification has been completed.
