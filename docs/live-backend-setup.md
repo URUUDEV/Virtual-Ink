@@ -1,5 +1,11 @@
 # Virtual Ink — live backend setup and readiness
 
+16 October update: [migration reconciliation](reports/2026-10-16-migration-history-reconciliation.md)
+passes for all ten versions/names and normalized SQL SHA-256 checksums. Fresh
+PostgreSQL 18 replay and five rollback suites pass using local provider-role stubs.
+Credentials/CA, genuine Auth and trusted eight-role context remain pending.
+Service logins remain disabled; no hosted schema or permission change was made.
+
 14 October Vercel update: Uchi reports deployment and Supabase connection.
 [Multi-service setup](vercel-services.md) is implemented and locally verified;
 the project must read root vercel.json. Service names/ingress/binding await
@@ -9,7 +15,7 @@ confirmation; actual hosted URLs and functional Auth/database checks remain open
 and transaction scope are present in the hosted development catalog. There are
 18 private tables and 10 migrations; original API readiness checks nine tables.
 Provider bridge and HTTP intake are absent. Hosted/local rollback fixtures pass,
-but credentials/CA/Auth and migration-history reconciliation remain blocked.
+but credentials/CA/Auth remain blocked. Migration history is reconciled above.
 The application driver is now installed as pinned `pg` 8.23.1; setup reports
 `PG_DRIVER=pass`. Do not reapply core SQL or enable credentials from these findings.
 

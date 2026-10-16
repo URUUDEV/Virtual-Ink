@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+16 October 2026: [Migration reconciliation](reports/2026-10-16-migration-history-reconciliation.md)
+matches ten hosted/local normalized SQL checksums. Fresh PostgreSQL 18 replay and
+five rollback suites pass; hosted reads confirm forced RLS on all 18 tables,
+disabled service logins and no provider bridge. No hosted DDL or authority was
+added. Backend coverage remains 99.18%/96.26%/98.10%; repository heuristics and
+root/web audits pass. One security INFO and seven performance warnings remain.
+The newly reviewed [Node announcement](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases)
+lists HIGH-severity fixes for 24.x scheduled for 21 October. The static 24.21.0
+gate passes but does not clear this advisory; sensitive enablement remains blocked.
+
 15 October 2026: [Pure authorization evaluator](reports/2026-10-15-authorization-evaluator.md)
 adds tested eight-role/resource decisions without opening routes or database/
 Storage grants. Synthetic review fixed organization-target confusion, missing

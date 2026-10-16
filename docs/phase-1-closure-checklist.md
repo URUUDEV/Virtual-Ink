@@ -63,8 +63,10 @@ the human and Vercel gates pass.
   approved Virtual Ink design direction. Verify each workflow against APIs.
 - [ ] **DATA-01 — Persistence:** normalized required entities, UUID/FK/index/
   uniqueness/check constraints, timestamps/versioning, reviewed migrations,
-  transactions, RLS and isolation fixtures. Reconcile existing hosted migration
-  history before additional rollout; no production customer data in tests.
+  transactions, RLS and isolation fixtures. Existing migration history is
+  [reconciled](reports/2026-10-16-migration-history-reconciliation.md): ten matching
+  normalized SQL checksums and fresh local replay; required Phase 1 business
+  entities and enforcement remain unbuilt. No production customer data in tests.
 - [ ] **AUDIT-01 — Durable audit:** append-only events for the mission's auth,
   role, file, quote/order, assignment, proof, production, QC and admin actions;
   actor/role/resource/time/correlation/state/redacted metadata/reason. Test

@@ -1,6 +1,11 @@
 # Vendor onboarding foundation — verification boundary
 
-Updated: 14 October 2026. Status: private core hosted; application intake disabled.
+Updated: 16 October 2026. Status: private core hosted; application intake disabled.
+Current [migration reconciliation](reports/2026-10-16-migration-history-reconciliation.md)
+matches all ten versions/names and normalized SQL SHA-256 checksums. Fresh local
+PostgreSQL 18 replay and all five existing rollback suites pass. The two vendor
+migration files are retained under their original hosted versions; no hosted DDL
+was executed. Genuine Auth and the provider bridge remain unverified.
 See [current QA evidence](reports/2026-10-14-phase-completion-audit.md).
 The [previous local review](reports/2026-10-14-vendor-foundation-review.md) is preserved.
 
@@ -22,9 +27,9 @@ packets are not API payloads or authorization evidence for that contract.
 No HTTP intake, genuine login or notification dispatch is enabled. Current catalog
 has 18 private tables and 10 migrations, including hosted vendor core/transaction
 scope. The provider bridge is absent. The API readiness contract still covers the
-original nine tables and restricted group rights. Two hosted vendor migration
-versions are absent from local supabase/migrations; reconcile history before any
-rollout. Do not reapply these SQL files as routine hosted setup instructions.
+original nine tables and restricted group rights. The two vendor versions are now
+in local supabase/migrations and match hosted history. Do not reapply existing SQL
+to the hosted target; future schema changes require a new reviewed migration.
 
 The proposed lifecycle includes draft, submitted, changes requested, approved and
 rejected. Local approval fixtures exercise identity creation when needed, vendor

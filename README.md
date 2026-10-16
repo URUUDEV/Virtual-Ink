@@ -14,6 +14,12 @@ following private provisioning, readiness and Backend Phase 2 identity/tenant ac
 Read the [latest team report](docs/team-report.md) for each lead's starting point.
 The Phase 1 requirement map and proposed [role/resource permission matrix](docs/phase-1-permission-matrix.md) are tracked with the [gap report](docs/reports/2026-10-15-phase-1-gap-report.md).
 
+16 October migration reconciliation: all ten local versions/names and normalized
+SQL SHA-256 checksums match hosted development history. The two vendor migrations
+are restored to the versioned directory; fresh PostgreSQL 18 replay and five
+rollback suites pass. [Evidence](docs/reports/2026-10-16-migration-history-reconciliation.md).
+No hosted DDL, Auth enablement or role enforcement was added. Phase 1 remains PARTIAL.
+
 15 October authorization update: a [pure eight-role evaluator](docs/reports/2026-10-15-authorization-evaluator.md)
 now passes local policy tests and the 95% backend/shared coverage gate (178 tests;
 99.18% lines, 96.26% branches, 98.10% functions). Production build, strict types and

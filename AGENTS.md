@@ -82,8 +82,10 @@ remaining lifecycle/audit-review gates. Genuine Auth setup and human acceptance
 remain pending; don't claim the full Phase 2 PDF is complete.
 The 2026-10-14 QA catalog now verifies 18 hosted private application tables and
 10 migrations, including vendor core/transaction scope. The provider bridge and
-HTTP vendor intake are absent. Reconcile the two hosted vendor migration versions
-with repository migration history before further rollout. Hosted schema presence
+HTTP vendor intake are absent. On 16 October the two vendor migration files were
+reconciled against hosted history: all ten normalized SQL SHA-256 checksums match
+and a fresh PostgreSQL 18 replay plus five rollback suites pass. See
+docs/reports/2026-10-16-migration-history-reconciliation.md. Hosted schema presence
 does not establish genuine Auth, application DB connection or phase completion.
 Private development onboarding now uses a separate provisioning CLI/group and
 matching transaction audit constraints. Keep its credentials out of HTTP/web

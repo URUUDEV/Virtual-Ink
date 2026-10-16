@@ -90,7 +90,8 @@ These artifacts are delivered for review. Their existence does not imply the lea
 | MVP-01 | Uchi | Define accepted persistent print-order journey | Ready | Resolve PHASE-01, PC/FILE/AUTH/operations rules; Taizya supplies actual role/order states and Lubasi verified options/manual statuses |
 | MVP-02 | Uchi | Implement Auth/files/order/vendor quote/admin manual-status E2E | In progress | MVP-01 and genuine runtime setup; inspect records at every stage, add denial/concurrency/audit tests and verify Vercel before phase approval |
 | MVP-AUTH-01 | Uchi | Review account entry/server session slice and finish genuine Auth | Review | [Account slice](phase-1-account-access.md): handlers/UI, role-field denial, PKCE, cookie and protected redirect checks pass; hosted setup/test email/application mapping still pending |
-| DB-RECON-01 | Uchi | Reconcile hosted vendor migration history with repository | Ready | Catalog has 18 tables/10 migrations; local versioned directory lacks the two vendor versions. Review/export exact history and replay; do not reapply existing core SQL |
+| DB-RECON-01 | Uchi with Mumba | Reconcile hosted vendor migration history with repository | Review | [16 October evidence](reports/2026-10-16-migration-history-reconciliation.md): ten versions/names and normalized SQL SHA-256 checksums match; fresh PostgreSQL 18 replay and five rollback suites pass. No hosted DDL; human review pending |
+| P1-08 | Uchi with Mumba | Add trusted identity-to-role context and suspended-user denial | Ready | DB-RECON-01 evidence; map verified provider identity to active application facts, retain conservative role denials, add database/HTTP/audit tests before evaluator wiring |
 
 ## Work item template
 
