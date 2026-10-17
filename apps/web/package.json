@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev --webpack --hostname 127.0.0.1 --port 3001",
     "dev:service": "next dev --webpack --hostname 127.0.0.1",
-    "build": "node ../../scripts/environment-isolation-check.mjs && next build --webpack",
+    "build": "node ../../scripts/environment-isolation-check.mjs && npm --prefix ../.. run lint && next build --webpack",
     "start": "next start --hostname 127.0.0.1 --port 3001",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "npm --prefix ../.. run lint:web"
   },
   "dependencies": {
     "@fontsource/bebas-neue": "5.3.0",

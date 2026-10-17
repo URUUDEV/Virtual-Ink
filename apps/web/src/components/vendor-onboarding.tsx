@@ -15,7 +15,9 @@ export function VendorOnboarding() {
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     active.current = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Read browser-only storage after hydration, preserving identical server/client initial output.
     try { setHasSaved(localStorage.getItem(vendorDraftKey) !== null); } catch { /* Explicit device saving remains optional. */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- This is a request-generation counter, not a DOM ref; invalidate the current generation on unmount.
     return () => { active.current = false; restoreRequest.current++; };
   }, []);
   function update<K extends keyof VendorApplication>(key: K, value: VendorApplication[K]) {

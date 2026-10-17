@@ -113,6 +113,7 @@ export function validateDesign(value: unknown): Design {
   const fail = () => { throw new Error('This saved draft is invalid or belongs to a different editor version.'); };
   if (!object(value) || !exactKeys(value, designKeys)) return fail();
   if (value.version !== 1 || value.product !== 'cotton-t-shirt' || typeof value.text !== 'string' ||
+    // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
     value.text.length > 72 || value.text.split('\n').length > 3 || /[\u0000-\u0009\u000b-\u001f\u007f]/.test(value.text) ||
     typeof value.colour !== 'string' || !/^#[0-9a-f]{6}$/i.test(value.colour) ||
     typeof value.font !== 'string' || !fonts.includes(value.font as DesignFont) || typeof value.shirt !== 'string' || !Object.hasOwn(shirtColours, value.shirt)) return fail();

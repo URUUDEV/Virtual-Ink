@@ -13,6 +13,7 @@ export const maxVendorProfileBytes = 8192;
 export type VendorErrors = Partial<Record<keyof VendorApplication | 'form', string>>;
 const keys = Object.keys(emptyVendorApplication);
 function text(value: unknown, max: number, required = true) {
+  // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
   return typeof value === 'string' && value.length <= max && (!required || value.trim().length > 0) && !/[<>\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/.test(value);
 }
 export function vendorErrors(value: unknown, step: 1 | 2 | 3 = 3): VendorErrors {

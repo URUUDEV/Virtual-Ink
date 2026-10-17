@@ -11,7 +11,7 @@
     "web": {
       "root": "apps/web",
       "framework": "nextjs",
-      "installCommand": "npm --prefix ../.. ci && npm ci",
+      "installCommand": "npm --prefix ../.. ci --include=dev && npm ci --include=dev",
       "buildCommand": "npm run build",
       "devCommand": "npm run dev:service",
       "bindings": [

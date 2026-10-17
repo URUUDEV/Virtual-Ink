@@ -42,6 +42,7 @@ export function uuid(value: unknown, field = 'id'): string {
   return value.toLowerCase();
 }
 export function boundedText(value: unknown, field: string, maxLength = 120): string {
+  // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
   if (typeof value !== 'string' || value.trim().length === 0 || value.length > maxLength || /[\u0000-\u001f]/.test(value)) {
     throw new ApiError('VALIDATION_FAILED', [field]);
   }

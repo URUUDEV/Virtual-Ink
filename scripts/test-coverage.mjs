@@ -32,7 +32,7 @@ if (!runtimeIsAllowed(process.versions.node)) {
     ...assessCoverage(coverage, inventory, root) };
   if (failed || skipped) report.status = 'blocked';
   await writeFile(output, `${JSON.stringify(report, null, 2)}\n`);
-  const { files: details, ...summary } = report;
+  const { files: _details, ...summary } = report;
   console.log(JSON.stringify(summary, null, 2));
   process.exitCode = report.status === 'pass' ? 0 : 1;
 }

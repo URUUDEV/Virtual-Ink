@@ -352,7 +352,7 @@ finally{
  for(const id of created.reverse()){
   try{
    const label=await docker('inspect','--format',`{{index .Config.Labels "virtualink.genuine-mfa"}}`,id);
-   if(label!==runId)throw new Error('ownership_mismatch');
+   if(label!==runId){cleanup.push(false);continue;}
    if(report.status!=='pass'&&['start_database','start_auth'].includes(stage)){
     const captured=await runFile('docker',['logs','--tail','12',id],{timeout:10000,maxBuffer:65536,windowsHide:true}).catch(error=>({stdout:String(error.stdout??''),stderr:String(error.stderr??'')}));
     let diagnostic=captured.stdout+captured.stderr;

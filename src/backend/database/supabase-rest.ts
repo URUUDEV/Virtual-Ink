@@ -43,7 +43,7 @@ function validateRequest(request: SupabaseRequest): void {
     throw new ApiError('UNAUTHENTICATED');
   }
   if (request.body !== undefined && request.method === 'GET') throw new ApiError('VALIDATION_FAILED', ['body']);
-  if (request.query && Object.keys(request.query).some((key) => !/^[a-z][a-z0-9_\.]*$/.test(key))) {
+  if (request.query && Object.keys(request.query).some((key) => !/^[a-z][a-z0-9_.]*$/.test(key))) {
     throw new ApiError('VALIDATION_FAILED', ['query']);
   }
 }

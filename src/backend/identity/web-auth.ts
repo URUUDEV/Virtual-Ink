@@ -23,6 +23,7 @@ export type Credentials = Readonly<{ email: string; password: string }>;
 export function validateEmailInput(value: unknown): Readonly<{ email: string }> {
   const data = strictObject(value, ['email']);
   if (typeof data.email !== 'string' || data.email.length > 254 ||
+    // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
     !/^[^\s@\u0000-\u001f<>]+@[^\s@\u0000-\u001f<>]+\.[^\s@\u0000-\u001f<>]+$/.test(data.email)) {
     throw new ApiError('VALIDATION_FAILED', ['email']);
   }
@@ -31,17 +32,20 @@ export function validateEmailInput(value: unknown): Readonly<{ email: string }> 
 export function validateNewPassword(value: unknown): Readonly<{ password: string }> {
   const data = strictObject(value, ['password']);
   if (typeof data.password !== 'string' || data.password.length < 12 || data.password.length > 128 ||
+    // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
     /[\u0000-\u001f\u007f]/.test(data.password)) throw new ApiError('VALIDATION_FAILED', ['password']);
   return Object.freeze({ password: data.password });
 }
 export function validateCredentials(value: unknown, action: 'login' | 'register'): Credentials {
   const data = strictObject(value, ['email', 'password']);
   if (typeof data.email !== 'string' || data.email.length > 254 ||
+    // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
     !/^[^\s@\u0000-\u001f<>]+@[^\s@\u0000-\u001f<>]+\.[^\s@\u0000-\u001f<>]+$/.test(data.email)) {
     throw new ApiError('VALIDATION_FAILED', ['email']);
   }
   // Do not trim or normalize passwords. Support long passphrases and bound work.
   if (typeof data.password !== 'string' || data.password.length < (action === 'register' ? 12 : 1) ||
+    // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
     data.password.length > 128 || /[\u0000-\u001f\u007f]/.test(data.password)) throw new ApiError('VALIDATION_FAILED', ['password']);
   return Object.freeze({ email: data.email, password: data.password });
 }

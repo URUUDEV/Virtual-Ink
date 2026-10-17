@@ -13,7 +13,6 @@ for(const[path,method]of checks){
    ...(method==='POST'?{body:'{}'}:{}),signal:AbortSignal.timeout(15000)});
   actual=response.status;
   const location=new URL(response.headers.get('location')??'/',target);
-  const type=response.headers.get('content-type')??'';
   const reader=response.body?.getReader();let bytes=0,body='';
   if(reader){try{while(true){const{value,done}=await reader.read();if(done)break;bytes+=value.length;if(bytes>1048576){await reader.cancel();throw new Error();}body+=new TextDecoder().decode(value);}}finally{reader.releaseLock();}}
   const protectedPreview=location.hostname==='vercel.com'&&location.pathname.startsWith('/sso-api')||

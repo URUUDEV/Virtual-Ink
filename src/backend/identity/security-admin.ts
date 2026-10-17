@@ -100,6 +100,7 @@ function inputFor(action:string,value:unknown):Record<string,unknown> {
   }
   if(action==='reauthenticate'||action==='password-update') {
     const v=strictObject(value,['password']);
+    // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
     if(typeof v.password!=='string'||v.password.length<(action==='password-update'?12:1)||v.password.length>128||/[\u0000-\u001f\u007f]/.test(v.password))throw new ApiError('VALIDATION_FAILED',['password']);
     return {password:v.password};
   }

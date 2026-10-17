@@ -12,6 +12,7 @@ export async function initializeSettings(root = fileURLToPath(new URL('../', imp
       await copyFile(resolve(root, source), resolve(root, target), constants.COPYFILE_EXCL);
       results.push({ id, status: 'created_disabled' });
     } catch (error) {
+      // eslint-disable-next-line preserve-caught-error -- Raw filesystem errors may contain private paths; keep the setup failure redacted.
       if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw new Error('Setup initialization failed.');
       results.push({ id, status: 'preserved' });
     }

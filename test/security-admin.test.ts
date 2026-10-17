@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {ApiError} from '../src/backend/api/errors.ts';
 import {createSecurityCommands,loadSecurityConfig,securityIdentityFromClaims,securityResponse,securityCommandStatement,issueApplicationStepUp,withApplicationStepUp,
- type SecurityAuth,type SecurityCommands,type SecurityConfig, type SecurityIdentity} from '../src/backend/identity/security-admin.ts';
+ type SecurityAuth,type SecurityCommands, type SecurityIdentity} from '../src/backend/identity/security-admin.ts';
 import type {SqlExecutor,SqlParameter} from '../src/backend/database/ports.ts';
 const subject='11111111-1111-4111-8111-111111111111',sessionId='22222222-2222-4222-8222-222222222222',factorId='33333333-3333-4333-8333-333333333333';
 const env={SECURITY_ADMIN_ENABLED:'true',WEB_AUTH_ENABLED:'true',SECURITY_ENVIRONMENT:'preview',VERCEL_ENV:'preview',
@@ -158,7 +158,7 @@ test('role controller accepts reasoned target changes, never accepts actor ident
 });
 test('security command transport parameterizes input and redacts database/unknown failures',async()=>{
  let returned:unknown={ok:true,data:{role:'ADMIN'},auditId:subject};
- let error:unknown;let count=1;
+ let error:unknown=undefined;let count=1;
  const db:SqlExecutor={async query<Row extends Record<string,unknown>>(sql:string,parameters:readonly SqlParameter[]){
   assert.equal(sql,securityCommandStatement);assert.equal(parameters[0],'status');assert.deepEqual(JSON.parse(parameters[1] as string),{});
   assert.equal(JSON.parse(parameters[2] as string).subject,subject);if(error)throw error;

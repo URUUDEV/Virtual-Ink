@@ -15,6 +15,7 @@ export function validateVendorProfile(value: unknown, complete = false): VendorP
   const required = ['businessName','contactName','email','country','city','slug','summary'];
   for (const [field,max] of [['businessName',100],['contactName',80],['email',254],['phone',40],['country',60],['city',80],['slug',60],['summary',400],['registrationNumber',60],['notes',500]] as const) {
     const item = data[field];
+    // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
     if (typeof item !== 'string' || item.length > max || /[<>\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/.test(item) || complete && required.includes(field) && !item.trim()) throw new ApiError('VALIDATION_FAILED', [field]);
     output[field] = item.trim();
   }
@@ -39,6 +40,7 @@ export function writePayload(value: unknown, action: 'create' | 'save' | 'submit
   if (action === 'availability') { if (typeof body.availability !== 'string' || !['accepting_enquiries','paused'].includes(body.availability)) throw new ApiError('VALIDATION_FAILED', ['availability']); result.availability = body.availability; }
   if (action === 'decision') {
     if (typeof body.decision !== 'string' || !['approve','request_changes','reject'].includes(body.decision)) throw new ApiError('VALIDATION_FAILED', ['decision']);
+    // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
     if (typeof body.feedback !== 'string' || !body.feedback.trim() || body.feedback.length > 500 || /[<>\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/.test(body.feedback)) throw new ApiError('VALIDATION_FAILED', ['feedback']);
     const checks = strictObject(body.checks, ['ownerIdentity','businessEvidence','serviceCapabilities']);
     if (Object.keys(checks).length !== 3 || Object.values(checks).some(item => typeof item !== 'boolean') || body.decision === 'approve' && Object.values(checks).some(item => item !== true)) throw new ApiError('VALIDATION_FAILED', ['checks']);

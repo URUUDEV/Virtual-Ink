@@ -8,6 +8,8 @@
     "node": ">=24.21.0 <25"
   },
   "scripts": {
+    "lint": "eslint src scripts test apps/web eslint.config.mjs --max-warnings 0",
+    "lint:web": "eslint apps/web --max-warnings 0",
     "check:environment": "node scripts/environment-isolation-check.mjs",
     "start": "node --env-file-if-exists=.env src/server.js",
     "dev": "node --watch --env-file-if-exists=.env src/server.js",
@@ -38,5 +40,14 @@
   },
   "dependencies": {
     "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@eslint-react/eslint-plugin": "5.28.0",
+    "@eslint/js": "10.0.1",
+    "eslint": "10.13.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.13.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2"
   }
 }

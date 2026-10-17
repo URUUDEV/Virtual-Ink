@@ -1,6 +1,6 @@
 'use client';
 import './tshirt-workspace.css';
-import { useEffect, useReducer, useRef, useState, type PointerEvent } from 'react';
+import { useEffect, useLayoutEffect, useReducer, useRef, useState, type PointerEvent } from 'react';
 import { Download, FolderOpen, ImagePlus, Move, Palette, Redo2, RotateCcw, Save, Trash2, Type, Undo2 } from 'lucide-react';
 import { designReducer, draftKey, initialDesign, initialHistory, parseDraft, shirtColours, type Design } from '@/lib/design-workspace';
 import { paintDesign, prepareArtwork, previewSize, printArea } from '@/lib/design-canvas';
@@ -11,14 +11,16 @@ import { downloadLocal } from '@/lib/local-download';
 export function TshirtWorkspace() {
   const [history, dispatch] = useReducer(designReducer, initialHistory);
   const design = history.present;
-  const latestDesign = useRef(design); latestDesign.current = design;
+  const latestDesign = useRef(design);
+  useLayoutEffect(() => { latestDesign.current = design; }, [design]);
   const canvas = useRef<HTMLCanvasElement>(null);
   const importing = useRef(0);
   const dragging = useRef(false);
   const [layer, setLayer] = useState<'text' | 'artwork'>('text');
   const [view, setView] = useState<'2d' | '3d'>('2d');
   const [busy, setBusy] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [paintedDesign, setPaintedDesign] = useState<Design | null>(null);
+  const ready = paintedDesign === design;
   const [hasSaved, setHasSaved] = useState(false);
   const [message, setMessage] = useState('Your changes stay in this tab until you save on this device.');
   const [error, setError] = useState('');
@@ -26,12 +28,13 @@ export function TshirtWorkspace() {
   function begin() { dispatch({ type: 'begin' }); }
   function end() { dispatch({ type: 'end' }); }
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Read browser-only storage after hydration, preserving identical server/client initial output.
     try { setHasSaved(localStorage.getItem(draftKey) !== null); } catch { /* Device saving is optional. */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- This is a request-generation counter, not a DOM ref; invalidate the current generation on unmount.
     return () => { importing.current++; };
   }, []);
   useEffect(() => {
     let cancelled = false;
-    setReady(false);
     const staging = document.createElement('canvas');
     paintDesign(staging, design).then(() => {
       if (cancelled || !canvas.current) return;
@@ -39,7 +42,7 @@ export function TshirtWorkspace() {
       if (!context) throw new Error();
       context.clearRect(0, 0, previewSize.width, previewSize.height);
       context.drawImage(staging, 0, 0);
-      setReady(true);
+      setPaintedDesign(design);
     }).catch(() => { if (!cancelled) setError('The preview could not be drawn. Try removing artwork or reloading the editor.'); });
     return () => { cancelled = true; };
   }, [design]);
@@ -141,6 +144,7 @@ export function TshirtWorkspace() {
     <div className="workspace-grid"><aside className="workspace-tools" aria-label="Design controls"><fieldset disabled={busy}>
       <div className="workspace-panel-heading"><Type size={19} /><h2>Your words, your way.</h2></div>
       <label className="workspace-field" htmlFor="design-text">Text<textarea id="design-text" aria-describedby="design-text-help" value={design.text} maxLength={72} rows={3} onFocus={begin} onBlur={end} onChange={event => {
+        // eslint-disable-next-line no-control-regex -- This security filter intentionally rejects ASCII control characters.
         if (event.target.value.split('\n').length > 3 || /[\u0000-\u0009\u000b-\u001f\u007f]/.test(event.target.value)) { setError('Use up to three lines of text.'); return; }
         change({ text: event.target.value }); setLayer('text');
       }} /></label><p id="design-text-help" className="workspace-hint">Up to 72 characters and three lines. Long lines shrink to fit.</p>

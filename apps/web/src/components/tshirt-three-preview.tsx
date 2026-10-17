@@ -1,11 +1,12 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { Design } from '@/lib/design-workspace';
 import type { ShirtViewer } from '@/lib/shirt-3d';
 import { downloadLocal } from '@/lib/local-download';
 export function TshirtThreePreview({ design, onFallback }: { design: Design; onFallback: () => void }) {
   const canvas = useRef<HTMLCanvasElement>(null), viewer = useRef<ShirtViewer | null>(null);
-  const latest = useRef(design); latest.current = design;
+  const latest = useRef(design);
+  useLayoutEffect(() => { latest.current = design; }, [design]);
   const dragging = useRef<{ x: number; y: number } | null>(null);
   const [state, setState] = useState<'loading' | 'ready' | 'failed'>('loading');
   const [side, setSide] = useState('angle');
