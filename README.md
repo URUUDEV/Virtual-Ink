@@ -6,6 +6,15 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+17 October [isolated acceptance verification](docs/reports/2026-10-17-hosted-acceptance-verification.md):
+the separate staging provider has fourteen matching migrations and 29 forced-RLS
+tables; 21 hosted permission denials pass. All 206 root tests and the 39-file
+coverage gate pass. The dedicated Vercel deployment failed after the provider
+classified an explicit Preview request as Production; the isolation guard stopped
+build. No working Preview or hosted Auth acceptance is claimed. Original
+Production fingerprints are unchanged. Follow [the acceptance runbook](docs/hosted-acceptance.md);
+Phase 1 remains PARTIAL and sensitive enablement stays disabled.
+
 Current security review: [MFA and privileged roles](docs/phase-1-security-admin.md)
 implements provider TOTP enrollment/challenge/verification, restricted dual-approved
 role changes, durable rate/replay/audit controls and a restricted administrator UI.

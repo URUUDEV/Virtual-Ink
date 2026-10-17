@@ -1,5 +1,17 @@
 # Virtual Ink recurring security review
 
+17 October isolated acceptance: [verification evidence](reports/2026-10-17-hosted-acceptance-verification.md)
+records 206 root/195 security tests, the 39-file coverage gate, managed-shaped
+fourteen-migration replay, 108 local SQL assertions, 207 genuine local Auth/MFA
+checks with cleanup and 21 hosted rollback denials.
+The explicit Preview deployment was misclassified as Production inside the
+dedicated acceptance project and stopped at ENVIRONMENT_REQUIRED. No guard was
+weakened. Original Production metadata fingerprints are unchanged. The staging
+provider has 29 forced-RLS tables and no enabled runtime login, Auth users or
+Storage resources. Native hook plan availability, supported Preview creation,
+runtime HIGH advisory and genuine hosted workflows remain open. Earlier reports
+retain their original environment snapshots.
+
 16 October authenticator replacement: [evidence](reports/2026-10-16-authenticator-replacement.md)
 records 207 genuine checks and 108 SQL assertions. Separate recent-MFA enrollment
 allows replacement of a working device while preserving the original factor.

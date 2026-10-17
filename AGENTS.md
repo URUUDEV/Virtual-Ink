@@ -75,6 +75,18 @@ This is standing authorization for relevant tests and controlled local probes.
 
 ## Current boundary
 
+17 October acceptance verification: the dedicated Vercel acceptance project has
+25 Preview-only variables and no Git/integration inheritance. Its explicit Preview
+deployment was classified as Production by Vercel and failed at the environment
+guard. Do not weaken the guard or create a temporary Production bootstrap to pass
+hosting. Staging Supabase trlhbsgxcsgvfyxezayb has fourteen matching migrations,
+29 forced-RLS tables and passes 21 direct permission denials; it has no Auth users
+or Storage buckets/objects. Its Free plan lacks the required native MFA hook.
+All runtime roles remain NOLOGIN; Auth/admin/storage stay disabled. Original
+Production remains unchanged with ten migrations. Read docs/hosted-acceptance.md
+and the latest report; no working Preview, phase closure or human acceptance is
+established. Preserve applied staging migrations and use forward changes only.
+
 Uchi reaffirmed on 16 October: prioritize getting Phase 1 ready and remain within
 Phase 1 until traction and an explicit scope decision. Continue the existing MVP
 closure checklist; no escrow, blockchain or additional marketplace scope.

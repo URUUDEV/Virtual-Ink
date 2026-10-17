@@ -1,5 +1,18 @@
 # Virtual Ink team report
 
+Latest verification handover: [17 October — Isolated acceptance verification](reports/2026-10-17-hosted-acceptance-verification.md)
+and [Word copy](reports/2026-10-17-hosted-acceptance-verification.docx).
+Phase 1 remains **PARTIAL**; hosted acceptance is **FAIL**. The isolated staging
+database has fourteen matching migrations and 29 forced-RLS application tables;
+21 hosted denial probes pass. All 206 root/195 security tests, 11 React and 16
+adapter checks, 207 genuine local MFA checks, types/build and the 39-file coverage
+gate pass. Vercel classified
+the explicit Preview request as Production inside the dedicated acceptance
+project; its build failed safely at the environment guard. No working Preview
+is claimed. The native MFA hook plan requirement and runtime HIGH gate remain
+open. Original Production deployment/domain/environment fingerprints are unchanged.
+See the report for genuine rerun, document QA, exact denominators and team actions.
+
 Latest security handover: [16 October — Authenticator replacement](reports/2026-10-16-authenticator-replacement.md)
 and [Word copy](reports/2026-10-16-authenticator-replacement.docx). Overall **PARTIAL**.
 Working-device replacement now uses recent native/application MFA, preserves the

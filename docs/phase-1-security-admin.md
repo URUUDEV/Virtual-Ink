@@ -130,12 +130,15 @@ unbuilt operation. No escrow, blockchain or additional marketplace work is added
 
 ## Isolated Preview setup and recovery process
 
-1. Confirm a separate non-production Supabase target and approved synthetic
-   identities. The visible active project is shared and has no development branch;
-   this task does not create a billed resource or guess that it is isolated.
+1. Use the separate acceptance inventory in [hosted acceptance](hosted-acceptance.md).
+   Staging `trlhbsgxcsgvfyxezayb` has fourteen applied migrations, but its Free
+   plan lacks the native MFA hook; runtime logins and Auth/admin remain disabled.
+   The original project remains excluded. Approved synthetic identities and
+   compatible hook hosting are still prerequisites; do not infer billing approval.
 2. Review all fourteen migrations on that isolated target. Versions 20261016043927,
-   20261016053031, 20261016122143 and 20261016173857 remain unapplied on the visible
-   hosted project. The thirteenth combines provider-mfa-guard.sql,
+   20261016053031, 20261016122143 and 20261016173857 remain unapplied on original
+   Production; all fourteen are already applied to the isolated staging project.
+   Do not reapply or edit applied files. The thirteenth combines provider-mfa-guard.sql,
    security-audit-reads.sql and provider-mfa-session.sql; the fourteenth is
    authenticator-replacement.sql. Earlier migrations are unchanged.
    Never apply the disposable database/tests/security-auth-fixture.sql to Supabase.

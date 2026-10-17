@@ -6,7 +6,7 @@ read-only throughout this task. See the [inventory and compatibility review](rep
 The dedicated Vercel project is `virtual-ink-acceptance`,
 `prj_8IuJeoiJ4FVU3GHytBwPWp4idAEL`, in the existing Vercel team. It has no Git
 connection and no inherited integration variables. Its generated domain is
-`virtual-ink-acceptance.vercel.app`; it is reserved, not a working deployed site.
+`virtual-ink-acceptance.vercel.app`; it is not a working deployed site.
 No production domain is attached. Default deployment protection stays enabled.
 The separate Supabase project is `trlhbsgxcsgvfyxezayb`, eu-west-1, PostgreSQL
 17.11, in URUUDEV's Org. The provider quoted $0/month. No paid upgrade was made.
@@ -14,6 +14,26 @@ All fourteen repository migrations are applied, with canonical versions and
 normalized checksums verified. All 29 application tables enforce RLS; no public
 definer execution or incomplete UPDATE policy was found. Native MFA hook support
 is unavailable on this Free plan. Auth and sensitive administration stay disabled.
+
+17 October [verification](reports/2026-10-17-hosted-acceptance-verification.md)
+confirms 25 Preview-only variables, fourteen matching staging SHA-256 hashes and
+21 hosted permission denials. The explicit Preview attempt created deployment
+`dpl_Fmd4yCnc5rB17Xiwttj1YMDyM7uj` with actual target Production inside this
+dedicated acceptance project. Its build failed at `ENVIRONMENT_REQUIRED`; no
+Preview-only variables were copied to Production and no guard was weakened.
+The attempted URL is https://virtual-ink-acceptance-agqz2kg62-shadowrootsec-5679.vercel.app;
+it is a failed deployment, not a working acceptance URL. Original Production
+deployment/domain/environment fingerprints match the baseline. Staging still
+has zero Auth users, zero buckets/objects and only NOLOGIN application roles.
+
+**Deployment stop:** resolve the provider's first-deployment target routing before
+another deploy. An explicit CLI target alone did not enforce Preview. Validate
+the actual response target and deployment readiness separately. Use the documented
+`--skip-domain` protection in any later reviewed command; it does not repair target
+classification. Do not bootstrap a temporary Production deployment, relabel the
+environment, add Production variables or weaken the build/runtime checks. The
+private wrapper's added response validation and skip-domain flag remain untested
+against a second deployment. No successful hosted build is claimed.
 
 ## Provisioning order
 

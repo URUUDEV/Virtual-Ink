@@ -101,6 +101,18 @@ This direction does not close a requirement or authorize future-phase features.
 
 ## Decisions and ownership
 
+### Verification — AUTH-ISOLATED-ACCEPTANCE (17 October 2026)
+
+- [x] Separate acceptance resources inspected: fourteen matching staging
+  migrations, 29 forced-RLS tables, 21 hosted rollback denials and 25 Preview-only
+  Vercel variables without Git/integration inheritance. All 206 root tests and
+  39-file measured coverage gate pass; original Production fingerprints match.
+- [ ] Working Preview is absent. Vercel classified the explicit Preview request
+  as Production within the acceptance project; the environment guard stopped
+  build. Native MFA hook plan compatibility, genuine hosted roles/Auth, runtime
+  HIGH resolution and all product/human gates remain open. See
+  [evidence](reports/2026-10-17-hosted-acceptance-verification.md).
+
 ### Review implementation — AUTH-FACTOR-REPLACEMENT (16 October 2026)
 
 - [x] Separate recent-MFA replacement enrollment, distinct provider names,
