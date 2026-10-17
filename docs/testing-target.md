@@ -27,6 +27,10 @@ verification gates. The full product has not reached 95% testing or completion.
 
 ## Other required evidence
 
+Run `npm run lint` after root `npm ci --include=dev`. The build-enforced
+[lint gate](linting.md) checks 156 scoped JS/TS files with no warnings or errors.
+Its denominator is separate from measured test coverage and hosted acceptance.
+
 Run root/security tests, React and real-SDK Auth integration tests, both type checks,
 the production build, loopback HTTP/router checks and relevant SQL assertions.
 Genuine hosted workflows need approved synthetic identities/data, role/tenant

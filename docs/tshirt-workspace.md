@@ -1,5 +1,12 @@
 # Virtual Ink local T-shirt workspace
 
+17 October [lint follow-up](reports/2026-10-17-lint-gate.md): latest-design refs
+update after commit, and download readiness follows the design last painted
+successfully. Local text, undo/redo, four-line denial and 3D front/back/current-text
+checks pass with no captured page errors. Native import, downloads and complete
+accessibility/mobile/human acceptance were not repeated by this slice. Earlier
+evidence below retains its original scope.
+
 Updated: 13 October 2026. Owner: Taizya; Mumba implements; Uchi reviews.
 Status: source/build and sampled browser verification delivered for review.
 Human acceptance and live artwork-import verification remain pending.

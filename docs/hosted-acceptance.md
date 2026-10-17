@@ -75,7 +75,10 @@ against a second deployment. No successful hosted build is claimed.
    `/auth/recovery-callback` redirects. Keep external integrations disabled;
    controlled email can later use a separately reviewed staging-only sandbox.
 10. Run `npm run check:environment`, tests/coverage, strict types, lint and build.
-    Current source has no configured lint command; that remains an explicit gate.
+    `npm run lint` is configured and enforced by the web build; install root
+    development dependencies first. See [scope and exceptions](linting.md) and
+    [local verification](reports/2026-10-17-lint-gate.md). This closes the missing
+    local command gap, not hosted acceptance or the runtime advisory gate.
     `APPLICATION_ENVIRONMENT=local` or `test` is required for local builds/runtime.
     `NODE_ENV=production` still denotes the optimized build, not a staging target.
 11. From a reviewed committed-source snapshot, deploy explicitly to project

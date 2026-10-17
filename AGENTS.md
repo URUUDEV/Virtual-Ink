@@ -4,6 +4,10 @@ Use the existing repository conventions and the Shadow Root standard. Work on on
 reviewable vertical slice at a time. Read README.md and the current handover before
 editing. Preserve existing user work and supplied assets.
 
+The source lint gate is `npm run lint` after root `npm ci --include=dev`.
+The web build enforces it after environment isolation. See docs/linting.md for
+scope and reviewed exceptions; passing lint does not close hosting or phase gates.
+
 ## Phase completion — Vercel required
 
 Uchi's updated rule, 2026-10-14: do not mark any phase complete unless the feature

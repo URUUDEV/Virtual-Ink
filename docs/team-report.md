@@ -1,5 +1,23 @@
 # Virtual Ink team report
 
+Latest build handover: [17 October — Source lint gate and editor corrections](reports/2026-10-17-lint-gate.md)
+and [Word copy](reports/2026-10-17-lint-gate.docx). All 156 linted files pass with
+zero errors/warnings, and the web build enforces lint. Render-time latest-design
+ref writes are removed; readiness follows the successfully painted design. All
+206 root/195 security tests, 207 genuine local MFA checks with cleanup, 11 React
+and 16 SDK/Next checks, strict types/build and the 39-file coverage gate pass.
+Local text/undo/redo/line-denial/3D samples and 53 public + 44 disabled-Auth HTTP
+assertions pass. Final dependency audits are clean. Phase 1 remains **PARTIAL**;
+the previous hosted acceptance failure and runtime HIGH gate remain open.
+No push/deploy or human signoff is claimed. See the report for scope, exceptions,
+exact coverage, browser/document limits and team actions.
+
+Source `3ec1425` is committed locally on `codex/phase-1-lint-gate`. Clean lockfile
+installation with lifecycle scripts disabled and the subsequent lint pass are
+verified; all fourteen prior dependency entries are unchanged. No push or hosted
+rollout occurred. Word structural/link/privacy checks pass; visual QA remains
+unavailable without LibreOffice.
+
 Latest verification handover: [17 October — Isolated acceptance verification](reports/2026-10-17-hosted-acceptance-verification.md)
 and [Word copy](reports/2026-10-17-hosted-acceptance-verification.docx).
 Phase 1 remains **PARTIAL**; hosted acceptance is **FAIL**. The isolated staging

@@ -6,6 +6,13 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+17 October [source lint gate](docs/linting.md): all 156 scoped files pass with
+zero errors/warnings; web builds enforce the gate. Latest-design refs now update
+after commit and preview readiness tracks the design actually painted. All 206
+root tests, 207 genuine local MFA checks, 39-file coverage gate, types/build and
+sampled local browser checks pass. [Evidence](docs/reports/2026-10-17-lint-gate.md).
+Hosted acceptance and Phase 1 remain incomplete.
+
 17 October [isolated acceptance verification](docs/reports/2026-10-17-hosted-acceptance-verification.md):
 the separate staging provider has fourteen matching migrations and 29 forced-RLS
 tables; 21 hosted permission denials pass. All 206 root tests and the 39-file
@@ -219,6 +226,10 @@ Supabase-managed PostgreSQL is the initial hosted backend direction. The free-ti
 
 ## Run locally
 
+Lint and web builds require root development dependencies: run
+`npm ci --include=dev` from the repository root. Use `npm run lint` for all scoped
+source or `npm run lint:web` for web source. See [lint setup](docs/linting.md).
+
 Prerequisites for the backend: Node.js **24.21.0 or a later stable 24.x patch**, npm and a terminal. Root scripts/tests use built-in Node modules and native TypeScript execution; no install step is required. Frontend packages live separately in `apps/web`. Default Node 24.14.1 fails the gate; use the verified private 24.21.0 runtime following [setup notes](docs/live-backend-setup.md). Durable default/deployment runtime patching remains open.
 
 `npm run setup:init` safely creates disabled .env and .private/provisioning.env
@@ -279,7 +290,8 @@ it has not passed here. Keep provisioning credentials out of web/server environm
 On a machine with npm registry access:
 
 ```powershell
-npm install --prefix apps/web
+npm ci --include=dev
+npm ci --prefix apps/web --include=dev
 npm run typecheck:web
 npm run test:web
 npm run build:web

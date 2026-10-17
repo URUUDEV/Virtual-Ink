@@ -1,5 +1,17 @@
 # Virtual Ink recurring security review
 
+17 October lint slice: [evidence](reports/2026-10-17-lint-gate.md) records a
+156-file build-enforced lint gate, four rejecting probes and a clean fixture.
+The initial Next-preset install introduced an unpatched braces advisory through
+five package findings; that chain was removed. Final root/web audits have zero
+known vulnerabilities. React refs update after commit; readiness is tied to the
+painted design. Intentional control filters, hydration, generation cancellation
+and error redaction retain narrow documented exceptions. All 206 root/195 security
+tests, 207 genuine local MFA checks, 39-file measured coverage, types/build,
+sampled browser and 53+44 HTTP assertions pass. No hosted capability was enabled;
+the runtime HIGH and isolated hosting gates remain open. This is scoped review,
+not full provider, OS or production assurance.
+
 17 October isolated acceptance: [verification evidence](reports/2026-10-17-hosted-acceptance-verification.md)
 records 206 root/195 security tests, the 39-file coverage gate, managed-shaped
 fourteen-migration replay, 108 local SQL assertions, 207 genuine local Auth/MFA

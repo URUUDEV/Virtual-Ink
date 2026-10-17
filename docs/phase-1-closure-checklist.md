@@ -101,6 +101,16 @@ This direction does not close a requirement or authorize future-phase features.
 
 ## Decisions and ownership
 
+### Verification — source lint gate (17 October 2026)
+
+- [x] The previously absent command now checks all 156 scoped JS/TS files,
+  rejects controlled bad-code fixtures and runs inside the web build. Local
+  regression/type/build, 207 genuine MFA and sampled browser/HTTP checks pass.
+  See [evidence](reports/2026-10-17-lint-gate.md).
+- [ ] Full Next-specific/accessibility checks, hosted Vercel verification,
+  runtime HIGH resolution and all unbuilt/unaccepted Phase 1 groups remain open.
+  This source gate does not close SEC-01, TEST-01 or any final requirement group.
+
 ### Verification — AUTH-ISOLATED-ACCEPTANCE (17 October 2026)
 
 - [x] Separate acceptance resources inspected: fourteen matching staging

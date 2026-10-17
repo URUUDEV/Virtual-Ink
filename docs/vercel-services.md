@@ -46,6 +46,12 @@ database access. No development host/port is used as a production fallback.
 
 ## Project setup
 
+17 October source update: the web service restores development dependencies from
+both lockfiles so the full [lint gate](linting.md) can run after isolation and
+before Next.js compilation. Local build verification passes. No hosted project
+setting or deployment was changed; current acceptance blockers remain in the
+[isolated runbook](hosted-acceptance.md).
+
 Set the Vercel project's Root Directory to the repository root (`.`), so it reads
 the root services configuration. Each service owns its build/runtime commands;
 there is no top-level install/build/framework/functions configuration.
