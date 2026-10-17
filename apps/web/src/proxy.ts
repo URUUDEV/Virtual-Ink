@@ -32,4 +32,4 @@ export async function proxy(request: NextRequest) {
   } catch { return loginRedirect(); }
   return response;
 }
-export const config = { matcher: ['/account/:path*', '/customer/:path*', '/vendor/:path*', '/admin/:path*', '/reset-password'] };
+export const config = { matcher: ['/account/:path*', '/customer/:path*', '/vendor/:path*', '/admin/:path*', '/brand-lab/:path*', '/reset-password'] };

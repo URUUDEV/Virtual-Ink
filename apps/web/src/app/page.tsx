@@ -4,6 +4,7 @@ import { ProductShowcase } from '@/components/product-showcase';
 import { ProductCard } from '@/components/product-card';
 import { demoProducts } from '@/lib/demo-products';
 import { ButtonLink } from '@/components/ui/button-link';
+import { HeroBrand } from '@/components/brand/hero-brand';
 const highlights = [
   { icon: Shirt, name: 'Custom apparel', text: 'T-shirts, polos and hoodies.', href: '/shop?group=Apparel' },
   { icon: FileText, name: 'Everyday print', text: 'Cards, flyers and stationery.', href: '/shop?group=Print' },
@@ -13,15 +14,15 @@ const highlights = [
 export default function Home() {
   return <>
     <section className="hero"><div className="container hero-grid">
-      <div className="hero-copy"><p className="eyebrow hero-eyebrow"><span /> A new space for ideas in print</p>
+      <div className="hero-copy"><p className="eyebrow hero-eyebrow"><span /> CREATE SOMETHING WORTH HOLDING.</p>
         <h1>Your Ideas.<br />Our Print.<br /><span className="gradient-text">Delivered.</span></h1>
         <p className="hero-description">Custom printing, branded apparel, marketing materials, and professional design services — all in one place.</p>
-        <div className="hero-actions"><ButtonLink href="/shop">Start Ordering <ArrowRight size={18} /></ButtonLink>
-          <ButtonLink href="/design-services" secondary>Get a Quote</ButtonLink></div>
-        <p className="hero-disclaimer">Find your inspiration. Explore the visual collection.</p>
+        <div className="hero-actions"><ButtonLink href="/shop">Explore products <ArrowRight size={18} /></ButtonLink>
+          <ButtonLink href="/vendors/join" secondary>Become a vendor</ButtonLink></div>
+        <p className="hero-disclaimer">Discover the possibilities. Live ordering follows vendor and production verification.</p>
         <p className="workflow">DESIGN <span>·</span> PRINT <span>·</span> ORDER <span>·</span> DELIVER</p>
       </div>
-      <ProductShowcase />
+      <HeroBrand />
     </div></section>
     <section className="trust-strip"><div className="container trust-grid">
       <span><ShieldCheck size={20} /> Clear vendor approval</span><span><Lock size={20} /> Private customer files</span>
@@ -33,6 +34,8 @@ export default function Home() {
         <div className="category-icon"><Icon size={25} /></div><h3>{name}</h3><p>{text}</p><span className="text-link">Explore <ArrowRight size={16} /></span>
       </Link>)}</div>
     </section>
+    <section className="section container home-studio"><div><p className="eyebrow">FROM IMAGINATION TO SOMETHING REAL</p><h2>Give your idea<br/>a new dimension.</h2><p>Explore garment-specific models, wrap a design around a mug or work with a flat print layout. Turn it. Change the colour. Find the right placement.</p><ButtonLink href="/studio">Open the design studio <ArrowRight size={18}/></ButtonLink><p className="section-note">Original model studies and local drafts. Supplier-approved models and final production proofs are still required.</p></div><ProductShowcase/></section>
+    <section className="section section-muted"><div className="container"><div className="section-heading"><div><p className="eyebrow">THE PEOPLE BEHIND THE FINISH</p><h2>Find the right print partner.</h2></div><Link className="text-link" href="/marketplace">Explore the marketplace <ArrowRight size={17}/></Link></div><div className="home-vendor-note"><ShieldCheck size={30} aria-hidden="true"/><div><h3>Verification comes before a featured listing.</h3><p>Vendor profiles, capabilities and service areas will appear after review. There are no verified vendors or customer ratings to display yet.</p></div><Link className="text-link" href="/vendors/join">Prepare a vendor profile →</Link></div></div></section>
     <section className="section section-muted"><div className="container"><div className="section-heading"><div><p className="eyebrow">YOUR BRAND, YOUR WAY</p><h2>Explore custom products.</h2></div><Link href="/shop" className="text-link">View the collection <ArrowRight size={17} /></Link></div>
       <p className="collection-note">Supplied product concepts · All ZMW prices are illustrative, pending vendor approval.</p>
       <div className="product-grid">{demoProducts.map(product => <ProductCard key={product.slug} product={product} />)}</div>
@@ -54,7 +57,7 @@ export default function Home() {
     <section className="section container faq"><p className="eyebrow">GOOD TO KNOW</p><h2>A clear start.</h2>
       <details><summary>Can I place an order today?</summary><p>This is a foundation preview. Ordering will follow verified vendor discovery, approved pricing and tested permissions.</p></details>
       <details><summary>Where are my uploaded files stored?</summary><p>Uploads are not enabled. The backend plan requires private storage and audited access before files can be accepted.</p></details>
-      <details><summary>Does the customizer work in 3D?</summary><p>The <Link href="/customize/cotton-t-shirt">T-shirt workspace</Link> includes a 2D placement guide and an interactive 3D concept shirt. Text and artwork stay in your browser. Production garment models and print proofs come later.</p></details>
+      <details><summary>Does the customizer work in 3D?</summary><p>The <Link href="/studio">product design studio</Link> includes garment and mug models, separate artwork surfaces and a flat-layout fallback. Designs stay in your browser. Verified production models, ordering and vendor-issued proofs remain in development.</p></details>
       <details><summary>Are payments or delivery partners connected?</summary><p>No live payment or courier integration is configured. Those decisions remain open with Uchi and Lubasi.</p></details>
     </section>
   </>;

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/600.css';
-import '@fontsource/poppins/700.css';
+import '@fontsource/space-grotesk/400.css';
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/600.css';
+import '@fontsource/space-grotesk/700.css';
 import './globals.css';
+import './home-upgrade.css';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { Analytics } from '@vercel/analytics/next';
@@ -10,6 +12,7 @@ export const metadata: Metadata = {
   title: { default: 'Virtual Ink — Your Ideas. Our Print. Delivered.', template: '%s | Virtual Ink' },
   description: 'Printing, design and custom merchandise. Virtual Ink foundation preview by Shadow Root Security Technologies.',
   robots: { index: false, follow: false },
+  icons: { icon:'/brand/vi-icon.svg' },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body>

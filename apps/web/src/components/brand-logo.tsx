@@ -1,7 +1,5 @@
-import Image from 'next/image';
-import approvedLogo from '../../../../asssets/Virtual Ink Gradient Logo.png';
+import VILogoSVG from './brand/VILogoSVG';
 export function BrandLogo({ large = false }: { large?: boolean }) {
-  return <Image className={large ? 'brand-logo brand-logo-large' : 'brand-logo'}
-    src={approvedLogo} unoptimized alt="Virtual Ink — Design, Print, Order, Deliver"
-    width={large ? 540 : 144} height={large ? 360 : 96} priority={large} />;
+  if(large)return <VILogoSVG className="brand-logo-large" size={540}/>;
+  return <span className="brand-logo"><VILogoSVG size={60} showWordmark={false}/><span className="brand-lockup-text" aria-hidden="true">VIRTUAL <strong>INK</strong><small>DESIGN · PRINT · ORDER · DELIVER</small></span></span>;
 }

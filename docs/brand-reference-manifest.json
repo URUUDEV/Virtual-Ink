@@ -1,0 +1,43 @@
+{
+  "archive": "Kimi_Agent_Shared attachments.zip",
+  "archiveSha256": "18769dfcd6f0eeae73a24af78de6a8b20da3d0f1d46f9fccee4e29f69e48d9c8",
+  "archiveFiles": 79,
+  "referenceFiles": [
+    {
+      "path": "app/package.json",
+      "sha256": "55d8d1673658a6fd9d45363e98cb84802f157c1cec6c6c77f79ab6c19e0d93eb"
+    },
+    {
+      "path": "app/src/index.css",
+      "sha256": "cb6a1467b85c219df62775daf9647440acc10316b2bedbf15bc8dddeddafcf71"
+    },
+    {
+      "path": "app/src/sections/Hero.tsx",
+      "sha256": "0ae00fb74c38c515f2c599beef6bd262bb571ddd49d5f83f74e50a46c02bf1c6"
+    },
+    {
+      "path": "app/src/sections/Versions.tsx",
+      "sha256": "3577be8aa042d076bdb67076b76d8fb3ac28df5cc682d127e63ef95ce806fa47"
+    },
+    {
+      "path": "app/src/lib/vi-geometry.ts",
+      "sha256": "a6a82a611ffffa8e02487c6f80fb61b037a8ed83c3b9e01167a0eaaf556e65e9"
+    },
+    {
+      "path": "app/src/components/VILogoSVG.tsx",
+      "sha256": "df8a9603aac62eeb0b0109aee41683454a9b661f45ba3dd7884a59975466ccc8"
+    },
+    {
+      "path": "app/src/components/VirtualInkAnimatedLogo.tsx",
+      "sha256": "25641b68ff3b3c6c63d3632b4430421cbf11cffe2866461bfd91cfed8e45c0be"
+    }
+  ],
+  "geometryBodySha256": "3c954b1fb40485259be59075d753261d1bfd42fb0161f04ad36b68a13b2aeddc",
+  "adaptations": [
+    "Next.js client/server boundary",
+    "Three.js renderer using supplied geometry and timeline",
+    "Unique inline SVG IDs",
+    "Existing supplied light/dark wordmark treatments",
+    "Visibility, reduced motion, lifecycle and input safety"
+  ]
+}

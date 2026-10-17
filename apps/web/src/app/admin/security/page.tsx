@@ -21,6 +21,6 @@ export default async function SecurityPage() {
   const [factors,assurance]=await Promise.all([dependencies.auth.factors(),dependencies.auth.assurance()]);
   status={...result.data as {userId:string;role:string;canManageRoles:boolean},factors,assurance,needsStepUp:identity.stepUpAt===null};
  }catch{redirect('/account');}
- return <section className="section container auth-page"><p className="eyebrow">Restricted administration</p><h1>Account security and roles</h1>
+ return <section className="section container auth-page security-admin-page"><p className="eyebrow">Restricted administration</p><h1>Account security and roles</h1>
   <SecurityAdminPanel initial={status}/></section>;
 }

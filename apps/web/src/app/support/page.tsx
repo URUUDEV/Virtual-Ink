@@ -1,0 +1,12 @@
+import Link from 'next/link';
+export const metadata={title:'Help and frequently asked questions'};
+export default function Support(){return <section className="section container ui-information faq"><p className="eyebrow">A LITTLE CLARITY GOES A LONG WAY</p><h1>How can we help?</h1><p>Start with what is available now, how design references work and what happens before an order can go into production.</p>
+  <details><summary>Can I place or pay for an order?</summary><p>Live orders, checkout and payment processing are not connected. <Link href="/pricing">Read how quotations will work.</Link></p></details>
+  <details><summary>How do I keep a design?</summary><p>The <Link href="/studio">design studio</Link> can save a local device draft or download a private design copy. On a shared device, remove the saved draft when you finish. These are local tools, not an authenticated cloud design library.</p></details>
+  <details><summary>Is my studio layout a production proof?</summary><p>No. It is a visual reference. The selected vendor must issue an order-specific proof for your approval before production. Changes after approval require a revised proof.</p></details>
+  <details><summary>Can I upload private files?</summary><p>Artwork can be decoded locally in the studio. Server upload is not enabled. Order-scoped access, quarantine/scanning, expiry, deletion and auditing must be verified before we accept private files online.</p></details>
+  <details><summary>Why is account access unavailable?</summary><p>Genuine registration, email verification and hosted security checks are still being completed. <Link href="/login">Account entry</Link> shows its actual availability. Privileged actions require server and database checks, not a hidden button.</p></details>
+  <details><summary>How do I prepare to become a vendor?</summary><p>Use the <Link href="/vendors/join">vendor profile preparation tool</Link>. Saving a local profile does not submit an application or grant vendor access.</p></details>
+  <details><summary>What if delivery is delayed?</summary><p>Once delivery is available, your order needs a confirmed handoff, status history and support path. Courier tracking and live support-ticket submission are not connected yet. <Link href="/delivery">Read the delivery plan.</Link></p></details>
+  <div className="ui-notice">Live support messaging is not configured. We will display an approved support channel when it is available; do not send private files or payment details to unverified contacts.</div>
+</section>;}

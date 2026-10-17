@@ -1,0 +1,7 @@
+import Link from 'next/link';
+import { Building2,CheckCheck,MapPin } from 'lucide-react';
+export const metadata={title:'Vendor marketplace'};
+export default function Marketplace(){return <section className="section container"><div className="ui-page-intro"><p className="eyebrow">PEOPLE BEHIND THE PRINT</p><h1>Find your creative partner.</h1><p>Printing, merchandise and design services from vendors whose capabilities and availability have been reviewed.</p></div>
+  <div className="ui-empty"><Building2 size={36} aria-hidden="true"/><h2>Vendor listings are being verified.</h2><p>No verified vendor directory is connected yet. We’ll publish supplier capabilities, service areas and genuine customer feedback when those records are available.</p><Link className="button button-primary" href="/shop">Explore product concepts</Link></div>
+  <div className="ui-card-grid marketplace-principles"><article className="ui-panel"><CheckCheck aria-hidden="true"/><h2>Know the capability</h2><p>Review decoration methods, materials and product availability before committing to an order.</p></article><article className="ui-panel"><MapPin aria-hidden="true"/><h2>Know the service area</h2><p>Collection and delivery coverage will be confirmed for each vendor and order.</p></article><article className="ui-panel"><Building2 aria-hidden="true"/><h2>Bring your business</h2><p>Prepare your business and service information for the vendor review process.</p><Link className="text-link" href="/vendors/join">Prepare a vendor profile →</Link></article></div>
+</section>;}

@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { BrandLogo } from './brand-logo';
 const links = [
-  ['/', 'Home'], ['/shop', 'Shop'], ['/design-services', 'Design services'],
-  ['/business', 'For business'], ['/how-it-works', 'How it works'],
+  ['/shop', 'Products'], ['/marketplace', 'Find a vendor'], ['/studio','Design studio'],
+  ['/business', 'For business'], ['/support','Help'],
 ] as const;
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -26,8 +26,7 @@ export function SiteHeader() {
     <nav id="primary-nav" aria-label="Primary" className={`primary-nav ${open ? 'is-open' : ''}`}>
       {links.map(([href, label]) => <Link key={href} href={href} aria-current={(href === '/shop' ? pathname.startsWith('/shop') : pathname === href) ? 'page' : undefined}
         onClick={() => setOpen(false)}>{label}</Link>)}
-      <Link href="/roadmap" className="nav-roadmap" onClick={() => setOpen(false)}>Build roadmap <ArrowRight size={15} /></Link>
-      <Link href="/account" onClick={() => setOpen(false)}>My account</Link>
+      <Link href="/account" className="nav-account" onClick={() => setOpen(false)}>My account</Link>
     </nav>
   </div></header>;
 }

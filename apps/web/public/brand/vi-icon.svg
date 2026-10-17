@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" width="480" height="400" role="img" aria-label="Virtual Ink logo"><defs><linearGradient id="_R_0_-vi-v" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00C2FF"></stop><stop offset="38%" stop-color="#007BFF"></stop><stop offset="72%" stop-color="#7A3BFF"></stop><stop offset="100%" stop-color="#FF2D8B"></stop></linearGradient><linearGradient id="_R_0_-vi-i" x1="0%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="#00C2FF"></stop><stop offset="42%" stop-color="#007BFF"></stop><stop offset="100%" stop-color="#161E33"></stop></linearGradient><linearGradient id="_R_0_-vi-drop" x1="0%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="#FF2D8B"></stop><stop offset="100%" stop-color="#7A3BFF"></stop></linearGradient><linearGradient id="_R_0_-vi-px" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00C2FF"></stop><stop offset="100%" stop-color="#007BFF"></stop></linearGradient></defs><g fill="url(#_R_0_-vi-px)"><rect x="80" y="86" width="30" height="30" rx="7"></rect><rect x="132" y="40" width="20" height="20" rx="5"></rect><rect x="44" y="36" width="23" height="23" rx="6"></rect><rect x="46" y="140" width="15" height="15" rx="4"></rect><rect x="126" y="120" width="13" height="13" rx="4"></rect></g><path fill="url(#_R_0_-vi-v)" d="M 78 96
+           Q 66 96 72 110
+           L 188 318
+           Q 200 342 212 318
+           L 328 110
+           Q 334 96 322 96
+           L 282 96
+           Q 271 96 266 108
+           L 212 232
+           Q 200 256 188 232
+           L 134 108
+           Q 129 96 118 96
+           Z"></path><rect x="368" y="118" width="68" height="212" rx="19" fill="url(#_R_0_-vi-i)"></rect><path fill="url(#_R_0_-vi-drop)" d="M 402 26
+           C 389 51 377 65 377 79
+           a 25 25 0 0 0 50 0
+           C 427 65 415 51 402 26 Z"></path><ellipse cx="393" cy="72" rx="6" ry="10" fill="#FFFFFF" opacity="0.35" transform="rotate(-18 393 72)"></ellipse></svg>
