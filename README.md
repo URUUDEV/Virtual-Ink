@@ -6,6 +6,13 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+17 October [product design lab](docs/product-studio.md): distinct original GLB
+studies, a draft model registry, independent artwork surfaces, physical placement
+and local layout references are available at `/studio`. These are unverified
+blanks, with checkout disabled. See [Zambia research](docs/catalogue-zambia-research.md)
+and the [build handover](docs/reports/2026-10-17-product-studio.md). The mandatory
+production studio and hosting gates remain incomplete.
+
 17 October [source lint gate](docs/linting.md): all 156 scoped files pass with
 zero errors/warnings; web builds enforce the gate. Latest-design refs now update
 after commit and preview readiness tracks the design actually painted. All 206

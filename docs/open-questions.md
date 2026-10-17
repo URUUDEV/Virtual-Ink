@@ -16,6 +16,17 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 
 ## Business ownership
 
+- **STUDIO-SUPPLY-01 — Open; Lubasi with Uchi, 17 October 2026:** Identify the
+  first approved vendor and obtain actual SKU/variant supply, current ZMW prices,
+  stock/lead time, physical print measurements, model/photo licence and trademark
+  permission. The [research](catalogue-zambia-research.md) identifies public
+  listings; it confirms no partnership or vendor supply commitment. The
+  [local lab](product-studio.md) uses unbranded original studies only.
+- **STUDIO-PROOF-01 — Open; Uchi/Mumba with Taizya/Lubasi:** Confirm vendor
+  artwork policy, preflight/scan integration, fonts/line/contrast/bleed limits,
+  final production-file retention and substitution/reproof workflow. Local layout
+  references grant no customer approval or production authority.
+
 - **DEP-ACCEPTANCE-01 — Open; Uchi with Mumba, 17 October 2026:** The dedicated
   acceptance project has 25 Preview-only variables and no Git/integration
   inheritance. Vercel classified its explicit Preview deployment as Production;

@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+17 October: **STUDIO-01 — In progress**, Uchi with Mumba, Taizya and Lubasi.
+The [product design lab](product-studio.md) provides the first reviewable local
+registry/model/placement slice. [Evidence](reports/2026-10-17-product-studio.md)
+records tests and remaining mandatory acceptance. Next: supplier-matched model
+review, private artwork/order/proof/pricing integration and isolated hosting.
+No studio, Phase 1 or human acceptance is marked complete.
+
 Current ownership, 15 October 2026: Uchi Chinyama and Mumba Chitonge collaborate on backend engineering; Uchi retains product leadership. This reflects the latest Phase 1 mission and supersedes older notes that Mumba was inactive. Existing M-prefixed IDs are retained for continuity. Build product phases sequentially; Phase 1 remains open. Track acceptance in the [Phase 1 closure checklist](phase-1-closure-checklist.md).
 
 This Markdown board can be used directly or copied into the team's chosen task tool. Statuses: **Backlog → Ready → In progress → Review → Done**. Use **Blocked** with a named question/decision, owner and next action. One active owner per task. Uchi prioritizes the queue. Ready means dependencies and required acceptance details are available; Done requires review evidence and recorded acceptance.

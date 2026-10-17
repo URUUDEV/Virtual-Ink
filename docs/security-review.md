@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+17 October product studio: [evidence](reports/2026-10-17-product-studio.md)
+records strict local draft/PNG limits, rotated safe-area checks, no arbitrary
+model/artwork URLs, independent surfaces and unapproved reference revisions.
+Array-coercion and declared-image dimension findings were fixed and retested;
+reversed mug UVs and invalid initial model normals were corrected. All 213 root
+tests and the 42-file measured coverage gate pass, with types/build, sampled
+browser and clean dependency audits. These are original model studies; no
+commercial SKU or private server artwork/order/proof authority is enabled.
+Hosted acceptance and the Node HIGH release gate remain open.
+
 17 October lint slice: [evidence](reports/2026-10-17-lint-gate.md) records a
 156-file build-enforced lint gate, four rejecting probes and a clean fixture.
 The initial Next-preset install introduced an unpatched braces advisory through

@@ -1,6 +1,19 @@
 # Virtual Ink team report
 
-Latest build handover: [17 October — Source lint gate and editor corrections](reports/2026-10-17-lint-gate.md)
+Latest build handover: [17 October — Product model studio foundation](reports/2026-10-17-product-studio.md)
+and [Word copy](reports/2026-10-17-product-studio.docx). The `/studio` lab adds
+ten draft definitions, nine original GLBs, physical placement rules, independent
+artwork surfaces and local references. All 213 root tests, 42-file coverage gate,
+types/build and sampled local browser checks pass; all GLBs validate after fixes.
+No commercial SKU, complete private artwork/proof/cart workflow, hosted studio
+URL, phase completion or human signoff is claimed. Read the report's acceptance
+matrix and current hosting/runtime/vendor blockers before enabling anything.
+Source is committed locally as `d0c1f38` on `codex/product-model-studio`. No push
+or deployment occurred. Word structural checks pass; visual QA is unavailable
+without LibreOffice. The original hosting integration is not used as a substitute
+for the required isolated acceptance target.
+
+Previous build handover: [17 October — Source lint gate and editor corrections](reports/2026-10-17-lint-gate.md)
 and [Word copy](reports/2026-10-17-lint-gate.docx). All 156 linted files pass with
 zero errors/warnings, and the web build enforces lint. Render-time latest-design
 ref writes are removed; readiness follows the successfully painted design. All

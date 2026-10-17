@@ -27,6 +27,13 @@ This direction does not close a requirement or authorize future-phase features.
 
 ## Requirements mapped to the mission
 
+- [ ] **STUDIO-01 — Mandatory product-specific design studio (17 October):**
+  [Local design lab](product-studio.md) adds original garment/mug GLBs, flat-card
+  layout, model registry, safe placement and local references. Supplier-matched
+  production assets, catalogue onboarding, private files, server pricing/cart,
+  actual vendor proofs, all eighteen acceptance tests and Vercel gates remain
+  incomplete. [Current evidence](reports/2026-10-17-product-studio.md).
+
 - [ ] **AUTH-01 — Genuine authentication (mission 1):** production and Preview
   registration, verification, login, logout/session invalidation, reset,
   restoration/expiry, suspension and deletion request; safe errors and secure
