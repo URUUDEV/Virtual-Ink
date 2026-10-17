@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack --hostname 127.0.0.1 --port 3001",
     "dev:service": "next dev --webpack --hostname 127.0.0.1",
-    "build": "next build --webpack",
+    "build": "node ../../scripts/environment-isolation-check.mjs && next build --webpack",
     "start": "next start --hostname 127.0.0.1 --port 3001",
     "typecheck": "tsc --noEmit"
   },

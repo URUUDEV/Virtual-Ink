@@ -294,11 +294,12 @@ END $$;
 -- Remove defaults and expose only the command, never table DML, to the server group.
 REVOKE ALL ON ALL TABLES IN SCHEMA virtual_ink_security FROM PUBLIC,virtual_ink_security_service;
 REVOKE ALL ON ALL FUNCTIONS IN SCHEMA virtual_ink_security FROM PUBLIC;
-GRANT virtual_ink_security_owner TO CURRENT_USER;
+-- Managed migration administrators are not superusers. Retain temporary owner
+-- membership through every command ACL change, including ordinary-role revokes.
+GRANT virtual_ink_security_owner TO CURRENT_USER WITH INHERIT TRUE, SET TRUE;
 GRANT CREATE ON SCHEMA virtual_ink_security TO virtual_ink_security_owner;
 ALTER FUNCTION virtual_ink_security.command(text,jsonb,jsonb) OWNER TO virtual_ink_security_owner;
 REVOKE CREATE ON SCHEMA virtual_ink_security FROM virtual_ink_security_owner;
-REVOKE virtual_ink_security_owner FROM CURRENT_USER;
 GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA virtual_ink_security TO virtual_ink_security_owner;
 GRANT EXECUTE ON FUNCTION virtual_ink_security.command(text,jsonb,jsonb) TO virtual_ink_security_service;
 DO $$ DECLARE r text; BEGIN
@@ -310,3 +311,4 @@ DO $$ DECLARE r text; BEGIN
   END IF;
  END LOOP;
 END $$;
+REVOKE virtual_ink_security_owner FROM CURRENT_USER;

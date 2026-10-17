@@ -2,6 +2,7 @@ import { createApp } from './app.js';
 import { loadInfrastructureConfig } from './backend/config.ts';
 import { loadDatabaseConfig } from './backend/database/config.ts';
 import { loadAccessDependencies } from './backend/identity/runtime.ts';
+import { assertEnvironmentIsolation } from './backend/setup/environment-isolation.ts';
 
 function logger(event) {
   process.stdout.write(`${JSON.stringify({ timestamp: new Date().toISOString(), ...event })}\n`);
@@ -10,6 +11,7 @@ function logger(event) {
 let config;
 let access;
 try {
+  assertEnvironmentIsolation();
   config = loadInfrastructureConfig();
   loadDatabaseConfig();
   access = await loadAccessDependencies();

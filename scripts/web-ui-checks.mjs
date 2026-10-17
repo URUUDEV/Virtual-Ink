@@ -19,7 +19,11 @@ function load(path) {
   modules.set(path, module);
   const result = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true } });
   function localRequire(specifier) {
-    if (specifier.startsWith('.') && specifier.endsWith('.css')) return {};
+    if (specifier.endsWith('.css')) return {};
+    // Isolate the root-layout warning from navigation/router and static-image
+    // imports. This check is not navigation, asset or browser acceptance.
+    if (path.endsWith('layout.tsx') && specifier === '@/components/site-header') return {SiteHeader:()=>null};
+    if (path.endsWith('layout.tsx') && specifier === '@/components/site-footer') return {SiteFooter:()=>null};
     if (specifier.startsWith('@/') || specifier.startsWith('.')) {
       const base = specifier.startsWith('@/') ? resolve(webRoot, 'src', specifier.slice(2)) : resolve(dirname(path), specifier);
       if (base.endsWith('.ts') || base.endsWith('.tsx')) return load(base);
@@ -33,6 +37,16 @@ function load(path) {
   return module.exports;
 }
 const component = (path, name = 'default') => load(resolve(webRoot, 'src', path))[name];
+
+test('acceptance layout labels every rendered page with the no-real-orders warning',()=>{
+  const previous=process.env.APPLICATION_ENVIRONMENT;process.env.APPLICATION_ENVIRONMENT='staging';
+  try {
+    const Layout=component('app/layout.tsx');
+    const html=renderToStaticMarkup(React.createElement(Layout,{children:React.createElement('p',null,'Synthetic acceptance content')}));
+    assert.match(html,/Virtual Ink Acceptance Environment - No Real Orders or Payments\./);
+    assert.match(html,/Synthetic acceptance content/);
+  }finally{previous===undefined?delete process.env.APPLICATION_ENVIRONMENT:process.env.APPLICATION_ENVIRONMENT=previous;}
+});
 
 test('restricted admin interface presents TOTP and explicit role review without default super-admin access',()=>{
   const Panel=component('components/security-admin-panel.tsx','SecurityAdminPanel');

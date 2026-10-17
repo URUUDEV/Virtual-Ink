@@ -18,7 +18,7 @@ END $$;
 CREATE POLICY security_owner ON virtual_ink_security.factor_removals
  TO virtual_ink_security_owner USING(true) WITH CHECK(true);
 GRANT SELECT,INSERT,DELETE ON virtual_ink_security.factor_removals TO virtual_ink_security_owner;
-GRANT virtual_ink_security_owner TO CURRENT_USER;
+GRANT virtual_ink_security_owner TO CURRENT_USER WITH INHERIT TRUE, SET TRUE;
 GRANT CREATE ON SCHEMA virtual_ink_security TO virtual_ink_security_owner;
 SET ROLE virtual_ink_security_owner;
 CREATE OR REPLACE FUNCTION virtual_ink_security.command(p_action text,p_input jsonb,p_context jsonb) RETURNS jsonb

@@ -1,0 +1,19 @@
+.git/
+.private/
+.private
+.private/**
+.vercel/
+.agents/
+.codex/
+.aws/
+coverage/
+supabase/.temp/
+Kimi_Agent_Shared attachments/
+Kimi_Agent_Shared attachments
+Kimi_Agent_Shared attachments/**
+**/.env
+**/.env.*
+**/*.log
+**/*.docx
+**/~$*
+apps/web/next-env.d.ts

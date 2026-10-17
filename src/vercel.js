@@ -3,12 +3,14 @@ import { loadAccessDependencies } from './backend/identity/runtime.ts';
 import { loadInfrastructureConfig } from './backend/config.ts';
 import { loadDatabaseConfig } from './backend/database/config.ts';
 import { randomUUID } from 'node:crypto';
+import { assertEnvironmentIsolation } from './backend/setup/environment-isolation.ts';
 
 // Vercel owns the listener/lifecycle. Initialize the restricted pool at runtime,
 // never while importing the entrypoint during a build.
 let handler;
 function runtimeHandler() {
   return handler ??= (async () => {
+    assertEnvironmentIsolation();
     loadInfrastructureConfig();
     loadDatabaseConfig();
     const access = await loadAccessDependencies();
