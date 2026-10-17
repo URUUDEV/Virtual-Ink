@@ -1,5 +1,5 @@
 /** Fixed-name local downloads. Never accepts a remote URL or caller-supplied path. */
-type LocalFilename = 'virtual-ink-tshirt-preview.png' | 'virtual-ink-tshirt-3d.png' | 'virtual-ink-tshirt-design.json' | 'virtual-ink-vendor-profile.json' | 'virtual-ink-vendor-draft.json';
+type LocalFilename = 'virtual-ink-tshirt-preview.png' | 'virtual-ink-tshirt-3d.png' | 'virtual-ink-tshirt-design.json' | 'virtual-ink-vendor-profile.json' | 'virtual-ink-vendor-draft.json' | 'virtual-ink-layout-reference.json' | 'virtual-ink-design.json';
 export function downloadLocal(blob: Blob, filename: LocalFilename) {
   const url = URL.createObjectURL(blob);
   try {

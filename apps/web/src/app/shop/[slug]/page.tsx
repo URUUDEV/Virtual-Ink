@@ -21,7 +21,8 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
       <div className="detail-copy"><p className="eyebrow">{product.group.toUpperCase()} / VISUAL COLLECTION</p><h1>{product.name}</h1><p className="detail-description">{product.description}</p>
         <div className="detail-price"><strong>From {formatDemoPrice(product.price)}</strong><span>Illustrative price · {product.unit}</span></div>
         <dl className="detail-specs"><div><dt>Finish</dt><dd>{product.finish}</dd></div><div><dt>Vendor</dt><dd>To be confirmed</dd></div><div><dt>Options & availability</dt><dd>Awaiting vendor specifications</dd></div><div><dt>Collection & delivery</dt><dd>Zones and turnaround unconfirmed</dd></div></dl>
-        {product.slug === 'cotton-t-shirt' && <Link href="/customize/cotton-t-shirt" className="button button-primary detail-customize"><Palette size={18} /> Create a T-shirt concept <ArrowRight size={17} /></Link>}
+        <Link href="/studio" className="button button-primary detail-customize"><Palette size={18} /> Explore the product design lab <ArrowRight size={17} /></Link>
+        {product.slug === 'cotton-t-shirt' && <Link href="/customize/cotton-t-shirt" className="text-link">Open legacy T-shirt concept editor</Link>}
         <Link href="/design-services" className={`button ${product.slug === 'cotton-t-shirt' ? 'button-plain' : 'button-primary'}`}><Palette size={18} /> Explore design services <ArrowRight size={17} /></Link>
         <p className="detail-note"><LockKeyhole size={17} aria-hidden="true" /> Orders, uploads and payments are not enabled. This price is a reference, not a quotation.</p>
       </div></div>
