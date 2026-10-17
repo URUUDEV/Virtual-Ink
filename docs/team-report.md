@@ -1,6 +1,19 @@
 # Virtual Ink team report
 
-Latest build handover: [17 October — Product model studio foundation](reports/2026-10-17-product-studio.md)
+Latest build handover: [17 October — Authoritative brand and shared UI upgrade](reports/2026-10-17-ui-brand-upgrade.md)
+and [Word copy](reports/2026-10-17-ui-brand-upgrade.docx). The supplied archive
+drives the SVG/3D identity, tokens, typography, shared shell and public information
+pages. The internal brand controls require server-verified SUPER_ADMIN, recent
+MFA and the existing audited protected check. All 214 root tests, 43-file coverage,
+207 genuine local MFA checks, 18 web checks, types/lint/build and local HTTP samples
+pass. Full workflows, real-device accessibility/performance and isolated Preview
+remain incomplete. No Production release or human signoff is claimed.
+Source review commit: `5ac905c953c318c18d1dab5a6548ce1f99c4e603` on
+`codex/ui-brand-upgrade`; no push/deployment occurred. Markdown links and Word
+structure/package/privacy checks pass. Word visual verification is unavailable
+without LibreOffice.
+
+Previous build handover: [17 October — Product model studio foundation](reports/2026-10-17-product-studio.md)
 and [Word copy](reports/2026-10-17-product-studio.docx). The `/studio` lab adds
 ten draft definitions, nine original GLBs, physical placement rules, independent
 artwork surfaces and local references. All 213 root tests, 42-file coverage gate,

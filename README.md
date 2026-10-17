@@ -6,6 +6,14 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+17 October [authoritative brand upgrade](docs/ui-brand-integration.md): the supplied
+archive now drives the SVG/3D identity, Space Grotesk, shared tokens/navigation,
+public information pages and a server-protected `/brand-lab`. Existing routes and
+security contracts are preserved. [Evidence](docs/reports/2026-10-17-ui-brand-upgrade.md)
+records 214 root tests, the 43-file coverage gate, 207 genuine local MFA checks,
+18 web checks and local HTTP/browser samples. This is a local review slice;
+complete commerce/dashboard workflows, isolated hosting and release remain open.
+
 17 October [product design lab](docs/product-studio.md): distinct original GLB
 studies, a draft model registry, independent artwork surfaces, physical placement
 and local layout references are available at `/studio`. These are unverified

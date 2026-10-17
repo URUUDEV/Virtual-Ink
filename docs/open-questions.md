@@ -16,6 +16,13 @@ Record each answer as: `ID | status (Open / Proposed / Confirmed / Deferred) | d
 
 ## Business ownership
 
+- **UI-RELEASE-01 — Open; Uchi with Taizya, Mumba and Lubasi, 17 October 2026:**
+  Complete real-device motion/fallback, 200% zoom, screen-reader and Lighthouse
+  acceptance, genuine order/private-file/dashboard workflows and the supported
+  isolated Preview path before release. Confirm the real support channel and
+  approved operational policies; public help currently makes no contact or SLA
+  promise. See [the brand handover](reports/2026-10-17-ui-brand-upgrade.md).
+
 - **STUDIO-SUPPLY-01 — Open; Lubasi with Uchi, 17 October 2026:** Identify the
   first approved vendor and obtain actual SKU/variant supply, current ZMW prices,
   stock/lead time, physical print measurements, model/photo licence and trademark

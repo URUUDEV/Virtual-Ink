@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+17 October brand/shared UI: [evidence](reports/2026-10-17-ui-brand-upgrade.md)
+records exact supplied SVG/geometry checks, safe archive extraction, client-only
+lazy motion and server-enforced internal controls. Wrong-role, stale/missing MFA,
+provider/SQL/audit failures deny access. All 214 root/195 security tests, 207
+genuine local MFA checks, 18 web checks and 82 brand HTTP assertions pass; 63
+browser artifacts contain no scanned secret patterns. Dependency audits are
+clear. This adds no hosted grants, private upload or payment authority. Full
+hosted acceptance and the HIGH runtime release gate remain open; this is scoped
+application review, not whole-system assurance.
+
 17 October product studio: [evidence](reports/2026-10-17-product-studio.md)
 records strict local draft/PNG limits, rotated safe-area checks, no arbitrary
 model/artwork URLs, independent surfaces and unapproved reference revisions.

@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+17 October: **UI-04 — In progress**, Uchi implementing with Taizya reviewing,
+Mumba on preserved security/API contracts and Lubasi on operational evidence.
+[Brand/shared UI evidence](reports/2026-10-17-ui-brand-upgrade.md) records the
+reference port, centralized tokens, public pages and protected internal controls.
+Next: full device/accessibility/performance acceptance, genuine private-file/
+order/proof services and supported isolated Preview hosting. No phase closes.
+
 17 October: **STUDIO-01 — In progress**, Uchi with Mumba, Taizya and Lubasi.
 The [product design lab](product-studio.md) provides the first reviewable local
 registry/model/placement slice. [Evidence](reports/2026-10-17-product-studio.md)
