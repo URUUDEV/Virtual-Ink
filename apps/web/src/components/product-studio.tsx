@@ -14,10 +14,23 @@ export function ProductStudio() {
   const [past,setPast]=useState<StudioDesign[]>([]),[future,setFuture]=useState<StudioDesign[]>([]);
   const [zoneId,setZoneId]=useState('front'),[selected,setSelected]=useState(''),[message,setMessage]=useState('Your artwork stays in this tab. Device saving is optional.'),[busy,setBusy]=useState(false);
   const generation=useRef(0),latest=useRef(design),proof=useRef<ReturnType<typeof reviseProof>|null>(null);
+  const work=useRef<'artwork'|'draft'|'reference'|null>(null);
   const product=getProductModel(design.productId),zone=product.zones.find(z=>z.id===zoneId)??product.zones[0],layer=design.layers.find(l=>l.id===selected);
   const warnings=artworkWarnings(design);
-  useEffect(()=>()=>{generation.current++;latest.current=newStudioDesign('crew-unisex');},[]);
-  function commit(next:StudioDesign) {if(JSON.stringify(next).length>6_000_000){setMessage('This design exceeds the 6 MB local limit. Remove an image or use a smaller file.');return;}const previous=latest.current;setPast(p=>[...p,previous].slice(-30));setFuture([]);latest.current=next;setDesign(next);}
+  useEffect(()=>()=>{generation.current++;work.current=null;latest.current=newStudioDesign('crew-unisex');},[]);
+  function cancelWork() {generation.current++;work.current=null;setBusy(false);}
+  function beginWork(kind:NonNullable<typeof work.current>) {
+    if(work.current)return null;
+    const request=++generation.current;work.current=kind;setBusy(true);
+    setMessage(kind==='artwork'?'Preparing artwork locally…':kind==='draft'?'Opening design file locally…':'Preparing layout reference…');return request;
+  }
+  function finishWork(request:number) {if(request===generation.current){work.current=null;setBusy(false);}}
+  function commit(next:StudioDesign) {
+    if(next.layers.length>12){setMessage('Use up to twelve layers. Remove a layer before adding artwork.');return false;}
+    if(JSON.stringify(next).length>6_000_000){setMessage('This design exceeds the 6 MB local limit. Remove an image or use a smaller file.');return false;}
+    if(work.current==='reference'||work.current==='draft'){cancelWork();setMessage('Design changed. Preparation cancelled; start it again for the current design.');}
+    const previous=latest.current;setPast(p=>[...p,previous].slice(-30));setFuture([]);latest.current=next;setDesign(next);return true;
+  }
   function patchLayer(patch:Partial<StudioLayer>) {
     if(!layer)return;
     try {const updated=fitLayer({...layer,...patch},zone);commit({...design,layers:design.layers.map(l=>l.id===layer.id?updated:l)});}
@@ -26,37 +39,44 @@ export function ProductStudio() {
   function addText() {
     if(design.layers.length>=12){setMessage('Use up to twelve layers in this local study.');return;}
     const id=crypto.randomUUID();const l:StudioLayer={id,zoneId:zone.id,kind:'text',text:'YOUR IDEA',font:'Poppins',colour:'#293344',x:zone.widthMm/2,y:zone.heightMm/2,width:Math.min(140,zone.widthMm-12),height:Math.min(35,zone.heightMm-12),rotation:0,image:null,pixelWidth:0,pixelHeight:0};
-    commit({...design,layers:[...design.layers,fitLayer(l,zone)]});setSelected(id);
+    if(commit({...design,layers:[...design.layers,fitLayer(l,zone)]}))setSelected(id);
   }
   async function artwork(file:File|undefined) {
     if(!file)return;
     if(!['image/png','image/jpeg'].includes(file.type)){setMessage('Use a still PNG or JPEG up to 2 MB. SVG and PDF need a vendor quarantine and preflight workflow before they can be accepted.');return;}
     if(design.layers.length>=12){setMessage('Use up to twelve layers.');return;}
-    const request=++generation.current,productId=design.productId,target=zone;setBusy(true);
+    const request=beginWork('artwork');if(request===null)return;
+    const productId=design.productId,target=zone;
     try {const art=await prepareArtwork(file);if(request!==generation.current||latest.current.productId!==productId)return;
       const width=Math.min(target.widthMm-12,140),height=width*art.height/art.width,id=crypto.randomUUID();
       const l:StudioLayer={id,zoneId:target.id,kind:'image',text:'',font:'Poppins',colour:'#293344',x:target.widthMm/2,y:target.heightMm/2,width,height,rotation:0,image:art.data,pixelWidth:art.width,pixelHeight:art.height};
-      const current=latest.current;commit({...current,layers:[...current.layers,fitLayer(l,target)]});setSelected(id);setMessage('Artwork decoded and re-encoded locally. Preview is limited to 1024 pixels; the DPI warning uses those actual pixels. Keep your original for vendor preflight.');
+      const current=latest.current;if(commit({...current,layers:[...current.layers,fitLayer(l,target)]})){setSelected(id);setMessage('Artwork decoded and re-encoded locally. Preview is limited to 1024 pixels; the DPI warning uses those actual pixels. Keep your original for vendor preflight.');}
     } catch {if(request===generation.current)setMessage('Could not open artwork. Choose a still PNG or JPEG, at most 2 MB, 4096 pixels per side and 16 megapixels.');}
-    finally {if(request===generation.current)setBusy(false);}
+    finally {finishWork(request);}
   }
-  function switchProduct(id:string) {generation.current++;setBusy(false);const next=newStudioDesign(id);setZoneId(getProductModel(id).zones[0].id);setSelected('');commit(next);setMessage('A new product configuration is ready. Undo returns to your previous design.');}
-  function restore(next:StudioDesign) {generation.current++;setBusy(false);latest.current=next;setDesign(next);setZoneId(getProductModel(next.productId).zones[0].id);setSelected('');}
+  function switchProduct(id:string) {cancelWork();const next=newStudioDesign(id);setZoneId(getProductModel(id).zones[0].id);setSelected('');commit(next);setMessage('A new product configuration is ready. Undo returns to your previous design.');}
+  function restore(next:StudioDesign) {cancelWork();latest.current=next;setDesign(next);setZoneId(getProductModel(next.productId).zones[0].id);setSelected('');setMessage('Design history restored. Pending preparation was cancelled.');}
   function undo() {const previous=past.at(-1);if(!previous)return;setPast(past.slice(0,-1));setFuture([design,...future]);restore(previous);}
   function redo() {const next=future[0];if(!next)return;setFuture(future.slice(1));setPast([...past,design].slice(-30));restore(next);}
   function save() {try {localStorage.setItem(key,JSON.stringify(design));setMessage('Saved on this device. Same-origin scripts and other people using this browser profile can access it. Remove the device draft on shared devices.');}catch{setMessage('Device storage is unavailable or full. Download the design file instead.');}}
-  function load() {try {const source=localStorage.getItem(key);if(!source){setMessage('No device draft found.');return;}const next=parseStudioDraft(source);commit(next);setZoneId(getProductModel(next.productId).zones[0].id);setSelected('');setMessage('Saved draft reopened.');}catch{setMessage('This draft is invalid or no longer matches its model. The current design is preserved.');}}
-  async function importDesign(file:File|undefined) {if(!file)return;const request=++generation.current;setBusy(true);try{if(file.size>6_000_000)throw new Error('Too large');const next=parseStudioDraft(await file.text());if(request!==generation.current)return;commit(next);setZoneId(getProductModel(next.productId).zones[0].id);setSelected('');setMessage('Design file reopened. No file was uploaded.');}catch{if(request===generation.current)setMessage('Choose a valid studio design JSON file up to 6 MB. Product versions and artwork boundaries must match.');}finally{if(request===generation.current)setBusy(false);}}
+  function load() {try {const source=localStorage.getItem(key);if(!source){setMessage('No device draft found.');return;}const next=parseStudioDraft(source);cancelWork();if(commit(next)){setZoneId(getProductModel(next.productId).zones[0].id);setSelected('');setMessage('Saved draft reopened.');}}catch{setMessage('This draft is invalid or no longer matches its model. The current design is preserved.');}}
+  async function importDesign(file:File|undefined) {if(!file)return;const request=beginWork('draft');if(request===null)return;try{if(file.size>6_000_000)throw new Error('Too large');const source=await file.text();if(request!==generation.current)return;const next=parseStudioDraft(source);cancelWork();if(commit(next)){setZoneId(getProductModel(next.productId).zones[0].id);setSelected('');setMessage('Design file reopened. No file was uploaded.');}}catch{if(request===generation.current)setMessage('Choose a valid studio design JSON file up to 6 MB. Product versions and artwork boundaries must match.');}finally{finishWork(request);}}
   async function exportProof() {
-    const snapshot=design;setBusy(true);
-    try {const current=reviseProof(proof.current,snapshot);proof.current=current;const views=[];
-      for(const surface of product.zones.map(z=>z.surface)) {const canvas=document.createElement('canvas');await paintLayout(canvas,product,snapshot,surface);views.push({surface,image:canvas.toDataURL('image/png')});canvas.width=0;canvas.height=0;}
-      const reference={kind:'local-layout-reference',orderNumber:null,sku:product.sku,product:product.name,proofVersion:current.version,createdAt:new Date().toISOString(),approvalStatus:'awaiting_vendor',configuration:snapshot,views,customerNotes:snapshot.notes,vendorNotes:null,notice:previewNotice};
-      downloadLocal(new Blob([JSON.stringify(reference,null,2)],{type:'application/json'}),'virtual-ink-layout-reference.json');setMessage(`Layout reference v${current.version} downloaded with saved configuration and all available surfaces. An assigned vendor must issue an order-specific proof; this file authorizes no production.`);
-    } catch {setMessage('Could not generate the layout reference. Remove artwork and retry.');}finally{setBusy(false);}
+    const request=beginWork('reference');if(request===null)return;
+    const snapshot=latest.current,blank=getProductModel(snapshot.productId);
+    try {const current=reviseProof(proof.current,snapshot);const views=[];
+      for(const surface of blank.zones.map(z=>z.surface)) {
+        if(request!==generation.current)return;
+        const canvas=document.createElement('canvas');
+        try {await paintLayout(canvas,blank,snapshot,surface);if(request!==generation.current)return;views.push({surface,image:canvas.toDataURL('image/png')});}
+        finally {canvas.width=0;canvas.height=0;}
+      }
+      const reference={kind:'local-layout-reference',orderNumber:null,sku:blank.sku,product:blank.name,proofVersion:current.version,createdAt:new Date().toISOString(),approvalStatus:'awaiting_vendor',configuration:snapshot,views,customerNotes:snapshot.notes,vendorNotes:null,notice:previewNotice};
+      downloadLocal(new Blob([JSON.stringify(reference,null,2)],{type:'application/json'}),'virtual-ink-layout-reference.json');proof.current=current;setMessage(`Layout reference v${current.version} downloaded with saved configuration and all available surfaces. An assigned vendor must issue an order-specific proof; this file authorizes no production.`);
+    } catch {if(request===generation.current)setMessage('Could not generate the layout reference. Remove artwork and retry.');}finally{finishWork(request);}
   }
   return <div className="product-studio">
-    <div className="studio-toolbar"><span className="studio-badge">DESIGN LAB / EARLY PREVIEW</span><div><button type="button" onClick={undo} disabled={!past.length}>Undo</button><button type="button" onClick={redo} disabled={!future.length}>Redo</button><button type="button" onClick={save}>Save on device</button><button type="button" onClick={load}>Reopen draft</button></div></div>
+    <div className="studio-toolbar"><span className="studio-badge">DESIGN LAB / EARLY PREVIEW</span><div><button type="button" onClick={undo} disabled={!past.length}>Undo</button><button type="button" onClick={redo} disabled={!future.length}>Redo</button><button type="button" onClick={save}>Save on device</button><button type="button" onClick={load}>Reopen draft</button>{busy&&<button type="button" onClick={()=>{cancelWork();setMessage('Preparation cancelled. Your current design is unchanged.');}}>Cancel preparation</button>}</div></div>
     <div className="studio-grid"><aside className="studio-panel"><p className="studio-kicker">THE BLANK CANVAS</p><h2>Your product.</h2>
       <label>Product model<select value={product.id} onChange={e=>switchProduct(e.target.value)}>{productModels.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
       <p className="studio-small">{product.sku} · {product.modelVersion}<br/>Draft study · supply and specifications unverified</p>

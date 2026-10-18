@@ -38,6 +38,17 @@ numeric/range positioning, scale/rotation, centring, duplicate/remove layer,
 undo/redo, quantity, notes, optional device save/reopen/remove, JSON copy/import,
 zoom, pointer/keyboard rotation, reset/retry and layout-reference generation.
 
+One preparation runs at a time. Cancel preparation, a valid device-draft reopen,
+product change, undo/redo or closing the editor invalidates unfinished work.
+Edits cancel a pending JSON replacement or layout reference, preserving newer
+changes. Artwork appends to the current design only if the twelve-layer and 6 MB
+limits still pass when decoding finishes; rejected additions never claim success.
+Cancelled/stale reference rendering does not download or advance a local version,
+and its temporary canvases are cleared when rendering settles. Cancellation
+prevents applying the result; it cannot forcibly stop an already running browser
+decoder or guarantee immediate memory erasure. Deterministic handler tests control
+decoder/painter timing; those are separate from real-browser race acceptance.
+
 PNG/JPEG input is at most 2 MB, 4096 pixels/side and 16 MP; decoded content is
 re-encoded to PNG at a maximum 1024-pixel side. DPI uses those actual preview
 pixels, never a silently increased resolution. Retain the original for eventual
