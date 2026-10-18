@@ -1,5 +1,13 @@
 # Virtual Ink recurring security review
 
+18 October studio preparation: [evidence](reports/2026-10-18-studio-preparation-safety.md)
+records actual stale-draft and thirteen-layer reproductions, token-owned work,
+commit-time bounds, no stale downloads and deferred canvas cleanup. All 218
+root/197 security/44 web/16 SDK checks, coverage, types/lint/build, 74 local HTTP
+assertions and client scan pass. The isolated build is Ready; current hosted
+browser checks are pending after connection failures. No server upload, Auth,
+SQL, storage or order authority changed. Runtime HIGH and Phase 1 gates stay open.
+
 18 October studio contrast: [evidence](reports/2026-10-18-studio-artwork-contrast.md)
 records synthetic near-match and image-metadata correctness reproductions,
 text-only screen advisories and preserved validated draft/zone boundaries.

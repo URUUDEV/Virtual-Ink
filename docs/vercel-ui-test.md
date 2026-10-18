@@ -2,14 +2,18 @@
 
 18 October 2026. User-authorized isolated UI hosting, not a platform release.
 
-Open [the protected UI test site](https://virtual-ink-ui-test-e1y5xk380-shadowrootsec-5679.vercel.app)
+Open [the protected UI test build](https://virtual-ink-ui-test-3gdu1pvhw-shadowrootsec-5679.vercel.app)
 using your Shadow Root Vercel account. A custom domain is deferred at the user's
 request. The existing live site and the separate acceptance project are unchanged.
 
 Project: `virtual-ink-ui-test`, `prj_aqLrX1gsSVb1XINH5YNGkp1aYazH`.
-Team: `shadowrootsec-5679`. Deployment: `dpl_HpMtV9yYkxLfQez1BMD2iQJ1QoJm`.
-Deployed source: `7471bfe9d9c710ed0bdd5ea8e68cd891063a986e`.
-Latest checks: [studio contrast handover](reports/2026-10-18-studio-artwork-contrast.md).
+Team: `shadowrootsec-5679`. Deployment: `dpl_JAsZQmPsfmZ6qKSmHNFUjFTwA5BG`.
+Deployed source: `9edd01242b440c049bde9bc323aa8b352977338c`.
+Latest checks: [preparation safety handover](reports/2026-10-18-studio-preparation-safety.md).
+This build is Ready; current hosted browser acceptance is pending because the
+browser connection failed. The [previous contrast handover](reports/2026-10-18-studio-artwork-contrast.md)
+preserves its verified UI URL/source for rollback. Those browser results do not
+verify the new source.
 The [initial deployment report](reports/2026-10-18-ui-test-deployment.md) preserves
 the previous verified URL/source for rollback.
 

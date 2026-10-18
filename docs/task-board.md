@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+18 October: **STUDIO-01B — Review; hosted browser pending**, Uchi with Mumba,
+Taizya reviewing and Lubasi on file/vendor policy. [Preparation safety evidence](reports/2026-10-18-studio-preparation-safety.md)
+records two reproduced races, cancellation, protected commits/references and
+thirteen new handler tests. Local gates pass; the isolated UI-only build is
+Ready. Browser file selection/recovery timed out. Next: reconnect the Shadow
+browser and verify real import/reopen/cancel/download on the current source.
+This slice closes no Phase 1 private-file, studio or acceptance requirement.
+
 18 October: **STUDIO-01A — Review**, Uchi with Mumba implementing and Taizya
 reviewing; Lubasi supplies vendor policy. [Contrast evidence](reports/2026-10-18-studio-artwork-contrast.md)
 records text luminance warnings, removal of image false positives, 218 root

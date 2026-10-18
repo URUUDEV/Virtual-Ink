@@ -1,6 +1,20 @@
 # Virtual Ink team report
 
-Latest hosted handover: [18 October — Studio artwork contrast](reports/2026-10-18-studio-artwork-contrast.md)
+Latest build handover: [18 October — Studio preparation safety](reports/2026-10-18-studio-preparation-safety.md)
+and [Word copy](reports/2026-10-18-studio-preparation-safety.docx).
+[Protected build](https://virtual-ink-ui-test-3gdu1pvhw-shadowrootsec-5679.vercel.app/studio):
+Ready at source `9edd01242b440c049bde9bc323aa8b352977338c`, under Shadow Root's
+disabled `ui_test` profile. Two reproduced local races are fixed: stale artwork
+after draft reopen and a thirteen-layer bypass. One preparation at a time,
+cancellation, protected replacement/reference work and guarded completion now
+have thirteen deterministic handler tests. All 218 root/197 security/44 web/16
+SDK checks, exact 43-file coverage, types/lint/build and 74 local HTTP assertions
+pass. Browser file selection and the later connection retry timed out; current
+hosted browser acceptance remains pending. Sensitive services, full studio and
+Phase 1 remain incomplete. No push or human signoff is claimed. See the report
+for Word checks, security evidence, limitations and team actions.
+
+Previous hosted handover: [18 October — Studio artwork contrast](reports/2026-10-18-studio-artwork-contrast.md)
 and [Word copy](reports/2026-10-18-studio-artwork-contrast.docx).
 [Open the protected studio](https://virtual-ink-ui-test-e1y5xk380-shadowrootsec-5679.vercel.app/studio)
 using the Shadow Root Vercel account. Near-matching text colours now produce an
