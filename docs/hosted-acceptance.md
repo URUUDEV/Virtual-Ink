@@ -1,5 +1,10 @@
 # Virtual Ink hosted acceptance
 
+18 October section 2.1: [Phase 1 release gate](phase-1-release-gate.md) requires
+a genuine clean-checkout Preview, secure integrations and physical-device
+acceptance. Production promotion requires a documented go/no-go and explicit
+authorization. This task adds no provider change or release approval.
+
 18 October user-approved exception: a separate [protected UI test site](vercel-ui-test.md)
 is Ready under Vercel's Production label and a restricted `ui_test` profile.
 It has no application credentials or enabled sensitive services. This does not

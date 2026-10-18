@@ -3,8 +3,25 @@
 Created 15 October 2026 from the Phase 1 mission and the inspected repository.
 This is the live acceptance checklist; evidence must identify the tested commit,
 environment, role and denial case. A UI control or mocked provider response alone
-does not pass an item. Phase 1 remains **PARTIAL** until every required check and
+does not pass an item. Phase 1 remains **INCOMPLETE** until every required check and
 the human and Vercel gates pass.
+
+18 October section 2.1: the [authoritative release gate](phase-1-release-gate.md)
+adds clean-checkout imports, real physical devices, classified secure integrations,
+rollback rehearsal and documented go/no-go plus explicit promotion authorization.
+Earlier dated slice results remain historical; they cannot close these gates.
+
+- [ ] **IMPORT-01:** full asset/package inventory, client/server boundaries,
+  lazy fallbacks, clean dependency install, types/lint/build and actual clean
+  Vercel Preview; imported/excluded reference and preservation evidence.
+- [ ] **DEVICE-01:** physical Windows Chrome/Edge, Android Chrome, iPhone Safari,
+  tablet availability and representative lower-power device; network/orientation/
+  input/workflow matrix, versions, screenshots, defects and retests.
+- [ ] **INTEGRATION-01:** every required service has an allowed classification
+  and route/environment/expected/actual/security/limitation evidence; genuine
+  services replace demonstrations and local-only authority.
+- [ ] **RELEASE-01:** every section E item passes; rollback is tested; no open
+  critical/high issue; human decision and explicit production authorization.
 
 ## Baseline and work order
 
@@ -103,7 +120,7 @@ This direction does not close a requirement or authorize future-phase features.
 - [ ] **GATE-01 — Phase closure:** no fake production auth, server and database/
   storage enforcement proven, all journeys deployed and tested, no open critical/
   high defect, required human acknowledgements and Uchi acceptance recorded.
-  Until then report **PARTIAL** and do not start escrow/crypto/blockchain/advanced
+  Until then report **INCOMPLETE** and do not start escrow/crypto/blockchain/advanced
   Phase 2 work.
 
 ## Decisions and ownership

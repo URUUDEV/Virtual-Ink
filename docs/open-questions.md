@@ -1,5 +1,17 @@
 # Virtual Ink open questions and decisions
 
+- **P1-GATE-21 — Confirmed by Uchi, 18 October 2026:** Phase 1 is INCOMPLETE.
+  [Section 2.1](phase-1-release-gate.md) requires clean imports/actual Preview,
+  physical devices, classified secure services, tested rollback and documented
+  go/no-go plus explicit production authorization. Prior UI hosting is no waiver.
+- **P1-DEVICES-01 — Open; Taizya with Uchi/Lubasi, 18 October 2026:** Identify
+  available physical Windows/Android/iPhone/tablet/lower-power devices and testers,
+  network coverage and redacted evidence storage. Do not infer testing or approval.
+- **P1-PAYMENT-01 — Open; Uchi/Mumba with Lubasi, 18 October 2026:** Identify the
+  approved payment provider/sandbox, webhook/refund/dispute/payout policy and
+  integration boundaries for section 2.1. No live account, funds or secret changes
+  are authorized by documenting this requirement; escrow/blockchain stays excluded.
+
 - **SCOPE-P1-02 — Confirmed by Uchi, 16 October 2026:** Prioritize Phase 1 readiness
   and retain Phase 1 scope until traction. Continue the MVP closure checklist;
   future marketplace, escrow and blockchain work remains outside this task.

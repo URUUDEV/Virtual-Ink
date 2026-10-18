@@ -10,6 +10,15 @@ scope and reviewed exceptions; passing lint does not close hosting or phase gate
 
 ## Phase completion — Vercel required
 
+18 October section 2.1 is authoritative: Phase 1 is INCOMPLETE. Follow
+docs/phase-1-release-gate.md for clean-checkout import evidence, real physical
+devices, the seven integration classifications, secure-service acceptance and
+the documented go/no-go decision. Browser emulation is not device acceptance.
+The historical Production-labelled ui_test exception does not satisfy Preview
+or production-service verification. No promotion before successful critical
+checks, documented release/rollback evidence and explicit authorization. Do not
+represent a slice or demo as the completed, accepted or production-ready Phase 1.
+
 Uchi's updated rule, 2026-10-14: do not mark any phase complete unless the feature
 works locally, passes testing, and is successfully hosted on Vercel with the
 deployed URL provided in the completion report. Follow

@@ -1,5 +1,12 @@
 # Virtual Ink team report
 
+Latest policy handover: [18 October — Phase 1 completion gate](reports/2026-10-18-phase-1-completion-gate.md)
+and [Word copy](reports/2026-10-18-phase-1-completion-gate.docx).
+Phase 1 is **INCOMPLETE**, release **NO-GO**. The [section 2.1 gate](phase-1-release-gate.md)
+requires clean imports/actual Preview, physical devices, 27 classified secure
+integrations, tested rollback and explicit production authorization. No new
+application tests, service verification, device acceptance or deployment is claimed.
+
 Latest build handover: [18 October — Canvas fallback repair](reports/2026-10-18-studio-canvas-fallback.md)
 and [Word copy](reports/2026-10-18-studio-canvas-fallback.docx).
 The [final protected studio](https://virtual-ink-ui-test-otzxni541-shadowrootsec-5679.vercel.app/studio)

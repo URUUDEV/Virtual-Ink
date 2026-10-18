@@ -1,5 +1,12 @@
 # Virtual Ink recurring security review
 
+18 October section 2.1: [policy/evidence handover](reports/2026-10-18-phase-1-completion-gate.md)
+records a NO-GO release gate, physical-device evidence and seven integration
+classifications. Production-labelled UI hosting is not secure-service acceptance;
+no promotion before documented go/no-go and explicit authorization. This is a
+documentation control, not backend enforcement or new Auth/storage/payment
+verification. Existing high-risk and hosted-service gates remain open.
+
 18 October canvas fallback: [repair evidence](reports/2026-10-18-studio-canvas-fallback.md)
 records a reproducible blank preview and stale remount-readiness issue, repaired
 without changing storage, authorization or commercial controls. Final hosted

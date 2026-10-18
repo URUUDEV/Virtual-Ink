@@ -6,6 +6,11 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+Phase 1 is **INCOMPLETE**. The [18 October completion gate](docs/phase-1-release-gate.md)
+requires clean-install/import evidence, genuine physical-device testing and
+secure-service verification. Release decision: **NO-GO**. The isolated UI test
+site below does not establish a qualifying Preview or production readiness.
+
 18 October [Shadow Root UI test build](https://virtual-ink-ui-test-otzxni541-shadowrootsec-5679.vercel.app)
 is hosted under the approved restricted `ui_test` profile. Open it with your
 Shadow Root Vercel account. [Setup](docs/vercel-ui-test.md) and

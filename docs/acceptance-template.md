@@ -2,6 +2,13 @@
 
 Copy this template into a task-specific record. Owner: Uchi Chinyama. Use `Unknown — question ID` for unconfirmed rules and `N/A — reason` for inapplicable sections. Do not treat placeholders as approved requirements.
 
+Phase 1 also requires the [section 2.1 gate](phase-1-release-gate.md). Use only
+its seven classifications for integrations; attach exact route, environment,
+expected/actual result, security control and remaining limitation. Record the
+physical-device model/OS/browser versions, dimensions, network, input/orientation,
+features, screenshots/recordings, defects and retests. A UI-only site or emulation
+cannot supply those missing results. Required Phase 1 items cannot be waived N/A.
+
 ## Feature name
 
 - Feature / task ID / phase:
@@ -78,7 +85,10 @@ Include success, invalid data, unauthenticated access, wrong role, cross-tenant 
 - Local application/feature operation evidence:
 - Vercel project, connected repository and tested commit:
 - Tested preview deployment URL, ID, date and results before production:
-- Successful production deployment URL, ID, commit and build evidence:
+- Production promotion authorization: documented go/no-go, approver/date,
+  exact commit/target/permitted changes and tested rollback reference; pending
+  until explicit authorization, never inferred from a build or UI review:
+- After authorized promotion only: production URL, ID, commit and build evidence:
 - [Vercel verification VH-01 through VH-17](phase-completion-checklist.md): actual
   results, safe evidence references and owners for every unmet check:
 - Environment variable names/scopes only; frontend secret-exposure review:

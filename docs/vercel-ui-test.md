@@ -2,6 +2,11 @@
 
 18 October 2026. User-authorized isolated UI hosting, not a platform release.
 
+The [section 2.1 gate](phase-1-release-gate.md) leaves Phase 1 INCOMPLETE. This
+historical Production-labelled UI-only deployment does not satisfy the required
+Vercel Preview, physical-device or secure-service verification. Future production
+promotion requires the documented go/no-go decision and explicit authorization.
+
 Open [the protected UI test build](https://virtual-ink-ui-test-otzxni541-shadowrootsec-5679.vercel.app)
 using your Shadow Root Vercel account. A custom domain is deferred at the user's
 request. The existing live site and the separate acceptance project are unchanged.

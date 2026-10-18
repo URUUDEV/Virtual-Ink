@@ -7,6 +7,14 @@ including Phase 1 and Backend Phase 2, alongside existing security and human rev
 and is successfully hosted on Vercel with the deployed URL provided in the
 completion report.** All Vercel verification items below must be satisfied.
 
+18 October Phase 1 supplement: [section 2.1 release gate](phase-1-release-gate.md)
+is authoritative. Phase 1 is **INCOMPLETE** and release is **NO-GO** until its
+import, physical-device, integration and release evidence passes. Historical
+checkboxes below retain their dated scope; they do not certify the current
+Phase 1. The Production-labelled ui_test exception is not qualifying Preview
+or production-service evidence. Production promotion needs a documented go/no-go
+decision, successful critical checks and explicit authorization first.
+
 Delivered code, documents or a local build may be recorded for review while the
 phase remains incomplete. Missing features or verification remain Pending or
 Blocked; they cannot be marked passed or waived as N/A to close the phase.
@@ -64,6 +72,8 @@ genuine private integration or authenticated role workflow is verified.
   assets on the deployed URL, including expected missing-page behavior.
 - [ ] VH-13 — Mobile responsive layout works on the deployed URL. Record
   tested viewport/device sizes, navigation, controls and overflow results.
+  For Phase 1, include the section 2.1 physical-device/browser/network matrix;
+  responsive emulation alone cannot pass this requirement.
 - [ ] VH-14 — No major browser console errors occur on the deployed URL.
   Check public and authenticated flows; document remaining minor messages.
 - [ ] VH-15 — Vercel build logs are clean or documented. Retain sanitized

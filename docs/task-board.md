@@ -1,5 +1,11 @@
 # Virtual Ink task board
 
+18 October: **P1-GATE-21 — Recorded; release NO-GO**, Uchi with Mumba, Taizya
+and Lubasi. [Authoritative section 2.1](phase-1-release-gate.md) and
+[handover](reports/2026-10-18-phase-1-completion-gate.md) track IMPORT-01,
+DEVICE-01, INTEGRATION-01 and RELEASE-01. All completion conditions stay open;
+UI-only hosting/emulation does not close them. Next slice: clean import audit.
+
 18 October: **STUDIO-01C — Review; narrow hosted repair verified**, Uchi with
 Taizya, Mumba on integration dependencies and Lubasi on supplier assets.
 [Canvas evidence](reports/2026-10-18-studio-canvas-fallback.md) records the blank
