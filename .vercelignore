@@ -17,3 +17,5 @@ Kimi_Agent_Shared attachments/**
 **/*.docx
 **/~$*
 apps/web/next-env.d.ts
+# Development reference only; preserve in Git, exclude from runtime deployments.
+/virtual ink html.html
