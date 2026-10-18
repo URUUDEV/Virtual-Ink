@@ -1,5 +1,19 @@
 # Virtual Ink recurring security review
 
+18 October hosted studio: [verification](reports/2026-10-18-hosted-studio-verification.md)
+uses synthetic text after confirming no existing device draft, validates the
+controlled downloaded JSON and both view images, and preserves disabled services.
+All 218 root/44 web checks and exact 43-file coverage pass. Chrome rejects local
+file attachment; no permission/bypass workaround was used. Hosted script export,
+later browser checks and test-draft cleanup remain unconfirmed. No full private-
+file, provider, authorization, production or system security claim is made.
+
+18 October local agent guidance: [installation record](reports/2026-10-18-modern-web-guidance-install.md)
+records the user-requested CLI, resolved version, project-local paths, source lock
+and installer-reported Critical/Medium/Socket flags. Those flags are not a proven
+exploit or a clean bill of health. Entry instructions were inspected; the complete
+guide corpus was not audited or applied. No product capability or deployment changed.
+
 18 October studio preparation: [evidence](reports/2026-10-18-studio-preparation-safety.md)
 records actual stale-draft and thirteen-layer reproductions, token-owned work,
 commit-time bounds, no stale downloads and deferred canvas cleanup. All 218

@@ -10,10 +10,14 @@ Project: `virtual-ink-ui-test`, `prj_aqLrX1gsSVb1XINH5YNGkp1aYazH`.
 Team: `shadowrootsec-5679`. Deployment: `dpl_JAsZQmPsfmZ6qKSmHNFUjFTwA5BG`.
 Deployed source: `9edd01242b440c049bde9bc323aa8b352977338c`.
 Latest checks: [preparation safety handover](reports/2026-10-18-studio-preparation-safety.md).
-This build is Ready; current hosted browser acceptance is pending because the
-browser connection failed. The [previous contrast handover](reports/2026-10-18-studio-artwork-contrast.md)
+This build is Ready. [Hosted checks](reports/2026-10-18-hosted-studio-verification.md)
+now verify separate text surfaces, colour preservation, device save/reopen and
+an actual downloaded layout reference. Local file attachment, timing races,
+mobile and complete browser acceptance remain pending; a later connection
+reset also leaves synthetic-draft cleanup unconfirmed.
+The [previous contrast handover](reports/2026-10-18-studio-artwork-contrast.md)
 preserves its verified UI URL/source for rollback. Those browser results do not
-verify the new source.
+verify the new source; the fresh hosted record above supplies its own scoped evidence.
 The [initial deployment report](reports/2026-10-18-ui-test-deployment.md) preserves
 the previous verified URL/source for rollback.
 

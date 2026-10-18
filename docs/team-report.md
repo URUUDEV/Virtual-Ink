@@ -1,5 +1,22 @@
 # Virtual Ink team report
 
+Latest verification handover: [18 October — Hosted studio checks](reports/2026-10-18-hosted-studio-verification.md)
+and [Word copy](reports/2026-10-18-hosted-studio-verification.docx).
+The [existing protected build](https://virtual-ink-ui-test-3gdu1pvhw-shadowrootsec-5679.vercel.app/studio)
+at source `9edd01242b440c049bde9bc323aa8b352977338c` now has actual hosted
+front/back text, colour, device-save/reopen and layout-download evidence. The
+downloaded JSON and both 900-by-1000 images match the synthetic saved example.
+Fresh root coverage (218 tests, all 43 files) and all 44 web checks pass.
+Attaching a local file is rejected by Chrome; permission confirmation is pending.
+A later connection reset leaves keyboard/reload/mobile and synthetic-draft cleanup
+unconfirmed. No application code, service, deployment or phase status changed.
+
+Latest tooling record: [18 October — Local Modern Web Guidance installation](reports/2026-10-18-modern-web-guidance-install.md)
+and [Word copy](reports/2026-10-18-modern-web-guidance-install.docx). The requested
+installer completed, auto-detected Codex and installed two project-local skills.
+Its automated risk flags require review. No application build/deployment or phase
+acceptance is implied; the product handover below remains current.
+
 Latest build handover: [18 October — Studio preparation safety](reports/2026-10-18-studio-preparation-safety.md)
 and [Word copy](reports/2026-10-18-studio-preparation-safety.docx).
 [Protected build](https://virtual-ink-ui-test-3gdu1pvhw-shadowrootsec-5679.vercel.app/studio):

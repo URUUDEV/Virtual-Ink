@@ -1,5 +1,17 @@
 # Virtual Ink task board
 
+18 October: **STUDIO-QA-01 — Partial**, Uchi with Taizya, Mumba on backend
+dependencies and Lubasi on real catalogue/file policy. [Hosted evidence](reports/2026-10-18-hosted-studio-verification.md)
+confirms text-side separation, colour preservation, device save/reopen and an
+actual downloaded layout reference at the current deployed source. File-picker
+permission, keyboard/reload/mobile/races, deployed scripts and synthetic-draft
+cleanup remain pending. No phase completion or human signoff is claimed.
+
+18 October: **TOOL-01 — Review**, Uchi with Mumba/Taizya. The requested
+[Modern Web Guidance installation](reports/2026-10-18-modern-web-guidance-install.md)
+completed locally for two skills; Codex detection suppressed the chooser.
+Review installer risk flags before use. No app source, deployment or phase gate changed.
+
 18 October: **STUDIO-01B — Review; hosted browser pending**, Uchi with Mumba,
 Taizya reviewing and Lubasi on file/vendor policy. [Preparation safety evidence](reports/2026-10-18-studio-preparation-safety.md)
 records two reproduced races, cancellation, protected commits/references and

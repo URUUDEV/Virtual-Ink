@@ -55,6 +55,13 @@ pixels, never a silently increased resolution. Retain the original for eventual
 vendor preflight. Twelve layers and a 6 MB design bound limit local work. SVG/PDF
 remain unavailable until secure quarantine, scanning and vendor policy exist.
 
+The [18 October hosted record](reports/2026-10-18-hosted-studio-verification.md)
+verifies separate text surfaces, colour changes, device save/reopen and a real
+downloaded two-view layout reference for a controlled synthetic design. File
+attachment, forced timing races, full reload/keyboard/mobile acceptance and
+cleanup after a later connection reset remain open. This is partial browser
+evidence for the existing source, not certification of the mandatory studio.
+
 The size selector honestly offers only a reference sample. Supplier size grading,
 additional placement zones and comprehensive decoration simulations remain open.
 No renderer can certify a physically accurate print size on an unmeasured blank.

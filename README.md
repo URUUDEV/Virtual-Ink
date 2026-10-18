@@ -10,8 +10,10 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 is hosted under the approved restricted `ui_test` profile. Open it with your
 Shadow Root Vercel account. [Setup](docs/vercel-ui-test.md) and
 [studio preparation safety evidence](docs/reports/2026-10-18-studio-preparation-safety.md).
-The build is Ready; current hosted browser acceptance is pending after a browser
-connection failure. Login, database access,
+The build is Ready. [Hosted verification](docs/reports/2026-10-18-hosted-studio-verification.md)
+now confirms separate text surfaces, device save/reopen and a real downloaded
+layout reference. File import, mobile and broader acceptance remain pending.
+Login, database access,
 server uploads and payments remain disabled; full Phase 1 acceptance stays open.
 
 18 October [account recovery UX](docs/account-recovery-ux.md): password updates
