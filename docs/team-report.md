@@ -1,6 +1,18 @@
 # Virtual Ink team report
 
-Latest build handover: [18 October — Account recovery and accessible feedback](reports/2026-10-18-account-recovery-ux.md)
+Latest hosted handover: [18 October — Shadow Root UI test deployment](reports/2026-10-18-ui-test-deployment.md)
+and [Word copy](reports/2026-10-18-ui-test-deployment.docx).
+[Open the protected UI test site](https://virtual-ink-ui-test-e9cmiq0kd-shadowrootsec-5679.vercel.app)
+using the Shadow Root Vercel account. User-approved UI-only hosting uses the
+Production target label with an explicit restricted `ui_test` profile. Login,
+database, server uploads and payments stay disabled. The original live site and
+acceptance project are unchanged. Local checks and sampled hosted home/studio/
+mobile/login/denial checks pass; Phase 1 and full-service acceptance remain open.
+Deployed source: `ad55dfba993446c3089e3783e743cb170c1bd6e5`. Handover is committed
+locally; no source push. Word structural checks pass; visual rendering remains
+unavailable without LibreOffice.
+
+Previous build handover: [18 October — Account recovery and accessible feedback](reports/2026-10-18-account-recovery-ux.md)
 and [Word copy](reports/2026-10-18-account-recovery-ux.docx). Confirmed password
 updates now have logout-only retry; uncertain updates never claim success.
 Shared account feedback, request cleanup and narrower form layouts are added.

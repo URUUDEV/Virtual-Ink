@@ -1,5 +1,10 @@
 # Virtual Ink hosted acceptance
 
+18 October user-approved exception: a separate [protected UI test site](vercel-ui-test.md)
+is Ready under Vercel's Production label and a restricted `ui_test` profile.
+It has no application credentials or enabled sensitive services. This does not
+alter this acceptance project's Preview-only boundary or the FAIL verdict below.
+
 Status: **FAIL — incomplete environment, no hosted acceptance**. Production is
 read-only throughout this task. See the [inventory and compatibility review](reports/2026-10-16-acceptance-environment-inventory.md).
 

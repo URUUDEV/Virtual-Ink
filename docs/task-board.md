@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+18 October: **UI-HOST-01 — Review**, Uchi with Taizya reviewing and Mumba on
+isolation. The [protected Shadow Root UI test](vercel-ui-test.md) is Ready, with
+explicit user authorization for its Vercel Production label and all sensitive
+services disabled. [Evidence](reports/2026-10-18-ui-test-deployment.md) records
+local gates, sampled hosted browser checks and remaining full-service blockers.
+The original live site, full acceptance and phase completion remain separate.
+
 18 October: **UI-04A — Review**, Uchi implementing, Taizya reviewing, Mumba on
 Auth contracts and Lubasi on support policies. [Account UX evidence](reports/2026-10-18-account-recovery-ux.md)
 records logout-only retry after confirmed updates, honest uncertain/expired

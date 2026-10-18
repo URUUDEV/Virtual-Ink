@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+18 October UI test hosting: [evidence](reports/2026-10-18-ui-test-deployment.md)
+records the explicit user-approved exception, exact project binding, forbidden
+credentials/services, retained staging checks and protected credential-free UI
+deployment. The initial public-author metadata false positive is fixed and
+retested. All 216 root/197 security/31 web/16 SDK checks pass locally; hosted
+UI/garment/mobile/login/lab-denial samples pass through normal Vercel sign-in.
+No live/acceptance capability changed. Full hosted backend acceptance and the
+HIGH runtime gate remain open; a UI URL does not close Phase 1.
+
 18 October account UX: [evidence](reports/2026-10-18-account-recovery-ux.md)
 records a corrected update/logout failure boundary, fixed response-state checks,
 non-enumerating messages, duplicate suppression and abandoned-request cleanup.
