@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
-import {assertEnvironmentIsolation,acceptancePurposes,disabledIntegrations,protectedProduction,IsolationError} from '../src/backend/setup/environment-isolation.ts';
+import {assertEnvironmentIsolation,acceptancePurposes,disabledIntegrations,protectedProduction,uiTestProject,IsolationError} from '../src/backend/setup/environment-isolation.ts';
 const ref='abcdefghijklmnopqrst',site='https://virtual-ink-acceptance.example.test';
 function staging():Record<string,string|undefined>{return {
  APPLICATION_ENVIRONMENT:'staging',VERCEL_ENV:'preview',VERCEL_PROJECT_ID:'prj_syntheticAcceptance',ACCEPTANCE_VERCEL_PROJECT_ID:'prj_syntheticAcceptance',
@@ -73,4 +73,28 @@ test('the build command fails safely without printing secret-bearing configurati
  const result=spawnSync(process.execPath,['scripts/environment-isolation-check.mjs'],{env:{...process.env,APPLICATION_ENVIRONMENT:'staging',VERCEL_ENV:'preview',RENAMED_KEY:'sb_secret_synthetic-private-canary'},encoding:'utf8',timeout:10000,windowsHide:true});
  assert.equal(result.status,1);const output=result.stdout+result.stderr;
  assert.match(output,/ELEVATED_CREDENTIAL_FORBIDDEN/);assert.doesNotMatch(output,/synthetic-private-canary|RENAMED_KEY|postgresql:\/\//);
+});
+
+function uiTest():Record<string,string|undefined>{return {APPLICATION_ENVIRONMENT:'ui_test',VERCEL_ENV:'production',VERCEL_PROJECT_ID:uiTestProject,UI_TEST_VERCEL_PROJECT_ID:uiTestProject,
+ WEB_AUTH_ENABLED:'false',AUTH_ENABLED:'false',SECURITY_ADMIN_ENABLED:'false',STORAGE_ENABLED:'false',JOBS_ENABLED:'false',EMAIL_MODE:'disabled',
+ ...Object.fromEntries(disabledIntegrations.map(name=>[`${name}_MODE`,'disabled']))};}
+test('UI-only testing binds a separate project and cannot become an acceptance or live environment',()=>{
+ const configured=uiTest();const result=assertEnvironmentIsolation(configured);assert.equal(result.environment,'ui_test');assert.ok(Object.isFrozen(result));
+ assert.equal(assertEnvironmentIsolation({...configured,VERCEL_ENV:'preview'}).environment,'ui_test');
+ const reject=(patch:Record<string,string|undefined>,code:string)=>assert.throws(()=>assertEnvironmentIsolation({...configured,...patch}),error=>error instanceof IsolationError&&error.code===code);
+ for(const target of [undefined,'development','invalid'])reject({VERCEL_ENV:target},'UI_TEST_TARGET_REQUIRED');
+ for(const project of [undefined,'bad',protectedProduction.vercelProject,'prj_8IuJeoiJ4FVU3GHytBwPWp4idAEL'])reject({VERCEL_PROJECT_ID:project,UI_TEST_VERCEL_PROJECT_ID:project},'UI_TEST_PROJECT_MISMATCH');
+ reject({VERCEL_PROJECT_ID:'prj_other'},'UI_TEST_PROJECT_MISMATCH');
+ for(const flag of ['WEB_AUTH_ENABLED','AUTH_ENABLED','SECURITY_ADMIN_ENABLED','STORAGE_ENABLED','JOBS_ENABLED'])for(const value of [undefined,'true','FALSE'])reject({[flag]:value},'UI_TEST_SERVICE_ENABLED');
+ for(const integration of disabledIntegrations)reject({[`${integration}_MODE`]:'sandbox'},'EXTERNAL_INTEGRATION_DISABLED');
+ reject({EMAIL_MODE:'sandbox'},'UI_TEST_EMAIL_ENABLED');
+ for(const environment of ['local','test','staging','production'])assert.throws(()=>assertEnvironmentIsolation({...configured,APPLICATION_ENVIRONMENT:environment}),{code:'ENVIRONMENT_CONTRADICTION'});
+});
+test('UI-only testing rejects credentials, app/provider bindings and encoded production references',()=>{
+ const reject=(key:string,value:string,code='UI_TEST_BINDING_FORBIDDEN')=>assert.throws(()=>assertEnvironmentIsolation({...uiTest(),[key]:value}),error=>error instanceof IsolationError&&error.code===code);
+ for(const key of ['SUPABASE_URL','DATABASE_URL','MIGRATION_DATABASE_URL','PROVISIONING_DATABASE_PASSWORD','S3_BUCKET','APP_SERVICE_URL','SECURITY_PROJECT_URL','AUTH_SITE_URL','STAGING_APP_ORIGIN','ACCEPTANCE_VERCEL_PROJECT_ID'])reject(key,'synthetic-forbidden');
+ for(const value of ['sb_secret_synthetic','postgresql://vi_test:synthetic@localhost/db',`eyJhbGciOiJIUzI1NiJ9.${Buffer.from('{"role":"service_role"}').toString('base64url')}.c3ludGhldGlj`])reject('RENAMED',value);
+ for(const id of [protectedProduction.supabaseRef,protectedProduction.vercelProject,...protectedProduction.domains])for(const value of [id.toUpperCase(),[...id].map(c=>`%${c.charCodeAt(0).toString(16)}`).join('')])reject('RENAMED',value,'PRODUCTION_REFERENCE');
+ reject('RENAMED','x'.repeat(65537),'ENVIRONMENT_VALUE_INVALID');reject('NEXT_PUBLIC_AUTH_KEY','synthetic','PUBLIC_SECRET_FORBIDDEN');reject('STRIPE_API_KEY','synthetic','EXTERNAL_CREDENTIAL_FORBIDDEN');
+ assert.equal(assertEnvironmentIsolation({...uiTest(),OPTIONAL_EMPTY:undefined,EMPTY:'',RENAMED:'%invalid',PLATFORM_SESSION:'eyJhbGciOiJIUzI1NiJ9.e30.c3ludGhldGlj'}).environment,'ui_test');
 });

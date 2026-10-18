@@ -17,12 +17,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body>
     <a className="skip-link" href="#main">Skip to content</a>
-    <div className="preview-banner">{process.env.APPLICATION_ENVIRONMENT==='staging'
+    <div className="preview-banner">{process.env.APPLICATION_ENVIRONMENT==='ui_test'
+      ? 'UI test site · Login, server uploads, orders and payments are disabled.'
+      : process.env.APPLICATION_ENVIRONMENT==='staging'
       ? 'Virtual Ink Acceptance Environment - No Real Orders or Payments.'
       : 'Visual preview · Illustrative products and prices. Orders, payments and vendor accounts are not live.'}</div>
     <SiteHeader />
     <main id="main">{children}</main>
     <SiteFooter />
-    {process.env.APPLICATION_ENVIRONMENT!=='staging'&&<Analytics />}
+    {!['staging','ui_test'].includes(process.env.APPLICATION_ENVIRONMENT??'')&&<Analytics />}
   </body></html>;
 }

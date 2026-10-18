@@ -79,6 +79,13 @@ This is standing authorization for relevant tests and controlled local probes.
 
 ## Current boundary
 
+18 October user-approved exception: a separate protected UI-only test project
+may use Vercel's Production target label, without enabling Auth, database,
+storage, uploads, orders or payments. Project: virtual-ink-ui-test,
+prj_aqLrX1gsSVb1XINH5YNGkp1aYazH. Keep its ui_test configuration isolated;
+this is not a platform Production release or Phase 1 acceptance. The original
+live project and the acceptance project's Preview-only rules remain unchanged.
+
 17 October acceptance verification: the dedicated Vercel acceptance project has
 25 Preview-only variables and no Git/integration inheritance. Its explicit Preview
 deployment was classified as Production by Vercel and failed at the environment

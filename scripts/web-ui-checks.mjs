@@ -48,6 +48,15 @@ test('acceptance layout labels every rendered page with the no-real-orders warni
   }finally{previous===undefined?delete process.env.APPLICATION_ENVIRONMENT:process.env.APPLICATION_ENVIRONMENT=previous;}
 });
 
+test('UI-only test layout discloses disabled services and omits analytics',()=>{
+  const previous=process.env.APPLICATION_ENVIRONMENT;process.env.APPLICATION_ENVIRONMENT='ui_test';
+  try {
+    const html=renderToStaticMarkup(React.createElement(component('app/layout.tsx'),{children:React.createElement('p',null,'Synthetic UI review')}));
+    assert.match(html,/UI test site · Login, server uploads, orders and payments are disabled/);
+    assert.doesNotMatch(html,/<script|_vercel\/insights/);
+  }finally{previous===undefined?delete process.env.APPLICATION_ENVIRONMENT:process.env.APPLICATION_ENVIRONMENT=previous;}
+});
+
 test('restricted admin interface presents TOTP and explicit role review without default super-admin access',()=>{
   const Panel=component('components/security-admin-panel.tsx','SecurityAdminPanel');
   const initial={userId:'11111111-1111-4111-8111-111111111111',role:'SUPER_ADMIN',canManageRoles:true};

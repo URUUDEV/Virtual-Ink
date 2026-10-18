@@ -6,7 +6,8 @@ export const protectedProduction = Object.freeze({
   domains: ['virtual-ink.vercel.app'] as readonly string[],
 });
 type Environment = Record<string, string | undefined>;
-export type ApplicationEnvironment = 'local' | 'test' | 'staging' | 'production';
+export const uiTestProject = 'prj_aqLrX1gsSVb1XINH5YNGkp1aYazH';
+export type ApplicationEnvironment = 'local' | 'test' | 'staging' | 'production' | 'ui_test';
 export class IsolationError extends Error {
   readonly code: string;
   constructor(code: string) { super('Environment isolation check failed.'); this.code=code; }
@@ -35,8 +36,31 @@ function containsServiceKey(value: string): boolean {
   }
   return false;
 }
+// User-authorized 18 October UI-only hosting exception. It cannot load an Auth,
+// database, storage or internal-service binding and does not relax staging rules.
+function uiTestIsolation(env:Environment) {
+  if(!['production','preview'].includes(env.VERCEL_ENV??''))fail('UI_TEST_TARGET_REQUIRED');
+  const project=env.UI_TEST_VERCEL_PROJECT_ID??'';
+  if(project!==uiTestProject||env.VERCEL_PROJECT_ID!==project)fail('UI_TEST_PROJECT_MISMATCH');
+  for(const flag of ['WEB_AUTH_ENABLED','AUTH_ENABLED','SECURITY_ADMIN_ENABLED','STORAGE_ENABLED','JOBS_ENABLED'])if(env[flag]!=='false')fail('UI_TEST_SERVICE_ENABLED');
+  for(const integration of disabledIntegrations)if(env[`${integration}_MODE`]!=='disabled')fail('EXTERNAL_INTEGRATION_DISABLED');
+  if(env.EMAIL_MODE!=='disabled')fail('UI_TEST_EMAIL_ENABLED');
+  for(const [key,raw]of Object.entries(env)){
+    if(!raw)continue;
+    if(raw.length>65536)fail('ENVIRONMENT_VALUE_INVALID');
+    let value=raw;try{for(let n=0;n<2;n++)value=decodeURIComponent(value);}catch{/* Inspect original or partially decoded values. */}
+    if([protectedProduction.supabaseRef,protectedProduction.vercelProject,...protectedProduction.domains].some(id=>value.toLowerCase().includes(id.toLowerCase())))fail('PRODUCTION_REFERENCE');
+    if(/^(?:STAGING_|ACCEPTANCE_|SUPABASE_|DATABASE_|MIGRATION_|PROVISIONING_|S3_|APP_SERVICE_URL$|SECURITY_(?!ADMIN_ENABLED$)|AUTH_(?!ENABLED$))/i.test(key)||
+      /(?:SERVICE.?ROLE|PASSWORD|SECRET|PRIVATE_KEY)/i.test(key)||containsServiceKey(value)||/postgres(?:ql)?:\/\//i.test(value))fail('UI_TEST_BINDING_FORBIDDEN');
+    if(/^NEXT_PUBLIC_/i.test(key)&&/(?:TOKEN|KEY|AUTH|STORAGE|DATABASE)/i.test(key))fail('PUBLIC_SECRET_FORBIDDEN');
+    if(/^(?:PAYMENTS?|MOBILE_MONEY|STRIPE|PAYSTACK|FLUTTERWAVE|PAYPAL|MPESA|MTN|AIRTEL|TWILIO|SMTP|EMAIL|SMS|WHATSAPP|DELIVERY|COURIER|BLOCKCHAIN|WEB3|ETHEREUM|SOLANA|CANVA|PINTEREST)_.*(?:KEY|TOKEN|SECRET|PASSWORD|WEBHOOK|URL)/i.test(key))fail('EXTERNAL_CREDENTIAL_FORBIDDEN');
+  }
+  return Object.freeze({environment:'ui_test' as const,vercelProject:project});
+}
 export function assertEnvironmentIsolation(env: Environment = process.env) {
   const designation = env.APPLICATION_ENVIRONMENT;
+  if(designation==='ui_test')return uiTestIsolation(env);
+  if(Object.keys(env).some(key=>/^UI_TEST_/i.test(key)&&env[key]))fail('ENVIRONMENT_CONTRADICTION');
   if (!['local','test','staging','production'].includes(designation ?? '')) fail('ENVIRONMENT_REQUIRED');
   const environment = designation as ApplicationEnvironment;
   if (env.VERCEL_ENV !== undefined && !['production','preview','development'].includes(env.VERCEL_ENV)) fail('VERCEL_ENVIRONMENT_INVALID');
