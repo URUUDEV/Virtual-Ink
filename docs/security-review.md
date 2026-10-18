@@ -1,5 +1,13 @@
 # Virtual Ink recurring security review
 
+18 October studio contrast: [evidence](reports/2026-10-18-studio-artwork-contrast.md)
+records synthetic near-match and image-metadata correctness reproductions,
+text-only screen advisories and preserved validated draft/zone boundaries.
+All 218 root/197 security/31 web/16 SDK checks, types/lint/build, 74 studio HTTP
+assertions and local client scan pass. Hosted colour/history/mobile and guest
+lab-denial samples pass on the protected UI-only project. No Auth, SQL, storage,
+order or payment authority changed. Runtime HIGH and full-service gates stay open.
+
 18 October UI test hosting: [evidence](reports/2026-10-18-ui-test-deployment.md)
 records the explicit user-approved exception, exact project binding, forbidden
 credentials/services, retained staging checks and protected credential-free UI

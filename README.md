@@ -6,10 +6,10 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
-18 October [Shadow Root UI test site](https://virtual-ink-ui-test-e9cmiq0kd-shadowrootsec-5679.vercel.app)
+18 October [Shadow Root UI test site](https://virtual-ink-ui-test-e1y5xk380-shadowrootsec-5679.vercel.app)
 is hosted under the approved restricted `ui_test` profile. Open it with your
 Shadow Root Vercel account. [Setup](docs/vercel-ui-test.md) and
-[evidence](docs/reports/2026-10-18-ui-test-deployment.md). Login, database access,
+[latest studio contrast evidence](docs/reports/2026-10-18-studio-artwork-contrast.md). Login, database access,
 server uploads and payments remain disabled; full Phase 1 acceptance stays open.
 
 18 October [account recovery UX](docs/account-recovery-ux.md): password updates

@@ -2,13 +2,16 @@
 
 18 October 2026. User-authorized isolated UI hosting, not a platform release.
 
-Open [the protected UI test site](https://virtual-ink-ui-test-e9cmiq0kd-shadowrootsec-5679.vercel.app)
+Open [the protected UI test site](https://virtual-ink-ui-test-e1y5xk380-shadowrootsec-5679.vercel.app)
 using your Shadow Root Vercel account. A custom domain is deferred at the user's
 request. The existing live site and the separate acceptance project are unchanged.
 
 Project: `virtual-ink-ui-test`, `prj_aqLrX1gsSVb1XINH5YNGkp1aYazH`.
-Team: `shadowrootsec-5679`. Deployment: `dpl_DJwWWQToGXWvwx1zCtQVmh1agBmn`.
-Deployed source: `ad55dfba993446c3089e3783e743cb170c1bd6e5`.
+Team: `shadowrootsec-5679`. Deployment: `dpl_HpMtV9yYkxLfQez1BMD2iQJ1QoJm`.
+Deployed source: `7471bfe9d9c710ed0bdd5ea8e68cd891063a986e`.
+Latest checks: [studio contrast handover](reports/2026-10-18-studio-artwork-contrast.md).
+The [initial deployment report](reports/2026-10-18-ui-test-deployment.md) preserves
+the previous verified URL/source for rollback.
 
 Vercel labels this deployment Production. The application explicitly identifies
 it as `ui_test`. The user approved this narrow exception after being told that a

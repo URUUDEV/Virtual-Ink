@@ -1,6 +1,19 @@
 # Virtual Ink team report
 
-Latest hosted handover: [18 October — Shadow Root UI test deployment](reports/2026-10-18-ui-test-deployment.md)
+Latest hosted handover: [18 October — Studio artwork contrast](reports/2026-10-18-studio-artwork-contrast.md)
+and [Word copy](reports/2026-10-18-studio-artwork-contrast.docx).
+[Open the protected studio](https://virtual-ink-ui-test-e1y5xk380-shadowrootsec-5679.vercel.app/studio)
+using the Shadow Root Vercel account. Near-matching text colours now produce an
+actionable screen-contrast advisory; image metadata no longer creates false
+warnings. All 218 root, 197 security, 31 web and 16 SDK checks pass; 43-file
+coverage exceeds 95%, types/lint/build and 74 local HTTP assertions pass.
+Hosted colour changes, undo/redo, narrow-screen warning layout and guest lab
+denial pass. Deployed source: `7471bfe9d9c710ed0bdd5ea8e68cd891063a986e`.
+Sensitive services remain disabled; full studio and Phase 1 stay incomplete.
+Source and handover are local review commits; no push or human signoff.
+Word structure is checked; visual rendering remains unavailable without LibreOffice.
+
+Previous hosted handover: [18 October — Shadow Root UI test deployment](reports/2026-10-18-ui-test-deployment.md)
 and [Word copy](reports/2026-10-18-ui-test-deployment.docx).
 [Open the protected UI test site](https://virtual-ink-ui-test-e9cmiq0kd-shadowrootsec-5679.vercel.app)
 using the Shadow Root Vercel account. User-approved UI-only hosting uses the

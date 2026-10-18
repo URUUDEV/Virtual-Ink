@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+18 October: **STUDIO-01A — Review**, Uchi with Mumba implementing and Taizya
+reviewing; Lubasi supplies vendor policy. [Contrast evidence](reports/2026-10-18-studio-artwork-contrast.md)
+records text luminance warnings, removal of image false positives, 218 root
+tests, exact 43-file coverage, local gates and hosted colour/history/mobile
+checks. The protected UI-only deployment is Ready. Vendor preflight, physical
+accuracy, private files/orders/pricing/proofs and full Phase 1 remain open.
+
 18 October: **UI-HOST-01 — Review**, Uchi with Taizya reviewing and Mumba on
 isolation. The [protected Shadow Root UI test](vercel-ui-test.md) is Ready, with
 explicit user authorization for its Vercel Production label and all sensitive
