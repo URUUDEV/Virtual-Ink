@@ -1,0 +1,15 @@
+/* Shared account controls use the existing brand tokens and native form behavior. */
+.container.auth-page:not(.security-admin-page){max-width:620px}
+.account-password-control{display:flex;align-items:stretch;gap:var(--space-2);min-width:0}
+.account-password-control input{flex:1;width:0;min-height:48px;font-size:16px}
+.account-password-toggle{flex:none;min-width:64px;min-height:48px;padding:8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--white);color:var(--text);font-weight:600}
+.account-password-toggle:hover:not(:disabled){background:var(--surface)}
+.account-password-toggle:disabled{color:var(--muted);background:var(--surface)}
+.auth-card .account-feedback{margin-block:var(--space-4);font-size:15px;line-height:1.7;overflow-wrap:anywhere;border-radius:var(--radius-sm)}
+.account-feedback-success{padding:var(--space-4);border:1px solid #c5ddcf;background:#eef8f1;color:#254c35}
+.account-feedback:focus{outline:3px solid var(--focus);outline-offset:3px}
+.account-recovery-result h2{font-size:24px;margin-top:var(--space-4)}
+.account-recovery-result>.button{width:100%;margin-top:var(--space-4)}
+.auth-card .account-wait{min-height:1.7em;margin-block:var(--space-3) 0;font-size:14px;color:var(--muted)}
+.auth-page .vendor-field input{font-size:16px;min-height:48px}
+@media(max-width:360px){.account-password-control{gap:4px}.account-password-toggle{min-width:56px}}

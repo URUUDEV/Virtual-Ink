@@ -11,5 +11,6 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     {query.confirmation === 'failed' && <p className="vendor-error" role="alert">That confirmation link could not be verified. Try logging in after confirming your email in the same browser.</p>}
     {query.recovery === 'failed' && <p className="vendor-error" role="alert">That recovery link could not be verified. Request a new link and open it in this browser.</p>}
     {query.recovery === 'complete' && <p className="info-callout" role="status">Your password was updated. Log in with your new password.</p>}
+    {query.recovery === 'review' && <p className="info-callout" role="status">The password update could not be confirmed. Request a new recovery link if you cannot sign in.</p>}
     <AuthForm action="login" available={available} /></section>;
 }
