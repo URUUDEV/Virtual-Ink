@@ -1,5 +1,10 @@
 # Phase 1 — account access slice
 
+18 October follow-up: Uchi and Mumba now collaborate on backend engineering;
+the historical ownership statement below is preserved as its original snapshot.
+[Account feedback/recovery UX](account-recovery-ux.md) adds safe update/logout
+states and shared controls without changing the server contracts described here.
+
 Date: 2026-10-14. Backend and product owner: Uchi Chinyama. Mumba is inactive.
 Phase 1 is the full product MVP, followed by Phases 2, 3 and 4 in that order.
 This slice does not close Phase 1; [all completion gates](phase-completion-checklist.md)

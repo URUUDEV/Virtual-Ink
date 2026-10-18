@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+18 October [account recovery UX](docs/account-recovery-ux.md): password updates
+and logout are represented separately, uncertain results stay unconfirmed, and
+account forms have shared accessible feedback/visibility controls. Existing Auth
+and authorization contracts are preserved. [Handover](docs/reports/2026-10-18-account-recovery-ux.md).
+Full UI, Phase 1 and isolated hosted acceptance remain incomplete.
+
 17 October [authoritative brand upgrade](docs/ui-brand-integration.md): the supplied
 archive now drives the SVG/3D identity, Space Grotesk, shared tokens/navigation,
 public information pages and a server-protected `/brand-lab`. Existing routes and

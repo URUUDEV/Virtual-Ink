@@ -1,5 +1,11 @@
 # Virtual Ink task board
 
+18 October: **UI-04A — Review**, Uchi implementing, Taizya reviewing, Mumba on
+Auth contracts and Lubasi on support policies. [Account UX evidence](reports/2026-10-18-account-recovery-ux.md)
+records logout-only retry after confirmed updates, honest uncertain/expired
+states, focus/waiting feedback, duplicate/unmount controls and form-width fix.
+Genuine isolated browser, accessibility and hosting acceptance remain open.
+
 17 October: **UI-04 — In progress**, Uchi implementing with Taizya reviewing,
 Mumba on preserved security/API contracts and Lubasi on operational evidence.
 [Brand/shared UI evidence](reports/2026-10-17-ui-brand-upgrade.md) records the

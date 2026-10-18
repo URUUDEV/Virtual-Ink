@@ -1,6 +1,19 @@
 # Virtual Ink team report
 
-Latest build handover: [17 October — Authoritative brand and shared UI upgrade](reports/2026-10-17-ui-brand-upgrade.md)
+Latest build handover: [18 October — Account recovery and accessible feedback](reports/2026-10-18-account-recovery-ux.md)
+and [Word copy](reports/2026-10-18-account-recovery-ux.docx). Confirmed password
+updates now have logout-only retry; uncertain updates never claim success.
+Shared account feedback, request cleanup and narrower form layouts are added.
+All 214 root tests, the 43-file coverage gate, 195 security/30 web/16 SDK checks,
+types/lint/build and scoped local HTTP denials pass. Full UI, genuine hosted
+Auth/MFA, commerce services and Vercel acceptance remain incomplete. No release,
+push or human signoff is claimed. See the report for exact limits and team work.
+Source review commit: `91a45b1ed41d84df4e88133d68a788d1d1c226e0` on
+`codex/account-recovery-ux`; no push or deployment occurred.
+Markdown links and Word structure/numbering/package/privacy checks pass. Word
+visual rendering is unavailable without LibreOffice.
+
+Previous build handover: [17 October — Authoritative brand and shared UI upgrade](reports/2026-10-17-ui-brand-upgrade.md)
 and [Word copy](reports/2026-10-17-ui-brand-upgrade.docx). The supplied archive
 drives the SVG/3D identity, tokens, typography, shared shell and public information
 pages. The internal brand controls require server-verified SUPER_ADMIN, recent

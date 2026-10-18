@@ -1,5 +1,13 @@
 # Virtual Ink recurring security review
 
+18 October account UX: [evidence](reports/2026-10-18-account-recovery-ux.md)
+records a corrected update/logout failure boundary, fixed response-state checks,
+non-enumerating messages, duplicate suppression and abandoned-request cleanup.
+All 214 root/195 security/30 web/16 SDK checks, types/lint/build and 61 new HTTP
+assertions pass. No server policy, role or hosted capability changed. The client
+cannot undo provider work or guarantee global token/memory erasure. Runtime,
+genuine hosted Auth/MFA and isolated Preview gates remain open.
+
 17 October brand/shared UI: [evidence](reports/2026-10-17-ui-brand-upgrade.md)
 records exact supplied SVG/geometry checks, safe archive extraction, client-only
 lazy motion and server-enforced internal controls. Wrong-role, stale/missing MFA,
