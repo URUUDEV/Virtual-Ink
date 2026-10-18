@@ -12,6 +12,7 @@ export function ProductStudioPreview({ product,design,surface }: {product:Produc
     if(mode!=='3d'||!canvas.current)return;
     let cancelled=false;
     const target=canvas.current;
+    setState('Preparing selected model…');
     void import('@/lib/studio-viewer').then(module=>module.createStudioViewer(target,product,()=>{if(!cancelled)setState('3D unavailable. Switch to the layout view.');})).then(current=>{
       if(cancelled){current.dispose();return;}viewer.current=current;setState('3D ready');
     }).catch(()=>{if(!cancelled)setState('3D unavailable. Switch to the layout view or retry.');});
