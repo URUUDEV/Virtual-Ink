@@ -96,5 +96,5 @@ test('UI-only testing rejects credentials, app/provider bindings and encoded pro
  for(const value of ['sb_secret_synthetic','postgresql://vi_test:synthetic@localhost/db',`eyJhbGciOiJIUzI1NiJ9.${Buffer.from('{"role":"service_role"}').toString('base64url')}.c3ludGhldGlj`])reject('RENAMED',value);
  for(const id of [protectedProduction.supabaseRef,protectedProduction.vercelProject,...protectedProduction.domains])for(const value of [id.toUpperCase(),[...id].map(c=>`%${c.charCodeAt(0).toString(16)}`).join('')])reject('RENAMED',value,'PRODUCTION_REFERENCE');
  reject('RENAMED','x'.repeat(65537),'ENVIRONMENT_VALUE_INVALID');reject('NEXT_PUBLIC_AUTH_KEY','synthetic','PUBLIC_SECRET_FORBIDDEN');reject('STRIPE_API_KEY','synthetic','EXTERNAL_CREDENTIAL_FORBIDDEN');
- assert.equal(assertEnvironmentIsolation({...uiTest(),OPTIONAL_EMPTY:undefined,EMPTY:'',RENAMED:'%invalid',PLATFORM_SESSION:'eyJhbGciOiJIUzI1NiJ9.e30.c3ludGhldGlj'}).environment,'ui_test');
+ assert.equal(assertEnvironmentIsolation({...uiTest(),OPTIONAL_EMPTY:undefined,EMPTY:'',RENAMED:'%invalid',NEXT_PUBLIC_VERCEL_GIT_COMMIT_AUTHOR_NAME:'Synthetic Author',NEXT_PUBLIC_VERCEL_GIT_COMMIT_AUTHOR_LOGIN:'synthetic-author',PLATFORM_SESSION:'eyJhbGciOiJIUzI1NiJ9.e30.c3ludGhldGlj'}).environment,'ui_test');
 });

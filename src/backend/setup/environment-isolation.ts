@@ -52,7 +52,7 @@ function uiTestIsolation(env:Environment) {
     if([protectedProduction.supabaseRef,protectedProduction.vercelProject,...protectedProduction.domains].some(id=>value.toLowerCase().includes(id.toLowerCase())))fail('PRODUCTION_REFERENCE');
     if(/^(?:STAGING_|ACCEPTANCE_|SUPABASE_|DATABASE_|MIGRATION_|PROVISIONING_|S3_|APP_SERVICE_URL$|SECURITY_(?!ADMIN_ENABLED$)|AUTH_(?!ENABLED$))/i.test(key)||
       /(?:SERVICE.?ROLE|PASSWORD|SECRET|PRIVATE_KEY)/i.test(key)||containsServiceKey(value)||/postgres(?:ql)?:\/\//i.test(value))fail('UI_TEST_BINDING_FORBIDDEN');
-    if(/^NEXT_PUBLIC_/i.test(key)&&/(?:TOKEN|KEY|AUTH|STORAGE|DATABASE)/i.test(key))fail('PUBLIC_SECRET_FORBIDDEN');
+    if(/^NEXT_PUBLIC_/i.test(key)&&/(?:^|_)(?:TOKEN|KEY|AUTH|STORAGE|DATABASE)(?:_|$)/i.test(key))fail('PUBLIC_SECRET_FORBIDDEN');
     if(/^(?:PAYMENTS?|MOBILE_MONEY|STRIPE|PAYSTACK|FLUTTERWAVE|PAYPAL|MPESA|MTN|AIRTEL|TWILIO|SMTP|EMAIL|SMS|WHATSAPP|DELIVERY|COURIER|BLOCKCHAIN|WEB3|ETHEREUM|SOLANA|CANVA|PINTEREST)_.*(?:KEY|TOKEN|SECRET|PASSWORD|WEBHOOK|URL)/i.test(key))fail('EXTERNAL_CREDENTIAL_FORBIDDEN');
   }
   return Object.freeze({environment:'ui_test' as const,vercelProject:project});
