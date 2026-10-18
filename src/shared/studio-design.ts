@@ -13,6 +13,18 @@ export function layerBounds(layer: StudioLayer): Rect {
   return { x: layer.x - width / 2, y: layer.y - height / 2, width, height };
 }
 function overlaps(a: Rect, b: Rect) { return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y; }
+/** sRGB screen estimate only; physical inks, fabric and underbases need vendor review. */
+export function artworkContrast(foreground: string, background: string): number {
+  function luminance(hex: string) {
+    const rgb = [1, 3, 5].map(offset => {
+      const channel = parseInt(hex.slice(offset, offset + 2), 16) / 255;
+      return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4;
+    });
+    return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722;
+  }
+  const a = luminance(foreground), b = luminance(background);
+  return (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+}
 export function placementAllowed(layer: StudioLayer, zone: DecorationZone): boolean {
   const b = layerBounds(layer), inset = zone.safeInsetMm;
   return b.x >= inset - .000001 && b.y >= inset - .000001 && b.x + b.width <= zone.widthMm - inset + .000001 && b.y + b.height <= zone.heightMm - inset + .000001 &&
@@ -36,7 +48,10 @@ export function artworkWarnings(design: StudioDesign): string[] {
       const dpi = Math.floor(Math.min(layer.pixelWidth / (layer.width / 25.4), layer.pixelHeight / (layer.height / 25.4)));
       if (zone && dpi < zone.minDpi) warnings.push(`${layer.id}: ${dpi} DPI at this size; use a larger original or reduce print size to reach ${zone.minDpi} DPI.`);
     } else if (layer.height / Math.max(1, layer.text.split('\n').length) < 3) warnings.push(`${layer.id}: text may be unreadable; increase its physical height.`);
-    if (layer.colour.toLowerCase() === design.colour.toLowerCase()) warnings.push(`${layer.id}: artwork matches the product colour; increase contrast.`);
+    if (layer.kind === 'text') {
+      const contrast = artworkContrast(layer.colour, design.colour);
+      if (contrast < 3) warnings.push(`${layer.id}: low text contrast (screen estimate ${contrast.toFixed(2)}:1). Choose a lighter or darker text/product colour to reach the 3:1 preview guideline. Final ink contrast requires vendor review.`);
+    }
   }
   if (design.method === 'embroidery') warnings.push('Stitch appearance is approximate. A vendor must digitise and approve the stitch file.');
   warnings.push('Colour mode, thin lines, transparency, effects, bleed and final legibility require vendor preflight. This preview is not a print-ready certification.');

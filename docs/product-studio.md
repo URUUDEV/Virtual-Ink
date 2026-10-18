@@ -20,6 +20,15 @@ warnings and unapproved reference revisions. PNG header inspection is shared
 with the old editor, preserving its existing tests and limits. Drafts contain
 no price, order, approval or tenant authority.
 
+Text preflight estimates sRGB luminance contrast against the selected blank
+colour. Ratios below 3:1 produce an actionable advisory, including near matches;
+changing product/text colour recalculates it without modifying artwork. This is
+a screen-preview guideline, not an approved vendor policy, WCAG certification
+for printed products or a checkout decision. Image pixels, transparency,
+overlapping layers, underbases, inks and fabric still require vendor preflight.
+Image layers no longer receive false contrast warnings from unused text-colour
+metadata. The labelled artwork-check list announces changes politely.
+
 The browser loads only the selected model after entering 3D. It paints private
 local artwork onto runtime canvases; static models contain only blank geometry.
 Named front/back surfaces have independent textures. Mug artwork uses a separate
@@ -102,6 +111,8 @@ spatial model. [Research](catalogue-zambia-research.md) supplies candidate evide
 it grants no commercial authorization.
 
 Follow [Phase 1 closure](phase-1-closure-checklist.md), [hosting gates](phase-completion-checklist.md)
-and [isolated acceptance](hosted-acceptance.md). No successful hosted studio URL
-exists. The dedicated project's first-deployment classification and Node HIGH
-advisory remain blockers; no guard weakening or Production bootstrap is allowed.
+and [isolated acceptance](hosted-acceptance.md). The [protected UI test site](vercel-ui-test.md)
+hosts the local lab under the user's explicitly approved, disabled `ui_test`
+exception. This does not close full-service Preview, genuine private-file/order
+acceptance or the Node HIGH advisory. The separate acceptance project's
+Preview-only restrictions remain intact.

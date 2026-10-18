@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { getProductModel,productModels,publicationIssues,type ProductModel } from '../src/shared/product-models.ts';
-import { artworkWarnings,fitLayer,layerBounds,newStudioDesign,parseStudioDraft,reviseProof,type StudioLayer,type StudioDesign } from '../src/shared/studio-design.ts';
+import { artworkContrast,artworkWarnings,fitLayer,layerBounds,newStudioDesign,parseStudioDraft,reviseProof,type StudioLayer,type StudioDesign } from '../src/shared/studio-design.ts';
 const png='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jQp8AAAAASUVORK5CYII=';
 const product=getProductModel('crew-unisex'),zone=product.zones[0];
 const layer:StudioLayer={id:'text-1',zoneId:'front',kind:'text',text:'LOCAL\nINK',font:'Poppins',colour:'#123456',x:140,y:180,width:100,height:50,rotation:0,image:null,pixelWidth:0,pixelHeight:0};
@@ -62,6 +62,33 @@ test('DPI uses actual preview pixels and physical dimensions; low quality and un
   assert.ok(artworkWarnings({...design,layers:[{...layer,colour:design.colour}]}).some(w=>w.includes('contrast')));
   assert.ok(artworkWarnings({...design,method:'embroidery'}).some(w=>w.includes('approximate')));
 });
+test('screen contrast handles luminance extremes, channel transfer and the preview threshold',()=>{
+  assert.equal(artworkContrast('#000000','#FFFFFF'),21);
+  assert.equal(artworkContrast('#ffffff','#000000'),21);
+  assert.equal(artworkContrast('#293344','#293344'),1);
+  assert.ok(Math.abs(artworkContrast('#777777','#ffffff')-4.478089453577214)<1e-10);
+  assert.ok(artworkContrast('#0a0a0a','#0b0b0b')>1);
+  assert.ok(artworkContrast('#949494','#ffffff')>3);
+  assert.ok(artworkContrast('#959595','#ffffff')<3);
+});
+
+test('text preflight catches near matches, follows product colour and does not infer image contrast',()=>{
+  const low={...design,layers:[{...layer,colour:'#f4f1e8'}]};
+  const issues=artworkWarnings(low).filter(w=>w.includes('low text contrast'));
+  assert.equal(issues.length,1);assert.match(issues[0],/screen estimate 1\.01:1/);
+  assert.match(issues[0],/lighter or darker/);assert.match(issues[0],/vendor review/);
+  const changed={...low,colour:product.colours[1].hex};
+  assert.equal(artworkWarnings(changed).filter(w=>w.includes('low text contrast')).length,0);
+  assert.deepEqual(changed.layers,low.layers);
+  for(const colour of [design.colour,'#f4f1e8']){
+    const image={...layer,kind:'image' as const,image:`data:image/png;base64,${png}`,pixelWidth:1,pixelHeight:1,colour};
+    assert.equal(artworkWarnings({...design,layers:[image]}).filter(w=>w.includes('contrast')).length,0);
+  }
+  assert.equal(artworkWarnings({...design,layers:[{...layer,colour:design.colour}]}).filter(w=>w.includes('low text contrast')).length,1);
+  assert.match(artworkWarnings({...design,layers:[{...layer,text:'ONE\nTWO\nTHREE',height:8}]}).join(' '),/unreadable/);
+  assert.doesNotMatch(artworkWarnings({...design,layers:[{...layer,text:'ONE',height:8}]}).join(' '),/unreadable/);
+});
+
 test('any changed configuration creates a new unapproved reference version',()=>{
   const first=reviseProof(null,design);assert.equal(first.version,1);assert.equal(first.status,'awaiting_vendor');
   assert.equal(reviseProof(first,design),first);
