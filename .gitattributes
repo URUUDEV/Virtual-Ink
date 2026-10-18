@@ -8,3 +8,4 @@
 *.sql text eol=lf
 *.py text eol=lf
 *.docx binary
+"/virtual ink html.html" -text

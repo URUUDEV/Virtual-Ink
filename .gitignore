@@ -9,6 +9,10 @@ coverage/
 supabase/.temp/
 uploads/
 storage/
+# Keep runtime storage ignored while retaining backend TypeScript source.
+!src/backend/storage/
+src/backend/storage/*
+!src/backend/storage/*.ts
 .DS_Store
 Thumbs.db
 .next/
