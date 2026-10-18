@@ -1,5 +1,15 @@
 # Virtual Ink team report
 
+Latest build handover: [18 October — Canvas fallback repair](reports/2026-10-18-studio-canvas-fallback.md)
+and [Word copy](reports/2026-10-18-studio-canvas-fallback.docx).
+The [final protected studio](https://virtual-ink-ui-test-otzxni541-shadowrootsec-5679.vercel.app/studio)
+at `a3755a7f0de20707f97f81856d27bad874bc18eb` is READY. Hosted visual checks
+verify 3D/layout transitions, current front/back artwork, colour and return camera.
+All executed tests, types, lint and final production build pass. A local memory
+failure was resolved with one build worker. The previous synthetic draft is removed;
+final transient test data was cleared and browser tabs finalized. File import,
+genuine mobile/fallback/accessibility and full Phase 1 acceptance remain open.
+
 Latest verification handover: [18 October — Hosted studio checks](reports/2026-10-18-hosted-studio-verification.md)
 and [Word copy](reports/2026-10-18-hosted-studio-verification.docx).
 The [existing protected build](https://virtual-ink-ui-test-3gdu1pvhw-shadowrootsec-5679.vercel.app/studio)

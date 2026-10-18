@@ -1,5 +1,13 @@
 # Virtual Ink recurring security review
 
+18 October canvas fallback: [repair evidence](reports/2026-10-18-studio-canvas-fallback.md)
+records a reproducible blank preview and stale remount-readiness issue, repaired
+without changing storage, authorization or commercial controls. Final hosted
+front/back artwork/colour transitions pass. Repository heuristic: 429 scanned,
+112 skipped, no finding; tests/types/lint/build pass. Synthetic saved data is
+confirmed removed; transient data cleared and tabs finalized. No private-upload,
+whole-site security or phase-completion claim is made.
+
 18 October hosted studio: [verification](reports/2026-10-18-hosted-studio-verification.md)
 uses synthetic text after confirming no existing device draft, validates the
 controlled downloaded JSON and both view images, and preserves disabled services.

@@ -2,22 +2,25 @@
 
 18 October 2026. User-authorized isolated UI hosting, not a platform release.
 
-Open [the protected UI test build](https://virtual-ink-ui-test-3gdu1pvhw-shadowrootsec-5679.vercel.app)
+Open [the protected UI test build](https://virtual-ink-ui-test-otzxni541-shadowrootsec-5679.vercel.app)
 using your Shadow Root Vercel account. A custom domain is deferred at the user's
 request. The existing live site and the separate acceptance project are unchanged.
 
 Project: `virtual-ink-ui-test`, `prj_aqLrX1gsSVb1XINH5YNGkp1aYazH`.
-Team: `shadowrootsec-5679`. Deployment: `dpl_JAsZQmPsfmZ6qKSmHNFUjFTwA5BG`.
-Deployed source: `9edd01242b440c049bde9bc323aa8b352977338c`.
-Latest checks: [preparation safety handover](reports/2026-10-18-studio-preparation-safety.md).
-This build is Ready. [Hosted checks](reports/2026-10-18-hosted-studio-verification.md)
-now verify separate text surfaces, colour preservation, device save/reopen and
-an actual downloaded layout reference. Local file attachment, timing races,
-mobile and complete browser acceptance remain pending; a later connection
-reset also leaves synthetic-draft cleanup unconfirmed.
+Team: `shadowrootsec-5679`. Deployment: `dpl_9GyrDYAju7KBFhPxqPLkgKzQM9ed`.
+Deployed source: `a3755a7f0de20707f97f81856d27bad874bc18eb`.
+Latest repair: [canvas fallback handover](reports/2026-10-18-studio-canvas-fallback.md).
+The final source is READY and hosted transition checks preserve both artwork
+and colour, including the selected front/back camera after recreation. Earlier
+synthetic-draft cleanup uncertainty is resolved. Current 320px overflow/control
+checks are partial; imports, real devices and broader acceptance remain open.
+Historical [preparation safety](reports/2026-10-18-studio-preparation-safety.md)
+and [hosted verification](reports/2026-10-18-hosted-studio-verification.md) record
+the earlier source's device saving and layout-reference download checks. Their
+results retain their own source/date limitations; they do not verify the new source.
 The [previous contrast handover](reports/2026-10-18-studio-artwork-contrast.md)
 preserves its verified UI URL/source for rollback. Those browser results do not
-verify the new source; the fresh hosted record above supplies its own scoped evidence.
+verify the new source; the latest repair handover supplies its own scoped evidence.
 The [initial deployment report](reports/2026-10-18-ui-test-deployment.md) preserves
 the previous verified URL/source for rollback.
 

@@ -6,13 +6,16 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
-18 October [Shadow Root UI test build](https://virtual-ink-ui-test-3gdu1pvhw-shadowrootsec-5679.vercel.app)
+18 October [Shadow Root UI test build](https://virtual-ink-ui-test-otzxni541-shadowrootsec-5679.vercel.app)
 is hosted under the approved restricted `ui_test` profile. Open it with your
 Shadow Root Vercel account. [Setup](docs/vercel-ui-test.md) and
 [studio preparation safety evidence](docs/reports/2026-10-18-studio-preparation-safety.md).
 The build is Ready. [Hosted verification](docs/reports/2026-10-18-hosted-studio-verification.md)
 now confirms separate text surfaces, device save/reopen and a real downloaded
 layout reference. File import, mobile and broader acceptance remain pending.
+The [canvas fallback repair](docs/reports/2026-10-18-studio-canvas-fallback.md)
+now preserves layout drawing and artwork/colour when switching back to 3D,
+verified locally and at the new protected URL. The prior synthetic draft was removed.
 Login, database access,
 server uploads and payments remain disabled; full Phase 1 acceptance stays open.
 

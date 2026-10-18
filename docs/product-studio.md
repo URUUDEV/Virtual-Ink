@@ -62,6 +62,12 @@ attachment, forced timing races, full reload/keyboard/mobile acceptance and
 cleanup after a later connection reset remain open. This is partial browser
 evidence for the existing source, not certification of the mandatory studio.
 
+The subsequent [canvas repair](reports/2026-10-18-studio-canvas-fallback.md)
+fixes blank 3D-to-layout transitions and reapplies current artwork, colour and
+surface after viewer recreation. The final protected build passes these narrow
+hosted checks. Earlier draft-cleanup uncertainty is resolved; real touch, complete
+fallback/accessibility and local file-import acceptance remain open.
+
 The size selector honestly offers only a reference sample. Supplier size grading,
 additional placement zones and comprehensive decoration simulations remain open.
 No renderer can certify a physically accurate print size on an unmeasured blank.

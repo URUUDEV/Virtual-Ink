@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+18 October: **STUDIO-01C — Review; narrow hosted repair verified**, Uchi with
+Taizya, Mumba on integration dependencies and Lubasi on supplier assets.
+[Canvas evidence](reports/2026-10-18-studio-canvas-fallback.md) records the blank
+fallback reproduction, separate canvas identities and renewed viewer readiness.
+The final protected source passes local/hosted transition checks. Synthetic draft
+cleanup is now confirmed. Import, real-device and full acceptance gates stay open.
+
 18 October: **STUDIO-QA-01 — Partial**, Uchi with Taizya, Mumba on backend
 dependencies and Lubasi on real catalogue/file policy. [Hosted evidence](reports/2026-10-18-hosted-studio-verification.md)
 confirms text-side separation, colour preservation, device save/reopen and an
