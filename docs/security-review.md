@@ -1,5 +1,16 @@
 # Virtual Ink recurring security review
 
+19 October clean import audit: [evidence](reports/2026-10-19-clean-import-audit.md)
+records the missing tracked deny-only file, preserved reference bytes and loaded
+Poppins face. The real compiler rejects a controlled client/server boundary
+violation; the subsequent normal build passes. All 43 coverage files, 197 security
+tests and 68 local JS/CSS artifact heuristics pass. The fresh protected UI-only
+Preview build is confirmed without promotion; hosted browser/HTTP checks time out.
+Vercel curl automatically generated a managed bypass token before its failed
+connection; no value entered source/reports, and its lifecycle needs operator
+review. Node's scheduled HIGH fix and all full-service/device release gates remain
+open. This is scoped evidence, not a production/provider/workstation pentest.
+
 18 October section 2.1: [policy/evidence handover](reports/2026-10-18-phase-1-completion-gate.md)
 records a NO-GO release gate, physical-device evidence and seven integration
 classifications. Production-labelled UI hosting is not secure-service acceptance;

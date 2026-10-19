@@ -1,5 +1,17 @@
 # Virtual Ink team report
 
+Latest verification handover: [19 October — Clean-checkout import audit](reports/2026-10-19-clean-import-audit.md)
+and [Word copy](reports/2026-10-19-clean-import-audit.docx).
+The [protected UI-only Preview](https://virtual-ink-ui-test-68245umm7-shadowrootsec-5679.vercel.app)
+is READY at `403fbd8a1f8e5d11977bd603dcae68427661cd19`; Preview environment,
+fresh locked installation, isolation/lint/build and no production aliases are
+confirmed. Clean local checks pass: 218 root, 197 security, 44 web and 16 Auth
+contract tests; all 43 coverage files exceed 95% in aggregate. Missing tracked
+storage source, Windows reference-byte conversion and unloaded Poppins are repaired.
+Browser/HTTP access times out; hosted visual/client-bundle, physical-device and
+full-service acceptance remain open. Phase 1 is INCOMPLETE, release NO-GO.
+See the report for exact coverage denominators, CLI credential action and Word QA.
+
 Latest policy handover: [18 October — Phase 1 completion gate](reports/2026-10-18-phase-1-completion-gate.md)
 and [Word copy](reports/2026-10-18-phase-1-completion-gate.docx).
 Phase 1 is **INCOMPLETE**, release **NO-GO**. The [section 2.1 gate](phase-1-release-gate.md)

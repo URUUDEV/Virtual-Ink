@@ -1,5 +1,15 @@
 # Shadow Root Vercel UI test site
 
+19 October update: [clean import evidence](reports/2026-10-19-clean-import-audit.md)
+confirms an actual [protected Preview build](https://virtual-ink-ui-test-68245umm7-shadowrootsec-5679.vercel.app),
+deployment `dpl_95vR5twYfciXGdNktgUHaU9JyiJM`, source
+`403fbd8a1f8e5d11977bd603dcae68427661cd19`. It uses the same restricted ui_test
+profile and a fresh locked installation. Metadata reports raw target null,
+environment preview and no production aliases; build logs show READY. Current
+browser/HTTP connection failures leave hosted visual/client-bundle acceptance
+open. This establishes no full-service acceptance or phase completion. The
+Production-labelled historical record below retains its own source/date scope.
+
 18 October 2026. User-authorized isolated UI hosting, not a platform release.
 
 The [section 2.1 gate](phase-1-release-gate.md) leaves Phase 1 INCOMPLETE. This

@@ -6,6 +6,14 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+19 October [clean import audit](docs/reports/2026-10-19-clean-import-audit.md):
+fresh locked installs and local gates pass, with all 43 coverage files measured.
+The [protected UI-only Preview](https://virtual-ink-ui-test-68245umm7-shadowrootsec-5679.vercel.app)
+is READY at source `403fbd8a1f8e5d11977bd603dcae68427661cd19`, with a fresh
+build and Preview environment confirmed. Hosted browser/HTTP connectivity,
+runtime/fallback/client-bundle, real devices and full-service acceptance remain
+open. Phase 1 stays INCOMPLETE and release NO-GO.
+
 Phase 1 is **INCOMPLETE**. The [18 October completion gate](docs/phase-1-release-gate.md)
 requires clean-install/import evidence, genuine physical-device testing and
 secure-service verification. Release decision: **NO-GO**. The isolated UI test

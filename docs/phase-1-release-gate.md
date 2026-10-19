@@ -20,8 +20,17 @@ the separate full-service acceptance project's Preview-only guard intact.
 
 ## A. Import completion — open
 
-Current inventory below records source paths and earlier porting work, not a
-completed clean-install/import audit. See [reference fingerprints](brand-reference-manifest.json),
+19 October [clean-checkout audit](reports/2026-10-19-clean-import-audit.md): local
+locked installs, 43/43 coverage files, types/lint/build and the actual fresh
+[UI-only Preview build](https://virtual-ink-ui-test-68245umm7-shadowrootsec-5679.vercel.app)
+now pass at the recorded sources. Hosted browser/HTTP access times out; client
+bundle, lazy/fallback/visual and physical-device evidence remain open. This
+advances the installation/build sub-checks only; no secure integration is reclassified
+and section A/full Phase 1 stay open.
+
+The inventory below records source paths, earlier porting work and remaining
+runtime/device gates; the local clean-install audit above does not close all
+imports. See [reference fingerprints](brand-reference-manifest.json),
 [brand integration](ui-brand-integration.md) and [latest build evidence](reports/2026-10-18-studio-canvas-fallback.md).
 
 | Required asset | Existing implementation or declaration | Remaining evidence |

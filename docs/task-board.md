@@ -1,5 +1,14 @@
 # Virtual Ink task board
 
+19 October: **IMPORT-01 — Partial; clean local and Preview build verified**, Uchi
+with Mumba/Taizya, Lubasi on supplied assets. [Audit](reports/2026-10-19-clean-import-audit.md)
+records repaired missing Git source/reference bytes/font face, 218 root tests,
+43/43 measured files, 197 security/44 web/16 Auth checks and the exact-source
+READY UI-only Preview. Browser/HTTP connectivity prevents hosted runtime/bundle
+checks; physical devices, supplier assets and full-service acceptance remain open.
+Next: restore supported hosted browser access and verify lazy/fallback/fonts and
+client artifacts on this Preview; retain section 2.1 NO-GO and disabled services.
+
 18 October: **P1-GATE-21 — Recorded; release NO-GO**, Uchi with Mumba, Taizya
 and Lubasi. [Authoritative section 2.1](phase-1-release-gate.md) and
 [handover](reports/2026-10-18-phase-1-completion-gate.md) track IMPORT-01,
