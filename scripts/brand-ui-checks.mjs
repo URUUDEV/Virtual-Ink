@@ -9,6 +9,92 @@ import vm from 'node:vm';
 const require=createRequire(new URL('../apps/web/package.json',import.meta.url)),React=require('react'),{renderToStaticMarkup}=require('react-dom/server'),ts=require('typescript'),root=resolve('.');
 export function loader(overrides={}){const cache=new Map();function load(path){if(cache.has(path))return cache.get(path).exports;const source=readFileSync(path,'utf8');const module={exports:{}};cache.set(path,module);const compiled=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText;function local(name){if(Object.hasOwn(overrides,name))return overrides[name];if(name.endsWith('.css'))return{};const base=name.startsWith('@/')?resolve(root,'apps/web/src',name.slice(2)):name.startsWith('@shared/')?resolve(root,'src/shared',name.slice(8)):name.startsWith('.')?resolve(dirname(path),name):null;if(base){if(/\.[cm]?[jt]sx?$/.test(base))return load(base);try{return load(`${base}.tsx`);}catch(error){if(error.code!=='ENOENT')throw error;return load(`${base}.ts`);}}return require(name);}vm.runInThisContext(`(function(require,module,exports){${compiled}\n})`,{filename:path})(local,module,module.exports);return module.exports;}return load;}
 const load=loader(),component=(name,key='default')=>load(resolve(root,'apps/web/src',name))[key];
+
+// Controlled hook/effect execution of the real component; no browser/WebGL acceptance implied.
+function logoView({reduced=false,webgl=true,importFails=false,...props}={}){
+ const instances=new Map(),originals=new Map(),scenes=[],observers=[];let owner,cursor,pending=[],nodes=[],sceneImports=0,probes=0;
+ function effect(setup,deps){const index=cursor++,record=owner,old=record.effects.get(index);if(!old||deps.some((value,i)=>!Object.is(value,old.deps[i])))pending.push(()=>{old?.cleanup?.();record.effects.set(index,{deps,cleanup:setup()});});}
+ const hooks={...React,
+  useState(initial){const index=cursor++,record=owner;if(!record.values.has(index))record.values.set(index,typeof initial==='function'?initial():initial);return[record.values.get(index),next=>record.values.set(index,typeof next==='function'?next(record.values.get(index)):next)];},
+  useRef(initial){const index=cursor++;if(!owner.values.has(index))owner.values.set(index,{current:initial});return owner.values.get(index);},
+  useEffect:effect,useLayoutEffect:effect,useSyncExternalStore(){return reduced;}
+ };
+ function global(name,value){originals.set(name,Object.getOwnPropertyDescriptor(globalThis,name));Object.defineProperty(globalThis,name,{value,configurable:true});}
+ global('matchMedia',()=>({matches:reduced}));
+ global('IntersectionObserver',class{constructor(callback){this.callback=callback;observers.push(this);}observe(){}disconnect(){this.disconnected=true;}});
+ global('document',{createElement(name){assert.equal(name,'canvas');return{getContext(){probes++;return webgl?{getExtension:()=>null}:null;}};}});
+ const sceneModule={get createLogoScene(){sceneImports++;if(importFails)throw new Error('synthetic chunk failure');return(_canvas,_config,callbacks)=>{const scene={callbacks,disposed:0,configure(){},dispose(){this.disposed++;}};scenes.push(scene);return scene;};}};
+ const Logo=loader({react:hooks,'./VILogoSVG':{__esModule:true,default:()=>null},'./vi-scene':sceneModule})(resolve(root,'apps/web/src/components/brand/VirtualInkAnimatedLogo.tsx')).default;
+ function cleanup(record){for(const item of record.effects.values())item.cleanup?.();}
+ function visit(node,path,seen){
+  if(!node||typeof node!=='object')return;
+  if(Array.isArray(node)){node.forEach((child,index)=>visit(child,`${path}.${index}`,seen));return;}
+  if(typeof node.type==='function'){
+   const id=`${path}:${node.key??''}`;seen.add(id);if(!instances.has(id))instances.set(id,{values:new Map(),effects:new Map()});owner=instances.get(id);cursor=0;visit(node.type(node.props),`${id}.render`,seen);return;
+  }
+  nodes.push(node);if(node.props.ref&&!node.props.ref.current)node.props.ref.current={};visit(node.props.children,`${path}.children`,seen);
+ }
+ function render(){nodes=[];pending=[];const seen=new Set();visit(React.createElement(Logo,props),'root',seen);for(const[id,record]of instances)if(!seen.has(id)){cleanup(record);instances.delete(id);}for(const setup of pending)setup();}
+ const view={props,render,scenes,get imports(){return sceneImports;},get probes(){return probes;},get state(){return nodes.find(n=>n.props['data-logo-state']).props['data-logo-state'];},get canvas(){return nodes.find(n=>n.type==='canvas');},get fallbackHidden(){return nodes.find(n=>n.props.className?.startsWith('vi-logo-fallback')).props['aria-hidden'];},
+  enter(){for(const observer of observers)if(!observer.disconnected)observer.callback([{isIntersecting:true}]);render();},
+  motion(value){reduced=value;render();},
+  unmount(){for(const record of instances.values())cleanup(record);instances.clear();for(const[name,descriptor]of originals){if(descriptor)Object.defineProperty(globalThis,name,descriptor);else delete globalThis[name];}}
+ };
+ render();return view;
+}
+const settleLogo=()=>new Promise(resolve=>setImmediate(resolve));
+
+test('a repeated logo animation mode keeps the SVG until its replacement scene actually paints',async()=>{
+ const view=logoView({animationMode:'intro',interactive:true});
+ try{
+  view.enter();await settleLogo();view.scenes[0].callbacks.ready();view.render();assert.equal(view.state,'animated');assert.equal(view.fallbackHidden,true);
+  view.props.animationMode='idle';view.render();view.enter();await settleLogo();
+  view.props.animationMode='intro';view.render();assert.equal(view.state,'fallback');assert.equal(view.fallbackHidden,false);assert.equal(view.canvas.props.tabIndex,-1);
+  view.enter();await settleLogo();view.scenes.at(-1).callbacks.ready();view.render();assert.equal(view.state,'animated');assert.equal(view.canvas.props.tabIndex,0);
+ }finally{view.unmount();}
+});
+
+test('returning from reduced motion never reuses a disposed scene readiness result',async()=>{
+ const view=logoView({animationMode:'idle'});
+ try{
+  view.enter();await settleLogo();view.scenes[0].callbacks.ready();view.render();assert.equal(view.state,'animated');
+  view.motion(true);assert.equal(view.state,'static');assert.equal(view.canvas,undefined);assert.equal(view.scenes[0].disposed,1);
+  view.motion(false);assert.equal(view.state,'fallback');assert.equal(view.fallbackHidden,false);
+ }finally{view.unmount();}
+});
+
+test('offscreen, reduced-motion and explicit static logos do not probe or import WebGL',async()=>{
+ for(const props of [{},{reduced:true},{animationMode:'static'}]){
+  const view=logoView(props);try{if(props.reduced||props.animationMode)view.enter();await settleLogo();assert.equal(view.probes,0);assert.equal(view.imports,0);assert.equal(view.fallbackHidden,false);}finally{view.unmount();}
+ }
+});
+
+test('missing WebGL and lazy module failures retain an accessible static logo',async()=>{
+ for(const props of [{webgl:false},{importFails:true}]){
+  const view=logoView(props);try{view.enter();await settleLogo();view.render();assert.equal(view.state,'static');assert.equal(view.fallbackHidden,false);assert.equal(view.canvas,undefined);assert.equal(view.scenes.length,0);}finally{view.unmount();}
+ }
+});
+
+test('late callbacks from disposed logo scenes cannot mark a replacement ready',async()=>{
+ const view=logoView({animationMode:'intro'});
+ try{
+  view.enter();await settleLogo();const old=view.scenes[0];view.props.replayToken=1;view.render();assert.equal(old.disposed,1);
+  old.callbacks.ready();old.callbacks.reveal();old.callbacks.failed();view.render();assert.equal(view.state,'fallback');assert.equal(view.fallbackHidden,false);
+  view.enter();await settleLogo();view.scenes.at(-1).callbacks.ready();view.render();assert.equal(view.state,'animated');
+ }finally{view.unmount();}
+});
+
+test('unmounting before the lazy probe starts creates no scene or WebGL context',async()=>{
+ const view=logoView();view.enter();view.unmount();await settleLogo();assert.equal(view.probes,0);assert.equal(view.imports,0);assert.equal(view.scenes.length,0);
+});
+
+test('a current scene failure restores the SVG and disposes the failed scene exactly once',async()=>{
+ const view=logoView({animationMode:'idle'});
+ try{view.enter();await settleLogo();const scene=view.scenes[0];scene.callbacks.ready();view.render();assert.equal(view.fallbackHidden,true);
+  scene.callbacks.failed();view.render();assert.equal(view.state,'static');assert.equal(view.canvas,undefined);assert.equal(view.fallbackHidden,false);assert.equal(scene.disposed,1);
+ }finally{view.unmount();}
+ assert.ok(view.scenes.every(scene=>scene.disposed===1));
+});
 test('foundation text and action colours meet AA contrast; large gradient headings meet the large-text threshold',()=>{
  function luminance(hex){const rgb=hex.match(/[a-f\d]{2}/gi).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;}
  function contrast(a,b){const pair=[luminance(a),luminance(b)].sort((a,b)=>b-a);return(pair[0]+.05)/(pair[1]+.05);}

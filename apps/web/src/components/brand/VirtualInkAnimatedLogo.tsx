@@ -9,8 +9,12 @@ export type { AnimationMode,BackgroundMode,VirtualInkAnimatedLogoProps } from '.
 function subscribeMotion(notify:()=>void){const query=matchMedia('(prefers-reduced-motion: reduce)');query.addEventListener('change',notify);return()=>query.removeEventListener('change',notify);}
 const reducedSnapshot=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const serverMotion=()=>true;
-export default function VirtualInkAnimatedLogo({size=520,autoRotate=true,rotationSpeed=10,showWordmark=true,showTagline=true,animationMode='intro',backgroundMode='dark',interactive=true,paused=false,replayToken=0,onIntroComplete,className=''}:VirtualInkAnimatedLogoProps){
+export default function VirtualInkAnimatedLogo(props:VirtualInkAnimatedLogoProps){
   const reduced=useSyncExternalStore(subscribeMotion,reducedSnapshot,serverMotion);
+  // Each scene lifetime starts with its own visible SVG, including a return to a prior mode.
+  return <LogoPresentation key={`${props.animationMode??'intro'}:${props.replayToken??0}:${reduced}`} {...props} reduced={reduced}/>;
+}
+function LogoPresentation({reduced,size=520,autoRotate=true,rotationSpeed=10,showWordmark=true,showTagline=true,animationMode='intro',backgroundMode='dark',interactive=true,paused=false,replayToken=0,onIntroComplete,className=''}:VirtualInkAnimatedLogoProps&{reduced:boolean}){
   const [entered,setEntered]=useState(false),[readyFor,setReadyFor]=useState(''),[revealedFor,setRevealedFor]=useState(''),[failedFor,setFailedFor]=useState('');
   const wrap=useRef<HTMLDivElement>(null),canvas=useRef<HTMLCanvasElement>(null),scene=useRef<LogoScene|null>(null),drag=useRef<{id:number;x:number;time:number}|null>(null);
   const callbacks=useRef(onIntroComplete),configuration=useRef({mode:animationMode,autoRotate,rotationSpeed,paused,interactive});
