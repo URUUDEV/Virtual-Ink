@@ -1,5 +1,17 @@
 # Shadow Root Vercel UI test site
 
+19 October [logo lifecycle follow-up](reports/2026-10-19-logo-lifecycle-fallback.md)
+repairs readiness after mode/reduced-motion changes. Its first Preview build was
+correctly blocked by the automatically injected automation-bypass secret from
+the earlier CLI probe. The exact task-created token was revoked with approval;
+zero tokens remain and deployment protection is unchanged. The fresh
+[repair Preview](https://virtual-ink-ui-test-4dds4xake-shadowrootsec-5679.vercel.app)
+is READY at `9762d73ae84adde3b82f721fc86fbfeaacdc60e6`, deployment
+`dpl_APsRchd1o5vVphhbkiEi6q8UStRt`; no production alias is promoted.
+Hosted browser/runtime acceptance remains pending. Do not use vercel curl to generate another
+credential for this restricted UI-only project; use ordinary signed-in browser
+access and credential-free connection checks. The isolation guard remains intact.
+
 19 October update: [clean import evidence](reports/2026-10-19-clean-import-audit.md)
 confirms an actual [protected Preview build](https://virtual-ink-ui-test-68245umm7-shadowrootsec-5679.vercel.app),
 deployment `dpl_95vR5twYfciXGdNktgUHaU9JyiJM`, source

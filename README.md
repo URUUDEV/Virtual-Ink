@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+19 October [logo lifecycle repair](docs/reports/2026-10-19-logo-lifecycle-fallback.md):
+the SVG remains visible until each recreated 3D scene paints, including returns
+from reduced motion or a previous animation mode. All 51 web checks and local
+gates pass. Hosted/browser/device evidence retains the limits in the report;
+Phase 1 remains INCOMPLETE and release NO-GO.
+
 19 October [clean import audit](docs/reports/2026-10-19-clean-import-audit.md):
 fresh locked installs and local gates pass, with all 43 coverage files measured.
 The [protected UI-only Preview](https://virtual-ink-ui-test-68245umm7-shadowrootsec-5679.vercel.app)

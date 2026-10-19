@@ -30,6 +30,12 @@ and large creative headings keep their supplied colours/gradient direction.
 
 ## Lifecycle and public behavior
 
+19 October [lifecycle repair](reports/2026-10-19-logo-lifecycle-fallback.md): mode,
+replay and reduced-motion changes create a fresh presentation lifetime. Returning
+to an earlier mode/preference cannot hide the SVG using a disposed scene's
+readiness. Seven controlled regression tests are added to test:web; real browser,
+GPU, hosted and physical-device acceptance retain their separate gates.
+
 The initial server/client render is the static supplied SVG. A visible logo
 checks reduced motion and WebGL2 before lazily importing Three.js. No browser
 API or random particles are used during SSR. Reduced motion, a rejected module,

@@ -20,6 +20,13 @@ the separate full-service acceptance project's Preview-only guard intact.
 
 ## A. Import completion — open
 
+19 October [logo lifecycle follow-up](reports/2026-10-19-logo-lifecycle-fallback.md)
+adds seven controlled readiness/failure regressions and repairs stale state after
+mode/preference changes. Local checks pass. Its first Preview failed closed on an
+automatically injected bypass credential; the exact task-created token was
+revoked with approval and protection retained. The report records the fresh
+retry result; real runtime/device and full-service gates remain open.
+
 19 October [clean-checkout audit](reports/2026-10-19-clean-import-audit.md): local
 locked installs, 43/43 coverage files, types/lint/build and the actual fresh
 [UI-only Preview build](https://virtual-ink-ui-test-68245umm7-shadowrootsec-5679.vercel.app)

@@ -1,5 +1,17 @@
 # Virtual Ink team report
 
+Latest build handover: [19 October — Logo lifecycle fallback](reports/2026-10-19-logo-lifecycle-fallback.md)
+and [Word copy](reports/2026-10-19-logo-lifecycle-fallback.docx).
+Returning to a prior animation mode or from reduced motion no longer reuses a
+disposed scene's readiness. Seven new controlled regressions pass; all 51 web,
+16 Auth, 218 root and 197 security checks, 43/43 coverage, types/lint/build and
+64 local asset byte checks pass. Source: `9762d73ae84adde3b82f721fc86fbfeaacdc60e6`.
+The [protected Preview](https://virtual-ink-ui-test-4dds4xake-shadowrootsec-5679.vercel.app)
+is READY after approved cleanup of the earlier CLI-created token; the unchanged
+isolation guard passes. Browser/runtime, physical
+devices, full-service acceptance and Phase 1 completion remain open. No human
+signoff or production promotion is claimed.
+
 Latest verification handover: [19 October — Clean-checkout import audit](reports/2026-10-19-clean-import-audit.md)
 and [Word copy](reports/2026-10-19-clean-import-audit.docx).
 The [protected UI-only Preview](https://virtual-ink-ui-test-68245umm7-shadowrootsec-5679.vercel.app)

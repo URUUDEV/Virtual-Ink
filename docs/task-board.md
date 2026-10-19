@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+19 October: **IMPORT-01A — Review; local logo lifecycle repair verified**, Uchi
+with Taizya, Mumba on security review and Lubasi on devices/assets.
+[Evidence](reports/2026-10-19-logo-lifecycle-fallback.md): two stale-readiness
+reproductions fixed with scene-scoped state; seven new regressions, all local
+gates and bounded asset/client artifact checks pass. Hosted result has its own
+source/target limits in the report. Next: verify actual SVG/3D and motion changes
+on the protected Preview and required physical devices. Full import gate stays open.
+
 19 October: **IMPORT-01 — Partial; clean local and Preview build verified**, Uchi
 with Mumba/Taizya, Lubasi on supplied assets. [Audit](reports/2026-10-19-clean-import-audit.md)
 records repaired missing Git source/reference bytes/font face, 218 root tests,

@@ -1,5 +1,21 @@
 # Virtual Ink recurring security review
 
+19 October logo lifecycle: [repair evidence](reports/2026-10-19-logo-lifecycle-fallback.md)
+records two proven visual readiness failures and seven new controlled regressions.
+Scene-scoped state preserves the SVG until the current canvas paints; unavailable
+WebGL/module, late callbacks and disposal remain safe. All 51 web/16 Auth/218
+root/197 security checks and the exact 43-file coverage gate pass. Local HTTP
+guest boundaries and 64 asset-byte/68 client-artifact checks pass. No tenant,
+account or file authority bypass was reproduced or enabled. Hosted connectivity,
+physical-device acceptance and Node's scheduled HIGH fix remain open.
+
+The repair's first Preview failed closed on VERCEL_AUTOMATION_BYPASS_SECRET,
+which Vercel injected after the earlier CLI probe. With specific approval, only
+that exact task-created automation token was revoked; post-read metadata confirms
+zero tokens and unchanged deployment protection. No secret value was printed or
+stored for cleanup, and no guard was weakened. The report preserves failed-build
+and subsequent retry evidence separately.
+
 19 October clean import audit: [evidence](reports/2026-10-19-clean-import-audit.md)
 records the missing tracked deny-only file, preserved reference bytes and loaded
 Poppins face. The real compiler rejects a controlled client/server boundary
