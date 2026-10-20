@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+20 October [studio preview safety](docs/reports/2026-10-20-studio-preview-safety.md):
+late paint failures no longer replace newer previews, layout failures are visible
+with a retry action, and abandoned temporary canvases clear after painting settles.
+All local gates and 65 web checks pass. See the report for exact hosted evidence,
+coverage scope and open device/service gates. Phase 1 remains INCOMPLETE / NO-GO.
+
 19 October [logo lifecycle repair](docs/reports/2026-10-19-logo-lifecycle-fallback.md):
 the SVG remains visible until each recreated 3D scene paints, including returns
 from reduced motion or a previous animation mode. All 51 web checks and local

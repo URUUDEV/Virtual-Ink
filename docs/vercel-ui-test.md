@@ -1,5 +1,15 @@
 # Shadow Root Vercel UI test site
 
+20 October [studio preview safety](reports/2026-10-20-studio-preview-safety.md)
+repairs obsolete paint failures, layout status/retry and temporary-canvas cleanup.
+The [protected repair Preview](https://virtual-ink-ui-test-bqgq1cn7w-shadowrootsec-5679.vercel.app)
+is READY at `de616ad739e92d2eb42f2a4a08d5ab8f80a17644`, deployment
+`dpl_FXjE9rbrNgvyMHmZh3Q7mLS6Xb1A`. Fresh installation, isolation, source lint
+and build pass; metadata confirms Preview, no production aliases and no bypass
+binding. Exact-source browser checks timed out and remain pending, along with
+physical-device and full-service acceptance. Sensitive services remain disabled;
+Phase 1 is INCOMPLETE and release NO-GO.
+
 19 October [logo lifecycle follow-up](reports/2026-10-19-logo-lifecycle-fallback.md)
 repairs readiness after mode/reduced-motion changes. Its first Preview build was
 correctly blocked by the automatically injected automation-bypass secret from

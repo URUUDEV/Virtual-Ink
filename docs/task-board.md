@@ -1,5 +1,14 @@
 # Virtual Ink task board
 
+20 October: **IMPORT-01B — Review; local studio preview safety verified**, Uchi
+with Taizya, Mumba on security and Lubasi on device/supplier evidence.
+[Report](reports/2026-10-20-studio-preview-safety.md) records seven reproduced
+timing/resource failures, fourteen regressions, honest layout status/retry and
+all local gates passing. Exact-source UI-only Preview is READY; browser checks
+remain pending after connection timeouts. Next: hosted model/layout checks,
+required physical-device and forced-failure acceptance;
+complete import and secure-service gates remain open.
+
 19 October: **IMPORT-01A — Review; local logo lifecycle repair verified**, Uchi
 with Taizya, Mumba on security review and Lubasi on devices/assets.
 [Evidence](reports/2026-10-19-logo-lifecycle-fallback.md): two stale-readiness

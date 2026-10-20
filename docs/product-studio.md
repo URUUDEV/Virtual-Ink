@@ -1,6 +1,16 @@
 # Product design studio
 
 Status: **local design-lab slice; mandatory studio and Phase 1 incomplete**.
+
+20 October [preview safety follow-up](reports/2026-10-20-studio-preview-safety.md):
+stale texture failures cannot overwrite newer preview state; layout preparation,
+success and failure are announced independently. Retry layout redraws the current
+design. Abandoned canvases clear only after their painter settles, including
+failed sibling zones; committed texture canvases remain until replacement or
+disposal. Cancellation prevents application of obsolete results but does not
+forcibly abort decoders, fonts or model requests. Hosted/device results retain
+the source and limitations in that report.
+
 Open `/studio` through the existing web application. Product-detail pages link
 to the lab. The legacy `/customize/cotton-t-shirt` editor remains a separate
 historical concept tool; its drafts are not silently migrated.

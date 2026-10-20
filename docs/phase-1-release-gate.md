@@ -20,6 +20,12 @@ the separate full-service acceptance project's Preview-only guard intact.
 
 ## A. Import completion — open
 
+20 October [studio preview safety](reports/2026-10-20-studio-preview-safety.md)
+adds fourteen controlled model/fallback/paint regressions, fixes stale failures
+and abandoned-canvas ownership, and adds visible layout retry. Local gates pass;
+the report records exact hosted evidence. Physical devices, forced runtime
+failures, supplier assets and full-service integration acceptance remain open.
+
 19 October [logo lifecycle follow-up](reports/2026-10-19-logo-lifecycle-fallback.md)
 adds seven controlled readiness/failure regressions and repairs stale state after
 mode/preference changes. Local checks pass. Its first Preview failed closed on an

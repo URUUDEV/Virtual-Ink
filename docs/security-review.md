@@ -1,5 +1,17 @@
 # Virtual Ink recurring security review
 
+20 October studio preview: [safety evidence](reports/2026-10-20-studio-preview-safety.md)
+records stale-error and abandoned-canvas reproductions, scoped result ownership,
+settled-batch cleanup, visible layout errors and retry. All fourteen new
+controlled checks and the 65 web/218 root/197 security/16 Auth suites pass;
+43/43 backend/shared files are measured above the 95% aggregate gate. Bounded
+local HTTP/asset/client-artifact checks pass. No account/tenant/file bypass or
+actual browser/process exhaustion was demonstrated. Private files, sensitive
+services, physical-device acceptance and the Node HIGH release gate remain open.
+UI-only hosting retains the guard, deployment protection and zero bypass tokens;
+the report records actual upload/build/browser outcomes without transferring
+old-source acceptance to new code.
+
 19 October logo lifecycle: [repair evidence](reports/2026-10-19-logo-lifecycle-fallback.md)
 records two proven visual readiness failures and seven new controlled regressions.
 Scene-scoped state preserves the SVG until the current canvas paints; unavailable

@@ -1,5 +1,18 @@
 # Virtual Ink team report
 
+Latest build handover: [20 October — Studio preview safety](reports/2026-10-20-studio-preview-safety.md)
+and [Word copy](reports/2026-10-20-studio-preview-safety.docx).
+Obsolete texture failures no longer poison newer previews. Layout loading/errors
+are visible and Retry layout preserves the design. Temporary canvases clear after
+their painters settle; committed textures retain ownership until replacement or
+disposal. Fourteen new regressions, all 65 web/218 root/197 security/16 Auth checks,
+43/43 coverage, types/lint/build and bounded local HTTP/assets pass. Source:
+`de616ad739e92d2eb42f2a4a08d5ab8f80a17644`. The
+[protected Preview](https://virtual-ink-ui-test-bqgq1cn7w-shadowrootsec-5679.vercel.app)
+is READY with fresh install/isolation/lint/build evidence. Exact-source browser
+checks remain pending after connection timeouts. Phase 1 remains INCOMPLETE,
+release NO-GO; no human acceptance or production promotion is claimed.
+
 Latest build handover: [19 October — Logo lifecycle fallback](reports/2026-10-19-logo-lifecycle-fallback.md)
 and [Word copy](reports/2026-10-19-logo-lifecycle-fallback.docx).
 Returning to a prior animation mode or from reduced motion no longer reuses a
