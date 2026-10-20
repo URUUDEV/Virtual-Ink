@@ -1,5 +1,15 @@
 # Virtual Ink team report
 
+Latest build handover: [20 October — Precise studio measurements](reports/2026-10-20-studio-precise-measurements.md)
+and [Word copy](reports/2026-10-20-studio-precise-measurements.docx).
+Five decimal fields apply as one fitted, undoable change. Eight new handler
+checks, all 73 web/218 root/197 security/16 Auth checks, coverage, types/lint/build
+and sampled native local Chrome checks pass. The
+[protected Preview](https://virtual-ink-ui-test-9q6c3g2gm-shadowrootsec-5679.vercel.app)
+is READY at f244056 with fresh install/isolation/build evidence. Hosted interaction,
+physical devices, runtime HIGH resolution and full-service acceptance stay open.
+Phase 1 is INCOMPLETE, release NO-GO; no human acceptance is claimed.
+
 Latest verification handover: [20 October — Studio model conformance](reports/2026-10-20-studio-model-conformance.md)
 and [Word copy](reports/2026-10-20-studio-model-conformance.docx).
 All nine GLBs pass the official pinned Khronos validator with zero errors/warnings;

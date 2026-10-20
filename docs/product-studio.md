@@ -2,6 +2,14 @@
 
 Status: **local design-lab slice; mandatory studio and Phase 1 incomplete**.
 
+20 October [precise measurements](reports/2026-10-20-studio-precise-measurements.md):
+selected layers expose five decimal fields for centre position, unrotated size
+and angle. Apply commits them together through safe-area fitting; Reset entries
+discards unsubmitted typing. Invalid and unchanged input preserves design/history;
+post-fit dimensions below the existing 0.1 mm draft minimum reject. Sliders share
+the same placement path. Local native checks pass and the UI-only Preview is
+Ready; exact-source hosted interaction and physical-device checks remain open.
+
 20 October [model conformance audit](reports/2026-10-20-studio-model-conformance.md)
 validates all nine GLBs with the pinned Khronos tool: zero errors/warnings and
 104 retained informational notices. Run npm run check:studio:assets after the

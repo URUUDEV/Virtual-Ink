@@ -1,5 +1,14 @@
 # Shadow Root Vercel UI test site
 
+20 October [measurement build](reports/2026-10-20-studio-precise-measurements.md)
+adds decimal editing through the existing safe-placement path. The
+[protected Preview](https://virtual-ink-ui-test-9q6c3g2gm-shadowrootsec-5679.vercel.app)
+is READY at `f244056c04764b8fa64ade456ff203a64241728a`, deployment
+`dpl_2KERHs2cuxBMRupxNh99djXT1nwg`. Preview environment, fresh install/isolation/
+lint/build, zero aliases and no bypass binding are confirmed. Sampled local
+native controls pass; hosted interactions and physical devices remain pending.
+No production promotion or sensitive-service enablement occurs.
+
 20 October [studio preview safety](reports/2026-10-20-studio-preview-safety.md)
 repairs obsolete paint failures, layout status/retry and temporary-canvas cleanup.
 The [protected repair Preview](https://virtual-ink-ui-test-bqgq1cn7w-shadowrootsec-5679.vercel.app)

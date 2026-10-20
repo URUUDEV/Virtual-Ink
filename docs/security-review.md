@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+20 October [precise-measurement review](reports/2026-10-20-studio-precise-measurements.md)
+adds finite/range checks, whole-rotated-area fitting and a post-fit minimum guard
+before local commit. Invalid/no-op input preserves history and current preparation;
+changes cancel stale references. Eight new handler cases and sampled native
+required/range denials pass, with 73 web/218 root/197 security/16 Auth checks and
+the scoped source/build gates. The protected Preview is READY with services
+disabled; hosted interactions, real devices and the Node HIGH gate remain open.
+No server upload, order/proof authority or production security acceptance is added.
+
 20 October [model conformance review](reports/2026-10-20-studio-model-conformance.md)
 adds an offline audit with a pinned isolated validator and denied external model
 resources. Nine GLBs pass with zero errors/warnings; four in-memory corruption/

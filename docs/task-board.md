@@ -1,5 +1,14 @@
 # Virtual Ink task board
 
+20 October: **STUDIO-01C — Review; precise local measurement build**, Uchi with
+Taizya, Mumba on validation/runtime and Lubasi on supplier/device evidence.
+[Handover](reports/2026-10-20-studio-precise-measurements.md): decimal position,
+size and rotation apply atomically through safe fitting; 73 web checks and all
+local gates pass. Native local input/Enter/reset/history and narrow-viewport
+checks pass; exact-source UI-only Preview is READY. Next: hosted native/device
+acceptance and review the available/new security runtime releases. Full Phase 1
+and secure-service gates remain open.
+
 20 October: **IMPORT-01C — Review; local model conformance verified**, Uchi with
 Mumba, Taizya on browser/device checks and Lubasi on supplier evidence.
 [Audit](reports/2026-10-20-studio-model-conformance.md): all nine GLBs pass Khronos

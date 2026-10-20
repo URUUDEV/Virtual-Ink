@@ -20,6 +20,12 @@ the separate full-service acceptance project's Preview-only guard intact.
 
 ## A. Import completion — open
 
+20 October [measurement build](reports/2026-10-20-studio-precise-measurements.md)
+adds local decimal editing with bounded safe fitting, atomic undo and negative
+checks. Local native controls and the exact-source protected Preview build pass.
+Hosted interactions, real devices, supplier approval and secure services remain
+open; no import or release gate is closed by this slice.
+
 20 October [model conformance audit](reports/2026-10-20-studio-model-conformance.md)
 records nine valid GLBs and four malformed/resource/binding controls. Conformance
 does not establish GPU output, fallback SVGs, supplier measurements/rights or
