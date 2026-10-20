@@ -29,6 +29,7 @@
     "check:auth:http": "node scripts/web-auth-http-checks.mjs",
     "check:services:http": "node scripts/vercel-services-http-checks.mjs",
     "check:hosted": "node scripts/hosted-smoke.mjs",
+    "check:studio:assets": "node scripts/studio-asset-audit.mjs",
     "db:migrate": "node --env-file-if-exists=.env scripts/database.ts migrate",
     "db:seed": "node --env-file-if-exists=.env scripts/database.ts seed",
     "test:db": "node --env-file-if-exists=.env scripts/database.ts test",
