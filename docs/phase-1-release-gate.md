@@ -20,6 +20,11 @@ the separate full-service acceptance project's Preview-only guard intact.
 
 ## A. Import completion — open
 
+20 October [hosted native measurement samples](reports/2026-10-20-hosted-measurement-verification.md)
+pass on the exact existing Preview. Unexplained navigation and unsaved-state reset
+leave uninterrupted workflow acceptance open. Remaining fallback, physical-device,
+supplier and secure-service gates are unchanged; no release item is closed.
+
 20 October [measurement build](reports/2026-10-20-studio-precise-measurements.md)
 adds local decimal editing with bounded safe fitting, atomic undo and negative
 checks. Local native controls and the exact-source protected Preview build pass.

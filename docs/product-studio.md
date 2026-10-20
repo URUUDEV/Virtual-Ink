@@ -2,6 +2,12 @@
 
 Status: **local design-lab slice; mandatory studio and Phase 1 incomplete**.
 
+20 October [hosted measurement follow-up](reports/2026-10-20-hosted-measurement-verification.md)
+records sampled native decimal Apply/Enter/reset, width history and required/range
+denials on f244056. An unexpected navigation and a later unsaved-state reset
+remain unexplained. Uninterrupted workflow and remaining fallback/device/service
+checks stay open; no persistence or full studio acceptance is established.
+
 20 October [precise measurements](reports/2026-10-20-studio-precise-measurements.md):
 selected layers expose five decimal fields for centre position, unrotated size
 and angle. Apply commits them together through safe-area fitting; Reset entries

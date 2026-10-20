@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest verification handover: [20 October — Hosted measurements](reports/2026-10-20-hosted-measurement-verification.md)
+and [Word copy](reports/2026-10-20-hosted-measurement-verification.docx).
+Existing Preview f244056 passes sampled native measurement Apply/Enter/reset,
+width undo/redo and required/range denials. One unexpected homepage navigation
+and a later empty studio/history remain unexplained. Uninterrupted workflow,
+minimum-size/fallback, physical devices and secure-service acceptance remain open.
+No code/deployment changes or fresh unit-coverage claim; Phase 1 is INCOMPLETE,
+release NO-GO. See the report for exact observations, limits and team actions.
+
 Latest build handover: [20 October — Precise studio measurements](reports/2026-10-20-studio-precise-measurements.md)
 and [Word copy](reports/2026-10-20-studio-precise-measurements.docx).
 Five decimal fields apply as one fitted, undoable change. Eight new handler

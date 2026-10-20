@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+20 October: **STUDIO-01D — Partial hosted verification; state interruption open**,
+Uchi with Taizya, Mumba on reproduction and Lubasi on device/supplier evidence.
+[Follow-up](reports/2026-10-20-hosted-measurement-verification.md): exact Preview
+f244056 passes native decimal Apply, Enter, reset, width history and required/range
+denials. Unexpected homepage navigation and a later reset to empty design/history
+need explanation/reproduction. Next: stable-session workflow investigation before
+closing minimum-size/fallback/durability acceptance. Phase 1 stays INCOMPLETE.
+
 20 October: **STUDIO-01C — Review; precise local measurement build**, Uchi with
 Taizya, Mumba on validation/runtime and Lubasi on supplier/device evidence.
 [Handover](reports/2026-10-20-studio-precise-measurements.md): decimal position,

@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+20 October [hosted measurement follow-up](docs/reports/2026-10-20-hosted-measurement-verification.md):
+sampled native Apply/Enter/reset/history and input denials pass on the existing
+Preview. Unexpected navigation and a later unsaved-state reset remain unexplained;
+uninterrupted workflow, fallback/device/service acceptance stay open. Phase 1
+remains INCOMPLETE / NO-GO.
+
 20 October [precise studio measurements](docs/reports/2026-10-20-studio-precise-measurements.md):
 decimal position/size/angle fields apply as one safe, undoable edit. All 73 web
 checks and local gates pass; native local Apply/Enter/reset/undo checks pass.

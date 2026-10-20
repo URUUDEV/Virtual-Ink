@@ -1,5 +1,12 @@
 # Shadow Root Vercel UI test site
 
+20 October [hosted control follow-up](reports/2026-10-20-hosted-measurement-verification.md)
+refreshes f244056 metadata as READY/Preview with zero aliases and no bypass
+binding. Sampled native measurements/history and required/range denials pass.
+Unexpected navigation and unsaved-state reset remain unexplained; uninterrupted
+workflow, fallback, physical-device and secure-service acceptance remain open.
+This is verification of the existing build, not a new deployment or promotion.
+
 20 October [measurement build](reports/2026-10-20-studio-precise-measurements.md)
 adds decimal editing through the existing safe-placement path. The
 [protected Preview](https://virtual-ink-ui-test-9q6c3g2gm-shadowrootsec-5679.vercel.app)

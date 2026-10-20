@@ -1,5 +1,12 @@
 # Virtual Ink recurring security review
 
+20 October [hosted measurement verification](reports/2026-10-20-hosted-measurement-verification.md)
+confirms native empty/underflow denials with committed geometry preserved. One
+unexpected homepage navigation and a later empty layer/history state remain
+unexplained; no exploit, user cause or provider fault is asserted. Stable-session
+reproduction and remaining hosted/device/security gates stay open. No application
+or infrastructure changes, credentials, persistence tests or new coverage claims.
+
 20 October [precise-measurement review](reports/2026-10-20-studio-precise-measurements.md)
 adds finite/range checks, whole-rotated-area fitting and a post-fit minimum guard
 before local commit. Invalid/no-op input preserves history and current preparation;
