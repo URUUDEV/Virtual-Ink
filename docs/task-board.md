@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+20 October: **IMPORT-01C — Review; local model conformance verified**, Uchi with
+Mumba, Taizya on browser/device checks and Lubasi on supplier evidence.
+[Audit](reports/2026-10-20-studio-model-conformance.md): all nine GLBs pass Khronos
+validation with zero errors/warnings, 104 informational notices and four negative
+controls. App/assets unchanged. Hosted browser and metadata refresh fail on
+connectivity. Next: restore ordinary Preview access and verify actual rendering;
+retain physical-device, supplier, integration and release gates.
+
 20 October: **IMPORT-01B — Review; local studio preview safety verified**, Uchi
 with Taizya, Mumba on security and Lubasi on device/supplier evidence.
 [Report](reports/2026-10-20-studio-preview-safety.md) records seven reproduced

@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+20 October [studio model conformance](docs/reports/2026-10-20-studio-model-conformance.md):
+all nine GLBs pass the official pinned validator; four negative controls and
+source lint pass. The new offline npm audit leaves app/assets unchanged.
+Hosted rendering and physical-device/service acceptance remain open; Phase 1
+is INCOMPLETE / NO-GO.
+
 20 October [studio preview safety](docs/reports/2026-10-20-studio-preview-safety.md):
 late paint failures no longer replace newer previews, layout failures are visible
 with a retry action, and abandoned temporary canvases clear after painting settles.

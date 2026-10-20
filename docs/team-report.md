@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest verification handover: [20 October — Studio model conformance](reports/2026-10-20-studio-model-conformance.md)
+and [Word copy](reports/2026-10-20-studio-model-conformance.docx).
+All nine GLBs pass the official pinned Khronos validator with zero errors/warnings;
+104 informational UV notices are retained. Four in-memory negative controls and
+source lint pass. The application/assets are unchanged from deployed de616ad.
+New browser and metadata reads fail on connectivity; exact-source hosted runtime,
+physical devices and full-service acceptance remain open. Phase 1 is INCOMPLETE,
+release NO-GO. See the report and JSON for exact hashes, scope and team actions.
+
 Latest build handover: [20 October — Studio preview safety](reports/2026-10-20-studio-preview-safety.md)
 and [Word copy](reports/2026-10-20-studio-preview-safety.docx).
 Obsolete texture failures no longer poison newer previews. Layout loading/errors

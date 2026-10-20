@@ -1,0 +1,183 @@
+{
+  "check": "studio_asset_conformance",
+  "validatorVersion": "2.0.0-dev.3.10",
+  "models": 9,
+  "flatOnlyProducts": 1,
+  "negativeChecks": [
+    "truncated GLB",
+    "non-finite position",
+    "external buffer denied",
+    "missing printable surface"
+  ],
+  "errors": 0,
+  "warnings": 0,
+  "infos": 104,
+  "externalRequests": 0,
+  "rows": [
+    {
+      "id": "crew-unisex",
+      "bytes": 372296,
+      "sha256": "2ed140755afd84370203af4932a8b2e853780fcb8e1147891490a16f3df1e1d5",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 10,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 10
+      },
+      "surfaces": [
+        "front",
+        "back",
+        "fabric"
+      ]
+    },
+    {
+      "id": "crew-male",
+      "bytes": 372284,
+      "sha256": "593d92f8f73666f552fccfaf221683abcac3f85b07f7dc8d134656e7f53c54a1",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 10,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 10
+      },
+      "surfaces": [
+        "front",
+        "back",
+        "fabric"
+      ]
+    },
+    {
+      "id": "crew-female",
+      "bytes": 372224,
+      "sha256": "0733776fde7e732631fe07b5b04f19df6b65ec8a117ff029ceea6574ebac853c",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 10,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 10
+      },
+      "surfaces": [
+        "front",
+        "back",
+        "fabric"
+      ]
+    },
+    {
+      "id": "crew-children",
+      "bytes": 372268,
+      "sha256": "6756b247aeac1c0972dee630701b024f327273cb4f9df558b6b9d3c10226faad",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 10,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 10
+      },
+      "surfaces": [
+        "front",
+        "back",
+        "fabric"
+      ]
+    },
+    {
+      "id": "long-sleeve",
+      "bytes": 372276,
+      "sha256": "8d00dec066f8bdd4dc10ea33399bd6de5ed69c0ce79b7b350f040ebaff769f88",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 10,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 10
+      },
+      "surfaces": [
+        "front",
+        "back",
+        "fabric"
+      ]
+    },
+    {
+      "id": "polo",
+      "bytes": 406728,
+      "sha256": "371fcc93a8eb2ed7d8efd5d5da20bb4760fff37bec3346b5a4c9e4ac100a218f",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 16,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 16
+      },
+      "surfaces": [
+        "front",
+        "back",
+        "fabric",
+        "buttons"
+      ]
+    },
+    {
+      "id": "hoodie",
+      "bytes": 459696,
+      "sha256": "5eb689e895ac14a7749d1a831efe5a6e1f543fc7a2f94f971c8ecb33db0c271e",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 14,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 14
+      },
+      "surfaces": [
+        "front",
+        "back",
+        "fabric"
+      ]
+    },
+    {
+      "id": "corporate-shirt",
+      "bytes": 443396,
+      "sha256": "15356bc69a28b4c7ddae71aab6d1d395d6aabab13479f5e51b990f0543e11241",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 21,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 21
+      },
+      "surfaces": [
+        "front",
+        "back",
+        "fabric",
+        "buttons"
+      ]
+    },
+    {
+      "id": "ceramic-mug",
+      "bytes": 109828,
+      "sha256": "1dc066b3cdb03be266cce8100e20309279a57a6dc3ab57cf2a4b1417b2f53b1b",
+      "errors": 0,
+      "warnings": 0,
+      "infos": 3,
+      "hints": 0,
+      "externalRequests": 0,
+      "codes": {
+        "UNUSED_OBJECT": 3
+      },
+      "surfaces": [
+        "ceramic",
+        "wrap"
+      ]
+    }
+  ],
+  "hostedAcceptance": false,
+  "physicalDeviceAcceptance": false
+}

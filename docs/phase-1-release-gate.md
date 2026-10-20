@@ -20,6 +20,12 @@ the separate full-service acceptance project's Preview-only guard intact.
 
 ## A. Import completion — open
 
+20 October [model conformance audit](reports/2026-10-20-studio-model-conformance.md)
+records nine valid GLBs and four malformed/resource/binding controls. Conformance
+does not establish GPU output, fallback SVGs, supplier measurements/rights or
+device acceptance. Browser and metadata refresh fail on connectivity; no import
+or release gate is closed.
+
 20 October [studio preview safety](reports/2026-10-20-studio-preview-safety.md)
 adds fourteen controlled model/fallback/paint regressions, fixes stale failures
 and abandoned-canvas ownership, and adds visible layout retry. Local gates pass;

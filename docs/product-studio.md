@@ -2,6 +2,13 @@
 
 Status: **local design-lab slice; mandatory studio and Phase 1 incomplete**.
 
+20 October [model conformance audit](reports/2026-10-20-studio-model-conformance.md)
+validates all nine GLBs with the pinned Khronos tool: zero errors/warnings and
+104 retained informational notices. Run npm run check:studio:assets after the
+separate ignored tool installation documented in the report. Four in-memory
+negative controls cover truncation, invalid position data, external resources
+and missing print surfaces. This does not verify SVGs, GPU output or suppliers.
+
 20 October [preview safety follow-up](reports/2026-10-20-studio-preview-safety.md):
 stale texture failures cannot overwrite newer preview state; layout preparation,
 success and failure are announced independently. Retry layout redraws the current

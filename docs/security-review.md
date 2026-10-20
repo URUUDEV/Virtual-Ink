@@ -1,5 +1,13 @@
 # Virtual Ink recurring security review
 
+20 October [model conformance review](reports/2026-10-20-studio-model-conformance.md)
+adds an offline audit with a pinned isolated validator and denied external model
+resources. Nine GLBs pass with zero errors/warnings; four in-memory corruption/
+binding controls pass. The 104 informational unused-UV notices remain recorded.
+No application vulnerability or asset repair is claimed. Source lint and isolated
+tool advisories pass; browser/metadata connectivity and the runtime HIGH gate
+remain open. No production service, upload scanner or physical device is verified.
+
 20 October studio preview: [safety evidence](reports/2026-10-20-studio-preview-safety.md)
 records stale-error and abandoned-canvas reproductions, scoped result ownership,
 settled-batch cleanup, visible layout errors and retry. All fourteen new
