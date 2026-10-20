@@ -38,7 +38,9 @@ async function paintLayer(ctx: CanvasRenderingContext2D, l: StudioLayer, stitch:
 /** A size-accurate layout proof, independent of WebGL and camera state. */
 export async function paintLayout(canvas: HTMLCanvasElement, product: ProductModel, design: StudioDesign, surface: string) {
   const zone = product.zones.find(z=>z.surface===surface); if(!zone) throw new Error('No printable surface.');
-  const texture=document.createElement('canvas'); await paintZone(texture,product,design,surface,true,product.previewType==='garment-3d');
+  const texture=document.createElement('canvas');
+  try {
+  await paintZone(texture,product,design,surface,true,product.previewType==='garment-3d');
   canvas.width=900;canvas.height=1000;
   const ctx=canvas.getContext('2d');if(!ctx)throw new Error('Canvas tools are unavailable.');
   ctx.fillStyle='#f1eee8';ctx.fillRect(0,0,900,1000);
@@ -55,4 +57,5 @@ export async function paintLayout(canvas: HTMLCanvasElement, product: ProductMod
   ctx.fillStyle='#263344';ctx.font='17px sans-serif';ctx.textAlign='center';
   ctx.fillText(`${zone.name} · ${zone.widthMm} × ${zone.heightMm} mm · dashed safe area`,450,950);
   ctx.fillText('LAYOUT STUDY · NOT A VENDOR PRODUCTION PROOF',450,980);
+  } finally {texture.width=0;texture.height=0;}
 }

@@ -30,21 +30,27 @@ export async function createStudioViewer(canvas: HTMLCanvasElement, p: ProductMo
   const textures=new Map<string,T.CanvasTexture>();
   return {
     async update(design) {
+      if(disposed)return;
       const current=++revision;
-      const pending=await Promise.all(p.zones.map(async z=>{const c=document.createElement('canvas');await paintZone(c,p,design,z.surface);return {surface:z.surface,canvas:c};}));
+      const pending:{surface:string;canvas:HTMLCanvasElement}[]=[],retained=new Set<HTMLCanvasElement>();
+      try {
+      // A sibling painter can still be using its canvas after another zone fails.
+      const results=await Promise.allSettled(p.zones.map(async z=>{const c=document.createElement('canvas');pending.push({surface:z.surface,canvas:c});await paintZone(c,p,design,z.surface);}));
       if(disposed||current!==revision)return;
+      const failure=results.find(result=>result.status==='rejected');if(failure?.status==='rejected')throw failure.reason;
       gltf.scene.traverse(object=>{if(!(object instanceof T.Mesh))return;const materials=Array.isArray(object.material)?object.material:[object.material];
         materials.forEach((m:T.MeshStandardMaterial)=>{if(m.name!=='buttons')m.color.set(design.colour);});});
       for(const {surface,canvas:painted} of pending) {
-        const old=textures.get(surface);if(old){const c=old.image as HTMLCanvasElement;c.width=0;c.height=0;old.dispose();}const texture=new T.CanvasTexture(painted);texture.flipY=true;texture.colorSpace=T.SRGBColorSpace;textures.set(surface,texture);
+        const old=textures.get(surface);if(old){const c=old.image as HTMLCanvasElement;c.width=0;c.height=0;old.dispose();}const texture=new T.CanvasTexture(painted);texture.flipY=true;texture.colorSpace=T.SRGBColorSpace;textures.set(surface,texture);retained.add(painted);
         gltf.scene.traverse(object=>{if(!(object instanceof T.Mesh))return;const materials=Array.isArray(object.material)?object.material:[object.material];materials.forEach((m:T.MeshStandardMaterial)=>{if(m.name===surface){m.map=texture;m.color.set('#ffffff');m.needsUpdate=true;}});});
       }
       draw();
+      } finally {for(const {canvas:temporary} of pending)if(!retained.has(temporary)){temporary.width=0;temporary.height=0;}}
     },
     rotate(dx,dy) {root.rotation.y+=dx;root.rotation.x=Math.max(-.6,Math.min(.6,root.rotation.x+dy));draw();},
     view(side) {root.rotation.set(0,side==='back'?Math.PI:0,0);camera.position.z=distance;draw();},
     zoom(delta) {camera.position.z=Math.max(distance*.65,Math.min(distance*1.7,camera.position.z+delta*distance));draw();},
-    dispose() {disposed=true;revision++;cancelAnimationFrame(frame);observer.disconnect();intersection.disconnect();document.removeEventListener('visibilitychange',draw);canvas.removeEventListener('webglcontextlost',lost);textures.forEach(t=>{const c=t.image as HTMLCanvasElement;c.width=0;c.height=0;t.dispose();});release(gltf.scene);renderer.dispose();renderer.forceContextLoss();},
+    dispose() {if(disposed)return;disposed=true;revision++;cancelAnimationFrame(frame);observer.disconnect();intersection.disconnect();document.removeEventListener('visibilitychange',draw);canvas.removeEventListener('webglcontextlost',lost);textures.forEach(t=>{const c=t.image as HTMLCanvasElement;c.width=0;c.height=0;t.dispose();});release(gltf.scene);renderer.dispose();renderer.forceContextLoss();},
   };
 }
 function release(root:T.Object3D) { const materials=new Set<T.Material>();root.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));}});materials.forEach(m=>m.dispose()); }
