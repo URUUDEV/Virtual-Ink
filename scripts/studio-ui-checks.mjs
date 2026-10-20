@@ -51,6 +51,9 @@ function studio({prepare=async()=>artwork,paint=async()=>{}}={}){
     get message(){return nodes.find(n=>n.props.role==='status').text;},
     get busy(){return nodes.find(n=>n.type==='input'&&n.props.accept==='image/png,image/jpeg').props.disabled;},
     get decodeCalls(){return decodeCalls;},
+    get measurementFields(){return nodes.filter(n=>n.type==='input'&&['x','y','width','height','rotation'].includes(n.props.name)).map(n=>n.props);},
+    measurements(values={}){const form=find('form',nodes.find(n=>n.type==='form')?.text);const fields=view.measurementFields;
+      form.props.onSubmit({preventDefault(){},currentTarget:{reset(){},elements:{namedItem:name=>({value:String(Object.hasOwn(values,name)?values[name]:fields.find(f=>f.name===name).defaultValue)})}}});render();},
     click(label){const result=find('button',label).props.onClick();render();return result;},
     file(accept,file){const input=nodes.find(n=>n.type==='input'&&n.props.accept===accept);const target={files:[file],value:'synthetic'};input.props.onChange({target,currentTarget:target});render();},
     change(label,value){const parents=nodes.filter(n=>n.type==='label'&&Array.isArray(n.props.children)&&n.props.children[0]===label);assert.equal(parents.length,1,label);const parent=parents[0];
@@ -60,6 +63,63 @@ function studio({prepare=async()=>artwork,paint=async()=>{}}={}){
   render();return view;
 }
 const pick=(view)=>view.file('image/png,image/jpeg',{type:'image/png',size:68});
+
+test('selected artwork exposes five labelled decimal measurement controls with native constraints',()=>{
+  const view=studio();assert.equal(view.measurementFields.length,0);view.click('+ Add text');
+  assert.deepEqual(view.measurementFields.map(f=>f.name),['x','y','width','height','rotation']);
+  for(const field of view.measurementFields){assert.equal(field.type,'number');assert.equal(field.step,'any');assert.equal(field.required,true);assert.ok(field.id);assert.equal(field['aria-describedby'],'studio-measurements-help');}
+  const width=view.measurementFields.find(f=>f.name==='width'),rotation=view.measurementFields.find(f=>f.name==='rotation');
+  assert.equal(width.min,.1);assert.equal(width.max,280);assert.equal(rotation.min,-180);assert.equal(rotation.max,180);view.unmount();
+});
+
+test('decimal measurements apply together as one undoable edit and preserve the layer content',()=>{
+  const view=studio();view.click('+ Add text');const original=JSON.stringify(view.design);
+  view.measurements({x:'110.25',y:'150.75',width:'88.5',height:'29.5',rotation:'-12.5'});
+  const changed=JSON.stringify(view.design),layer=view.design.layers[0];
+  for(const [field,value]of Object.entries({x:110.25,y:150.75,width:88.5,height:29.5,rotation:-12.5}))assert.equal(layer[field],value);
+  assert.equal(layer.text,'YOUR IDEA');view.click('Undo');assert.equal(JSON.stringify(view.design),original);view.click('Redo');assert.equal(JSON.stringify(view.design),changed);view.unmount();
+});
+
+test('empty, nonfinite and out-of-range measurements preserve the design and history',()=>{
+  for(const values of [{x:''},{x:' '},{x:'NaN'},{x:'Infinity'},{x:'1e309'},{x:'-1'},{x:'281'},{y:'361'},{width:'0'},{width:'280.1'},{height:'-.1'},{rotation:'180.1'},{rotation:'-180.1'}]){
+    const view=studio();view.click('+ Add text');const original=JSON.stringify(view.design);view.measurements(values);
+    assert.equal(JSON.stringify(view.design),original);assert.match(view.message,/Enter .* between/);view.click('Undo');assert.equal(view.design.layers.length,0);view.unmount();
+  }
+});
+
+test('unchanged measurement submission creates no history entry',()=>{
+  const view=studio();view.click('+ Add text');view.measurements();view.click('Undo');assert.equal(view.design.layers.length,0);view.unmount();
+});
+
+test('fitting cannot shrink a numeric layer below the existing saved-draft minimum',()=>{
+  const view=studio();view.click('+ Add text');const original=JSON.stringify(view.design);
+  view.measurements({width:.1,height:360,rotation:45});assert.equal(JSON.stringify(view.design),original);assert.match(view.message,/smaller than 0.1 mm/);
+  view.click('Undo');assert.equal(view.design.layers.length,0);view.unmount();
+});
+
+test('measurement fitting keeps the rotated artwork inside the safe area and displays the fitted values',()=>{
+  const view=studio();view.click('+ Add text');view.measurements({x:0,y:0,width:280,height:360,rotation:45});
+  const layer=view.design.layers[0],side=(layer.width+layer.height)/Math.SQRT2;
+  assert.ok(layer.x-side/2>=5-.000001);assert.ok(layer.y-side/2>=5-.000001);assert.ok(layer.x+side/2<=275+.000001);assert.ok(layer.y+side/2<=355+.000001);
+  for(const field of view.measurementFields)assert.equal(field.defaultValue,layer[field.name]);view.unmount();
+});
+
+test('mug and flat-card measurements use their own zone limits without changing other layers',()=>{
+  for(const product of ['ceramic-mug','business-card']){
+    const view=studio();view.change('Product model',product);view.click('+ Add text');view.click('Duplicate layer');
+    const untouched=JSON.stringify(view.design.layers[0]);view.measurements({width:20.25,height:10.5,rotation:30});
+    assert.equal(JSON.stringify(view.design.layers[0]),untouched);assert.equal(view.design.layers[1].width,20.25);assert.equal(view.design.layers[1].height,10.5);
+    assert.equal(view.measurementFields.find(f=>f.name==='width').max,product==='ceramic-mug'?200:96);view.unmount();
+  }
+});
+
+test('changed measurements cancel a pending reference; invalid and unchanged entries keep it current',async()=>{
+  for(const kind of ['changed','invalid','unchanged']){
+    const held=deferred(),view=studio({paint:()=>held.promise});view.click('+ Add text');const pending=view.click('Generate layout reference');
+    view.measurements(kind==='changed'?{width:80.5}:kind==='invalid'?{width:''}:{});
+    assert.equal(view.busy,kind!=='changed');held.resolve();await pending;await settle();view.render();assert.equal(view.downloads.length,kind==='changed'?0:1);view.unmount();
+  }
+});
 
 test('reopening a same-product device draft invalidates an already decoding artwork file',async()=>{
   const job=deferred(),view=studio({prepare:()=>job.promise});view.click('Save on device');view.click('+ Add text');pick(view);

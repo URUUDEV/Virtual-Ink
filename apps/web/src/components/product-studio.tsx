@@ -16,6 +16,7 @@ export function ProductStudio() {
   const generation=useRef(0),latest=useRef(design),proof=useRef<ReturnType<typeof reviseProof>|null>(null);
   const work=useRef<'artwork'|'draft'|'reference'|null>(null);
   const product=getProductModel(design.productId),zone=product.zones.find(z=>z.id===zoneId)??product.zones[0],layer=design.layers.find(l=>l.id===selected);
+  const measurements=[['x','Horizontal centre',0,zone.widthMm,'mm'],['y','Vertical centre',0,zone.heightMm,'mm'],['width','Width',.1,zone.widthMm,'mm'],['height','Height',.1,zone.heightMm,'mm'],['rotation','Rotation',-180,180,'degrees']] as const;
   const warnings=artworkWarnings(design);
   useEffect(()=>()=>{generation.current++;work.current=null;latest.current=newStudioDesign('crew-unisex');},[]);
   function cancelWork() {generation.current++;work.current=null;setBusy(false);}
@@ -32,9 +33,22 @@ export function ProductStudio() {
     const previous=latest.current;setPast(p=>[...p,previous].slice(-30));setFuture([]);latest.current=next;setDesign(next);return true;
   }
   function patchLayer(patch:Partial<StudioLayer>) {
-    if(!layer)return;
-    try {const updated=fitLayer({...layer,...patch},zone);commit({...design,layers:design.layers.map(l=>l.id===layer.id?updated:l)});}
-    catch {setMessage('That placement crosses a restricted area. Move or resize the artwork.');}
+    if(!layer)return false;
+    try {const updated=fitLayer({...layer,...patch},zone);
+      if(updated.width<.1||updated.height<.1){setMessage('Safe-area fitting would make this layer smaller than 0.1 mm. Increase its dimensions or reduce its rotation. Your design is unchanged.');return false;}
+      if((Object.keys(updated) as (keyof StudioLayer)[]).every(field=>updated[field]===layer[field]))return true;
+      return commit({...design,layers:design.layers.map(l=>l.id===layer.id?updated:l)});}
+    catch {setMessage('That placement crosses a restricted area. Move or resize the artwork.');return false;}
+  }
+  function applyMeasurements(form:HTMLFormElement) {
+    const patch:Partial<Record<'x'|'y'|'width'|'height'|'rotation',number>>={};
+    for(const [field,title,min,max,unit] of measurements){
+      const input=form.elements.namedItem(field) as HTMLInputElement|null,source=input?.value.trim()??'',value=Number(source);
+      if(!source||!Number.isFinite(value)||value<min||value>max){setMessage(`Enter ${title.toLowerCase()} between ${min} and ${max} ${unit}. Your design is unchanged.`);return;}
+      patch[field]=value;
+    }
+    const previous=latest.current,cancelsPreparation=work.current==='reference'||work.current==='draft';
+    if(patchLayer(patch)){form.reset();if(previous!==latest.current)setMessage(`Measurements applied. The fields show the safe-area fit.${cancelsPreparation?' Pending preparation was cancelled.':''}`);}
   }
   function addText() {
     if(design.layers.length>=12){setMessage('Use up to twelve layers in this local study.');return;}
@@ -94,7 +108,12 @@ export function ProductStudio() {
       <p className="studio-small">PNG / JPEG · 2 MB · processed in this browser. SVG / PDF acceptance awaits secure vendor preflight.</p>
       <label>Layer<select value={selected} onChange={e=>setSelected(e.target.value)}><option value="">Select a layer</option>{design.layers.filter(l=>l.zoneId===zone.id).map((l,i)=><option key={l.id} value={l.id}>{i+1}. {l.kind==='text'?l.text||'Empty text':'Artwork'}</option>)}</select></label>
       {layer&&layer.zoneId===zone.id&&<fieldset><legend>Edit selected layer</legend>{layer.kind==='text'&&<><label>Text<textarea maxLength={160} value={layer.text} onChange={e=>{if(e.target.value.split('\n').length<=4)patchLayer({text:e.target.value});}}/></label><label>Approved font<select value={layer.font} onChange={e=>patchLayer({font:e.target.value as StudioLayer['font']})}>{['Poppins','Bebas Neue','Caveat'].map(f=><option key={f}>{f}</option>)}</select></label><label>Text colour<input type="color" value={layer.colour} onChange={e=>patchLayer({colour:e.target.value})}/></label></>}
-        {([['x','Horizontal position',zone.widthMm],['y','Vertical position',zone.heightMm],['width','Width',zone.widthMm],['height','Height',zone.heightMm],['rotation','Rotation',180]] as const).map(([field,title,max])=><label key={field}>{title} · {Math.round(layer[field])}{field==='rotation'?'°':' mm'}<input type="range" min={field==='rotation'?-180:field==='width'||field==='height'?1:0} max={max} value={layer[field]} onChange={e=>patchLayer({[field]:Number(e.target.value)})}/></label>)}
+        <form className="studio-measurements" key={[layer.id,zone.id,layer.x,layer.y,layer.width,layer.height,layer.rotation].join(':')} onSubmit={e=>{e.preventDefault();applyMeasurements(e.currentTarget);}} onInvalid={()=>setMessage('Check the measurement limits shown beside each field. Your design is unchanged.')}>
+          <p id="studio-measurements-help" className="studio-small">Enter centre positions and unrotated dimensions in mm, and rotation in degrees. Apply measurements to update together. Safe-area fitting may adjust the result.</p>
+          {measurements.map(([field,title,min,max,unit])=><div key={field}><label htmlFor={`studio-measurement-${field}`}>{title} ({unit}) · {min} to {max}</label><input id={`studio-measurement-${field}`} name={field} type="number" required min={min} max={max} step="any" inputMode="decimal" enterKeyHint="done" defaultValue={layer[field]} aria-describedby="studio-measurements-help"/></div>)}
+          <div className="studio-actions"><button type="submit">Apply measurements</button><button type="reset">Reset entries</button></div>
+        </form>
+        {([['x','Horizontal position',zone.widthMm],['y','Vertical position',zone.heightMm],['width','Width',zone.widthMm],['height','Height',zone.heightMm],['rotation','Rotation',180]] as const).map(([field,title,max])=><label key={field}>{title} · {Math.round(layer[field]*100)/100}{field==='rotation'?'°':' mm'}<input type="range" min={field==='rotation'?-180:field==='width'||field==='height'?.1:0} max={max} step="any" value={layer[field]} onChange={e=>patchLayer({[field]:Number(e.target.value)})}/></label>)}
         <div className="studio-actions"><button type="button" onClick={()=>patchLayer({x:zone.widthMm/2,y:zone.heightMm/2})}>Centre</button><button type="button" onClick={()=>{if(design.layers.length>=12)return;const copy={...layer,id:crypto.randomUUID()};commit({...design,layers:[...design.layers,copy]});setSelected(copy.id);}}>Duplicate layer</button><button type="button" onClick={()=>{commit({...design,layers:design.layers.filter(l=>l.id!==layer.id)});setSelected('');}}>Remove</button></div>
       </fieldset>}
       <label>Customer notes<textarea maxLength={1000} value={design.notes} onChange={e=>commit({...design,notes:e.target.value})}/></label>
