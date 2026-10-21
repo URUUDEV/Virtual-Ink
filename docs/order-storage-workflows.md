@@ -3,6 +3,10 @@
 21 October 2026. Owners: Uchi Chinyama and Mumba Chitonge. **Local review
 candidate; hosted full-service acceptance and Phase 1 remain INCOMPLETE.**
 
+[Build/security report](reports/2026-10-21-backend-workflows-runtime.md) and
+[Word handover](reports/2026-10-21-backend-workflows-runtime.docx) record source,
+exact verification denominators, the patched UI-only build and remaining hosted work.
+
 ## Runtime and enablement
 
 Use Node **24.22.1** or a later stable Node 24 patch. The official October

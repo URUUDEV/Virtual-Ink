@@ -1,6 +1,15 @@
 # Virtual Ink team report
 
-Latest backend build handover: [21 October — Private-file inspection](reports/2026-10-21-private-file-inspection.md)
+Latest backend build handover: [21 October — Workflows and runtime](reports/2026-10-21-backend-workflows-runtime.md)
+and [Word copy](reports/2026-10-21-backend-workflows-runtime.docx).
+Transactional order/proof/QC, private scan/promotion/download libraries and current
+access checks pass locally: 246 root tests, 49/49 measured files and 220 genuine
+local Auth/MFA checks. Node 24.22.1 and a fresh protected UI-only Preview build pass.
+No hosted backend enablement occurred; compatible MFA, worker/ingress deployment,
+full-service Preview, recovery, device and human gates remain open. Phase 1 is
+INCOMPLETE / NO-GO. See the report for exact scope, team actions and Word QA limits.
+
+Previous backend build handover: [21 October — Private-file inspection](reports/2026-10-21-private-file-inspection.md)
 and [Word copy](reports/2026-10-21-private-file-inspection.docx).
 Bounded content inspection and the private ClamAV adapter pass 231 root/210
 security tests, 45-file coverage and local gates. Genuine synthetic engine

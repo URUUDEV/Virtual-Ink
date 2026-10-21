@@ -1,5 +1,13 @@
 # Phase 1 MFA and privileged-role administration
 
+21 October [workflow/runtime follow-up](reports/2026-10-21-backend-workflows-runtime.md):
+genuine local Auth now passes 220 checks, including 13 workflow identity/MFA/session
+checks against the exact fifteenth local migration. The original factor/hook tests
+remain included. Node 24.22.1 resolves the reviewed local runtime baseline.
+Managed acceptance remains Free, hook/security disabled and at fourteen migrations;
+no users, runtime logins or hosted Auth changes were created. Compatible hosted
+target, browser/email/physical MFA, recovery and full-service Preview stay open.
+
 16 October 2026. Owners: Uchi Chinyama and Mumba Chitonge. Status: PARTIAL.
 This review branch implements the provider-backed paths. Genuine local Auth
 engine checks pass; managed-cloud/browser and isolated Preview acceptance remain

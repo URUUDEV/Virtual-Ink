@@ -6,6 +6,15 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+21 October [backend workflows and runtime](docs/reports/2026-10-21-backend-workflows-runtime.md):
+transactional order/proof/production/QC states, private storage worker and audited
+downloads pass local checks. All 246 root tests, 49-file coverage and 220 genuine
+local Auth/MFA checks pass. Node 24.22.1 resolves the reviewed runtime baseline.
+The [protected UI-only Preview](https://virtual-ink-ui-test-68jidagxn-shadowrootsec-5679.vercel.app)
+is READY with a fresh patched build; sensitive services remain disabled.
+[Backend setup](docs/order-storage-workflows.md). Compatible hosted MFA, worker
+deployment and genuine full-service Preview remain open. Phase 1 is INCOMPLETE / NO-GO.
+
 21 October [backend file inspection](docs/reports/2026-10-21-private-file-inspection.md):
 bounded signature/MIME/SHA-256 checks and a private ClamAV adapter pass 231 root
 tests and genuine local synthetic detection/outage controls. All 45 backend/shared

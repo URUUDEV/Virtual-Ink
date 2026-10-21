@@ -1,5 +1,16 @@
 # Virtual Ink recurring security review
 
+21 October [workflow/storage/runtime review](reports/2026-10-21-backend-workflows-runtime.md)
+adds current-authority read retries, post-storage revocation checks, frozen-source
+late-scan denial, scoped MFA delivery assignment and atomic audit rollback. Local
+concurrency, tenant/proof/file denials, real S3/scanner checks and genuine Auth entry
+pass; no hosted business exploit or platform/OS/provider pentest is claimed.
+The published Node 24.22.1 fixes now resolve the reviewed October HIGH baseline
+for tested local Node and the fresh UI-only build; original production/backend
+runtime acceptance is still unverified. All sensitive hosted services stay off.
+Read the report for exact 49-file coverage, test counts, security scope and limits.
+Earlier unresolved-runtime notes below are historical, not the current local status.
+
 21 October [private-file content review](reports/2026-10-21-private-file-inspection.md)
 adds bounded byte ownership, exact MIME/signature filters, SHA-256 receipt binding
 and loopback-only ClamAV INSTREAM with bounded concurrency/deadline/reply. Thirteen

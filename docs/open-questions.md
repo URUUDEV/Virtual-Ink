@@ -1,9 +1,23 @@
 # Virtual Ink open questions and decisions
 
+- **HOST-AUTH-21 — Open; Uchi/Mumba, 21 October 2026:** Supply an existing isolated
+  Teams/Enterprise Supabase target or authorized self-hosted HTTPS target with the
+  required native MFA hook. Current acceptance organization is still Free; no
+  upgrade cost is authorized. Resolve Vercel first-target Preview routing without
+  a Production bootstrap. [Current evidence](reports/2026-10-21-backend-workflows-runtime.md).
+- **ORDER-OPS-21 — Proposed, not accepted; Uchi/Lubasi with Mumba:** Review candidate
+  quantity/dimension/ZMW caps, quote expiry, proof/QC checklist, manual payment
+  evidence, decline/dispute holds, delivery confirmation and correction policy in
+  [workflow setup](order-storage-workflows.md). Define scoped organization/designer/
+  override and recovery journeys before exposing them. Local checks are not policy approval.
+
 - **FILES-OPS-01 — Open; Uchi/Mumba with Lubasi, 21 October 2026:** Confirm
   customer format/size limits, scanner worker hosting and freshness/configuration
   monitoring, retention, duplicate handling and rejection/review notification
-  operations. The [local inspector](private-file-inspection.md) has a conservative
+  operations. The [worker/access implementation](order-storage-workflows.md) adds
+  local durable quarantine/audit, owner/purpose duplicate links and access checks;
+  worker hosting, authorized ingress/queue and provider IAM remain open. The
+  [local inspector](private-file-inspection.md) has a conservative
   25 MiB worker ceiling, not an approved customer allowance or production scanner
   deployment. Quarantine/storage/access acceptance remains blocked on these and
   the existing isolated genuine Auth target decision; no paid upgrade is inferred.

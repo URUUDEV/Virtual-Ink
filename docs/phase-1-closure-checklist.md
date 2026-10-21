@@ -25,6 +25,16 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+21 October [local backend review](reports/2026-10-21-backend-workflows-runtime.md):
+order/proof/QC transactions, private scan/promotion and audited download libraries
+pass 105 real-local-storage workflow checks and 220 genuine local Auth checks
+(13 exercise workflow identity/MFA entry). All 49 files are measured and aggregate
+line/branch/function coverage exceeds 95%;
+Node 24.22.1 and the fresh UI-only Preview build pass. Migration 15 stays local.
+These are implementation substeps only: hosted Auth, private worker/ingress,
+provider IAM, full role journeys, recovery and every release/device gate remain
+open. No final requirement group below changes to complete.
+
 Uchi's 16 October priority: get Phase 1 ready promptly and retain Phase 1 scope
 until traction. The critical path remains isolated Auth/MFA acceptance, then the
 existing private-file/order/vendor/manual-status MVP journey and deployment gates.

@@ -1,5 +1,14 @@
 # Private-file inspection worker
 
+Current follow-on, 21 October: the [order/storage worker](order-storage-workflows.md)
+now implements local durable quarantine/audit, owner/purpose duplicate links,
+purpose promotion, approved production copies and authorization-checked downloads.
+[New evidence](reports/2026-10-21-backend-workflows-runtime.md) includes real local
+S3/scanner checks and the patched runtime. Worker hosting, ingress/queue, provider
+IAM, operational policy and hosted acceptance remain open. The sections below
+describe the earlier content-inspection slice; its historical absence of durable
+duplicates/access is superseded only by the local follow-on, not by a deployment.
+
 21 October 2026. Owners: Uchi Chinyama and Mumba Chitonge. **Local review slice;
 FILES-01/FILES-02 and Phase 1 remain INCOMPLETE / NO-GO.** No route, bucket,
 credential, upload, signed download, migration or hosted service is enabled.

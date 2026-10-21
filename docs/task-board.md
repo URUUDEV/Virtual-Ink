@@ -1,5 +1,17 @@
 # Virtual Ink task board
 
+21 October: **ORDER/FILES/QC-LOCAL — Review candidate; hosted acceptance open**,
+Uchi with Mumba. [Report](reports/2026-10-21-backend-workflows-runtime.md) records
+the fifteenth local migration, transactional workflow, private quarantine/promotion,
+derived production copy and current-authority downloads. Root 246, security 225,
+web 73, Auth contracts 16, genuine local Auth 220 and real-storage workflow 105
+checks pass; all 49 backend/shared files are measured, with aggregate coverage
+above 95% for lines, branches and functions.
+Node 24.22.1 is enforced; protected UI-only Preview is READY on the same commit.
+Next: compatible isolated native MFA target, acceptance Preview routing and worker/
+ingress/IAM operations, followed by genuine full-service role journeys. All hosted
+service flags remain disabled; no phase or FILES/order/QC acceptance is closed.
+
 21 October: **FILES-02A — Local review; content inspection and ClamAV adapter**,
 Uchi with Mumba. [Report](reports/2026-10-21-private-file-inspection.md) records
 13 new negative/protocol groups, five genuine synthetic engine assertions and a

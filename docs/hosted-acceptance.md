@@ -1,5 +1,12 @@
 # Virtual Ink hosted acceptance
 
+21 October [current backend evidence](reports/2026-10-21-backend-workflows-runtime.md):
+fifteen migrations now exist locally; acceptance still has fourteen and no workflow
+schema, users, buckets or runtime LOGIN roles. Its organization remains Free and
+cannot run the required native MFA hook. No hosted mutation was made. The reviewed
+runtime is patched to Node 24.22.1; only the separate UI-only Preview has a fresh
+hosted build on that patch. This project's deployment stop remains in force.
+
 18 October section 2.1: [Phase 1 release gate](phase-1-release-gate.md) requires
 a genuine clean-checkout Preview, secure integrations and physical-device
 acceptance. Production promotion requires a documented go/no-go and explicit
@@ -20,7 +27,7 @@ connection and no inherited integration variables. Its generated domain is
 No production domain is attached. Default deployment protection stays enabled.
 The separate Supabase project is `trlhbsgxcsgvfyxezayb`, eu-west-1, PostgreSQL
 17.11, in URUUDEV's Org. The provider quoted $0/month. No paid upgrade was made.
-All fourteen repository migrations are applied, with canonical versions and
+The original fourteen migrations are applied, with canonical versions and
 normalized checksums verified. All 29 application tables enforce RLS; no public
 definer execution or incomplete UPDATE policy was found. Native MFA hook support
 is unavailable on this Free plan. Auth and sensitive administration stay disabled.
@@ -38,12 +45,17 @@ has zero Auth users, zero buckets/objects and only NOLOGIN application roles.
 
 **Deployment stop:** resolve the provider's first-deployment target routing before
 another deploy. An explicit CLI target alone did not enforce Preview. Validate
-the actual response target and deployment readiness separately. Use the documented
-`--skip-domain` protection in any later reviewed command; it does not repair target
-classification. Do not bootstrap a temporary Production deployment, relabel the
-environment, add Production variables or weaken the build/runtime checks. The
-private wrapper's added response validation and skip-domain flag remain untested
-against a second deployment. No successful hosted build is claimed.
+the actual response target and deployment readiness separately. Vercel CLI 58.5.1
+rejects `--skip-domain` for Preview because it is Production-only; this was proved
+in a UI-project dry run before any deployment. Do not switch to Production to use
+that flag. A later reviewed acceptance command needs supported alias safeguards
+and verified first-target routing before execution. Do not bootstrap a temporary
+Production deployment, relabel the environment, add Production variables or weaken
+the build/runtime checks. The
+private acceptance wrapper has not been tested against a second deployment; its
+old skip-domain invocation must be corrected before review. No successful hosted
+full-service build is claimed. [Provider issue 17069](https://github.com/vercel/vercel/issues/17069)
+remains open at the 21 October check.
 
 ## Provisioning order
 
@@ -57,8 +69,10 @@ against a second deployment. No successful hosted build is claimed.
 3. Validate the actual project reference against the protected production
    identifiers before every hosted mutation. Keep administrative setup credentials
    in a separate private operator environment, outside Vercel and Git.
-4. Apply all fourteen reviewed ordered files in supabase/migrations to the empty
-   staging database through the reviewed migration path. Capture version/name and
+4. After target compatibility and operator review, reconcile existing history and
+   apply the ordered forward migrations through the reviewed migration path.
+   Fifteen local files now exist; the fifteenth is not applied to existing staging.
+   Never replay or alter already-applied files. Capture version/name and
    normalized SQL hashes. Run catalog/constraints/index/trigger/RLS/function/view
    checks, rollback fixtures and provider security advisors on staging.
 5. Privately create only restricted runtime database logins/CA configuration.
@@ -111,7 +125,8 @@ production designation. Unknown and contradictory designations reject. Staging
 requires the dedicated Vercel project binding, a separate managed Supabase
 reference, matching origins and exact callback set, an empty webhook set, six
 purpose-bound bucket names and disabled external integrations. Runtime storage
-remains disabled until its implementation/policies are built.
+remains disabled pending worker/ingress deployment, provider IAM and genuine
+file-workflow acceptance; the local worker library alone does not enable it.
 
 Every supplied value is scanned for protected production references, including
 encoded/case variants. All service-role/secret Supabase keys and migration/
