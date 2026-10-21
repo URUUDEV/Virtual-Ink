@@ -2,6 +2,19 @@
 
 Copy a prompt and replace the bracketed task reference. Read the linked documents first. Keep credentials, personal contacts, customer files and payment evidence out of prompts and Git.
 
+## Current ownership and development workflow — 21 October 2026
+
+Uchi Chinyama leads product; Uchi and Mumba Chitonge collaborate on backend
+engineering. Taizya Nakapende leads UX/frontend work and Uchi has requested a
+handover enabling her development contributions and pushes. Use the
+[current Taizya prompt](reports/2026-10-21-taizya-development-handover.md), including
+the unpublished-source, development-base, repository-permission and deployment
+mapping prerequisites. This authorization does not grant GitHub permissions or
+authorize Production. Stay in Phase 1. The ownership/Phase-2 kickoff wording below
+is historical and does not override these instructions or AGENTS.md.
+
+## Historical ownership note — 14 October 2026
+
 Current ownership, 14 October 2026: Uchi handles both backend and product work;
 Mumba is inactive. The older Mumba prompts below are historical handover templates.
 For current implementation, use Uchi as the technical owner and the full product

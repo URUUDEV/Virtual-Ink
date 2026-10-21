@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+21 October: **TEAM-DEV-01 — Handover ready; collaboration setup pending**, Uchi
+with Taizya and Mumba. [Development prompt](reports/2026-10-21-taizya-development-handover.md)
+provides the current base, STUDIO-01D task and contribution/PR workflow. The
+review branch is local only and no development/develop/dev head exists on origin
+at inspection. Next: Uchi establishes source sharing, repository push permission
+and a development target with verified deployment mapping; Taizya pushes task
+branches and supplies review evidence. No access grant or push is claimed.
+
 20 October: **STUDIO-01D — Partial hosted verification; state interruption open**,
 Uchi with Taizya, Mumba on reproduction and Lubasi on device/supplier evidence.
 [Follow-up](reports/2026-10-20-hosted-measurement-verification.md): exact Preview

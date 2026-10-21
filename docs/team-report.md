@@ -1,5 +1,13 @@
 # Virtual Ink team report
 
+Latest collaboration handover: [21 October — Taizya development prompt](reports/2026-10-21-taizya-development-handover.md)
+and [Word copy](reports/2026-10-21-taizya-development-handover.docx).
+Contains the copy-ready task/push prompt, current ownership, reviewed commits and
+Phase 1 limits. Current review branch is local only; development is absent on
+origin. Source sharing, Taizya's push access and safe deployment mapping must be
+established before contribution pushes. No permissions, branches, deployments,
+pushes or human acceptance changed here. Phase 1 remains INCOMPLETE / NO-GO.
+
 Latest verification handover: [20 October — Hosted measurements](reports/2026-10-20-hosted-measurement-verification.md)
 and [Word copy](reports/2026-10-20-hosted-measurement-verification.docx).
 Existing Preview f244056 passes sampled native measurement Apply/Enter/reset,
