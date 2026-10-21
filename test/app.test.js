@@ -116,7 +116,9 @@ async function rawRequest(base, wire) {
     const socket = createConnection({ host: '127.0.0.1', port: Number(url.port) });
     let response = '';
     const timer = setTimeout(() => { socket.destroy(); reject(new Error('Local security probe timed out')); }, 3000);
-    socket.on('connect', () => socket.end(wire));
+    // The wire requests Connection: close. Let the server close after its reply;
+    // an immediate TCP half-close can race asynchronous denial responses.
+    socket.on('connect', () => socket.write(wire));
     socket.on('data', (chunk) => { response += chunk.toString(); });
     socket.on('error', (error) => { clearTimeout(timer); reject(error); });
     socket.on('close', () => { clearTimeout(timer); resolve(response); });

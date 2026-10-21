@@ -28,8 +28,8 @@ test('security scanner classifies private paths without reading them', () => {
 });
 
 test('security runtime gate rejects old patches, other majors and prereleases', () => {
-  for (const version of ['24.14.1', '24.18.1', '24.20.0', '24.21.0-rc.1', '22.23.2', '26.11.1', 'invalid']) {
+  for (const version of ['24.14.1', '24.18.1', '24.20.0', '24.21.0', '24.21.1', '24.22.0', '24.22.1-rc.1', '22.23.2', '26.11.1', 'invalid']) {
     assert.equal(runtimeIsAllowed(version), false, version);
   }
-  for (const version of ['24.21.0', '24.21.1', '24.22.0']) assert.equal(runtimeIsAllowed(version), true, version);
+  for (const version of ['24.22.1', '24.22.2', '24.23.0']) assert.equal(runtimeIsAllowed(version), true, version);
 });

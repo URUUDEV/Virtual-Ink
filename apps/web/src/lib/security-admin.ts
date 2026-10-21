@@ -10,6 +10,9 @@ import { createSecurityCommands, loadSecurityConfig, securityIdentityFromClaims,
   type SecurityAuth, type SecurityConfig } from '@backend/identity/security-admin.ts';
 import { webAuthClient, type AuthCookie } from './web-auth';
 import { NextRequest, NextResponse } from 'next/server';
+import { createWorkflowCommands, workflowResponse } from '@backend/orders/workflow.ts';
+import { handleApi } from '@backend/api/responses.ts';
+import { assertEnvironmentIsolation } from '@backend/setup/environment-isolation.ts';
 
 type Client=ReturnType<typeof webAuthClient>;
 export type SecurityCookieStore={get(name:string):string|undefined;set(cookie:AuthCookie):void};
@@ -89,7 +92,7 @@ async function openSecurityDatabase(config:SecurityConfig) {
       AND pg_has_role(current_user,'virtual_ink_security_service','USAGE')
       AND NOT EXISTS(SELECT FROM pg_auth_members m WHERE m.member=r.oid AND (m.roleid<>'virtual_ink_security_service'::regrole OR m.admin_option))
       AND NOT EXISTS(SELECT FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
-        WHERE n.nspname IN('virtual_ink','virtual_ink_phase1','virtual_ink_security','auth') AND pg_has_role(current_user,c.relowner,'MEMBER')) AS safe
+        WHERE n.nspname IN('virtual_ink','virtual_ink_phase1','virtual_ink_security','virtual_ink_workflow','auth') AND pg_has_role(current_user,c.relowner,'MEMBER')) AS safe
       FROM pg_roles r WHERE r.rolname=current_user`,[]);
     if(result.rows[0]?.safe!==true)throw new Error();
     return db;
@@ -119,4 +122,26 @@ export async function handleSecurityRequest(request:NextRequest,action:string) {
   const response=new NextResponse(result.body,{status:result.status,headers:result.headers});
   if(result.ok)pending.forEach(({name,value,options})=>response.cookies.set(name,value,options));
   return response;
+}
+
+export async function handleWorkflowRequest(request:NextRequest,action:string) {
+  if(process.env.WORKFLOW_ENABLED!=='true')return workflowResponse(request,action);
+  const pending:AuthCookie[]=[];
+  try {
+    assertEnvironmentIsolation(process.env);
+    const config=loadSecurityConfig(process.env);
+    if(!config)throw new ApiError('IDENTITY_UNAVAILABLE');
+    const currentCookies=()=>{
+      const values=new Map(request.cookies.getAll().map(cookie=>[cookie.name,cookie.value]));
+      for(const cookie of pending){if(cookie.value)values.set(cookie.name,cookie.value);else values.delete(cookie.name);}
+      return [...values].map(([name,value])=>({name,value}));
+    };
+    const client=webAuthClient(config,currentCookies,cookies=>{pending.push(...cookies);});
+    const gateway=securityAuthGateway(client,config,{get:name=>currentCookies().find(cookie=>cookie.name===name)?.value,set:cookie=>{pending.push(cookie);}});
+    const db=await(database??=openSecurityDatabase(config));
+    const result=await workflowResponse(request,action,{origin:config.origin,identity:()=>gateway.identity(),commands:createWorkflowCommands(db,config.environment)});
+    const response=new NextResponse(result.body,{status:result.status,headers:result.headers});
+    if(result.ok)pending.forEach(({name,value,options})=>response.cookies.set(name,value,options));
+    return response;
+  } catch {return handleApi(request,()=>{throw new ApiError('IDENTITY_UNAVAILABLE');});}
 }

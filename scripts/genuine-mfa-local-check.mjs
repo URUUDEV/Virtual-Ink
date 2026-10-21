@@ -1,7 +1,7 @@
 // Real local Supabase Auth, synthetic identities only. No hosted target or mock responses.
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {randomBytes,randomUUID,createHmac,createDecipheriv,hkdfSync} from 'node:crypto';
+import {randomBytes,randomUUID,createHmac,createDecipheriv,hkdfSync,createHash} from 'node:crypto';
 import {mkdir,writeFile,readFile,readdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createRequire} from 'node:module';
@@ -11,6 +11,7 @@ import {pathToFileURL} from 'node:url';
 import vm from 'node:vm';
 import pg from 'pg';
 import {checkProviderMfaGuard} from './provider-mfa-guard-check.mjs';
+import {checkGenuineWorkflowAuth} from './order-workflow-auth-check.mjs';
 const runFile=promisify(execFile),root=resolve('.');
 const webRequire=createRequire(resolve('apps/web/package.json'));
 const {createClient}=webRequire('@supabase/supabase-js');
@@ -327,13 +328,21 @@ try{
   admin,createClient,options,issuer,config,transport,totp,secret,privateValues,check,second,until,
   createApplicationActor:(label,role='CUSTOMER')=>createActor(label,role),record:result=>{report.hookDiagnostics={...report.hookDiagnostics,...result};}});
  report.hookedProviderCrossChallengeReplayRejected=true;
+ stage='workflow_auth_checks';
+ const workflowMigration=await readFile(resolve('supabase/migrations/20261021095139_virtual_ink_order_workflows.sql'),'utf8');
+ report.workflowMigrationSha256=createHash('sha256').update(workflowMigration.replace(/\r\n/g,'\n').replace(/^\uFEFF/,'')).digest('hex');
+ await client.query(workflowMigration);
+ const workflowStart=checks;
+ await checkGenuineWorkflowAuth({database:client,applicationDatabase:appClient,createActor,
+  core:load(resolve(root,'src/backend/orders/workflow.ts')),check,privateValues,totp,config});
+ report.workflowAuthChecks=checks-workflowStart;
  stage='provider_hook_log_privacy';
  for(const id of created){const captured=await runFile('docker',['logs',id],{timeout:10000,maxBuffer:2*1024*1024,windowsHide:true});
   const logs=captured.stdout+captured.stderr;
   if(privateValues.some(value=>typeof value==='string'&&value.length>=20&&logs.includes(value))||/"(?:access_token|refresh_token|totp_secret|password)"\s*:|"code"\s*:\s*"\d{6}"/.test(logs))safeLogs=false;
  }
  check(safeLogs,'native_hook_logs_exclude_generated_secrets_and_tokens');
- report.providerGuardChecks=checks-report.baselineChecks;
+ report.providerGuardChecks=checks-report.baselineChecks-report.workflowAuthChecks;
  report.status='pass';report.countedChecks=checks;
 }catch(error){report.status='blocked';report.failedStage=stage;report.errorCode=typeof error?.code==='string'&&/^[A-Z0-9_]{1,30}$/.test(error.code)?error.code:'LOCAL_CHECK_FAILED';
  report.errorType=['Error','TypeError','ReferenceError','SyntaxError'].includes(error?.name)?error.name:'OtherError';

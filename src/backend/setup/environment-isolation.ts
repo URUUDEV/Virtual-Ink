@@ -1,3 +1,5 @@
+import { runtimeSecurityNotice, sensitiveRuntimeApproved } from './runtime-policy.ts';
+export { runtimeSecurityNotice };
 // Safe identifiers only. Production credentials must never be fetched or copied
 // to construct acceptance configuration. Service keys are forbidden in web envs.
 export const protectedProduction = Object.freeze({
@@ -13,6 +15,12 @@ export class IsolationError extends Error {
   constructor(code: string) { super('Environment isolation check failed.'); this.code=code; }
 }
 const fail = (code: string): never => { throw new IsolationError(code); };
+function sensitiveRuntimeGate(env: Environment) {
+  if (!sensitiveRuntimeApproved() && (env.APPLICATION_ENVIRONMENT === 'production' || ['preview', 'production'].includes(env.VERCEL_ENV ?? '')) &&
+    ['WEB_AUTH_ENABLED', 'AUTH_ENABLED', 'SECURITY_ADMIN_ENABLED', 'STORAGE_ENABLED', 'WORKFLOW_ENABLED'].some(key => env[key] === 'true')) {
+    fail('RUNTIME_SECURITY_PATCH_REQUIRED');
+  }
+}
 export const acceptancePurposes = ['quarantine','customer-originals','approved-production-files','proofs','production-evidence','dispute-evidence'] as const;
 export const disabledIntegrations = ['PAYMENTS','MOBILE_MONEY','SMS','WHATSAPP','DELIVERY','BLOCKCHAIN','CANVA','PINTEREST'] as const;
 function list(value: string | undefined, code: string): string[] {
@@ -43,6 +51,7 @@ function uiTestIsolation(env:Environment) {
   const project=env.UI_TEST_VERCEL_PROJECT_ID??'';
   if(project!==uiTestProject||env.VERCEL_PROJECT_ID!==project)fail('UI_TEST_PROJECT_MISMATCH');
   for(const flag of ['WEB_AUTH_ENABLED','AUTH_ENABLED','SECURITY_ADMIN_ENABLED','STORAGE_ENABLED','JOBS_ENABLED'])if(env[flag]!=='false')fail('UI_TEST_SERVICE_ENABLED');
+  if (env.WORKFLOW_ENABLED !== undefined && env.WORKFLOW_ENABLED !== 'false') fail('UI_TEST_SERVICE_ENABLED');
   for(const integration of disabledIntegrations)if(env[`${integration}_MODE`]!=='disabled')fail('EXTERNAL_INTEGRATION_DISABLED');
   if(env.EMAIL_MODE!=='disabled')fail('UI_TEST_EMAIL_ENABLED');
   for(const [key,raw]of Object.entries(env)){
@@ -58,6 +67,7 @@ function uiTestIsolation(env:Environment) {
   return Object.freeze({environment:'ui_test' as const,vercelProject:project});
 }
 export function assertEnvironmentIsolation(env: Environment = process.env) {
+  if (['preview','production'].includes(env.VERCEL_ENV ?? '') && !sensitiveRuntimeApproved()) fail('RUNTIME_SECURITY_PATCH_REQUIRED');
   const designation = env.APPLICATION_ENVIRONMENT;
   if(designation==='ui_test')return uiTestIsolation(env);
   if(Object.keys(env).some(key=>/^UI_TEST_/i.test(key)&&env[key]))fail('ENVIRONMENT_CONTRADICTION');
@@ -68,6 +78,7 @@ export function assertEnvironmentIsolation(env: Environment = process.env) {
       env.VERCEL_ENV === 'development' && !['local','test'].includes(environment)) fail('ENVIRONMENT_CONTRADICTION');
   if (environment !== 'staging') {
     if (Object.keys(env).some(key => /^(STAGING_|ACCEPTANCE_)/.test(key) && env[key])) fail('ENVIRONMENT_CONTRADICTION');
+    sensitiveRuntimeGate(env);
     return Object.freeze({ environment });
   }
   if (env.VERCEL_ENV !== 'preview') fail('STAGING_PREVIEW_REQUIRED');
@@ -117,5 +128,6 @@ export function assertEnvironmentIsolation(env: Environment = process.env) {
           url.searchParams.get('sslmode') !== 'verify-full' || url.hash) throw new Error();
     } catch { fail('STAGING_DATABASE_MISMATCH'); }
   }
+  sensitiveRuntimeGate(env);
   return Object.freeze({ environment, projectUrl, origin: site, vercelProject: project });
 }
