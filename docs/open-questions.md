@@ -1,5 +1,13 @@
 # Virtual Ink open questions and decisions
 
+- **FILES-OPS-01 — Open; Uchi/Mumba with Lubasi, 21 October 2026:** Confirm
+  customer format/size limits, scanner worker hosting and freshness/configuration
+  monitoring, retention, duplicate handling and rejection/review notification
+  operations. The [local inspector](private-file-inspection.md) has a conservative
+  25 MiB worker ceiling, not an approved customer allowance or production scanner
+  deployment. Quarantine/storage/access acceptance remains blocked on these and
+  the existing isolated genuine Auth target decision; no paid upgrade is inferred.
+
 - **P1-GATE-21 — Confirmed by Uchi, 18 October 2026:** Phase 1 is INCOMPLETE.
   [Section 2.1](phase-1-release-gate.md) requires clean imports/actual Preview,
   physical devices, classified secure services, tested rollback and documented

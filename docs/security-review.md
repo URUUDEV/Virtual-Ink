@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+21 October [private-file content review](reports/2026-10-21-private-file-inspection.md)
+adds bounded byte ownership, exact MIME/signature filters, SHA-256 receipt binding
+and loopback-only ClamAV INSTREAM with bounded concurrency/deadline/reply. Thirteen
+negative/protocol groups pass; the actual 1.5.4 engine detects raw and PDF-attached
+EICAR. Its real stopped-sidecar outage stays REVIEW_REQUIRED. All local gates
+pass; no file route or access authority is enabled. Format sanitization, durable
+quarantine/audit/storage policy, current signature operations, hosted acceptance
+and the Node HIGH gate remain open. No platform/provider/OS pentest is claimed.
+
 20 October [hosted measurement verification](reports/2026-10-20-hosted-measurement-verification.md)
 confirms native empty/underflow denials with committed geometry preserved. One
 unexpected homepage navigation and a later empty layer/history state remain

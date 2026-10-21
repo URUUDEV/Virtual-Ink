@@ -6,6 +6,13 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+21 October [backend file inspection](docs/reports/2026-10-21-private-file-inspection.md):
+bounded signature/MIME/SHA-256 checks and a private ClamAV adapter pass 231 root
+tests and genuine local synthetic detection/outage controls. All 45 backend/shared
+files are measured above 95%; lint/types/build pass. [Setup](docs/private-file-inspection.md).
+Uploads/downloads, durable quarantine/audit, orders and hosted acceptance remain
+open; no backend deployment or Phase 1 completion is claimed.
+
 20 October [hosted measurement follow-up](docs/reports/2026-10-20-hosted-measurement-verification.md):
 sampled native Apply/Enter/reset/history and input denials pass on the existing
 Preview. Unexpected navigation and a later unsaved-state reset remain unexplained;

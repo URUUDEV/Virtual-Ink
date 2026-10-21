@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest backend build handover: [21 October — Private-file inspection](reports/2026-10-21-private-file-inspection.md)
+and [Word copy](reports/2026-10-21-private-file-inspection.docx).
+Bounded content inspection and the private ClamAV adapter pass 231 root/210
+security tests, 45-file coverage and local gates. Genuine synthetic engine
+detection and stopped-sidecar denial pass. No backend deployment, file access,
+durable quarantine/audit or full order journey is enabled. Compatible isolated
+Auth, runtime HIGH resolution, hosting and human gates remain open. Backend and
+Phase 1 are INCOMPLETE / NO-GO. See the report for team actions and Word QA limits.
+
 Latest collaboration handover: [21 October — Taizya development prompt](reports/2026-10-21-taizya-development-handover.md)
 and [Word copy](reports/2026-10-21-taizya-development-handover.docx).
 Contains the copy-ready task/push prompt, current ownership, reviewed commits and

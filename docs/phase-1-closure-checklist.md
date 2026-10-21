@@ -125,6 +125,18 @@ This direction does not close a requirement or authorize future-phase features.
 
 ## Decisions and ownership
 
+### Local review — FILES-02A (21 October 2026)
+
+- [x] Bounded content signature/MIME/SHA-256 inspection and private ClamAV
+  INSTREAM adapter pass 13 new test groups, five genuine synthetic engine
+  assertions and stopped-sidecar denial. All 231 root/210 security tests,
+  45-file measured coverage, lint/types/build pass. See
+  [evidence](reports/2026-10-21-private-file-inspection.md).
+- [ ] Order-bound immutable quarantine, durable duplicate decisions/audits,
+  scanner operations/freshness, private storage/promotion/download and genuine
+  hosted identity/role acceptance remain open. No final FILES or Phase 1
+  requirement group closes, and no backend deployment is claimed.
+
 ### Verification — source lint gate (17 October 2026)
 
 - [x] The previously absent command now checks all 156 scoped JS/TS files,
