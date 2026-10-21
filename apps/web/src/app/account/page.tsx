@@ -23,13 +23,16 @@ export default async function AccountPage() {
   } catch {}
   if (!user) redirect('/login');
   let securityAdministrator=false;
+  let orderDashboardView:string|undefined;
   if(process.env.SECURITY_ADMIN_ENABLED==='true') {
     try {
       const {securityDependencies}=await import('@/lib/security-admin');
       const dependencies=await securityDependencies(client,{get:name=>store.get(name)?.value,set:()=>{}});
       const identity=await dependencies.auth.identity();
       const result=await dependencies.commands.run('account.status',{},identity,randomUUID());
-      securityAdministrator=(privilegedRoles as readonly string[]).includes(String((result.data as {role?:string}).role));
+      const currentRole=String((result.data as {role?:string}).role);
+      securityAdministrator=(privilegedRoles as readonly string[]).includes(currentRole);
+      if(process.env.WORKFLOW_ENABLED==='true')orderDashboardView=currentRole==='CUSTOMER'?'customer':currentRole==='VENDOR'?'vendor':undefined;
     }catch{ /* No security authority or redirect is inferred from missing infrastructure. */ }
   }
   if(securityAdministrator)redirect('/admin/security');
@@ -51,7 +54,7 @@ export default async function AccountPage() {
   return <section className="section container auth-page"><p className="eyebrow">Your Virtual Ink account</p><h1>You’re signed in</h1>
     <div className="auth-card"><p>{roles ? 'Your application account is connected.' : 'Your email is confirmed. Application access is still being prepared.'}</p>
       {roles && <p>Account roles: {roles.length ? roles.join(', ') : 'No roles assigned'}</p>}
-      <p>Ordering and role dashboards are not connected yet. No order totals or empty history are inferred from an unavailable service.</p><SignOut /></div>
+      {orderDashboardView?<Link href={`/${orderDashboardView}`} className="button button-primary">Open your order workspace</Link>:<p>Your order workspace is unavailable until application access is connected. No order totals or empty history are inferred from an unavailable service.</p>}<SignOut /></div>
     <div className="account-service-grid"><article className="ui-panel"><h2>Your designs</h2><p>Explore the product studio and reopen a draft saved on this device. Cloud design storage is not connected.</p><Link className="text-link" href="/studio">Open the studio →</Link></article><article className="ui-panel"><h2>Orders and proofs</h2><p>Order history, private uploaded files, messages, vendor proofs and receipts will appear after those services are connected.</p><Link className="text-link" href="/how-it-works">Understand the order journey →</Link></article><article className="ui-panel"><h2>Account help</h2><p>Use the existing password recovery flow if you need to reset your password. Never share an authenticator code or recovery credential.</p><Link className="text-link" href="/forgot-password">Password recovery →</Link></article></div>
     </section>;
 }

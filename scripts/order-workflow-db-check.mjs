@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import pg from 'pg';
 import { createWorkflowCommands } from '../src/backend/orders/workflow.ts';
+import { createDashboardQueries } from '../src/backend/orders/dashboard.ts';
 import { createWorkflowFileWorker, downloadWorkflowFile, copyApprovedProductionFile } from '../src/backend/storage/workflow-files.ts';
 import { createPrivateS3Store } from '../src/backend/storage/s3-private-store.ts';
 import { createClamAvScanner } from '../src/backend/storage/clamav.ts';
@@ -59,6 +60,19 @@ try {
   };
   const result = await run('customer', 'order.create', { spec: { productCode: 'cotton-t-shirt', quantity: 10, widthMm: 100, heightMm: 150 } });
   check(result.state === 'DRAFT', 'draft created');
+  const dashboard=createDashboardQueries({async query(sql,values){await db.query('SET ROLE virtual_ink_security_service');try{return await db.query(sql,values);}finally{await db.query('RESET ROLE');}}},'local');
+  const readDashboard=(actor,input={},patch={})=>dashboard.read({view:actor==='admin'?'admin':actor==='vendor'?'vendor':'customer',...input},{...actors[actor],...patch},randomUUID());
+  check((await readDashboard('customer')).summary.total===1,'customer total comes from own stored orders');
+  check((await readDashboard('other')).summary.total===0,'other customer cannot infer owner orders');
+  check((await readDashboard('vendor')).orders.length===0,'vendor has no unassigned queue');
+  check((await readDashboard('admin')).summary.total===1,'fresh MFA administrator oversight');
+  check((await readDashboard('customer',{orderId})).detail.id===orderId,'own order detail');
+  check(!(JSON.stringify(await readDashboard('admin',{orderId}))).includes('objectVersion'),'dashboard omits private storage bindings');
+  for(const [actor,input,code,patch] of [
+    ['customer',{view:'admin'},'FORBIDDEN',{}],['vendor',{view:'customer'},'FORBIDDEN',{}],
+    ['admin',{},'UNAUTHENTICATED',{aal:'aal1',mfaAt:null,stepUpAt:null}],['admin',{},'UNAUTHENTICATED',{stepUpAt:null}],
+    ['other',{orderId},'NOT_FOUND',{}],['other',{cursor:orderId},'NOT_FOUND',{}],['customer',{},'UNAUTHENTICATED',{sessionId:randomUUID()}],
+  ]){await assert.rejects(readDashboard(actor,input,patch),{code});checks++;}
   await deny('other', 'order.read', {}, 'NOT_FOUND');
   await deny('delivery', 'order.read', {}, 'NOT_FOUND');
   await deny('customer', 'order.submit');
@@ -203,10 +217,19 @@ try {
   const auditOrder = randomUUID();
   await commands.run('order.create', { ...inputForRace(auditOrder), spec: { productCode: 'synthetic', quantity: 1, widthMm: 1, heightMm: 1 } }, actors.customer, randomUUID());
   await db.query('REVOKE INSERT ON virtual_ink_workflow.events FROM virtual_ink_workflow_owner');
-  try { await assert.rejects(commands.run('order.cancel', { orderId: auditOrder, operationId: randomUUID(), expectedVersion: 1 }, actors.customer, randomUUID()), { code: 'AUDIT_UNAVAILABLE' }); checks++; }
+  try { await assert.rejects(commands.run('order.cancel', { orderId: auditOrder, operationId: randomUUID(), expectedVersion: 1 }, actors.customer, randomUUID()), { code: 'AUDIT_UNAVAILABLE' }); checks++;
+    await assert.rejects(readDashboard('customer'),{code:'AUDIT_UNAVAILABLE'});checks++;
+  }
   finally { await db.query('GRANT INSERT ON virtual_ink_workflow.events TO virtual_ink_workflow_owner'); }
   check((await db.query('SELECT state FROM virtual_ink_workflow.orders WHERE id=$1', [auditOrder])).rows[0].state === 'DRAFT', 'audit outage rolls mutation back');
   check((await db.query("SELECT count(*)::int AS count FROM virtual_ink_workflow.events WHERE order_id=$1 AND outcome='failure'", [orderId])).rows[0].count >= 15, 'durable denials');
+  const dashboardPage=await readDashboard('customer',{limit:1});
+  check(dashboardPage.orders.length===1&&dashboardPage.nextCursor===dashboardPage.orders[0].id,'bounded dashboard first page');
+  const dashboardNextPage=await readDashboard('customer',{limit:1,cursor:dashboardPage.nextCursor});
+  check(dashboardNextPage.orders.length===1&&dashboardNextPage.orders[0].id!==dashboardPage.orders[0].id,'stable keyset next page');
+  await db.query('UPDATE virtual_ink.memberships SET active=false WHERE user_id=$1',[actors.vendor.user]);
+  await assert.rejects(readDashboard('vendor'),{code:'FORBIDDEN'});checks++;
+  check(!(await db.query("SELECT has_function_privilege('authenticated','virtual_ink_workflow.dashboard(jsonb,jsonb)','EXECUTE') AS allowed")).rows[0].allowed,'no direct browser dashboard execution');
   console.log(JSON.stringify({ check: 'postgres_order_proof_qc_workflow', status: 'pass', checks,
     storage: realStorage ? 'Real local S3 and ClamAV engines' : 'Synthetic storage metadata',
     limits: 'Disposable SQL and provider-shaped session fixtures; not hosted Auth or human approval.' }));

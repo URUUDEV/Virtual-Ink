@@ -17,6 +17,13 @@ export async function checkGenuineWorkflowAuth({ database, applicationDatabase, 
   check((await request(owner, 'order.create', { ...input, role: 'SUPER_ADMIN' })).status === 400, 'workflow_genuine_session_cannot_inject_authority');
   const assignment = { orderId, operationId: randomUUID(), expectedVersion: 1, vendorId: randomUUID() };
   check((await request(admin, 'order.assign', assignment)).status === 401, 'workflow_genuine_aal1_admin_denied');
+  const dashboard=core.createDashboardQueries(applicationDatabase,'local');
+  const readDashboard=async(actor,view)=>dashboard.read({view,orderId},await actor.auth.identity(),randomUUID());
+  const dashboardDenies=async(actor,view,code)=>{try{await readDashboard(actor,view);return false;}catch(error){return error.code===code;}};
+  check((await readDashboard(owner,'customer')).detail.id===orderId,'dashboard_genuine_customer_sees_owned_order');
+  check(await dashboardDenies(other,'customer','NOT_FOUND'),'dashboard_genuine_other_customer_denied');
+  check(await dashboardDenies(admin,'admin','UNAUTHENTICATED'),'dashboard_genuine_aal1_admin_denied');
+  check(await dashboardDenies(owner,'admin','UNAUTHENTICATED'),'dashboard_customer_cannot_select_admin_view');
   await database.query("INSERT INTO virtual_ink_workflow.grants VALUES(gen_random_uuid(),$1,$2,'order.assign','synthetic_software_fixture',gen_random_uuid(),clock_timestamp()+interval '1 hour',clock_timestamp())", [admin.id, orderId]);
   // Enroll a new synthetic native factor, then verify via the actual application
   // challenge route so both native receipt and signed application proof exist.
@@ -30,8 +37,10 @@ export async function checkGenuineWorkflowAuth({ database, applicationDatabase, 
   // DRAFT has no assignment transition. CONFLICT proves current genuine AAL2,
   // native receipt, application proof, role and scoped grant passed first.
   check((await request(admin, 'order.assign', assignment)).status === 409, 'workflow_genuine_mfa_reaches_state_guard');
+  check((await readDashboard(admin,'admin')).detail.id===orderId,'dashboard_genuine_aal2_admin_oversight');
   admin.cookies.clear();
   check((await request(admin, 'order.assign', assignment)).status === 401, 'workflow_native_aal2_without_app_proof_denied');
+  check(await dashboardDenies(admin,'admin','UNAUTHENTICATED'),'dashboard_genuine_admin_without_step_up_denied');
   const oldIdentity = await owner.auth.identity();
   const logout = await owner.sdk.auth.signOut({ scope: 'local' });
   check(!logout.error, 'workflow_native_session_logout');
@@ -39,4 +48,7 @@ export async function checkGenuineWorkflowAuth({ database, applicationDatabase, 
   try { await commands.run('order.read', { orderId, operationId: randomUUID() }, oldIdentity, randomUUID()); }
   catch (error) { denied = error.code === 'UNAUTHENTICATED'; }
   check(denied, 'workflow_database_rechecks_actual_provider_session_revocation');
+  let dashboardRevoked=false;
+  try{await dashboard.read({view:'customer',orderId},oldIdentity,randomUUID());}catch(error){dashboardRevoked=error.code==='UNAUTHENTICATED';}
+  check(dashboardRevoked,'dashboard_database_rechecks_actual_provider_session_revocation');
 }

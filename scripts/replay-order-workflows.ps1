@@ -41,9 +41,9 @@ try {
     & "$pgBin/psql.exe" @psqlArgs -f $file.FullName *> (Join-Path $runPath ($file.Name + '.log'))
     if ($LASTEXITCODE -ne 0) { throw "Migration replay failed: $($file.Name); log: $runPath" }
   }
-  & "$pgBin/psql.exe" @psqlArgs -Atc "SELECT NOT rolsuper AND rolcreaterole AND rolbypassrls FROM pg_roles WHERE rolname=current_user; SELECT NOT pg_has_role(current_user,'virtual_ink_security_owner','USAGE') AND NOT pg_has_role(current_user,'virtual_ink_security_owner','SET');" *> (Join-Path $runPath 'managed-final-permissions.log')
+  & "$pgBin/psql.exe" @psqlArgs -Atc "SELECT NOT rolsuper AND rolcreaterole AND rolbypassrls FROM pg_roles WHERE rolname=current_user; SELECT NOT pg_has_role(current_user,'virtual_ink_security_owner','USAGE') AND NOT pg_has_role(current_user,'virtual_ink_security_owner','SET') AND NOT pg_has_role(current_user,'virtual_ink_workflow_owner','USAGE') AND NOT pg_has_role(current_user,'virtual_ink_workflow_owner','SET') AND NOT has_schema_privilege('virtual_ink_workflow_owner','virtual_ink_workflow','CREATE');" *> (Join-Path $runPath 'managed-final-permissions.log')
   if ($LASTEXITCODE -ne 0 -or ((Get-Content (Join-Path $runPath 'managed-final-permissions.log')) -join ',') -ne 't,t') { throw 'Managed administrator or membership cleanup assertion failed.' }
-  Write-Output 'Passed: all 15 migrations as non-superuser CREATEROLE/BYPASSRLS; temporary owner inheritance and SET rights removed.'
+  Write-Output "Passed: all $($migrations.Count) migrations as non-superuser CREATEROLE/BYPASSRLS; temporary owner inheritance and SET rights removed."
   $psqlArgs = @('-X','--no-password','-h','127.0.0.1','-p',"$port",'-U','vendor_replay','-d','postgres','-v','ON_ERROR_STOP=1')
   # Provider-role stubs were created immediately before the new migration above.
   if ($LASTEXITCODE -ne 0) { throw 'Local provider-role stubs failed.' }

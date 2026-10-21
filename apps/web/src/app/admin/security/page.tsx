@@ -5,6 +5,7 @@ import {randomUUID} from 'node:crypto';
 import {securityDependencies} from '@/lib/security-admin';
 import {webAuthClient} from '@/lib/web-auth';
 import {SecurityAdminPanel} from '@/components/security-admin-panel';
+import Link from 'next/link';
 export const dynamic='force-dynamic';
 export const runtime='nodejs';
 export const metadata={title:'Security administration',robots:{index:false,follow:false}};
@@ -22,5 +23,6 @@ export default async function SecurityPage() {
   status={...result.data as {userId:string;role:string;canManageRoles:boolean},factors,assurance,needsStepUp:identity.stepUpAt===null};
  }catch{redirect('/account');}
  return <section className="section container auth-page security-admin-page"><p className="eyebrow">Restricted administration</p><h1>Account security and roles</h1>
+  {process.env.WORKFLOW_ENABLED==='true'&&['ADMIN','SUPER_ADMIN'].includes(status.role)&&<Link href="/admin" className="button button-plain">Open order oversight</Link>}
   <SecurityAdminPanel initial={status}/></section>;
 }

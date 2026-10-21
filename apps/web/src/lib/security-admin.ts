@@ -13,6 +13,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createWorkflowCommands, workflowResponse } from '@backend/orders/workflow.ts';
 import { handleApi } from '@backend/api/responses.ts';
 import { assertEnvironmentIsolation } from '@backend/setup/environment-isolation.ts';
+import { createDashboardQueries } from '@backend/orders/dashboard.ts';
 
 type Client=ReturnType<typeof webAuthClient>;
 export type SecurityCookieStore={get(name:string):string|undefined;set(cookie:AuthCookie):void};
@@ -104,6 +105,13 @@ export async function securityDependencies(client:Client,cookies:SecurityCookieS
     const db=await(database??=openSecurityDatabase(config));
     return {config,auth:securityAuthGateway(client,config,cookies),commands:createSecurityCommands(db,config)};
   }catch{throw new ApiError('IDENTITY_UNAVAILABLE');}
+}
+export async function orderDashboardDependencies(client:Client,cookies:SecurityCookieStore) {
+  assertEnvironmentIsolation(process.env);
+  const config=loadSecurityConfig(process.env);
+  if(process.env.WORKFLOW_ENABLED!=='true'||!config)throw new ApiError('IDENTITY_UNAVAILABLE');
+  const db=await(database??=openSecurityDatabase(config));
+  return {auth:securityAuthGateway(client,config,cookies),commands:createWorkflowCommands(db,config.environment),dashboard:createDashboardQueries(db,config.environment)};
 }
 export async function handleSecurityRequest(request:NextRequest,action:string) {
   const pending:AuthCookie[]=[];

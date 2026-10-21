@@ -332,9 +332,12 @@ try{
  const workflowMigration=await readFile(resolve('supabase/migrations/20261021095139_virtual_ink_order_workflows.sql'),'utf8');
  report.workflowMigrationSha256=createHash('sha256').update(workflowMigration.replace(/\r\n/g,'\n').replace(/^\uFEFF/,'')).digest('hex');
  await client.query(workflowMigration);
+  const dashboardMigration=await readFile(resolve('supabase/migrations/20261021204416_virtual_ink_order_dashboards.sql'),'utf8');
+  report.dashboardMigrationSha256=createHash('sha256').update(dashboardMigration.replace(/\r\n/g,'\n').replace(/^\uFEFF/,'')).digest('hex');
+  await client.query(dashboardMigration);
  const workflowStart=checks;
  await checkGenuineWorkflowAuth({database:client,applicationDatabase:appClient,createActor,
-  core:load(resolve(root,'src/backend/orders/workflow.ts')),check,privateValues,totp,config});
+    core:{...load(resolve(root,'src/backend/orders/workflow.ts')),...load(resolve(root,'src/backend/orders/dashboard.ts'))},check,privateValues,totp,config});
  report.workflowAuthChecks=checks-workflowStart;
  stage='provider_hook_log_privacy';
  for(const id of created){const captured=await runFile('docker',['logs',id],{timeout:10000,maxBuffer:2*1024*1024,windowsHide:true});
