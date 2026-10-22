@@ -9,7 +9,7 @@ const web=resolve('apps/web/src'),require=createRequire(resolve('apps/web/packag
 const ts=require('typescript'),React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
 const key='A'.repeat(32),factorId='12345678-1234-4123-8123-123456789abc';
 const initial={userId:factorId,role:'ADMIN',canManageRoles:false,factors:[],assurance:{currentLevel:'aal1',nextLevel:'aal1'}};
-function harness(failure) {
+function harness(failure,selfService=false) {
  let clock=1000,timerId=0,current,cursor,effects=[],nodes=[],factorStatus='unverified',removed=false;
  const timers=new Map(),instances=new Map(),calls=[],document=new EventTarget();
  const hooks={...React,useState(value){const owner=current,index=cursor++;if(!owner.values.has(index))owner.values.set(index,typeof value==='function'?value():value);return [owner.values.get(index),next=>owner.values.set(index,typeof next==='function'?next(owner.values.get(index)):next)];},
@@ -23,7 +23,7 @@ function harness(failure) {
    if(failure)return failure();
    const action=url.split('/').at(-1);let data={auditId:factorId};
    if(action==='enroll')data={...data,factorId,qr:'data:image/svg+xml;base64,c3ludGhldGlj',manualKey:key};
-   if(action==='status')data={...initial,factors:removed?[]:[{id:factorId,type:'totp',status:factorStatus}]};
+   if(action==='status'||action==='self-status')data={...initial,factors:removed?[]:[{id:factorId,type:'totp',status:factorStatus}]};
    if(action==='challenge')data={...data,challengeId:factorId};
    if(action==='verify'){factorStatus='verified';data={...data,state:'verified'};}
    if(action==='cancel-enrollment'){removed=true;data={...data,state:'factor_removed'};}
@@ -54,7 +54,7 @@ function harness(failure) {
   return React.createElement(node.type,{...node.props,key:path,children});
  }
  function render(){
-  nodes=[];effects=[];active.clear();const tree=expand(React.createElement(Component,{initial}));
+  nodes=[];effects=[];active.clear();const tree=expand(React.createElement(Component,{initial,selfService}));
   for(const [identity,instance] of instances)if(!active.has(identity)){for(const effect of instance.effects.values())effect.cleanup?.();instances.delete(identity);}
   for(const effect of effects)effect();return renderToStaticMarkup(tree);
  }
@@ -66,6 +66,14 @@ function harness(failure) {
    find('form','Verify authenticator').props.onSubmit({preventDefault(){},currentTarget:form});await new Promise(setImmediate);return render();},
   unmount(){for(const instance of instances.values())for(const effect of instance.effects.values())effect.cleanup?.();instances.clear();}};
 }
+test('self-service panel uses its own status operation and has no administrative controls',async()=>{
+ const view=harness(undefined,true);let html=await view.enroll();
+ assert.match(html,/Customers may choose whether to enroll/);assert.doesNotMatch(html,/Privileged role management|Security alerts and audit|Required: aal2/);
+ assert.ok(view.calls.some(call=>call.url.endsWith('/self-status')));assert.ok(!view.calls.some(call=>call.url.endsWith('/status')));
+ assert.equal((html.match(/<form /g)??[]).length,(html.match(/<form method="post"/g)??[]).length);
+ html=await view.verify();assert.ok(!html.includes(key));assert.match(html,/autoCorrect="off"/);view.unmount();
+});
+
 test('manual MFA setup is labelled, masked by default, explicitly revealable and never posted back',async()=>{
  const view=harness();let html=await view.enroll();
  assert.match(html,/<label for="mfa-manual-key">/);assert.match(html,/type="password"/);assert.match(html,/aria-describedby="mfa-manual-help"/);

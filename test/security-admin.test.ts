@@ -38,6 +38,18 @@ function fixture(options:{providerFailure?:boolean;dbFailure?:boolean;factors?:{
  return {calls,request};
 }
 
+test('self-service status uses the self-scoped database command and rejects identity injection',async()=>{
+ const f=fixture(),response=await f.request('self-status');
+ assert.equal(response.status,200);assert.equal(f.calls[1].name,'account.security');
+ assert.ok(!f.calls.some(call=>call.name==='status'));
+ assert.match(response.headers.get('Cache-Control')??'',/private, no-store/);
+ for(const injected of [{subject},{role:'SUPER_ADMIN'},{targetUserId:subject}]){
+  const denied=fixture();assert.equal((await denied.request('self-status',injected)).status,400);
+  assert.ok(!denied.calls.some(call=>call.name==='account.security'));
+ }
+ assert.equal((await fixture({dbFailure:true}).request('self-status')).status,503);
+});
+
 test('manual MFA setup key is enrollment-only and never enters durable command inputs',async()=>{
  const f=fixture(),response=await f.request('enroll'),body=await response.json(),key='A'.repeat(32);
  assert.equal(body.data.manualKey,key);assert.match(response.headers.get('Cache-Control')??'',/private, no-store/);

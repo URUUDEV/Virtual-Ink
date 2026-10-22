@@ -95,7 +95,7 @@ test('real provider SDK routes enrollment, challenge and verification through se
     if(url.pathname==='/auth/v1/factors') {
       assert.equal(JSON.parse(init.body).factor_type,'totp');
       const name=JSON.parse(init.body).friendly_name;
-      assert.match(name,/^Virtual Ink administrator [a-f0-9-]{36}$/);
+      assert.match(name,/^Virtual Ink authenticator [a-f0-9-]{36}$/);
       assert.ok(!enrollmentNames.has(name),'each provider enrollment needs a distinct friendly name');enrollmentNames.add(name);
       return json({id:factorId,type:'totp',totp:{qr_code:qrBody,secret:manualKey,uri:'otpauth://synthetic'}});
     }

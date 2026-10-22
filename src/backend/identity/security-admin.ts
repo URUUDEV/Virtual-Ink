@@ -89,7 +89,7 @@ export function createSecurityCommands(database:SqlExecutor,config:SecurityConfi
   }};
 }
 export type SecurityCommands=ReturnType<typeof createSecurityCommands>;
-const emptyActions=['status','enroll','replace-enroll','requests','events','logout'];
+const emptyActions=['status','self-status','enroll','replace-enroll','requests','events','logout'];
 function inputFor(action:string,value:unknown):Record<string,unknown> {
   if(emptyActions.includes(action))return strictObject(value,[]);
   if(action==='challenge'||action==='unenroll'||action==='cancel-enrollment') {const v=strictObject(value,['factorId']);return {factorId:uuid(v.factorId)};}
@@ -137,8 +137,8 @@ export function securityResponse(request:Request,action:string,
       throw error;
     }
     const run=(name:string,data:Record<string,unknown>={})=>commands.run(name,data,identity,context.requestId);
-    if(action==='status') {
-      const result=await run('status');
+    if(action==='status'||action==='self-status') {
+      const result=await run(action==='self-status'?'account.security':'status');
       const [factors,assurance]=await Promise.all([auth.factors(),auth.assurance()]);
       return {...result.data as object,factors,assurance,needsStepUp:identity.stepUpAt===null,auditId:result.auditId};
     }

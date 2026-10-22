@@ -45,7 +45,7 @@ export function securityAuthGateway(client:Client,config:SecurityConfig,cookies:
       return {currentLevel:result.data!.currentLevel,nextLevel:result.data!.nextLevel};
     },
     async enroll() {
-      const result=await client.auth.mfa.enroll({factorType:'totp',issuer:'Virtual Ink',friendlyName:`Virtual Ink administrator ${randomUUID()}`});check(result.error);
+      const result=await client.auth.mfa.enroll({factorType:'totp',issuer:'Virtual Ink',friendlyName:`Virtual Ink authenticator ${randomUUID()}`});check(result.error);
       const qr=result.data!.totp.qr_code;
       const manualKey=result.data!.totp.secret;
       // Native Auth QR SVGs exceed 256 KiB for ordinary issuer/email payloads.

@@ -1,6 +1,6 @@
 import {cookies} from 'next/headers';
 import {redirect} from 'next/navigation';
-import {loadSecurityConfig} from '@backend/identity/security-admin.ts';
+import {loadSecurityConfig,privilegedRoles} from '@backend/identity/security-admin.ts';
 import {randomUUID} from 'node:crypto';
 import {securityDependencies} from '@/lib/security-admin';
 import {webAuthClient} from '@/lib/web-auth';
@@ -22,6 +22,7 @@ export default async function SecurityPage() {
   const [factors,assurance]=await Promise.all([dependencies.auth.factors(),dependencies.auth.assurance()]);
   status={...result.data as {userId:string;role:string;canManageRoles:boolean},factors,assurance,needsStepUp:identity.stepUpAt===null};
  }catch{redirect('/account');}
+ if(!(privilegedRoles as readonly string[]).includes(status.role))redirect('/account');
  return <section className="section container auth-page security-admin-page"><p className="eyebrow">Restricted administration</p><h1>Account security and roles</h1>
   {process.env.WORKFLOW_ENABLED==='true'&&['ADMIN','SUPER_ADMIN'].includes(status.role)&&<Link href="/admin" className="button button-plain">Open order oversight</Link>}
   <SecurityAdminPanel initial={status}/></section>;

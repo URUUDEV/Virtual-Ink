@@ -47,7 +47,15 @@ try {
  await denied(1,'mfa.reserve',{kind:'replace-enroll'},'UNAUTHENTICATED',{stepUpAt:null});
  await denied(1,'mfa.reserve',{kind:'replace-enroll'},'UNAUTHENTICATED',{primaryAt:current-301});
  await denied(1,'mfa.reserve',{kind:'replace-enroll'},'UNAUTHENTICATED',{mfaAt:current-2});
- for(const i of [4,5])await denied(i,'mfa.reserve',{kind:'replace-enroll'});
+ for(const i of [4,5]){
+  await denied(i,'mfa.reserve',{kind:'replace-enroll'},'UNAUTHENTICATED',{aal:'aal1',stepUpAt:null});
+  assert.equal((await command(i,'mfa.reserve',{kind:'replace-enroll'})).ok,true);checks++;
+  const self=await command(i,'account.security');assert.equal(self.ok,true);assert.equal(self.data.userId,id(i));assert.equal(self.data.canManageRoles,false);checks++;
+  await denied(i,'status');await denied(i,'events.list');await denied(i,'requests.list');
+  await denied(i,'roles.lookup',{targetUserId:id(1)});
+  await denied(i,'protected.check',{capability:'payment.release'});
+ }
+ await denied(10,'account.security');
  const replacementReservation=await command(1,'mfa.reserve',{kind:'replace-enroll'});assert.equal(replacementReservation.ok,true);checks++;
  for(let n=0;n<4;n++)assert.equal((await command(1,'mfa.reserve',{kind:'replace-enroll'})).ok,true);
  await denied(1,'mfa.reserve',{kind:'replace-enroll'},'RATE_LIMITED');

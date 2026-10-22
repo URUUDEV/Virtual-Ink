@@ -12,6 +12,7 @@ import vm from 'node:vm';
 import pg from 'pg';
 import {checkProviderMfaGuard} from './provider-mfa-guard-check.mjs';
 import {checkGenuineWorkflowAuth} from './order-workflow-auth-check.mjs';
+import {checkSelfServiceMfa} from './self-service-mfa-auth-check.mjs';
 const runFile=promisify(execFile),root=resolve('.');
 const webRequire=createRequire(resolve('apps/web/package.json'));
 const {createClient}=webRequire('@supabase/supabase-js');
@@ -330,6 +331,13 @@ try{
   admin,createClient,options,issuer,config,transport,totp,secret,privateValues,check,second,until,
   createApplicationActor:(label,role='CUSTOMER')=>createActor(label,role),record:result=>{report.hookDiagnostics={...report.hookDiagnostics,...result};}});
  report.hookedProviderCrossChallengeReplayRejected=true;
+ stage='self_service_mfa_checks';
+ const selfServiceMigration=await readFile(resolve('supabase/migrations/20261022102315_virtual_ink_self_service_mfa.sql'),'utf8');
+ report.selfServiceMigrationSha256=createHash('sha256').update(selfServiceMigration.replace(/\r\n/g,'\n').replace(/^\uFEFF/,'')).digest('hex');
+ await client.query(selfServiceMigration);
+ const selfServiceStart=checks;
+ report.selfServiceMfa=await checkSelfServiceMfa({database:client,createActor,check,privateValues,totp});
+ report.selfServiceMfaChecks=checks-selfServiceStart;
  stage='workflow_auth_checks';
  const workflowMigration=await readFile(resolve('supabase/migrations/20261021095139_virtual_ink_order_workflows.sql'),'utf8');
  report.workflowMigrationSha256=createHash('sha256').update(workflowMigration.replace(/\r\n/g,'\n').replace(/^\uFEFF/,'')).digest('hex');
@@ -347,7 +355,7 @@ try{
   if(privateValues.some(value=>typeof value==='string'&&value.length>=20&&logs.includes(value))||/"(?:access_token|refresh_token|totp_secret|password)"\s*:|"code"\s*:\s*"\d{6}"/.test(logs))safeLogs=false;
  }
  check(safeLogs,'native_hook_logs_exclude_generated_secrets_and_tokens');
- report.providerGuardChecks=checks-report.baselineChecks-report.workflowAuthChecks;
+ report.providerGuardChecks=checks-report.baselineChecks-report.workflowAuthChecks-report.selfServiceMfaChecks;
  report.status='pass';report.countedChecks=checks;
 }catch(error){report.status='blocked';report.failedStage=stage;report.errorCode=typeof error?.code==='string'&&/^[A-Z0-9_]{1,30}$/.test(error.code)?error.code:'LOCAL_CHECK_FAILED';
  report.errorType=['Error','TypeError','ReferenceError','SyntaxError'].includes(error?.name)?error.name:'OtherError';

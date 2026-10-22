@@ -20,7 +20,8 @@ async function api(action:string,input:Record<string,unknown>={}) {
  if(!result?.data||typeof result.data!=='object'||Array.isArray(result.data))throw new Error('Security administration is unavailable. No change was confirmed.');
  return result.data;
 }
-export function SecurityAdminPanel({initial}:{initial:Status}) {
+export function SecurityAdminPanel({initial,selfService=false}:{initial:Status;selfService?:boolean}) {
+ const statusAction=selfService?'self-status':'status';
  const [status,setStatus]=useState<Status>(initial);
  const [busy,setBusy]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('');
  const [qr,setQr]=useState(''),[factorId,setFactorId]=useState(initial.factors?.find(f=>f.type==='totp'&&f.status==='verified')?.id??''),[challengeId,setChallengeId]=useState('');
@@ -38,20 +39,21 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
   const result=await api(action);
   if(typeof result.qr!=='string'||!result.qr.startsWith('data:image/svg+xml;base64,')||typeof result.manualKey!=='string'||!/^[A-Z2-7]{16,256}$/.test(result.manualKey)||typeof result.factorId!=='string')throw new Error('Authenticator setup details could not be loaded. Check your session and unfinished factors before trying again.');
   setQr(result.qr);setManualKey(result.manualKey);setEnrollmentExpiry(Date.now()+300000);setEnrollmentFactor(result.factorId);setFactorId(result.factorId);setChallengeId('');setReplaceReview(false);setRemoveReview('');
-  setStatus(await api('status'));setMessage(`Scan the private QR code or enter the setup key, then verify the new authenticator. Audit reference: ${result.auditId}.`);
+  setStatus(await api(statusAction));setMessage(`Scan the private QR code or enter the setup key, then verify the new authenticator. Audit reference: ${result.auditId}.`);
  }
  return <div className="security-admin-grid" aria-busy={busy}>
-  <p>Signed in as {initial.userId}. Current administrative role: {status.role}.</p>
-  <p className="info-callout">Administrative changes require a password sign-in and authenticator verification within five minutes. Role changes also require approval by a different super administrator.</p>
-  <nav><Link href="/reset-password">Change password after step-up</Link> · <button type="button" disabled={busy} onClick={()=>work(async()=>{setStatus(await api('status'));})}>Check session and factors</button></nav>
-  {status.assurance&&<p>Provider assurance: {status.assurance.currentLevel}. Required: aal2.</p>}
+  <noscript>JavaScript is required for authenticator setup and verification. Enable it and reload before entering security details.</noscript>
+  <p>Signed in as {initial.userId}. Current {selfService?'account':'administrative'} role: {status.role}.</p>
+  <p className="info-callout">{selfService?'Authenticator setup requires a recent password sign-in. Replacement and removal require recent password and authenticator verification. Customers may choose whether to enroll; vendor financial and privileged actions require MFA.':'Administrative changes require a password sign-in and authenticator verification within five minutes. Role changes also require approval by a different super administrator.'}</p>
+  <nav><Link href="/reset-password">Change password after step-up</Link> · <button type="button" disabled={busy} onClick={()=>work(async()=>{setStatus(await api(statusAction));})}>Check session and factors</button></nav>
+  {status.assurance&&<p>Provider assurance: {status.assurance.currentLevel}. {selfService?'Sensitive changes require aal2.':'Required: aal2.'}</p>}
   {error&&<p role="alert" className="vendor-error">{error}</p>}{message&&<p role="status">{message}</p>}
   <section className="auth-card"><h2>Authenticator security</h2>
    <p>After a successful authenticator verification, wait at least 90 seconds before verifying another code.</p>
    {status.factors&&!status.factors.some(f=>f.type==='totp'&&f.status==='verified')&&<p role="status">No verified authenticator is enrolled. Enroll an authenticator app, scan the QR code, then verify a fresh code.</p>}
    {status.factors?.some(f=>f.type==='totp'&&f.status==='verified')&&status.assurance?.currentLevel!=='aal2'&&<p role="status">Your primary sign-in is verified. Complete an authenticator challenge before sensitive administration.</p>}
    {status.needsStepUp&&status.assurance?.currentLevel==='aal2'&&<p role="status">Complete a fresh Virtual Ink authenticator challenge to authorize administrative changes.</p>}
-   <form onSubmit={event=>{const data=fields(event);const form=event.currentTarget;void work(async()=>{
+   <form method="post" onSubmit={event=>{const data=fields(event);const form=event.currentTarget;void work(async()=>{
     try{await api('reauthenticate',{password:data.get('password')});setMessage('Password verified. Complete your authenticator challenge next.');}
     finally{form.reset();}});}}>
     <label htmlFor="security-password">Confirm your password</label><input id="security-password" name="password" type="password" autoComplete="current-password" required maxLength={128} disabled={busy}/>
@@ -71,32 +73,32 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
    </select></div>
    <button type="button" disabled={busy||!factorId} onClick={()=>work(async()=>{
     const result=await api('challenge',{factorId});setChallengeId(result.challengeId);setMessage('Enter a fresh authenticator code. Expired and reused codes are rejected.');})}>Start MFA challenge</button>
-   <form onSubmit={event=>{const data=fields(event);const form=event.currentTarget;void work(async()=>{
-    try{const result=await api('verify',{factorId,challengeId,code:data.get('code')});if(factorId===enrollmentFactor)clearEnrollment();setChallengeId('');setRemoveReview('');setStatus(await api('status'));
+   <form method="post" onSubmit={event=>{const data=fields(event);const form=event.currentTarget;void work(async()=>{
+    try{const result=await api('verify',{factorId,challengeId,code:data.get('code')});if(factorId===enrollmentFactor)clearEnrollment();setChallengeId('');setRemoveReview('');setStatus(await api(statusAction));
      setMessage(`Authenticator verified. Audit reference: ${result.auditId}.`);}finally{form.reset();}});}}>
-    <label htmlFor="security-totp">Six-digit authenticator code</label><input id="security-totp" name="code" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" minLength={6} maxLength={6} required disabled={busy||!challengeId}/>
+    <label htmlFor="security-totp">Six-digit authenticator code</label><input id="security-totp" name="code" type="text" inputMode="numeric" autoComplete="one-time-code" autoCorrect="off" autoCapitalize="off" spellCheck={false} pattern="[0-9]{6}" minLength={6} maxLength={6} required disabled={busy||!challengeId}/>
     <button disabled={busy||!challengeId} className="button button-primary">Verify authenticator</button>
    </form>
    <p>Factor removal requires recent MFA and another verified factor. The final verified factor cannot be removed here.</p>
    <p>To restart an unfinished setup, select its unverified factor and discard it before enrolling again.</p>
-   <button type="button" disabled={busy||!status.factors?.some(f=>f.id===factorId&&f.status==='unverified')} onClick={()=>work(async()=>{const result=await api('cancel-enrollment',{factorId});if(factorId===enrollmentFactor)clearEnrollment();setFactorId('');setChallengeId('');setStatus(await api('status'));setMessage(`Unfinished enrollment discarded. Audit reference: ${result.auditId}.`);})}>Discard unfinished enrollment</button>
+   <button type="button" disabled={busy||!status.factors?.some(f=>f.id===factorId&&f.status==='unverified')} onClick={()=>work(async()=>{const result=await api('cancel-enrollment',{factorId});if(factorId===enrollmentFactor)clearEnrollment();setFactorId('');setChallengeId('');setStatus(await api(statusAction));setMessage(`Unfinished enrollment discarded. Audit reference: ${result.auditId}.`);})}>Discard unfinished enrollment</button>
    <button type="button" disabled={busy||verifiedFactors.length<2||!verifiedFactors.some(f=>f.id===factorId)} onClick={()=>setRemoveReview(factorId)}>Remove selected factor</button>
    {removeReview&&<div role="group" aria-label="Confirm authenticator removal"><h3>Remove authenticator {removeReview}</h3>
     <p>This authenticator will stop working. Confirm you can use the other verified authenticator before continuing. The final verified factor cannot be removed.</p>
-    <button type="button" disabled={busy} onClick={()=>work(async()=>{const result=await api('unenroll',{factorId:removeReview});setRemoveReview('');setFactorId('');setChallengeId('');setStatus(await api('status'));setMessage(`Factor removed. Verify your remaining authenticator before further changes. Audit reference: ${result.auditId}.`);})}>Confirm factor removal</button>
+    <button type="button" disabled={busy} onClick={()=>work(async()=>{const result=await api('unenroll',{factorId:removeReview});setRemoveReview('');setFactorId('');setChallengeId('');setStatus(await api(statusAction));setMessage(`Factor removed. Verify your remaining authenticator before further changes. Audit reference: ${result.auditId}.`);})}>Confirm factor removal</button>
     <button type="button" disabled={busy} onClick={()=>setRemoveReview('')}>Keep this factor</button></div>}
-   <form onSubmit={event=>{const data=fields(event);void work(async()=>{const result=await api('recovery-request',{reason:data.get('reason')});
+   <form method="post" onSubmit={event=>{const data=fields(event);void work(async()=>{const result=await api('recovery-request',{reason:data.get('reason')});
     setMessage(`Recovery request ${result.data.requestId} recorded. Two super administrators and private identity review are required. MFA has not been disabled.`);});}}>
     <label htmlFor="recovery-reason">Lost authenticator: request controlled recovery</label><textarea id="recovery-reason" name="reason" required minLength={10} maxLength={500} disabled={busy}/>
     <button disabled={busy}>Request recovery review</button>
    </form>
   </section>
-  {initial.canManageRoles&&<section className="auth-card"><h2>Privileged role management</h2>
-   <form onSubmit={event=>{const data=fields(event);void work(async()=>{const result=await api('lookup',{targetUserId:data.get('targetUserId')});setTarget(result.data);setProposal(undefined);});}}>
+  {!selfService&&initial.canManageRoles&&<section className="auth-card"><h2>Privileged role management</h2>
+   <form method="post" onSubmit={event=>{const data=fields(event);void work(async()=>{const result=await api('lookup',{targetUserId:data.get('targetUserId')});setTarget(result.data);setProposal(undefined);});}}>
     <label htmlFor="role-target">Target application user ID</label><input id="role-target" name="targetUserId" required maxLength={36} disabled={busy}/><button disabled={busy}>Load current role</button>
    </form>
    {target&&<><p>User identity: {target.userId}. Current role: {target.role}. {target.expiresAt&&`Expires: ${target.expiresAt}`}</p>
-    <form onSubmit={event=>{const data=fields(event);setProposal({targetUserId:target.userId,expectedAssignmentId:target.assignmentId,role:data.get('role'),reason:data.get('reason'),
+    <form method="post" onSubmit={event=>{const data=fields(event);setProposal({targetUserId:target.userId,expectedAssignmentId:target.assignmentId,role:data.get('role'),reason:data.get('reason'),
       expiresAt:data.get('expiry')?new Date(String(data.get('expiry'))).toISOString():null});}}>
      <label htmlFor="role-new">Requested role</label><select id="role-new" name="role" defaultValue="" required disabled={busy}><option value="" disabled>Choose a change</option>
       {roles.map(role=><option key={role} value={role}>{role==='CUSTOMER'?'Remove privileged role — restore CUSTOMER':role}</option>)}</select>
@@ -115,13 +117,13 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
     {row.state==='pending'&&row.requester!==initial.userId&&row.target_id!==initial.userId&&<button disabled={busy} type="button" onClick={()=>work(async()=>{const result=await api('approve',{requestId:row.id});setMessage(`Approved request ${row.id}. Audit reference: ${result.auditId}. Reload requests before execution.`);})}>Approve this access change</button>}
     {row.state==='approved'&&row.target_id!==initial.userId&&<button disabled={busy} type="button" onClick={()=>work(async()=>{const result=await api('execute',{requestId:row.id});setMessage(`Executed request ${row.id}; target sessions revoked. Audit reference: ${result.auditId}.`);setRequests([]);})}>Execute approved change and sign out target</button>}
    </article>)}
-   <form onSubmit={event=>{const data=fields(event);void work(async()=>{const result=await api('recovery-approve',{requestId:data.get('requestId')});setMessage(`Recovery approval recorded. Audit reference: ${result.auditId}. Private identity review and provider-side execution remain required.`);});}}>
+   <form method="post" onSubmit={event=>{const data=fields(event);void work(async()=>{const result=await api('recovery-approve',{requestId:data.get('requestId')});setMessage(`Recovery approval recorded. Audit reference: ${result.auditId}. Private identity review and provider-side execution remain required.`);});}}>
     <h3>Review a recovery request</h3><p>Approve only after reviewing the requester’s identity through the controlled private process. Two distinct super administrators are required. Approval does not disable MFA.</p>
     <label htmlFor="recovery-request-id">Recovery request ID</label><input id="recovery-request-id" name="requestId" required maxLength={36} disabled={busy}/>
     <button disabled={busy}>Record my recovery approval</button>
    </form>
   </section>}
-  {['SUPER_ADMIN','SECURITY_ADMIN'].includes(status.role)&&<section className="auth-card"><h2>Security alerts and audit</h2>
+  {!selfService&&['SUPER_ADMIN','SECURITY_ADMIN'].includes(status.role)&&<section className="auth-card"><h2>Security alerts and audit</h2>
    <button disabled={busy} type="button" onClick={()=>work(async()=>{const result=await api('events');setEvents(result.data);})}>Load recent security events</button>
    {events.map(event=><p key={event.id}>{event.severity}: {event.action} — {event.outcome}, {event.occurred_at}. Audit reference: {event.id}.</p>)}
   </section>}

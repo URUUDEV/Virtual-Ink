@@ -26,7 +26,7 @@
     "dev:web": "npm --prefix apps/web run dev",
     "build:web": "npm --prefix apps/web run build",
     "typecheck:web": "npm --prefix apps/web run typecheck",
-    "test:web": "node --test --test-isolation=none scripts/web-ui-checks.mjs scripts/brand-ui-checks.mjs scripts/account-ui-checks.mjs scripts/studio-ui-checks.mjs scripts/studio-preview-checks.mjs scripts/order-dashboard-ui-checks.mjs scripts/mfa-enrollment-ui-checks.mjs",
+    "test:web": "node --test --test-isolation=none scripts/web-ui-checks.mjs scripts/brand-ui-checks.mjs scripts/account-ui-checks.mjs scripts/studio-ui-checks.mjs scripts/studio-preview-checks.mjs scripts/order-dashboard-ui-checks.mjs scripts/mfa-enrollment-ui-checks.mjs scripts/self-service-security-ui-checks.mjs",
     "check:web:http": "node scripts/web-http-checks.mjs",
     "check:auth:http": "node scripts/web-auth-http-checks.mjs",
     "check:services:http": "node scripts/vercel-services-http-checks.mjs",
