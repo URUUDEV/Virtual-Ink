@@ -1,5 +1,14 @@
 # Virtual Ink task board
 
+22 October: **AUTH-MFA-MANUAL-01 — Local review candidate; hosted acceptance open**,
+Uchi/Mumba with Taizya. [Report](reports/2026-10-22-mfa-manual-enrollment.md) records
+enrollment-only key disclosure, masking/reveal, absolute display deadline, visibility
+and verification/discard cleanup. Root 250/security 229/web 81/SDK 16 and genuine
+Auth 229 pass, with all 50 files measured. UI-only Preview is READY, Auth off.
+Next: compatible native-hook target, physical/manual-entry and browser acceptance,
+customer/vendor MFA pages and the remaining Phase 1 dashboard/commerce/service gates.
+No production or phase completion is claimed.
+
 21 October: **DASHBOARD-ORDERS-01 — Partial local implementation; release blocked**,
 Uchi/Mumba with Taizya and Lubasi. [Release handover](reports/2026-10-21-order-dashboards-launch-gates.md)
 records customer/vendor/admin order routes, current scope/MFA, actual counts,

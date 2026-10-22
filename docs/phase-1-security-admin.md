@@ -1,5 +1,14 @@
 # Phase 1 MFA and privileged-role administration
 
+22 October [manual enrollment follow-up](reports/2026-10-22-mfa-manual-enrollment.md)
+returns the genuine provider setup key only in the authorized enrollment response,
+alongside the existing QR. Display is masked and bounded; result audit and no-store
+requirements remain enforced. Local actual-engine checks now total 229, including
+exact key/cookie assertions. [Privacy/cleanup contract](mfa-manual-enrollment.md).
+No hook, SQL/RLS, role, native factor/recovery policy or hosted flag is weakened.
+Basic TOTP is Free; the existing required verification hook remains a separate
+managed-plan blocker. Hosted/manual physical and customer/vendor UX acceptance is open.
+
 21 October [order-dashboard enforcement](reports/2026-10-21-order-dashboards-launch-gates.md)
 passes 227 genuine local checks: the prior 220 plus seven dashboard ownership,
 admin AAL1/AAL2/app-proof and native revocation checks. The exact migration 16 hash

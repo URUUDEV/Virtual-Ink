@@ -25,6 +25,12 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+22 October [manual MFA implementation](reports/2026-10-22-mfa-manual-enrollment.md)
+passes 229 genuine local Auth checks, all 250 root/229 security/81 web/16 SDK checks
+and 50-file coverage. The new masked key/QR display is not physical authenticator
+or managed-hosted acceptance. UI-only build is READY with sensitive services off;
+every full-service/device/release requirement remains open.
+
 21 October [order-dashboard follow-up](reports/2026-10-21-order-dashboards-launch-gates.md):
 three scoped order views and controlled forms are implemented locally. Actual SQL
 counts, assignment/current-role/MFA/audit guards and 227 genuine local Auth checks

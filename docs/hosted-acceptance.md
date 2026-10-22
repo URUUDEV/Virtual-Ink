@@ -1,5 +1,12 @@
 # Virtual Ink hosted acceptance
 
+22 October [manual-MFA follow-up](reports/2026-10-22-mfa-manual-enrollment.md):
+fresh organization/catalog reads still show Free, fourteen staging migrations,
+zero Auth users/buckets, no workflow schema and disabled security/native hook.
+Manual enrollment is locally verified only; no provider or SQL mutation occurred.
+Ordinary TOTP is Free; the mandated native verification hook is Teams/Enterprise.
+The compatible-target and dedicated Preview-routing stops remain in force.
+
 21 October [dashboard follow-up](reports/2026-10-21-order-dashboards-launch-gates.md):
 sixteen local migrations now exist; staging still has fourteen, no workflow schema,
 no Auth users/buckets/runtime logins and security/native hook disabled. Fresh plan

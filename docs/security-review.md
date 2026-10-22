@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+22 October [manual-MFA review](reports/2026-10-22-mfa-manual-enrollment.md) verifies
+bounded provider Base32 data, enrollment-only response disclosure and no key in
+audit inputs/cookies/logs. Mask/reveal, absolute UI expiry/visibility and verified
+cleanup pass controlled checks. Fixed parse feedback and redirect rejection bound
+conditional diagnostic/body forwarding paths; no exposed hosted exploit is claimed.
+All source gates, genuine local Auth 229, fresh dependency audits and 67 browser
+artifacts pass. Node 24.22.1 remains the reviewed latest Node 24 patch. No SQL/grant,
+provider, hosted enablement or platform/OS pentest claim follows. UI cleanup is not
+secure memory erasure or native factor revocation; the report retains those limits.
+
 21 October [dashboard launch review](reports/2026-10-21-order-dashboards-launch-gates.md)
 adds current-role scoped reads, bounded keyset queries and required audit before
 returning data. Administrator reads require recent native/app AAL2; another view,

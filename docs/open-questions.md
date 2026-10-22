@@ -1,5 +1,11 @@
 # Virtual Ink open questions and decisions
 
+- **AUTH-UX-22 — Open; Taizya/Mumba with Uchi/Lubasi, 22 October 2026:** Obtain
+  real browser/physical manual-key and QR enrollment evidence, including keyboard,
+  screen reader, visibility expiry, replacement and controlled recovery. Use only
+  synthetic pairing data in shared recordings. [Local implementation](mfa-manual-enrollment.md)
+  does not complete customer/vendor MFA settings or hosted identity acceptance.
+
 - **LAUNCH-INPUTS-21 — Open; Uchi/Mumba with Taizya/Lubasi:** Provide the text/path
   of master UI/UX writing block 58163, compatible isolated native-MFA staging target
   and approved payment-sandbox/test-email providers. Existing extracted Kimi assets

@@ -6,6 +6,15 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+22 October [manual MFA enrollment](docs/reports/2026-10-22-mfa-manual-enrollment.md):
+the existing authorized enrollment now supports a masked manual setup key alongside
+the QR, with bounded display/cleanup and safe error feedback. All 250 root, 229
+security, 81 web, 16 SDK contracts and 229 genuine local Auth checks pass; all 50
+backend/shared files are measured above 95% in aggregate. [Setup](docs/mfa-manual-enrollment.md).
+The [protected UI-only Preview](https://virtual-ink-ui-test-brkmks7b1-shadowrootsec-5679.vercel.app)
+is READY; hosted Auth stays off. Full hosted services, dashboards/commerce, devices
+and release acceptance remain open. Phase 1 stays INCOMPLETE / NO-GO.
+
 21 October [order dashboards and launch gates](docs/reports/2026-10-21-order-dashboards-launch-gates.md):
 customer-owned orders, assigned vendor queues and recent-MFA administrator oversight
 now have real database reads and controlled server forms. All 249 root, 228 security,

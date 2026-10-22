@@ -1,5 +1,9 @@
 # Manual authenticator enrollment
 
+[Build/security report](reports/2026-10-22-mfa-manual-enrollment.md) and
+[Word handover](reports/2026-10-22-mfa-manual-enrollment.docx) record exact source,
+verification scope, protected UI-only build and remaining launch gates.
+
 22 October 2026. Local review candidate; hosted Auth/MFA and Phase 1 remain incomplete.
 
 The existing authorized enrollment and replacement-enrollment responses now return

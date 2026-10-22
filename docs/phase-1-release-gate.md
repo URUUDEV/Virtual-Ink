@@ -149,6 +149,11 @@ test or acceptance is simulated by automation.
 
 ## C/D. Secure integration evidence register
 
+22 October [manual-MFA follow-up](reports/2026-10-22-mfa-manual-enrollment.md)
+adds the enrollment key path and reaches 229 genuine local Auth checks. Basic TOTP
+availability is separate from required native-hook compatibility. No service is
+promoted beyond its local scope and all release/device/hosted gates stay open.
+
 21 October [implementation follow-up](reports/2026-10-21-order-dashboards-launch-gates.md)
 adds scoped order dashboards and expands genuine local Auth to 227 checks. Private
 worker/order/proof/QC libraries and SQL now exist and have local evidence; hosted
@@ -168,10 +173,10 @@ isolated Preview acceptance before a release decision.
 
 | Integration | Current classification | Evidence / remaining limitation |
 | --- | --- | --- |
-| Genuine authentication | Locally verified | [227 genuine local checks](reports/2026-10-21-order-dashboards-launch-gates.md), /api/auth/[action]; hosted identity/session/email acceptance blocked |
+| Genuine authentication | Locally verified | [229 genuine local checks](reports/2026-10-22-mfa-manual-enrollment.md), /api/auth/[action]; hosted identity/session/email acceptance blocked |
 | Email verification | Implemented | [Account/Auth contracts](account-recovery-ux.md); genuine controlled inbox/delivery and Preview verification open |
 | Password recovery | Locally verified | [Recovery UX](reports/2026-10-18-account-recovery-ux.md); contract/UI checks, genuine email/reset/session acceptance open |
-| MFA enrollment/challenge | Locally verified | [Genuine local Auth/dashboard checks](reports/2026-10-21-order-dashboards-launch-gates.md), /api/security/[action]; compatible hosted hook target and complete launch UX absent |
+| MFA enrollment/challenge | Locally verified | [Real key/QR/Auth checks](reports/2026-10-22-mfa-manual-enrollment.md), /api/security/[action]; compatible hosted hook target, physical/manual and complete launch UX acceptance open |
 | Server-controlled roles | Locally verified | [Security administration](phase-1-security-admin.md); restricted local writer, real hosted lifecycle open |
 | Vendor permissions | Locally verified | [Assigned workflow/dashboard scope](order-dashboards.md), current membership and SQL denials; complete genuine hosted vendor journey open |
 | Administrator permissions | Locally verified | [Security administration](phase-1-security-admin.md) and recent-MFA order oversight; complete admin dashboard/hosted lifecycle open |

@@ -1,6 +1,17 @@
 # Virtual Ink team report
 
-Latest build/release handover: [21 October — Order dashboards and launch gates](reports/2026-10-21-order-dashboards-launch-gates.md)
+Latest build/security handover: [22 October — Manual MFA enrollment](reports/2026-10-22-mfa-manual-enrollment.md)
+and [Word copy](reports/2026-10-22-mfa-manual-enrollment.docx).
+Authorized enrollment returns the real provider key only with its private QR.
+The panel masks it, bounds display and clears it after verification/discard/hide/
+expiry; fixed feedback and redirect denial protect the security transport. All
+250 root/229 security/81 web/16 SDK checks and 229 genuine local Auth checks pass;
+50/50 backend/shared files exceed 95% aggregate coverage. Exact source f260c77 is
+READY on the protected UI-only Preview with Auth/services disabled. No hosted
+enablement, full-device acceptance, production change or phase closure occurred.
+The Word report passes structural checks; rendered QA is blocked by missing soffice.
+
+Previous build/release handover: [21 October — Order dashboards and launch gates](reports/2026-10-21-order-dashboards-launch-gates.md)
 and [Word copy](reports/2026-10-21-order-dashboards-launch-gates.docx).
 Three order views use current scoped database reads, stored totals and controlled
 server forms. Root 249/security 228/web 77/Auth contracts 16 and genuine local MFA
