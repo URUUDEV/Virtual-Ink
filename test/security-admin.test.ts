@@ -19,7 +19,7 @@ function fixture(options:{providerFailure?:boolean;dbFailure?:boolean;factors?:{
  const auth:SecurityAuth={
   async identity(){calls.push({name:'identity'});return identity;},
   async factors(){return options.factors??[];},async assurance(){return {currentLevel:'aal2',nextLevel:'aal2'};},
-  async enroll(){await provider('provider.enroll');return {factorId,qr:'data:image/svg+xml;base64,c3ludGhldGlj'};},
+  async enroll(){await provider('provider.enroll');return {factorId,qr:'data:image/svg+xml;base64,c3ludGhldGlj',manualKey:'A'.repeat(32)};},
   async challenge(id){assert.equal(id,factorId);await provider('provider.challenge');return {challengeId:sessionId,expiresAt:1400};},
   async verify(id,challenge,code){assert.equal(id,factorId);assert.equal(challenge,sessionId);assert.equal(code,'123456');await provider('provider.verify');},
   async reauthenticate(password){assert.equal(password,'synthetic password');await provider('provider.reauthenticate');},
@@ -37,6 +37,20 @@ function fixture(options:{providerFailure?:boolean;dbFailure?:boolean;factors?:{
    method,headers:{Origin:override.origin??config.origin,'Content-Type':override.type??'application/json'},...(method==='GET'||method==='HEAD'?{}:{body:JSON.stringify(value)})}),action,async()=>({config,auth,commands}));};
  return {calls,request};
 }
+
+test('manual MFA setup key is enrollment-only and never enters durable command inputs',async()=>{
+ const f=fixture(),response=await f.request('enroll'),body=await response.json(),key='A'.repeat(32);
+ assert.equal(body.data.manualKey,key);assert.match(response.headers.get('Cache-Control')??'',/private, no-store/);
+ assert.ok(!JSON.stringify(f.calls).includes(key));
+ assert.equal((await (await f.request('status')).json()).data.manualKey,undefined);
+ const injected=fixture(),denied=await injected.request('enroll',{factorId});
+ assert.equal(denied.status,400);assert.ok(!JSON.stringify(await denied.json()).includes(key));
+ assert.ok(!injected.calls.some(call=>call.name==='provider.enroll'));
+ for(const options of [{dbFailure:true},{failAction:'mfa.result'}]){
+  const failed=await fixture(options).request('enroll');assert.notEqual(failed.status,200);
+  assert.ok(!JSON.stringify(await failed.json()).includes(key));
+ }
+});
 test('security environment fails closed on Production, shared project and mismatched bindings',()=>{
  assert.equal(loadSecurityConfig({}),undefined);assert.equal(loadSecurityConfig({SECURITY_ADMIN_ENABLED:'false'}),undefined);
  assert.equal(config.environment,'preview');assert.ok(Object.isFrozen(config));

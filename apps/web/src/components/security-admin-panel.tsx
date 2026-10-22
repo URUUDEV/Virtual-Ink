@@ -1,18 +1,23 @@
 'use client';
 import {useState,type FormEvent} from 'react';
 import Link from 'next/link';
+import {MfaEnrollmentDetails} from './mfa-enrollment-details';
 type Status={userId:string;role:string;canManageRoles:boolean;needsStepUp?:boolean;factors?:readonly {id:string;status:string;type:string}[];assurance?:{currentLevel:string|null;nextLevel:string|null}};
 type RequestRow={id:string;target_id:string;previous_role:string;new_role:string;reason:string;requester:string;approver:string|null;state:string};
 const roles=['ADMIN','SECURITY_ADMIN','FINANCE_ADMIN','DISPUTE_REVIEWER','PAYOUT_APPROVER','SUPER_ADMIN','CUSTOMER'];
 async function api(action:string,input:Record<string,unknown>={}) {
- const response=await fetch(`/api/security/${action}`,{method:'POST',credentials:'same-origin',cache:'no-store',
-  headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});
- const result=await response.json();
+ let response:Response,result;
+ try {
+  response=await fetch(`/api/security/${action}`,{method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',
+   headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});
+  result=await response.json();
+ }catch{throw new Error('Security administration is unavailable. No change was confirmed.');}
  if(!response.ok)throw new Error(response.status===429?'Wait before trying again: authenticator verifications require a 90-second interval, and repeated failures can require five minutes.':
   response.status===401?'Sign in again with your password, then complete an authenticator challenge.':
   response.status===403?'This action is not authorized. You may need a distinct super administrator.':
   response.status===409?'The record changed or this request was already used. Reload and review it again.':
   response.status===400?'Check the required fields and enter a clear reason of at least ten characters.':'Security administration is unavailable.');
+ if(!result?.data||typeof result.data!=='object'||Array.isArray(result.data))throw new Error('Security administration is unavailable. No change was confirmed.');
  return result.data;
 }
 export function SecurityAdminPanel({initial}:{initial:Status}) {
@@ -20,6 +25,7 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
  const [busy,setBusy]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('');
  const [qr,setQr]=useState(''),[factorId,setFactorId]=useState(initial.factors?.find(f=>f.type==='totp'&&f.status==='verified')?.id??''),[challengeId,setChallengeId]=useState('');
  const [enrollmentFactor,setEnrollmentFactor]=useState(''),[replaceReview,setReplaceReview]=useState(false),[removeReview,setRemoveReview]=useState('');
+ const [manualKey,setManualKey]=useState(''),[enrollmentExpiry,setEnrollmentExpiry]=useState(0);
  const [target,setTarget]=useState<{userId:string;assignmentId:string;role:string;expiresAt:string|null}>();
  const [proposal,setProposal]=useState<Record<string,unknown>>(),[requests,setRequests]=useState<RequestRow[]>([]);
  const [events,setEvents]=useState<{id:string;action:string;outcome:string;severity:string;occurred_at:string}[]>([]);
@@ -27,9 +33,12 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
   try{await task();}catch(e){setError(e instanceof Error?e.message:'The request failed.');}finally{setBusy(false);}}
  const fields=(event:FormEvent<HTMLFormElement>)=>{event.preventDefault();return new FormData(event.currentTarget);};
  const verifiedFactors=status.factors?.filter(f=>f.type==='totp'&&f.status==='verified')??[];
+ const clearEnrollment=()=>{setQr('');setManualKey('');setEnrollmentFactor('');setEnrollmentExpiry(0);};
  async function enroll(action:'enroll'|'replace-enroll') {
-  const result=await api(action);setQr(result.qr);setEnrollmentFactor(result.factorId);setFactorId(result.factorId);setChallengeId('');setReplaceReview(false);setRemoveReview('');
-  setStatus(await api('status'));setMessage(`Scan this private QR code, then verify the new authenticator. Audit reference: ${result.auditId}.`);
+  const result=await api(action);
+  if(typeof result.qr!=='string'||!result.qr.startsWith('data:image/svg+xml;base64,')||typeof result.manualKey!=='string'||!/^[A-Z2-7]{16,256}$/.test(result.manualKey)||typeof result.factorId!=='string')throw new Error('Authenticator setup details could not be loaded. Check your session and unfinished factors before trying again.');
+  setQr(result.qr);setManualKey(result.manualKey);setEnrollmentExpiry(Date.now()+300000);setEnrollmentFactor(result.factorId);setFactorId(result.factorId);setChallengeId('');setReplaceReview(false);setRemoveReview('');
+  setStatus(await api('status'));setMessage(`Scan the private QR code or enter the setup key, then verify the new authenticator. Audit reference: ${result.auditId}.`);
  }
  return <div className="security-admin-grid" aria-busy={busy}>
   <p>Signed in as {initial.userId}. Current administrative role: {status.role}.</p>
@@ -55,7 +64,7 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
     <p>This adds a new sign-in factor and requires recent password and MFA verification. Your existing factor remains active. Verify the replacement before removing the old factor.</p>
     <button disabled={busy} type="button" onClick={()=>work(()=>enroll('replace-enroll'))}>Confirm replacement enrollment</button>
     <button disabled={busy} type="button" onClick={()=>setReplaceReview(false)}>Cancel replacement</button></div>}
-   {qr&&<figure><img src={qr} width={240} height={240} alt="Scan in your authenticator app to enroll Virtual Ink MFA"/><figcaption>Keep this QR code private. It contains your enrollment secret.</figcaption></figure>}
+   {qr&&manualKey&&<MfaEnrollmentDetails key={enrollmentFactor} qr={qr} manualKey={manualKey} expiresAt={enrollmentExpiry} onExpired={()=>{clearEnrollment();setMessage('Setup details were hidden. If setup is unfinished, discard that unverified factor before enrolling again.');}}/>}
    <div className="vendor-field"><label htmlFor="security-factor">Authenticator factor</label><select id="security-factor" value={factorId} disabled={busy} onChange={event=>{setFactorId(event.target.value);setChallengeId('');setRemoveReview('');}}>
     <option value="">Choose your factor</option>{qr&&<option value={enrollmentFactor}>New authenticator — verify enrollment</option>}
     {status.factors?.filter(f=>f.type==='totp'&&(!qr||f.id!==enrollmentFactor)).map(f=><option key={f.id} value={f.id}>{f.id} ({f.status})</option>)}
@@ -63,14 +72,14 @@ export function SecurityAdminPanel({initial}:{initial:Status}) {
    <button type="button" disabled={busy||!factorId} onClick={()=>work(async()=>{
     const result=await api('challenge',{factorId});setChallengeId(result.challengeId);setMessage('Enter a fresh authenticator code. Expired and reused codes are rejected.');})}>Start MFA challenge</button>
    <form onSubmit={event=>{const data=fields(event);const form=event.currentTarget;void work(async()=>{
-    try{const result=await api('verify',{factorId,challengeId,code:data.get('code')});if(factorId===enrollmentFactor){setQr('');setEnrollmentFactor('');}setChallengeId('');setRemoveReview('');setStatus(await api('status'));
+    try{const result=await api('verify',{factorId,challengeId,code:data.get('code')});if(factorId===enrollmentFactor)clearEnrollment();setChallengeId('');setRemoveReview('');setStatus(await api('status'));
      setMessage(`Authenticator verified. Audit reference: ${result.auditId}.`);}finally{form.reset();}});}}>
     <label htmlFor="security-totp">Six-digit authenticator code</label><input id="security-totp" name="code" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" minLength={6} maxLength={6} required disabled={busy||!challengeId}/>
     <button disabled={busy||!challengeId} className="button button-primary">Verify authenticator</button>
    </form>
    <p>Factor removal requires recent MFA and another verified factor. The final verified factor cannot be removed here.</p>
    <p>To restart an unfinished setup, select its unverified factor and discard it before enrolling again.</p>
-   <button type="button" disabled={busy||!status.factors?.some(f=>f.id===factorId&&f.status==='unverified')} onClick={()=>work(async()=>{const result=await api('cancel-enrollment',{factorId});if(factorId===enrollmentFactor){setQr('');setEnrollmentFactor('');}setFactorId('');setChallengeId('');setStatus(await api('status'));setMessage(`Unfinished enrollment discarded. Audit reference: ${result.auditId}.`);})}>Discard unfinished enrollment</button>
+   <button type="button" disabled={busy||!status.factors?.some(f=>f.id===factorId&&f.status==='unverified')} onClick={()=>work(async()=>{const result=await api('cancel-enrollment',{factorId});if(factorId===enrollmentFactor)clearEnrollment();setFactorId('');setChallengeId('');setStatus(await api('status'));setMessage(`Unfinished enrollment discarded. Audit reference: ${result.auditId}.`);})}>Discard unfinished enrollment</button>
    <button type="button" disabled={busy||verifiedFactors.length<2||!verifiedFactors.some(f=>f.id===factorId)} onClick={()=>setRemoveReview(factorId)}>Remove selected factor</button>
    {removeReview&&<div role="group" aria-label="Confirm authenticator removal"><h3>Remove authenticator {removeReview}</h3>
     <p>This authenticator will stop working. Confirm you can use the other verified authenticator before continuing. The final verified factor cannot be removed.</p>

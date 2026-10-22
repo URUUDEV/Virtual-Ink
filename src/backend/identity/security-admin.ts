@@ -63,7 +63,7 @@ export interface SecurityAuth {
   identity():Promise<SecurityIdentity>;
   factors():Promise<readonly {id:string;status:string;type:string}[]>;
   assurance():Promise<{currentLevel:string|null;nextLevel:string|null}>;
-  enroll():Promise<{factorId:string;qr:string}>;
+  enroll():Promise<{factorId:string;qr:string;manualKey:string}>;
   challenge(factorId:string):Promise<{challengeId:string;expiresAt:number}>;
   verify(factorId:string,challengeId:string,code:string):Promise<void>;
   reauthenticate(password:string):Promise<void>;

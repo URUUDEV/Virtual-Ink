@@ -202,7 +202,7 @@ try{
    const response=await core.securityResponse(new Request(`${config.origin}/api/security/${action}`,{method:'POST',headers:{origin:config.origin,'content-type':'application/json','sec-fetch-site':'same-origin'},body:JSON.stringify(input)}),action,async()=>({config,auth,commands}));
    const body=await response.json();
    check(!/"(?:access_token|refresh_token|secret|password)"\s*:|"code"\s*:\s*"\d{6}"/.test(JSON.stringify(body)),`safe_${action}_response_${checks}`);
-   return {status:response.status,body};
+    return {status:response.status,body,cacheControl:response.headers.get('cache-control')};
   }
   return {sdk,id,subject,assignment,cookies,writes,auth,request};
  }
@@ -266,9 +266,11 @@ try{
  second.sdk.auth.mfa.enroll=async input=>{const response=await originalEnroll(input);secondSecret=response.data?.totp?.secret;if(secondSecret)privateValues.push(secondSecret);
   report.providerQrShape={length:response.data?.totp?.qr_code?.length,expectedPrefix:response.data?.totp?.qr_code?.startsWith('data:image/svg+xml;utf-8,')};return response;};
  const appEnrollment=await second.request('enroll');
- report.applicationEnrollment={status:appEnrollment.status,qrReturned:typeof appEnrollment.body.data?.qr==='string',observedRealSecret:!!secondSecret,
+  report.applicationEnrollment={status:appEnrollment.status,qrReturned:typeof appEnrollment.body.data?.qr==='string',observedRealSecret:!!secondSecret,manualKeyReturned:typeof appEnrollment.body.data?.manualKey==='string',
   providerErrorCode:appEnrollment.body.error?.code??null};
- check(appEnrollment.status===200&&appEnrollment.body.data.qr.startsWith('data:image/svg+xml;base64,')&&!!secondSecret,'application_real_enrollment_returns_qr_without_raw_secret');
+  check(appEnrollment.status===200&&appEnrollment.body.data.qr.startsWith('data:image/svg+xml;base64,')&&!!secondSecret,'application_real_enrollment_returns_private_qr');
+  check(appEnrollment.body.data.manualKey===secondSecret&&/^[A-Z2-7]{16,256}$/.test(secondSecret),'manual_enrollment_key_matches_genuine_provider_secret');
+  check(appEnrollment.cacheControl==='private, no-store, max-age=0'&&!JSON.stringify(second.writes).includes(secondSecret),'manual_enrollment_key_is_not_cached_or_written_to_cookies');
  const secondFactor=appEnrollment.body.data.factorId;
  second.totpSecret=secondSecret;
  const secondChallenge=await second.request('challenge',{factorId:secondFactor});

@@ -47,9 +47,13 @@ export function securityAuthGateway(client:Client,config:SecurityConfig,cookies:
     async enroll() {
       const result=await client.auth.mfa.enroll({factorType:'totp',issuer:'Virtual Ink',friendlyName:`Virtual Ink administrator ${randomUUID()}`});check(result.error);
       const qr=result.data!.totp.qr_code;
+      const manualKey=result.data!.totp.secret;
       // Native Auth QR SVGs exceed 256 KiB for ordinary issuer/email payloads.
-      if(!qr.startsWith('data:image/svg+xml;utf-8,')||qr.length>1048576)throw new ApiError('IDENTITY_UNAVAILABLE');
-      return {factorId:result.data!.id,qr:`data:image/svg+xml;base64,${Buffer.from(qr.slice('data:image/svg+xml;utf-8,'.length)).toString('base64')}`};
+      if(typeof qr!=='string'||!qr.startsWith('data:image/svg+xml;utf-8,')||qr.length>1048576||
+        typeof manualKey!=='string'||!/^[A-Z2-7]{16,256}$/.test(manualKey))throw new ApiError('IDENTITY_UNAVAILABLE');
+      // Enrollment-only disclosure of the same key already encoded in the QR.
+      // The command audit receives only the factor ID, never this payload.
+      return {factorId:result.data!.id,qr:`data:image/svg+xml;base64,${Buffer.from(qr.slice('data:image/svg+xml;utf-8,'.length)).toString('base64')}`,manualKey};
     },
     async challenge(factorId) {
       const result=await client.auth.mfa.challenge({factorId});check(result.error);

@@ -82,6 +82,7 @@ test('real provider SDK routes enrollment, challenge and verification through se
   let active={...session,user:providerUser,access_token:jwt('aal1')};
   let verificationFailure=false;
   let qrBody=`<svg xmlns="http://www.w3.org/2000/svg">${' '.repeat(400000)}</svg>`;
+  let manualKey='A'.repeat(32);
   const calls=[];
   const enrollmentNames=new Set();
   const f=clientFixture();
@@ -96,7 +97,7 @@ test('real provider SDK routes enrollment, challenge and verification through se
       const name=JSON.parse(init.body).friendly_name;
       assert.match(name,/^Virtual Ink administrator [a-f0-9-]{36}$/);
       assert.ok(!enrollmentNames.has(name),'each provider enrollment needs a distinct friendly name');enrollmentNames.add(name);
-      return json({id:factorId,type:'totp',totp:{qr_code:qrBody,secret:'synthetic-test-secret',uri:'otpauth://synthetic'}});
+      return json({id:factorId,type:'totp',totp:{qr_code:qrBody,secret:manualKey,uri:'otpauth://synthetic'}});
     }
     if(url.pathname===`/auth/v1/factors/${factorId}/challenge`)return json({id:challengeId,type:'totp',expires_at:now+300});
     if(url.pathname===`/auth/v1/factors/${factorId}/verify`) {
@@ -113,9 +114,12 @@ test('real provider SDK routes enrollment, challenge and verification through se
     assert.equal((await gateway.identity()).aal,'aal1');assert.deepEqual(await gateway.factors(),[]);
     assert.equal((await gateway.assurance()).currentLevel,'aal1');
     const enrollment=await gateway.enroll();assert.equal(enrollment.factorId,factorId);
-    assert.match(enrollment.qr,/^data:image\/svg\+xml;base64,/);assert.ok(!JSON.stringify(enrollment).includes('synthetic-test-secret'));
+    assert.match(enrollment.qr,/^data:image\/svg\+xml;base64,/);assert.equal(enrollment.manualKey,manualKey);
+    assert.ok(!JSON.stringify(f.writes).includes(manualKey));assert.ok(!JSON.stringify(enrollment).includes('otpauth://'));
     assert.ok(Buffer.from(enrollment.qr.split(',')[1],'base64').length>262144);
     qrBody=' '.repeat(1048577);await assert.rejects(gateway.enroll(),{code:'IDENTITY_UNAVAILABLE'});
+    qrBody='<svg xmlns="http://www.w3.org/2000/svg"></svg>';
+    for(const invalid of ['', 'A'.repeat(257), '<script>private</script>', '123456', null]){manualKey=invalid;await assert.rejects(gateway.enroll(),{code:'IDENTITY_UNAVAILABLE'});}
     assert.equal((await gateway.challenge(factorId)).challengeId,challengeId);
     assert.equal(await gateway.verify(factorId,challengeId,'123456'),undefined);
     assert.equal((await gateway.identity()).aal,'aal2');assert.equal((await gateway.identity()).mfaAt,now);
