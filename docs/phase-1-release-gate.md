@@ -149,6 +149,12 @@ test or acceptance is simulated by automation.
 
 ## C/D. Secure integration evidence register
 
+21 October [implementation follow-up](reports/2026-10-21-order-dashboards-launch-gates.md)
+adds scoped order dashboards and expands genuine local Auth to 227 checks. Private
+worker/order/proof/QC libraries and SQL now exist and have local evidence; hosted
+ingress, transport, provider IAM and complete application journeys stay open.
+No service below is promoted to Preview/Production verified by a UI-only build.
+
 Allowed classifications only: **Not started**, **Mocked**, **Implemented**,
 **Locally verified**, **Preview verified**, **Production verified**, **Blocked**.
 Classification must describe the exact tested scope. Implemented means code
@@ -156,36 +162,36 @@ exists, not that it is enabled or accepted. Local/provider fixtures cannot be
 promoted to Preview verified. A Production-labelled UI shell cannot establish
 Production verified. Partial foundations below do not close an integration.
 
-This initial register uses existing source and dated reports; no provider or
-service was reverified during this documentation task. All services need genuine
+The original register used existing source and dated reports; current follow-ups
+are scoped in their linked reports. All services still need genuine
 isolated Preview acceptance before a release decision.
 
 | Integration | Current classification | Evidence / remaining limitation |
 | --- | --- | --- |
-| Genuine authentication | Locally verified | [Local Auth evidence](reports/2026-10-16-authenticator-replacement.md), /api/auth/[action]; hosted identity/session acceptance blocked |
+| Genuine authentication | Locally verified | [227 genuine local checks](reports/2026-10-21-order-dashboards-launch-gates.md), /api/auth/[action]; hosted identity/session/email acceptance blocked |
 | Email verification | Implemented | [Account/Auth contracts](account-recovery-ux.md); genuine controlled inbox/delivery and Preview verification open |
 | Password recovery | Locally verified | [Recovery UX](reports/2026-10-18-account-recovery-ux.md); contract/UI checks, genuine email/reset/session acceptance open |
-| MFA enrollment/challenge | Locally verified | [Genuine local Auth checks](reports/2026-10-16-authenticator-replacement.md), /api/security/[action]; compatible hosted hook target absent |
+| MFA enrollment/challenge | Locally verified | [Genuine local Auth/dashboard checks](reports/2026-10-21-order-dashboards-launch-gates.md), /api/security/[action]; compatible hosted hook target and complete launch UX absent |
 | Server-controlled roles | Locally verified | [Security administration](phase-1-security-admin.md); restricted local writer, real hosted lifecycle open |
-| Vendor permissions | Locally verified | [Permission matrix](phase-1-permission-matrix.md), local evaluator; business-route integration/assigned-order acceptance open |
-| Administrator permissions | Locally verified | [Security administration](phase-1-security-admin.md); server denial/local MFA scope, genuine hosted workflow open |
-| Private file storage | Not started | Full upload/storage workflow absent; local drafts/contract foundations are not server storage |
-| Short-lived signed file access | Not started | [Private file foundation](../src/backend/storage/private-files.ts) only builds object keys and denies access; no signed-URL issuance/retrieval flow |
-| File validation | Locally verified | [Studio study](product-studio.md) has bounded local PNG/JPEG handling; full server signatures/quarantine workflow open |
-| Malware scanning/quarantine | Not started | No connected scanner or protected upload/promotion workflow |
+| Vendor permissions | Locally verified | [Assigned workflow/dashboard scope](order-dashboards.md), current membership and SQL denials; complete genuine hosted vendor journey open |
+| Administrator permissions | Locally verified | [Security administration](phase-1-security-admin.md) and recent-MFA order oversight; complete admin dashboard/hosted lifecycle open |
+| Private file storage | Implemented | [Worker/access libraries](order-storage-workflows.md) have local SQL and real S3/scanner evidence; authenticated ingress, hosted worker/IAM, retention/deletion and private viewer acceptance remain open |
+| Short-lived signed file access | Not started | [Proxy download library](order-storage-workflows.md) rechecks current authority; no raw signed-URL grant/issuance flow or hosted file transport |
+| File validation | Locally verified | [Server inspection/worker](private-file-inspection.md), bounded MIME/signature/hash checks and real local engine tests; full format sanitization/hosted ingress open |
+| Malware scanning/quarantine | Locally verified | [Real local S3/ClamAV and SQL](reports/2026-10-21-backend-workflows-runtime.md); production worker, IAM, freshness and hosted upload journey remain open |
 | Product catalogue | Mocked | [Draft model registry](../src/shared/product-models.ts); no vendor-approved supply/stock/price integration |
 | Server-authoritative pricing | Not started | Illustrative prices/geometry only; no accepted production quote/checkout authority |
 | Cart persistence | Not started | Commercial controls disabled |
-| Order creation | Not started | No secure production order service |
-| Order-state transitions | Not started | Mission state-machine requirements remain unbuilt |
-| Proof versioning/approval | Mocked | Local layout references only; no order proof, customer approval or immutable approval event |
+| Order creation | Locally verified | [Genuine Auth draft creation and SQL idempotency](reports/2026-10-21-order-dashboards-launch-gates.md); full commercial catalogue/checkout/hosted flow open |
+| Order-state transitions | Locally verified | [Transactional workflow](order-storage-workflows.md) covers local quote/proof/production/QC/handoff; required payment/refund/full delivery states and hosted acceptance remain open |
+| Proof versioning/approval | Locally verified | [Immutable proof/version/hash and approval SQL](order-storage-workflows.md); private customer viewer, comments and genuine hosted journey remain open |
 | Payment provider | Not started | Disabled; provider and sandbox/operating policy decisions remain open |
 | Verified payment webhooks | Not started | No signed-event verification or replay/idempotency acceptance |
-| Refund/dispute handling | Not started | No secure workflow or accepted operating policy |
+| Refund/dispute handling | Implemented | Narrow immutable dispute/decline holds exist locally; refund provider/state flows, communication and operational policy are not complete |
 | Vendor payout records | Not started | No enabled financial service or ledger acceptance |
-| Delivery/collection workflow | Not started | No operational order handoff/tracking flow |
+| Delivery/collection workflow | Locally verified | Scoped MFA assignment, ready state and receipt confirmation pass local SQL; full tracking/states/operational hosted flow remain open |
 | Email/in-app notifications | Not started | No connected operational notification delivery; auth request code is separate |
-| Audit logging | Locally verified | [Durable security events](phase-1-security-admin.md); full file/order/proof/payment audit coverage open |
+| Audit logging | Locally verified | [Security/workflow/dashboard audits](reports/2026-10-21-order-dashboards-launch-gates.md), including audit-outage denial/rollback; full payment/provider/hosted operational coverage open |
 | Error monitoring | Not started | No verified production error-monitoring service |
 | Rate limiting | Locally verified | [Security administration](phase-1-security-admin.md); local sensitive-action limits, end-to-end deployed controls open |
 | Environment-secret management | Locally verified | [Isolation runbook](hosted-acceptance.md), guard/tests; full-service Preview and hosted-bundle inspection open |

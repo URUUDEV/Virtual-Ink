@@ -1,7 +1,15 @@
 # Virtual Ink hosted acceptance
 
-21 October [current backend evidence](reports/2026-10-21-backend-workflows-runtime.md):
-fifteen migrations now exist locally; acceptance still has fourteen and no workflow
+21 October [dashboard follow-up](reports/2026-10-21-order-dashboards-launch-gates.md):
+sixteen local migrations now exist; staging still has fourteen, no workflow schema,
+no Auth users/buckets/runtime logins and security/native hook disabled. Fresh plan
+and catalog reads confirm the same Free target boundary. Migration 16 adds only a
+private scoped dashboard function. Both 15 and 16 need review/application on a
+compatible target; no hosted SQL or provider mutation was made. The new UI-only
+Preview is not this project's full-service acceptance.
+
+Earlier 21 October [backend evidence](reports/2026-10-21-backend-workflows-runtime.md):
+fifteen migrations existed locally at that report; acceptance still has fourteen and no workflow
 schema, users, buckets or runtime LOGIN roles. Its organization remains Free and
 cannot run the required native MFA hook. No hosted mutation was made. The reviewed
 runtime is patched to Node 24.22.1; only the separate UI-only Preview has a fresh
@@ -71,7 +79,7 @@ remains open at the 21 October check.
    in a separate private operator environment, outside Vercel and Git.
 4. After target compatibility and operator review, reconcile existing history and
    apply the ordered forward migrations through the reviewed migration path.
-   Fifteen local files now exist; the fifteenth is not applied to existing staging.
+   Sixteen local files now exist; files 15 and 16 are not applied to existing staging.
    Never replay or alter already-applied files. Capture version/name and
    normalized SQL hashes. Run catalog/constraints/index/trigger/RLS/function/view
    checks, rollback fixtures and provider security advisors on staging.

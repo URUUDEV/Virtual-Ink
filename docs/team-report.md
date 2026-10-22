@@ -1,6 +1,17 @@
 # Virtual Ink team report
 
-Latest backend build handover: [21 October — Workflows and runtime](reports/2026-10-21-backend-workflows-runtime.md)
+Latest build/release handover: [21 October — Order dashboards and launch gates](reports/2026-10-21-order-dashboards-launch-gates.md)
+and [Word copy](reports/2026-10-21-order-dashboards-launch-gates.docx).
+Three order views use current scoped database reads, stored totals and controlled
+server forms. Root 249/security 228/web 77/Auth contracts 16 and genuine local MFA
+227 pass; all 50 backend/shared files are measured with aggregate coverage above
+95%. Exact source ef0c967 is READY on a protected UI-only Preview with services off.
+Full staging/backend/dashboards/commerce/providers/devices and release gates remain
+open. Production remains unchanged. The report includes the required environment,
+feature/test/limitation matrix, rollback preparation and team actions; Word visual
+QA is blocked by missing soffice. No human acceptance or phase closure is claimed.
+
+Previous backend build handover: [21 October — Workflows and runtime](reports/2026-10-21-backend-workflows-runtime.md)
 and [Word copy](reports/2026-10-21-backend-workflows-runtime.docx).
 Transactional order/proof/QC, private scan/promotion/download libraries and current
 access checks pass locally: 246 root tests, 49/49 measured files and 220 genuine

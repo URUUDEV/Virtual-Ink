@@ -1,5 +1,9 @@
 # Order dashboards
 
+[Build/release report](reports/2026-10-21-order-dashboards-launch-gates.md) and
+[Word handover](reports/2026-10-21-order-dashboards-launch-gates.docx) record exact
+source, test denominators, UI-only deployment and unclosed launch gates.
+
 21 October 2026. Review candidate, not a completed Phase 1 dashboard suite.
 
 Routes `/customer`, `/vendor` and `/admin` use the existing online cookie gateway,

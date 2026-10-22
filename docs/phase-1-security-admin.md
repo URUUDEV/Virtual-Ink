@@ -1,5 +1,12 @@
 # Phase 1 MFA and privileged-role administration
 
+21 October [order-dashboard enforcement](reports/2026-10-21-order-dashboards-launch-gates.md)
+passes 227 genuine local checks: the prior 220 plus seven dashboard ownership,
+admin AAL1/AAL2/app-proof and native revocation checks. The exact migration 16 hash
+is recorded. General oversight is ADMIN/SUPER_ADMIN only; narrower financial/security
+roles gain no implicit access. Managed-cloud/browser/email/manual-secret/customer
+MFA UX, recovery and full-service acceptance are still unaccepted or incomplete.
+
 21 October [workflow/runtime follow-up](reports/2026-10-21-backend-workflows-runtime.md):
 genuine local Auth now passes 220 checks, including 13 workflow identity/MFA/session
 checks against the exact fifteenth local migration. The original factor/hook tests

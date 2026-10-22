@@ -1,5 +1,16 @@
 # Virtual Ink open questions and decisions
 
+- **LAUNCH-INPUTS-21 — Open; Uchi/Mumba with Taizya/Lubasi:** Provide the text/path
+  of master UI/UX writing block 58163, compatible isolated native-MFA staging target
+  and approved payment-sandbox/test-email providers. Existing extracted Kimi assets
+  are preserved; missing reference fidelity cannot be assumed. Free staging is
+  still incompatible with the required native hook. No billable upgrade or
+  transactional provider choice is inferred. [Launch handover](reports/2026-10-21-order-dashboards-launch-gates.md).
+- **DASHBOARD-OPS-21 — Open; Taizya/Mumba with Uchi/Lubasi:** Complete missing
+  dashboard sections/private proof review against real catalogue/pricing/checkout
+  and operational contracts. Current enquiry-code drafts and newest/status order
+  queues do not settle commercial prices, required advanced filters or policy.
+
 - **HOST-AUTH-21 — Open; Uchi/Mumba, 21 October 2026:** Supply an existing isolated
   Teams/Enterprise Supabase target or authorized self-hosted HTTPS target with the
   required native MFA hook. Current acceptance organization is still Free; no

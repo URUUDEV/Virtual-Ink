@@ -1,5 +1,14 @@
 # Virtual Ink task board
 
+21 October: **DASHBOARD-ORDERS-01 — Partial local implementation; release blocked**,
+Uchi/Mumba with Taizya and Lubasi. [Release handover](reports/2026-10-21-order-dashboards-launch-gates.md)
+records customer/vendor/admin order routes, current scope/MFA, actual counts,
+versioned server actions and a sixteenth local migration. All final local gates
+and 227 genuine Auth checks pass. Protected UI-only Preview is READY, services off.
+Next: compatible hosted target and real provider choices, then private proof/file
+transport, complete dashboard sections/catalogue/checkout, hosted role journeys,
+physical devices and release/rollback acceptance. This does not close Phase 1.
+
 21 October: **ORDER/FILES/QC-LOCAL — Review candidate; hosted acceptance open**,
 Uchi with Mumba. [Report](reports/2026-10-21-backend-workflows-runtime.md) records
 the fifteenth local migration, transactional workflow, private quarantine/promotion,

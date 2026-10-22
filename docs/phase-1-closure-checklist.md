@@ -25,6 +25,13 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+21 October [order-dashboard follow-up](reports/2026-10-21-order-dashboards-launch-gates.md):
+three scoped order views and controlled forms are implemented locally. Actual SQL
+counts, assignment/current-role/MFA/audit guards and 227 genuine local Auth checks
+pass; 50/50 coverage and local build gates pass. Migration 16 remains unapplied
+hosted. Full dashboard sections, private transport, commerce/providers and every
+hosted/device/release requirement remain unchecked. Production is unchanged.
+
 21 October [local backend review](reports/2026-10-21-backend-workflows-runtime.md):
 order/proof/QC transactions, private scan/promotion and audited download libraries
 pass 105 real-local-storage workflow checks and 220 genuine local Auth checks

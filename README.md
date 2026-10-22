@@ -6,6 +6,15 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+21 October [order dashboards and launch gates](docs/reports/2026-10-21-order-dashboards-launch-gates.md):
+customer-owned orders, assigned vendor queues and recent-MFA administrator oversight
+now have real database reads and controlled server forms. All 249 root, 228 security,
+77 web, 16 Auth contracts and 227 genuine local Auth/MFA checks pass; 50/50 files
+are measured above 95% in aggregate. [Dashboard setup](docs/order-dashboards.md).
+The [protected UI-only Preview](https://virtual-ink-ui-test-eqbcdskjv-shadowrootsec-5679.vercel.app)
+is READY with sensitive services off. Full dashboards, hosted MFA/storage, commerce,
+providers, devices and release gates remain open; production remains unchanged.
+
 21 October [backend workflows and runtime](docs/reports/2026-10-21-backend-workflows-runtime.md):
 transactional order/proof/production/QC states, private storage worker and audited
 downloads pass local checks. All 246 root tests, 49-file coverage and 220 genuine

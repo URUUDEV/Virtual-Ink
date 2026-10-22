@@ -1,5 +1,16 @@
 # Virtual Ink recurring security review
 
+21 October [dashboard launch review](reports/2026-10-21-order-dashboards-launch-gates.md)
+adds current-role scoped reads, bounded keyset queries and required audit before
+returning data. Administrator reads require recent native/app AAL2; another view,
+order/cursor, revoked membership/session, duplicate/injected form fields and wrong
+Origin deny. Private DTOs omit storage paths/receipts; no fabricated totals on
+unavailable reads. SQL 113 workflow checks, 227 genuine local Auth checks and all
+local source gates pass. Fresh dependency audits and 67 browser artifacts have
+zero findings. No hosted business security, physical-device or platform pentest
+claim follows. Two ownership-transfer migration errors were caught and corrected
+by managed-shaped replay before commit; no hosted SQL was applied.
+
 21 October [workflow/storage/runtime review](reports/2026-10-21-backend-workflows-runtime.md)
 adds current-authority read retries, post-storage revocation checks, frozen-source
 late-scan denial, scoped MFA delivery assignment and atomic audit rollback. Local

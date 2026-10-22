@@ -3,6 +3,11 @@
 21 October 2026. Owners: Uchi Chinyama and Mumba Chitonge. **Local review
 candidate; hosted full-service acceptance and Phase 1 remain INCOMPLETE.**
 
+Follow-on: [order dashboards](order-dashboards.md) and
+[launch-gate report](reports/2026-10-21-order-dashboards-launch-gates.md) add the
+sixteenth local migration/private read function. Staging remains at fourteen;
+both 15 and 16 are unapplied hosted. No storage or service flag is enabled.
+
 [Build/security report](reports/2026-10-21-backend-workflows-runtime.md) and
 [Word handover](reports/2026-10-21-backend-workflows-runtime.docx) record source,
 exact verification denominators, the patched UI-only build and remaining hosted work.
