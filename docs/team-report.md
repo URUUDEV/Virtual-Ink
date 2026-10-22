@@ -1,6 +1,17 @@
 # Virtual Ink team report
 
-Latest build/security handover: [22 October — Customer and vendor MFA](reports/2026-10-22-customer-vendor-mfa.md)
+Latest staging audit/handover: [22 October — Staging authority and baseline](reports/2026-10-22-staging-authority-audit.md)
+and [Word copy](reports/2026-10-22-staging-authority-audit.docx).
+The complete master brief is now supplied; Flutterwave sandbox and Resend staging
+are selected, with the Free-plan MFA hook classified DEFERRED_PAID_CAPABILITY.
+The [pre-edit audit and preservation checklist](phase-1-staging-audit.md) records
+the actual source/hosted gaps, commercial approval sheet and device plan.
+Supabase reconnection through Shadow Root Chrome restores reads. No application,
+hosted migration, service flag, deployment or production configuration is changed.
+See the dated report for fresh baseline checks, advisors and missing private
+provider/sender configuration. Phase 1 remains INCOMPLETE / NO-GO.
+
+Previous build/security handover: [22 October — Customer and vendor MFA](reports/2026-10-22-customer-vendor-mfa.md)
 and [Word copy](reports/2026-10-22-customer-vendor-mfa.docx).
 Current customer/vendor accounts gain audited self-service security with the existing
 native/app MFA and factor protections. Administrative status, roles, alerts and

@@ -1,5 +1,21 @@
 # Virtual Ink hosted acceptance
 
+22 October **current authority update**: Uchi supplied the complete staging master
+brief. The missing design-writing input is resolved. Flutterwave sandbox and
+Resend staging are selected. The Free-plan MFA Verification Attempt Hook is
+**DEFERRED_PAID_CAPABILITY**; earlier compatible-paid-target requirements below
+describe the historical policy and are superseded on that point. This does not
+make the existing hook-dependent code Free-compatible: the tested AAL2/session/
+rate/reauthentication/logging/monitoring/administrator-alert path is still required.
+No hook simulation, guard weakening, paid upgrade or production enablement is
+authorized. [Current audit and preservation record](phase-1-staging-audit.md).
+
+Fresh read-only catalog confirms fourteen migrations, 29 forced-RLS tables,
+zero Auth users, buckets, objects, assignments and runtime LOGIN roles, and no
+workflow schema. Vercel metadata still has 25 Preview-only variables, no Git link
+or integration inheritance, and only the failed first deployment. No new deploy
+or hosted mutation occurred. Stable staging Preview and provider setup remain open.
+
 22 October [customer/vendor MFA follow-up](reports/2026-10-22-customer-vendor-mfa.md):
 seventeen local migrations exist; migration 17 passes actual local native-hook
 Auth and managed-shaped SQL replay but remains unapplied hosted. The protected

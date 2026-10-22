@@ -1,5 +1,20 @@
 # Virtual Ink open questions and decisions
 
+- **STAGING-INPUTS-22 — Open; Uchi/Mumba, 22 October 2026:** Flutterwave sandbox
+  and Resend staging are selected. Provide their credentials only through protected
+  staging configuration, and identify the owner-approved verified staging sender
+  domain and recipient restriction. Neither known local staging bindings nor the
+  acceptance Preview variable metadata contain the required provider credentials.
+  Supabase SMTP/sender configuration remains unverified. Do not paste secrets into
+  chat. Physical reviewers, commercial/tax/refund/retention approvals and real
+  staging rollback evidence remain pending. [Initial audit](phase-1-staging-audit.md).
+- **AUTH-COMPENSATION-22 — Open; Mumba/Uchi:** Implement and test the Free-plan
+  TOTP/AAL2/current-session/reauthentication/rate/logging/monitoring/admin-alert
+  path. Uchi now classifies the missing native MFA hook as
+  DEFERRED_PAID_CAPABILITY; a paid upgrade is not required by the updated brief.
+  Existing receipt-dependent commands remain unchanged until a reviewed forward
+  implementation and denial tests demonstrate the replacement controls.
+
 - **AUTH-UX-22 — Open; Taizya/Mumba with Uchi/Lubasi, 22 October 2026:** Obtain
   real browser/physical manual-key and QR enrollment evidence, including keyboard,
   screen reader, visibility expiry, replacement and controlled recovery. Use only
@@ -8,22 +23,23 @@
   establishes hosted identity or physical/manual-key acceptance. Confirm the retained
   final-factor/removal and controlled-recovery support policy before launch.
 
-- **LAUNCH-INPUTS-21 — Open; Uchi/Mumba with Taizya/Lubasi:** Provide the text/path
-  of master UI/UX writing block 58163, compatible isolated native-MFA staging target
-  and approved payment-sandbox/test-email providers. Existing extracted Kimi assets
-  are preserved; missing reference fidelity cannot be assumed. Free staging is
-  still incompatible with the required native hook. No billable upgrade or
-  transactional provider choice is inferred. [Launch handover](reports/2026-10-21-order-dashboards-launch-gates.md).
+- **LAUNCH-INPUTS-21 — Input decisions resolved on 22 October; implementation open:**
+  The complete edited master brief is supplied, Flutterwave sandbox/Resend staging
+  are selected, and the Free-plan hook is DEFERRED_PAID_CAPABILITY. The extracted
+  Kimi assets remain preserved. This supersedes those missing-input/paid-hook
+  questions in the [historical launch handover](reports/2026-10-21-order-dashboards-launch-gates.md).
+  Private credentials/sender verification, compensating controls and genuine
+  acceptance remain open under STAGING-INPUTS-22 and AUTH-COMPENSATION-22.
 - **DASHBOARD-OPS-21 — Open; Taizya/Mumba with Uchi/Lubasi:** Complete missing
   dashboard sections/private proof review against real catalogue/pricing/checkout
   and operational contracts. Current enquiry-code drafts and newest/status order
   queues do not settle commercial prices, required advanced filters or policy.
 
-- **HOST-AUTH-21 — Open; Uchi/Mumba, 21 October 2026:** Supply an existing isolated
-  Teams/Enterprise Supabase target or authorized self-hosted HTTPS target with the
-  required native MFA hook. Current acceptance organization is still Free; no
-  upgrade cost is authorized. Resolve Vercel first-target Preview routing without
-  a Production bootstrap. [Current evidence](reports/2026-10-21-backend-workflows-runtime.md).
+- **HOST-AUTH-21 — Superseded in part on 22 October; Uchi/Mumba:** The updated
+  master brief defers the paid hook and requires verified compensating controls
+  on isolated staging. No upgrade cost is authorized. The separate Vercel
+  first-target Preview routing failure still needs repair without a Production
+  bootstrap. [Historical evidence](reports/2026-10-21-backend-workflows-runtime.md).
 - **ORDER-OPS-21 — Proposed, not accepted; Uchi/Lubasi with Mumba:** Review candidate
   quantity/dimension/ZMW caps, quote expiry, proof/QC checklist, manual payment
   evidence, decline/dispute holds, delivery confirmation and correction policy in

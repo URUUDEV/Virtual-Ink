@@ -25,6 +25,14 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+22 October [staging authority audit](reports/2026-10-22-staging-authority-audit.md)
+records the supplied complete master brief, selected Flutterwave sandbox/Resend
+staging and required feature-to-staging Preview mapping. The paid MFA hook is
+DEFERRED_PAID_CAPABILITY under the new authority; verified compensating controls
+remain required and current code still requires native receipts. The initial
+[audit/preservation and operating approval record](phase-1-staging-audit.md)
+does not close any hosted, physical-device, commercial or release gate.
+
 22 October [customer/vendor MFA follow-up](reports/2026-10-22-customer-vendor-mfa.md)
 implements self-service security and a narrowly scoped seventeenth local migration.
 All 251 root/230 security/85 web/16 SDK and 305 genuine local Auth checks pass;

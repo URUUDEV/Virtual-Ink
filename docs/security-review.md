@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+22 October [staging authority audit](reports/2026-10-22-staging-authority-audit.md)
+records the new DEFERRED_PAID_CAPABILITY policy without disabling existing receipt
+checks. Source and hosted gaps remain explicit; no Free-plan protection is falsely
+claimed. Fresh staging catalog has all 29 tables on forced RLS, zero incomplete
+UPDATE policies and zero public callable definer functions. Advisors return one
+deny-by-default table notice and performance findings requiring review. These
+catalog reads do not replace cross-account/AAL2 hosted tests. Supabase account
+reconnection is separate from application login or reviewer signoff. Provider
+credentials and source/private bytes are not disclosed; production is unchanged.
+
 22 October [customer/vendor MFA review](reports/2026-10-22-customer-vendor-mfa.md)
 adds only self-status/factor authorization for current CUSTOMER/VENDOR assignments.
 All 305 genuine local Auth assertions and 123 security/113 workflow SQL checks pass,

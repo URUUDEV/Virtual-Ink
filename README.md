@@ -6,6 +6,14 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+22 October [staging authority and baseline audit](docs/reports/2026-10-22-staging-authority-audit.md):
+the master brief is available; selected providers are Flutterwave sandbox and
+Resend staging. The Free-plan MFA verification hook is DEFERRED_PAID_CAPABILITY;
+the existing hook-dependent code still needs verified compensating controls.
+The [audit/preservation and approval checklist](docs/phase-1-staging-audit.md)
+records current gaps. Supabase access is reconnected; no hosted services or
+production configuration are changed. Phase 1 stays INCOMPLETE / NO-GO.
+
 22 October [customer/vendor MFA](docs/reports/2026-10-22-customer-vendor-mfa.md):
 current customers and vendors now have audited self-service enrollment, step-up,
 factor listing/replacement/discard and protected removal at /account/security.

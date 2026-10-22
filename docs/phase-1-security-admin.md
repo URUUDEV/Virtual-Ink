@@ -1,5 +1,14 @@
 # Phase 1 MFA and privileged-role administration
 
+22 October **policy supersession**: the supplied staging master brief classifies
+the Free-plan MFA Verification Attempt Hook as **DEFERRED_PAID_CAPABILITY**.
+Earlier paid-hook target requirements in this document are historical on that
+point. [Current audit](phase-1-staging-audit.md) records the required native TOTP,
+AAL2/current-session, rate-limit, reauthentication, logging, monitoring and
+administrator-alert compensating path. Existing commands still require native
+receipts; that path has not been implemented or enabled by this documentation
+update. Do not simulate receipts, delete checks or claim Free-plan acceptance.
+
 22 October [customer/vendor security follow-up](reports/2026-10-22-customer-vendor-mfa.md)
 adds /account/security and self-status with migration 17's exact self-service
 allowance. Administrative status/role/audit/payment access still denies customers

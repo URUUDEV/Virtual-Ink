@@ -1,5 +1,13 @@
 # Virtual Ink — Phase 1 role handover
 
+22 October current scope: Uchi's supplied master brief requires the complete
+isolated Phase 1 staging marketplace, Flutterwave sandbox, Resend staging and
+stable Vercel Preview. The narrower original foundation description below is
+historical. [Current audit, preservation checklist and approval record](phase-1-staging-audit.md)
+and [latest report](team-report.md) govern current work. The paid MFA hook is
+DEFERRED_PAID_CAPABILITY with verified compensating controls still required.
+Production remains unchanged; no phase or human acceptance is established.
+
 ## Project overview
 
 Current direction, 15 October 2026: Uchi owns product leadership; Uchi and Mumba
