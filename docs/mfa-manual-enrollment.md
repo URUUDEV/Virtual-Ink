@@ -1,5 +1,9 @@
 # Manual authenticator enrollment
 
+The [customer/vendor follow-up](account-security.md) now reuses these private
+display controls on /account/security. Its local implementation passes 305 genuine
+Auth checks; hosted role journeys and physical manual-entry acceptance remain open.
+
 [Build/security report](reports/2026-10-22-mfa-manual-enrollment.md) and
 [Word handover](reports/2026-10-22-mfa-manual-enrollment.docx) record exact source,
 verification scope, protected UI-only build and remaining launch gates.

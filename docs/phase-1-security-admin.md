@@ -1,5 +1,11 @@
 # Phase 1 MFA and privileged-role administration
 
+22 October [customer/vendor security follow-up](reports/2026-10-22-customer-vendor-mfa.md)
+adds /account/security and self-status with migration 17's exact self-service
+allowance. Administrative status/role/audit/payment access still denies customers
+and vendors after genuine MFA. All 305 actual local Auth checks pass; [setup](account-security.md).
+Hosted MFA/recovery/device acceptance remains open, with no new runtime or public grants.
+
 22 October [manual enrollment follow-up](reports/2026-10-22-mfa-manual-enrollment.md)
 returns the genuine provider setup key only in the authorized enrollment response,
 alongside the existing QR. Display is masked and bounded; result audit and no-store

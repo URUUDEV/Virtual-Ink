@@ -25,6 +25,12 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+22 October [customer/vendor MFA follow-up](reports/2026-10-22-customer-vendor-mfa.md)
+implements self-service security and a narrowly scoped seventeenth local migration.
+All 251 root/230 security/85 web/16 SDK and 305 genuine local Auth checks pass;
+all 50 files are measured above 95% aggregate coverage. This does not close hosted
+Auth, full role journeys, physical devices or any final release requirement below.
+
 22 October [manual MFA implementation](reports/2026-10-22-mfa-manual-enrollment.md)
 passes 229 genuine local Auth checks, all 250 root/229 security/81 web/16 SDK checks
 and 50-file coverage. The new masked key/QR display is not physical authenticator

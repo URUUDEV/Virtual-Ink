@@ -1,6 +1,17 @@
 # Virtual Ink team report
 
-Latest build/security handover: [22 October — Manual MFA enrollment](reports/2026-10-22-mfa-manual-enrollment.md)
+Latest build/security handover: [22 October — Customer and vendor MFA](reports/2026-10-22-customer-vendor-mfa.md)
+and [Word copy](reports/2026-10-22-customer-vendor-mfa.docx).
+Current customer/vendor accounts gain audited self-service security with the existing
+native/app MFA and factor protections. Administrative status, roles, alerts and
+payment release remain denied, including after step-up. All 251 root/230 security/
+85 web/16 SDK checks and 305 genuine local Auth checks pass; all 50 files are measured
+above 95% aggregate coverage. Exact source 4b6e7e1 is READY on the protected UI-only
+Preview with services off. Migration 17 is local only. Hosted enablement, genuine
+full-service acceptance and physical devices remain open; Phase 1 is INCOMPLETE.
+Word structural/link/evidence checks pass; visual rendering is blocked by missing soffice.
+
+Previous build/security handover: [22 October — Manual MFA enrollment](reports/2026-10-22-mfa-manual-enrollment.md)
 and [Word copy](reports/2026-10-22-mfa-manual-enrollment.docx).
 Authorized enrollment returns the real provider key only with its private QR.
 The panel masks it, bounds display and clears it after verification/discard/hide/

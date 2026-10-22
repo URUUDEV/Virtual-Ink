@@ -1,5 +1,16 @@
 # Virtual Ink recurring security review
 
+22 October [customer/vendor MFA review](reports/2026-10-22-customer-vendor-mfa.md)
+adds only self-status/factor authorization for current CUSTOMER/VENDOR assignments.
+All 305 genuine local Auth assertions and 123 security/113 workflow SQL checks pass,
+including administrative/payment denial after step-up, cross-account factor denial,
+last-factor protection and revocation. The admin page independently checks its role.
+POST-only native fallback prevents security fields entering GET URLs on JS failure;
+synthetic rendering verifies methods, with no physical-browser exploit claim.
+Audit, native-hook, recent MFA/password, rate/replay and uncertain-removal controls
+remain intact. No new grants/RLS policy or hosted enablement occurs; see the report
+for coverage, advisories, limits and the retained no-go decision.
+
 22 October [manual-MFA review](reports/2026-10-22-mfa-manual-enrollment.md) verifies
 bounded provider Base32 data, enrollment-only response disclosure and no key in
 audit inputs/cookies/logs. Mask/reveal, absolute UI expiry/visibility and verified

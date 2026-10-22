@@ -4,6 +4,11 @@ Authoritative user instruction: 18 October 2026, section 2.1. Phase 1 is
 **INCOMPLETE**. Current release decision: **NO-GO**. No human acceptance or
 production-promotion authorization is recorded by this document.
 
+22 October [customer/vendor MFA evidence](reports/2026-10-22-customer-vendor-mfa.md)
+adds locally verified self-service security and a READY protected UI-only build.
+All hosted-service, physical-device and approval gates remain open. Neither the
+305 genuine local assertions nor UI-only hosting changes this NO-GO decision.
+
 > Phase 1 remains incomplete. The application may be demonstrated in an isolated preview environment, but it must not be represented as fully production-ready.
 
 This gate supplements the [mission checklist](phase-1-closure-checklist.md) and

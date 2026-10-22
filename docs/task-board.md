@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+22 October: **AUTH-MFA-SELF-01 — Local review candidate; hosted acceptance open**,
+Uchi/Mumba with Taizya. [Report](reports/2026-10-22-customer-vendor-mfa.md) records
+customer/vendor security pages, narrowly scoped migration 17 and 76 new genuine
+provider/route assertions. Final root 251/security 230/web 85/SDK 16 and genuine
+Auth 305 pass; no missing coverage files. Next: compatible staging/native hook,
+genuine hosted/browser/device role journeys and remaining Phase 1 private transport,
+dashboard/commerce/provider gates. No production change or phase closure.
+
 22 October: **AUTH-MFA-MANUAL-01 — Local review candidate; hosted acceptance open**,
 Uchi/Mumba with Taizya. [Report](reports/2026-10-22-mfa-manual-enrollment.md) records
 enrollment-only key disclosure, masking/reveal, absolute display deadline, visibility

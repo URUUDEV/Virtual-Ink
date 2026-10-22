@@ -4,7 +4,9 @@
   real browser/physical manual-key and QR enrollment evidence, including keyboard,
   screen reader, visibility expiry, replacement and controlled recovery. Use only
   synthetic pairing data in shared recordings. [Local implementation](mfa-manual-enrollment.md)
-  does not complete customer/vendor MFA settings or hosted identity acceptance.
+  and [customer/vendor settings](account-security.md) now exist locally; neither
+  establishes hosted identity or physical/manual-key acceptance. Confirm the retained
+  final-factor/removal and controlled-recovery support policy before launch.
 
 - **LAUNCH-INPUTS-21 — Open; Uchi/Mumba with Taizya/Lubasi:** Provide the text/path
   of master UI/UX writing block 58163, compatible isolated native-MFA staging target

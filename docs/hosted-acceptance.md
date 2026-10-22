@@ -1,5 +1,11 @@
 # Virtual Ink hosted acceptance
 
+22 October [customer/vendor MFA follow-up](reports/2026-10-22-customer-vendor-mfa.md):
+seventeen local migrations exist; migration 17 passes actual local native-hook
+Auth and managed-shaped SQL replay but remains unapplied hosted. The protected
+UI-only exact-source Preview is READY with services disabled. Full-service target/
+routing stops remain in force; no hosted Auth, roles, Storage or SQL was enabled.
+
 22 October [manual-MFA follow-up](reports/2026-10-22-mfa-manual-enrollment.md):
 fresh organization/catalog reads still show Free, fourteen staging migrations,
 zero Auth users/buckets, no workflow schema and disabled security/native hook.
