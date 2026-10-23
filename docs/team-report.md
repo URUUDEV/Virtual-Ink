@@ -3,7 +3,8 @@
 Latest build handover: [23 October — Document printing](reports/2026-10-23-document-printing.md).
 Matching Word copy: [Document printing team report](reports/2026-10-23-document-printing.docx).
 The dedicated student/document configuration and local review/download pass local
-checks; protected hosting is pending. Actual secure order submission remains unavailable. Phase 1 stays
+checks. The UI-only Vercel Preview is READY; hosted browser verification times out.
+Actual secure order submission remains unavailable. Phase 1 stays
 INCOMPLETE / NO-GO; production is unchanged. Final evidence is in the dated report.
 
 Latest preview/security handover: [23 October — Shareable progress preview](reports/2026-10-23-shareable-progress-preview.md)

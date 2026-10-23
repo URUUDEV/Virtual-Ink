@@ -180,7 +180,105 @@ sampled application console; no application change is based on tool telemetry.
 
 The task-owned optimized local server is available at
 http://127.0.0.1:3120/print-documents with sensitive services disabled. It is not
-an external sharing address. Protected UI-only Vercel delivery remains pending
-at this source checkpoint; no new hosted URL is invented.
+an external sharing address. Protected UI-only Vercel delivery and its remaining
+browser-verification limit are recorded below.
+
+## Recorded local command timeline
+
+All times are UTC on 23 October 2026. Local Auth, workflow, storage and email
+are disabled; one-worker/384 MiB applies to the final build. Original failures
+remain in this record alongside fixes and retests.
+
+| Actual command | Start UTC | End UTC | Exit |
+| --- | --- | --- | --- |
+| npm ci --include=dev | 11:40:04 | 11:40:35 | 0 |
+| npm run security:runtime | 11:40:35 | 11:40:37 | 0 |
+| npm run test:coverage | 11:40:37 | 11:40:42 | 0 |
+| npm run test:web | 11:40:42 | 11:40:53 | 1 |
+| npm run test:web | 11:42:23 | 11:42:29 | 0 |
+| npm run test:auth:web | 11:42:29 | 11:42:33 | 0 |
+| npm run typecheck:web | 11:42:33 | 11:43:16 | 0 |
+| npm run lint | 11:43:16 | 11:43:30 | 0 |
+| npm run build:web | 11:43:30 | 11:45:35 | 1 |
+| npm --prefix apps/web install next@16.4.2 --save-exact | 11:49:08 | 11:50:51 | 0 |
+| npm --prefix apps/web ci --include=dev | 11:50:51 | 11:53:38 | 0 |
+| npm --prefix apps/web audit --json | 11:53:38 | 11:53:41 | 0 |
+| npm audit --json | 11:53:41 | 11:53:42 | 0 |
+| npm run test:coverage | 11:53:42 | 11:53:49 | 0 |
+| npm run test:web | 11:53:49 | 11:53:57 | 0 |
+| npm run test:auth:web | 11:53:57 | 11:53:59 | 0 |
+| npm run typecheck:web | 11:53:59 | 11:54:10 | 0 |
+| npm run lint | 11:54:10 | 11:55:00 | 0 |
+| npm run build:web | 18:35:33 | 18:39:08 | 1 |
+| npm run build:web | 18:39:37 | 18:41:30 | 0 |
+| npm run security:check | 18:41:30 | 18:41:35 | 0 |
+
+The additional patched build that encountered System.OutOfMemoryException
+has tool exit 1 but its wrapper did not persist a completion timestamp; exact
+start/end are unavailable. The initial pre-patch audit and the static-page
+HTTP expectation failure also have exit 1 with no timed command record.
+These missing timestamps are disclosed, not reconstructed from file times.
+No database migration, advisor, physical-device, genuine provider or complete
+order-journey test is executed by this slice; those gates remain open.
+
+HTTP evidence: seven printing requests and 44 guest/Auth-disabled assertions
+over eleven further requests pass. Runtime minimum check passes Node 24.22.1.
+The web test harness retains a Three.js CommonJS deprecation warning; no
+new Three.js import is added to document printing. Git emits line-ending
+normalization notices; staged whitespace validation passes.
+
+## Hosted delivery and remaining limits
+
+Final application source: aab4273e2f987425f5841d08961561176731a825 on
+feature/phase1-staging-readiness. Deployment dpl_CPijQppRakLZXfRw4hyu9MTNVSay
+is **READY** in the existing isolated virtual-ink-ui-test project:
+
+https://virtual-ink-ui-test-a95v30h1h-shadowrootsec-5679.vercel.app/print-documents
+
+git push --set-upstream origin feature/phase1-staging-readiness exits 0 and
+creates the review branch in URUUDEV/Virtual-Ink. A separate git ls-remote --heads
+read confirms aab4273e2f987425f5841d08961561176731a825 on that branch. No staging
+PR, staging merge or main/production promotion is performed. The report-only
+delivery commit follows this source checkpoint and does not change application bytes.
+
+Vercel inspection confirms the exact source, OIDC environment metadata preview,
+buildSkipped false, zero aliases/automatic aliases and no automation-bypass binding.
+The CLI requested Preview; raw target null is accompanied by actual preview
+environment metadata, not a Production classification. The application environment
+is ui_test with Auth, uploads, workflow/orders, payments and email disabled. No
+original project, stable acceptance backend, DNS or production variable is changed.
+482 tracked upload files were reviewed; private/environment/reference-archive and
+Word artifacts were excluded. No inspection plugin or extra brand dependency ships.
+
+Provider build logs record a fresh uncached build beginning 18:51:30 UTC, Next.js
+16.4.2 detected at 18:51:44, isolation passing with ui_test/Node 24.22.1, compilation
+passing at 18:52:17, built-in types passing at 18:52:23 and Build Completed at
+18:52:37. Read-only inspection at 19:21:15 UTC confirms READY and the exact source.
+CLI invocation start/completion timestamps were not separately captured; provider
+build timestamps above are not substituted for those missing command timestamps.
+
+Chrome Page.navigate timed out on the new URL, and a subsequent state read also
+timed out. A single anonymous HEAD attempt from 19:24:24 to 19:24:34 UTC failed
+with a transport TypeError (exit 1), without an HTTP status. Neither hosted
+application rendering nor deployment-protection behaviour is established by
+these failed probes. They do not prove a Vercel outage or an application defect.
+No protection bypass, alternate domain, configuration weakening or credential
+request is used. The tested local document-printing tab remains open; the failed
+navigation tab is cleaned up. Full hosted functional/device acceptance is pending.
+
+The Word copy passes the generator's OOXML structure/table audit. Visual rendering
+was attempted and fails because LibreOffice/soffice is unavailable (WinError 2).
+No visual Word pagination approval is claimed. Final report-only changes do not
+alter the deployed application bytes. Source, delivery and report commits remain
+reviewable on the feature branch; no staging/main merge or release approval occurs.
+The final report/security scan passes with 492 source files scanned, 134 exclusions
+and zero findings; staged whitespace checks pass. The earlier 133-exclusion count
+above records its own prior run, not a changed testing denominator.
+
+**Decision:** suitable for continued review of the document-preparation interface;
+NO-GO for taking real document orders or declaring Phase 1/production ready.
+Genuine secure upload, full document-spec persistence, server pricing, sandbox
+checkout, provider acceptance, commercial decisions, human/device reviews and
+approved release/rollback evidence remain required.
 
 PHASE 1 BLOCKED — PRODUCTION REMAINS UNCHANGED

@@ -28,3 +28,15 @@ Next secure slice: add a forward, validated document-specification contract to
 the server workflow, then connect genuine staging Auth, quarantined file upload,
 approved server pricing, order creation and sandbox checkout. Preserve every
 selected option through vendor/dashboard/proof fulfilment. Phase 1 is incomplete.
+
+## Review access
+
+Use Print documents on the homepage or navigation, or open
+http://127.0.0.1:3120/print-documents on this workstation while the task-owned
+local server is running. Choose the options, review the specification and download
+the text summary. No original document is included and nothing reaches a vendor.
+
+The [protected UI-only Preview](https://virtual-ink-ui-test-a95v30h1h-shadowrootsec-5679.vercel.app/print-documents)
+is READY on Vercel with services disabled. Hosted browser/HTTP probes time out or
+fail before an HTTP result; hosted rendering and real order acceptance are unverified.
+See the [dated evidence and team report](reports/2026-10-23-document-printing.md).
