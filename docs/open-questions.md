@@ -1,5 +1,14 @@
 # Virtual Ink open questions and decisions
 
+- **DOC-PRINT-23 — Open; Uchi/Mumba with Taizya/Lubasi, 23 October 2026:**
+  Confirm launch paper stocks, supported sizes, colour rates, binding capacities,
+  page/copy limits and vendor turnaround. The new /print-documents preparation
+  route has no approved prices or live submission. Connect the full document
+  specification to a forward server contract, genuine Auth, quarantined private
+  upload and sandbox checkout before taking orders. Do not silently discard
+  document choices into the existing generic product-code/dimensions draft.
+  [Scope and preservation](document-printing.md).
+
 - **RESEND-DOMAIN-23 — Open; Uchi/Mumba, 23 October 2026:** Resend OAuth access is
   established and the signed-in account has no domains. Provide the approved owned
   staging domain/subdomain and sender name/address. Uchi confirms no domain is

@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+23 October: **DOC-PRINT-23 — Local document preparation verified; hosted review pending**,
+Uchi/Mumba with Taizya/Lubasi. [Handover](reports/2026-10-23-document-printing.md)
+and [scope](document-printing.md): prominent /print-documents entry, document
+configuration, review and local specification download. Genuine private upload,
+document-specific server persistence, approved pricing and checkout remain open.
+No order submission or Phase 1 acceptance is claimed.
+
 23 October: **PREVIEW-SHARE-23 — Preview ready; delivery waits for recipient**,
 Uchi with Mumba/Taizya/Lubasi. [Handover](reports/2026-10-23-shareable-progress-preview.md)
 records the two-page screenshot PDF, local catalogue/studio checks and 44 guest/

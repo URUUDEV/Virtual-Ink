@@ -6,6 +6,13 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+23 October [document printing](docs/document-printing.md): a dedicated
+`/print-documents` route is linked from the homepage, navigation, catalogue and
+customer dashboard. Students and other users can configure pages, copies, paper,
+colour, sides, binding and handoff, review choices and download a local print
+specification. It does not submit an order or upload a document. Genuine private
+upload, approved server pricing and checkout remain open; Phase 1 is incomplete.
+
 22 October [staging authority and baseline audit](docs/reports/2026-10-22-staging-authority-audit.md):
 the master brief is available; selected providers are Flutterwave sandbox and
 Resend staging. The Free-plan MFA verification hook is DEFERRED_PAID_CAPABILITY;

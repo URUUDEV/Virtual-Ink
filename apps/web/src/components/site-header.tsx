@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { BrandLogo } from './brand-logo';
 const links = [
+  ['/print-documents', 'Print documents'],
   ['/shop', 'Products'], ['/marketplace', 'Find a vendor'], ['/studio','Design studio'],
   ['/business', 'For business'], ['/support','Help'],
 ] as const;

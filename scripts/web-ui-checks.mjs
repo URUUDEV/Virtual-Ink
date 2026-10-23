@@ -24,8 +24,8 @@ function load(path) {
     // imports. This check is not navigation, asset or browser acceptance.
     if (path.endsWith('layout.tsx') && specifier === '@/components/site-header') return {SiteHeader:()=>null};
     if (path.endsWith('layout.tsx') && specifier === '@/components/site-footer') return {SiteFooter:()=>null};
-    if (specifier.startsWith('@/') || specifier.startsWith('.')) {
-      const base = specifier.startsWith('@/') ? resolve(webRoot, 'src', specifier.slice(2)) : resolve(dirname(path), specifier);
+    if (specifier.startsWith('@/') || specifier.startsWith('@shared/') || specifier.startsWith('.')) {
+      const base = specifier.startsWith('@shared/') ? resolve(webRoot, '../../src/shared', specifier.slice(8)) : specifier.startsWith('@/') ? resolve(webRoot, 'src', specifier.slice(2)) : resolve(dirname(path), specifier);
       if (base.endsWith('.ts') || base.endsWith('.tsx')) return load(base);
       try { return load(`${base}.tsx`); } catch (error) { if (error.code !== 'ENOENT') throw error; return load(`${base}.ts`); }
     }
@@ -80,6 +80,21 @@ test('homepage renders actual mockups and linked product cards', () => {
   assert.match(html, /Illustrative/);
   for (const slug of ['cotton-t-shirt', 'polo-shirt', 'hoodie', 'business-cards', 'flyers-a5', 'roll-up-banner']) assert.ok(html.includes(`href="/shop/${slug}"`));
   assert.doesNotMatch(html, /Showcase%20Board|<script/);
+  assert.match(html, /href="\/print-documents"/);
+});
+
+test('document printing exposes accessible options and explicitly closes unavailable uploads and checkout', () => {
+  const html = renderToStaticMarkup(React.createElement(component('app/print-documents/page.tsx')));
+  assert.match(html, /Ordering is not live yet/);
+  assert.match(html, /Quotation required/);
+  assert.match(html, /<form(?=[^>]*method="post")(?=[^>]*action="\/print-documents")[^>]*>/);
+  assert.match(html, /<label for="print-pages">Pages per copy/);
+  assert.match(html, /<label for="print-copies">Number of copies/);
+  assert.match(html, /aria-describedby="print-pages-help"/);
+  for (const name of ['purpose', 'paperSize', 'paperType', 'colour', 'sides', 'binding', 'urgency', 'handoff']) assert.ok(html.includes(`name="${name}"`));
+  assert.match(html, /type="submit"[^>]*disabled=""/); // No native POST before hydration.
+  assert.match(html, /<noscript>/);
+  assert.doesNotMatch(html, /type="file"|href="\/checkout|name="price"|name="amount"|name="role"|Order confirmed/);
 });
 test('shop server page applies known groups and rejects untrusted query values', async () => {
   const Shop = component('app/shop/page.tsx');

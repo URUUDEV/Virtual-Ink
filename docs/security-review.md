@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+23 October [document-printing review](reports/2026-10-23-document-printing.md):
+new local-only specifications reject injected authority, unknown choices and
+invalid counts, use fixed text-only downloads and accept no customer documents.
+The build exposed critical/high Next.js 16.4.0 advisories; the feature branch is
+patched to the independently verified 16.4.2 release, without bypassing the
+gate or changing production. Local retests/build/audits and browser checks pass;
+protected hosting is pending. Final evidence is in the
+dated report. Genuine order, private-file, pricing and payment acceptance stays open.
+
 22 October [staging authority audit](reports/2026-10-22-staging-authority-audit.md)
 records the new DEFERRED_PAID_CAPABILITY policy without disabling existing receipt
 checks. Source and hosted gaps remain explicit; no Free-plan protection is falsely

@@ -7,7 +7,7 @@ import { ButtonLink } from '@/components/ui/button-link';
 import { HeroBrand } from '@/components/brand/hero-brand';
 const highlights = [
   { icon: Shirt, name: 'Custom apparel', text: 'T-shirts, polos and hoodies.', href: '/shop?group=Apparel' },
-  { icon: FileText, name: 'Everyday print', text: 'Cards, flyers and stationery.', href: '/shop?group=Print' },
+  { icon: FileText, name: 'Document printing', text: 'Assignments, notes, reports and binding.', href: '/print-documents' },
   { icon: Box, name: 'Banners & signage', text: 'Make your message stand out.', href: '/shop?group=Signage' },
   { icon: Palette, name: 'Design services', text: 'Bring your vision into focus.', href: '/design-services' },
 ];
@@ -17,7 +17,8 @@ export default function Home() {
       <div className="hero-copy"><p className="eyebrow hero-eyebrow"><span /> CREATE SOMETHING WORTH HOLDING.</p>
         <h1>Your Ideas.<br />Our Print.<br /><span className="gradient-text">Delivered.</span></h1>
         <p className="hero-description">Custom printing, branded apparel, marketing materials, and professional design services — all in one place.</p>
-        <div className="hero-actions"><ButtonLink href="/shop">Explore products <ArrowRight size={18} /></ButtonLink>
+        <div className="hero-actions"><ButtonLink href="/print-documents">Print documents <FileText size={18} /></ButtonLink>
+          <ButtonLink href="/shop" secondary>Explore products <ArrowRight size={18} /></ButtonLink>
           <ButtonLink href="/vendors/join" secondary>Become a vendor</ButtonLink></div>
         <p className="hero-disclaimer">Discover the possibilities. Live ordering follows vendor and production verification.</p>
         <p className="workflow">DESIGN <span>·</span> PRINT <span>·</span> ORDER <span>·</span> DELIVER</p>
