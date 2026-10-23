@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+23 October: **EMAIL-SETUP-23 — OAuth connected; blocked on approved domain/sender**,
+Uchi/Mumba with Taizya/Lubasi. [Handover](reports/2026-10-23-resend-setup-access.md)
+records the official MCP configuration, successful OAuth login and four guidance
+skills. Account Domains shows no domains. Next: Uchi supplies approved staging
+domain/sender, then exact DNS review, private restricted keys/SMTP/templates and
+genuine hosted delivery tests. No sending, DNS/provider domain mutation,
+application change, deployment or phase completion is claimed.
+
 22 October: **STAGING-AUDIT-22 — Initial audit recorded; service implementation blocked**,
 Uchi/Mumba with Taizya/Lubasi. [Audit and baseline report](reports/2026-10-22-staging-authority-audit.md)
 records the supplied master brief, branch mapping, selected sandbox/email providers,

@@ -1,5 +1,13 @@
 # Virtual Ink open questions and decisions
 
+- **RESEND-DOMAIN-23 — Open; Uchi/Mumba, 23 October 2026:** Resend OAuth access is
+  established and the signed-in account has no domains. Provide the approved owned
+  staging domain/subdomain and sender name/address. Then prepare the exact DNS
+  records for one owner approval before writing them. No domain, sending key,
+  template or email has been created/sent. Staging recipient restriction, SMTP
+  configuration and hosted delivery remain pending. Never provide credentials in
+  chat. [Setup/security handover](reports/2026-10-23-resend-setup-access.md).
+
 - **STAGING-INPUTS-22 — Open; Uchi/Mumba, 22 October 2026:** Flutterwave sandbox
   and Resend staging are selected. Provide their credentials only through protected
   staging configuration, and identify the owner-approved verified staging sender

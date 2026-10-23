@@ -1,6 +1,15 @@
 # Virtual Ink team report
 
-Latest staging audit/handover: [22 October — Staging authority and baseline](reports/2026-10-22-staging-authority-audit.md)
+Latest setup/security handover: [23 October — Resend access and domain stop](reports/2026-10-23-resend-setup-access.md)
+and [Word copy](reports/2026-10-23-resend-setup-access.docx).
+Official Resend MCP configuration and OAuth login succeed; four official guidance
+skills are installed. The connected account has no domains. Approved staging
+domain/sender, DNS approval, restricted sending key, SMTP/templates and actual
+delivery remain pending. No application code/dependency, provider domain/key,
+email send, deployment or production setting was changed. Word structural checks
+pass; rendering is blocked by missing LibreOffice. Phase 1 stays INCOMPLETE.
+
+Previous staging audit/handover: [22 October — Staging authority and baseline](reports/2026-10-22-staging-authority-audit.md)
 and [Word copy](reports/2026-10-22-staging-authority-audit.docx).
 The complete master brief is now supplied; Flutterwave sandbox and Resend staging
 are selected, with the Free-plan MFA hook classified DEFERRED_PAID_CAPABILITY.
