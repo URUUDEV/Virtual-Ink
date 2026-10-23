@@ -2,7 +2,9 @@
 
 - **RESEND-DOMAIN-23 — Open; Uchi/Mumba, 23 October 2026:** Resend OAuth access is
   established and the signed-in account has no domains. Provide the approved owned
-  staging domain/subdomain and sender name/address. Then prepare the exact DNS
+  staging domain/subdomain and sender name/address. Uchi confirms no domain is
+  owned yet; acquisition is deferred while a portable progress preview is shared.
+  A PDF/ordinary email does not require that purchase. Then prepare the exact DNS
   records for one owner approval before writing them. No domain, sending key,
   template or email has been created/sent. Staging recipient restriction, SMTP
   configuration and hosted delivery remain pending. Never provide credentials in

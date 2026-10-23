@@ -1,6 +1,15 @@
 # Virtual Ink team report
 
-Latest setup/security handover: [23 October — Resend access and domain stop](reports/2026-10-23-resend-setup-access.md)
+Latest preview/security handover: [23 October — Shareable progress preview](reports/2026-10-23-shareable-progress-preview.md)
+and [Word copy](reports/2026-10-23-shareable-progress-preview.docx).
+Two-page PDF shows actual local homepage/catalogue/studio screens with clear
+development limits. Text editing, history and flat/3D retention pass sampled
+browser checks; 44 Auth-disabled loopback assertions pass across 11 requests.
+The PDF is rendered and visually checked. A Gmail draft has the attachment but
+no recipient and has not been sent. No domain purchase, application implementation,
+provider mutation, deployment or production change occurred. Phase 1 remains open.
+
+Previous setup/security handover: [23 October — Resend access and domain stop](reports/2026-10-23-resend-setup-access.md)
 and [Word copy](reports/2026-10-23-resend-setup-access.docx).
 Official Resend MCP configuration and OAuth login succeed; four official guidance
 skills are installed. The connected account has no domains. Approved staging
