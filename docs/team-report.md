@@ -1,5 +1,13 @@
 # Virtual Ink team report
 
+Latest release preparation: [26 October — Main release readiness](reports/2026-10-26-main-release-readiness.md)
+and [Word copy](reports/2026-10-26-main-release-readiness.docx).
+An isolated candidate preserves main's Speed Insights and the latest application
+with 257 root/86 web/16 transport checks, 52-file coverage, types/lint/build passing.
+Live checks confirm the production/staging migration gaps and disabled/unconfigured
+staging services. Main and production are unchanged; choose a scoped release or
+complete service readiness. No feature enablement or Phase 1 acceptance is claimed.
+
 Latest backend handover: [26 October — Document server contract](reports/2026-10-26-document-server-contract.md)
 and [Word copy](reports/2026-10-26-document-server-contract.docx).
 Disabled document specifications retain every option, with independent server/SQL

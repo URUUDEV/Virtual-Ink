@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+26 October [main release preparation](reports/2026-10-26-main-release-readiness.md):
+the isolated merge preserves telemetry exclusion in staging/ui_test and passes
+257 root/86 web/16 transport checks, 52-file coverage, types/lint/build and dependency
+audit. Read-only catalogs verify migration gaps and disabled/unconfigured staging
+security with NOLOGIN runtime and zero Storage buckets. Vercel metadata confirms
+main targets production and lacks the new isolation settings. No credentials are
+decrypted, hosted mutations performed, services enabled or main pushed. Review
+the specific candidate/configuration/rollback proposal before changing production.
+
 26 October [document server contract](reports/2026-10-26-document-server-contract.md):
 independent server/SQL option validation, immutable stored specifications and
 existing audited owner/vendor boundaries pass local negative checks. All 257

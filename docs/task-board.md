@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+26 October: **MAIN-RELEASE-26 — Candidate tested; enablement/release decision pending**,
+Uchi/Mumba with Taizya/Lubasi. [Readiness report](reports/2026-10-26-main-release-readiness.md)
+records the isolated merge, preserved main telemetry, fresh local checks, actual
+Vercel mapping and the eight/four-migration production/staging gaps. Main is
+production-linked. Next: explicit scope/candidate/configuration/rollback decision
+and missing hosted acceptance; no flag enablement, main push or production deployment occurs.
+
 26 October: **DOC-SERVER-26 — Disabled server contract; acceptance pending**,
 Uchi/Mumba with Taizya/Lubasi. [Handover](reports/2026-10-26-document-server-contract.md)
 and [setup](document-printing.md): versioned document options, independent validation
