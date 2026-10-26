@@ -18,8 +18,13 @@ Set-Content -LiteralPath $passwordPath -Value $password -Encoding utf8NoBOM
 if ($LASTEXITCODE -ne 0) { throw "Isolated initdb failed; local log: $runPath/init.log" }
 $started = $false
 try {
-  & "$pgBin/pg_ctl.exe" -D $clusterPath -l (Join-Path $runPath 'server.log') -o "-h 127.0.0.1 -p $port" -w start
-  if ($LASTEXITCODE -ne 0) { throw 'Isolated PostgreSQL start failed.' }
+  # Detach the server's inherited handles from PowerShell's captured pipeline.
+  # Otherwise pg_ctl can exit while its background server keeps that pipe open.
+  $controller = Start-Process -FilePath "$pgBin/pg_ctl.exe" -ArgumentList @('-D',('"'+$clusterPath+'"'),'-l',('"'+(Join-Path $runPath 'server.log')+'"'),'-o',('"-h 127.0.0.1 -p '+$port+'"'),'-w','start') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $runPath 'start.stdout.log') -RedirectStandardError (Join-Path $runPath 'start.stderr.log')
+  # Start-Process -Wait waits for descendants, including the long-lived server.
+  $controller.WaitForExit()
+  $controller.Refresh()
+  if ($controller.ExitCode -ne 0) { throw 'Isolated PostgreSQL start failed.' }
   $started = $true
   $env:PGPASSWORD = $password
   foreach ($name in @('PGSERVICE','PGSERVICEFILE','PGOPTIONS')) { Remove-Item -LiteralPath "Env:$name" -ErrorAction SilentlyContinue }

@@ -227,6 +227,73 @@ try {
   check(dashboardPage.orders.length===1&&dashboardPage.nextCursor===dashboardPage.orders[0].id,'bounded dashboard first page');
   const dashboardNextPage=await readDashboard('customer',{limit:1,cursor:dashboardPage.nextCursor});
   check(dashboardNextPage.orders.length===1&&dashboardNextPage.orders[0].id!==dashboardPage.orders[0].id,'stable keyset next page');
+  // Documents use the same authenticated/audited transaction, retaining all
+  // choices without converting pages/copies into merchandise dimensions.
+  const beforeDocumentChecks = checks;
+  const documentSpec = { kind: 'document', schemaVersion: 1, pages: 5, copies: 3, purpose: 'notes', paperSize: 'a4',
+    paperType: 'standard', colour: 'mono', sides: 'double', binding: 'spiral', urgency: 'standard', handoff: 'collection' };
+  const documentId = randomUUID(), operationId = randomUUID();
+  const documentInput = { orderId: documentId, operationId, expectedVersion: 0, spec: documentSpec };
+  const document = await commands.run('order.create', documentInput, actors.customer, randomUUID());
+  check(document.state === 'DRAFT', 'document draft created');
+  assert.deepEqual(document.spec, documentSpec); checks++;
+  const sameDocument = await commands.run('order.create', documentInput, actors.customer, randomUUID());
+  check(sameDocument.auditId === document.auditId, 'matching document retry uses original audit');
+  await assert.rejects(commands.run('order.create', { ...documentInput, spec: { ...documentSpec, pages: 6 } }, actors.customer, randomUUID()), { code: 'CONFLICT' }); checks++;
+  const documentRun = (who, action, expectedVersion, extra = {}) => commands.run(action,
+    { orderId: documentId, operationId: randomUUID(), expectedVersion, ...extra }, actors[who], randomUUID());
+  for (const who of ['other', 'vendor', 'delivery']) {
+    await assert.rejects(documentRun(who, 'order.read', 1), { code: 'NOT_FOUND' }); checks++;
+  }
+  assert.deepEqual((await readDashboard('customer', { orderId: documentId })).detail.spec, documentSpec); checks++;
+  // Raw SQL bypasses the JS validator: malformed options must still deny,
+  // leave no order, and commit an immutable denial event.
+  const invalidSpecs = [null, [], { ...documentSpec, kind: 'constructor' }, { ...documentSpec, schemaVersion: '1' },
+    { ...documentSpec, schemaVersion: 2 }, { ...documentSpec, price: 1 }, { ...documentSpec, pages: '5' },
+    { ...documentSpec, pages: 0 }, { ...documentSpec, pages: 1.5 }, { ...documentSpec, pages: 2001 },
+    { ...documentSpec, copies: 1001 }, { ...documentSpec, copies: null }, { ...documentSpec, pages: {} }];
+  for (const key of Object.keys(documentSpec)) {
+    const missing = { ...documentSpec }; delete missing[key]; invalidSpecs.push(missing);
+  }
+  for (const key of ['purpose', 'paperSize', 'paperType', 'colour', 'sides', 'binding', 'urgency', 'handoff']) {
+    invalidSpecs.push({ ...documentSpec, [key]: '__proto__' }, { ...documentSpec, [key]: null });
+  }
+  for (const spec of invalidSpecs) {
+    const rejectedId = randomUUID();
+    await db.query('SET ROLE virtual_ink_security_service');
+    let rejection;
+    try { rejection = (await db.query('SELECT virtual_ink_workflow.command($1,$2::jsonb,$3::jsonb) AS result', ['order.create',
+      JSON.stringify({ orderId: rejectedId, operationId: randomUUID(), expectedVersion: 0, spec }),
+      JSON.stringify({ ...actors.customer, environment: 'local', correlationId: randomUUID() })])).rows[0].result; }
+    finally { await db.query('RESET ROLE'); }
+    check(!rejection.ok && rejection.error === 'VALIDATION_FAILED' && rejection.auditId, 'SQL document rejection is audited');
+    check((await db.query('SELECT count(*)::int AS n FROM virtual_ink_workflow.orders WHERE id=$1', [rejectedId])).rows[0].n === 0, 'invalid document creates no order');
+  }
+  await assert.rejects(db.query("UPDATE virtual_ink_workflow.orders SET spec=jsonb_set(spec,'{pages}','6') WHERE id=$1", [documentId]), { code: '23514' }); checks++;
+  await assert.rejects(documentRun('customer', 'order.submit', 1), { code: 'CONFLICT' }); checks++;
+  const documentFile = randomUUID();
+  const reserved = await documentRun('customer', 'file.reserve', 1, { fileId: documentFile, purpose: 'source', mime: 'application/pdf', size: 32 });
+  await workerDb.query('SELECT virtual_ink_workflow.record_scan($1,$2,$3,$4,$5,$6,$7)', [documentFile, `approved:${randomUUID()}`, 'a'.repeat(64), 'SAFE', 32, 'application/pdf', randomUUID()]);
+  const submitted = await documentRun('customer', 'order.submit', reserved.version);
+  check(submitted.state === 'SUBMITTED', 'document submits only after synthetic SAFE metadata');
+  await db.query("INSERT INTO virtual_ink_workflow.grants VALUES(gen_random_uuid(),$1,$2,'order.assign','synthetic_document',gen_random_uuid(),clock_timestamp()+interval '5 minutes',clock_timestamp())", [actors.admin.user, documentId]);
+  const assigned = await documentRun('admin', 'order.assign', submitted.version, { vendorId: vendorRow.tenant_id });
+  assert.deepEqual((await documentRun('vendor', 'order.read', assigned.version)).spec, documentSpec); checks++;
+  assert.deepEqual((await readDashboard('vendor', { orderId: documentId })).detail.spec, documentSpec); checks++;
+  const quoted = await documentRun('vendor', 'quote.propose', assigned.version, { amountMinor: 15000, currency: 'ZMW', validUntil: new Date(Date.now() + 3600000).toISOString() });
+  const documentAccepted = await documentRun('customer', 'quote.accept', quoted.version);
+  check(documentAccepted.state === 'AWAITING_PAYMENT', 'document uses existing server quotation lifecycle');
+  assert.deepEqual((await readDashboard('customer', { orderId: documentId })).detail.spec, documentSpec); checks++;
+  // Audit outage must roll back even an otherwise valid new document draft.
+  const auditDocumentId = randomUUID();
+  await db.query('REVOKE INSERT ON virtual_ink_workflow.events FROM virtual_ink_workflow_owner');
+  try { await assert.rejects(commands.run('order.create', { ...documentInput, orderId: auditDocumentId, operationId: randomUUID() }, actors.customer, randomUUID()), { code: 'AUDIT_UNAVAILABLE' }); checks++; }
+  finally { await db.query('GRANT INSERT ON virtual_ink_workflow.events TO virtual_ink_workflow_owner'); }
+  check((await db.query('SELECT count(*)::int AS n FROM virtual_ink_workflow.orders WHERE id=$1', [auditDocumentId])).rows[0].n === 0, 'audit outage creates no document order');
+  for (const role of ['anon', 'authenticated', 'service_role', 'virtual_ink_security_service', 'virtual_ink_scan_service']) {
+    check(!(await db.query("SELECT has_function_privilege($1,'virtual_ink_workflow.valid_spec(jsonb)','EXECUTE') AS allowed", [role])).rows[0].allowed, 'no new direct validator grants');
+  }
+  console.log(JSON.stringify({ check: 'document_specification', status: 'pass', checks: checks - beforeDocumentChecks, limits: 'Local SQL/provider-shaped fixtures and synthetic scan metadata only.' }));
   await db.query('UPDATE virtual_ink.memberships SET active=false WHERE user_id=$1',[actors.vendor.user]);
   await assert.rejects(readDashboard('vendor'),{code:'FORBIDDEN'});checks++;
   check(!(await db.query("SELECT has_function_privilege('authenticated','virtual_ink_workflow.dashboard(jsonb,jsonb)','EXECUTE') AS allowed")).rows[0].allowed,'no direct browser dashboard execution');

@@ -4,6 +4,7 @@ import { readJson, strictObject, uuid } from '../api/validation.ts';
 import { createAdmission } from '../api/admission.ts';
 import type { SqlExecutor } from '../database/ports.ts';
 import type { SecurityIdentity } from '../identity/security-admin.ts';
+import { validateOrderSpecification } from './specification.ts';
 
 export const workflowFields = {
   'order.create': ['spec'], 'order.read': [], 'order.timeline': ['limit','cursor'], 'order.submit': [], 'order.assign': ['vendorId'],
@@ -23,7 +24,8 @@ const admission = createAdmission(8);
 export function validateWorkflowInput(action: WorkflowAction, value: unknown): Record<string, unknown> {
   if (!Object.hasOwn(workflowFields, action)) throw new ApiError('NOT_FOUND');
   const input = strictObject(value, ['orderId', 'operationId', 'expectedVersion', ...workflowFields[action]]);
-  const result = { ...input, orderId: uuid(input.orderId, 'orderId'), operationId: uuid(input.operationId, 'operationId') };
+  const result: Record<string, unknown> = { ...input, orderId: uuid(input.orderId, 'orderId'), operationId: uuid(input.operationId, 'operationId') };
+  if (action === 'order.create') result.spec = validateOrderSpecification(input.spec);
   if (!['order.read', 'order.timeline', 'file.access'].includes(action) &&
     (!Number.isInteger(input.expectedVersion) || (input.expectedVersion as number) < 0 || (input.expectedVersion as number) > 1000000)) {
     throw new ApiError('VALIDATION_FAILED', ['expectedVersion']);
