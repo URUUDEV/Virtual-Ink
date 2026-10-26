@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+26 October [main release preparation](docs/reports/2026-10-26-main-release-readiness.md):
+the tested isolated candidate preserves main's telemetry alongside the latest UI
+and disabled backend. Hosted migration/configuration and acceptance gaps still
+block feature enablement. Main and production remain unchanged; the report gives
+the concrete source, proposed public-only configuration and rollback reference.
+
 26 October [document server contract](docs/reports/2026-10-26-document-server-contract.md):
 the disabled backend retains all document options with independent TypeScript/SQL
 validation and immutable specifications. Public preparation remains local; migration

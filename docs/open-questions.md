@@ -1,5 +1,13 @@
 # Virtual Ink open questions and decisions
 
+- **MAIN-RELEASE-26 — Open; Uchi/Mumba, 26 October 2026:** Select a public UI-only
+  release or completion of the missing service prerequisites before enabling
+  accounts/orders/uploads. Review the exact candidate, original production target,
+  configuration proposal and rollback reference in the
+  [readiness report](reports/2026-10-26-main-release-readiness.md). General deployment
+  instruction does not satisfy the retained acceptance gates or approve commercial
+  rules. No main push or production setting is changed by this preparation.
+
 - **DOC-SERVER-26 — Open; Uchi/Lubasi with Mumba/Taizya, 26 October 2026:**
   The disabled document server contract preserves all options, but numeric limits,
   paper availability, binding capacity, prices and turnaround still require
