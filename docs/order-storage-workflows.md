@@ -37,6 +37,13 @@ remain denied pending their scoped policy and integration work.
 
 ## Command contract and states
 
+26 October: [document specifications](document-printing.md) add a versioned
+`kind: "document"` contract to the existing disabled `order.create` command.
+Local migration 18 validates every document option and makes stored specifications
+immutable. New merchandise counts/dimensions must be JSON numbers. Historical
+migrations and merchandise rows are preserved; hosted migration/enablement and
+the public document form's real submission remain pending.
+
 All commands use POST JSON with the exact application Origin, no query payload,
 orderId and operationId UUIDs. Mutations include expectedVersion: zero for creation,
 then the current version. Unknown fields reject. Reads recheck authority rather

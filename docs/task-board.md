@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+26 October: **DOC-SERVER-26 — Disabled server contract; acceptance pending**,
+Uchi/Mumba with Taizya/Lubasi. [Handover](reports/2026-10-26-document-server-contract.md)
+and [setup](document-printing.md): versioned document options, independent validation
+and immutable stored specifications. Migration 18 remains local. Next: review SQL
+evidence, then genuine isolated private intake/Auth and commercial approval before
+connecting public submission. No hosted service enablement or Phase 1 completion.
+
 23 October: **DOC-PRINT-23 — Local preparation verified; UI Preview READY, hosted browsing unverified**,
 Uchi/Mumba with Taizya/Lubasi. [Handover](reports/2026-10-23-document-printing.md)
 and [scope](document-printing.md): prominent /print-documents entry, document

@@ -29,6 +29,25 @@ the server workflow, then connect genuine staging Auth, quarantined file upload,
 approved server pricing, order creation and sandbox checkout. Preserve every
 selected option through vendor/dashboard/proof fulfilment. Phase 1 is incomplete.
 
+26 October server follow-up: the disabled workflow now accepts a separate
+document specification, validated independently in TypeScript and PostgreSQL.
+Forward migration `20261026090000` is local only; no hosted schema is changed.
+The public form remains local preparation and does not call the workflow API.
+See [server contract and verification](reports/2026-10-26-document-server-contract.md).
+
+The `order.create` specification uses `kind: "document"`, `schemaVersion: 1`,
+numeric `pages` (1–2,000) and `copies` (1–1,000), plus every existing option:
+purpose, paperSize, paperType, colour, sides, binding, urgency and handoff.
+Unknown fields/versions, financial fields, document names and coerced counts deny.
+Legacy merchandise retains its four-field numeric contract. Existing merchandise
+rows remain unchanged; new merchandise requests require actual JSON numbers.
+Stored specifications cannot be changed after creation. Choosing an option does
+not confirm vendor capability, stock, price, turnaround or delivery availability.
+
+Next: genuine isolated identity/private file intake and reviewed commercial
+policy, then a separately reviewed form submission and fulfilment integration.
+No document-specific payable total or operational approval is inferred here.
+
 ## Review access
 
 Use Print documents on the homepage or navigation, or open

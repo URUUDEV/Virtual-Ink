@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+26 October [document server contract](reports/2026-10-26-document-server-contract.md):
+independent server/SQL option validation, immutable stored specifications and
+existing audited owner/vendor boundaries pass local negative checks. All 257
+root/233 security tests, 52-file coverage, lint/types/build, 86 web/16 transport
+checks, 18-migration replay, six SQL rollback suites, 123 security SQL assertions
+and 217 workflow assertions (104 document-specific) pass. Synthetic provider/scan
+fixtures are separate from hosted Auth/private-file acceptance. No new direct
+browser grant, hosted schema change or sensitive enablement occurs. Production
+and Phase 1 release remain blocked. See the report for original failures/retests.
+
 23 October [document-printing review](reports/2026-10-23-document-printing.md):
 new local-only specifications reject injected authority, unknown choices and
 invalid counts, use fixed text-only downloads and accept no customer documents.

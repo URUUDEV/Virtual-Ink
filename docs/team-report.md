@@ -1,5 +1,12 @@
 # Virtual Ink team report
 
+Latest backend handover: [26 October — Document server contract](reports/2026-10-26-document-server-contract.md)
+and [Word copy](reports/2026-10-26-document-server-contract.docx).
+Disabled document specifications retain every option, with independent server/SQL
+validation and immutable stored specs. Root 257/security 233/web 86/SDK 16 and the
+52-file coverage gate pass, as do types/lint/build. Final SQL/document/Git evidence
+is recorded in the report. No hosted backend change or phase acceptance is claimed.
+
 Latest build handover: [23 October — Document printing](reports/2026-10-23-document-printing.md).
 Matching Word copy: [Document printing team report](reports/2026-10-23-document-printing.docx).
 The dedicated student/document configuration and local review/download pass local

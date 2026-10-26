@@ -1,5 +1,12 @@
 # Virtual Ink open questions and decisions
 
+- **DOC-SERVER-26 — Open; Uchi/Lubasi with Mumba/Taizya, 26 October 2026:**
+  The disabled document server contract preserves all options, but numeric limits,
+  paper availability, binding capacity, prices and turnaround still require
+  owner/vendor approval. Decide how a customer corrects an immutable specification
+  before enabling real intake; no editing or commercial approval is inferred.
+  [Contract and evidence](reports/2026-10-26-document-server-contract.md).
+
 - **DOC-PRINT-23 — Open; Uchi/Mumba with Taizya/Lubasi, 23 October 2026:**
   Confirm launch paper stocks, supported sizes, colour rates, binding capacities,
   page/copy limits and vendor turnaround. The new /print-documents preparation

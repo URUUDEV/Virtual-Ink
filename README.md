@@ -6,6 +6,13 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+26 October [document server contract](docs/reports/2026-10-26-document-server-contract.md):
+the disabled backend retains all document options with independent TypeScript/SQL
+validation and immutable specifications. Public preparation remains local; migration
+18 is unapplied hosted. All 257 root/233 security/86 web/16 SDK checks and the
+52-file unit coverage gate pass, alongside lint/types/build. Hosted identity,
+private intake, commercial approval and Phase 1 acceptance remain open.
+
 23 October [document printing](docs/document-printing.md): a dedicated
 `/print-documents` route is linked from the homepage, navigation, catalogue and
 customer dashboard. Students and other users can configure pages, copies, paper,
