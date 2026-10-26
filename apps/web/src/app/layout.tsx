@@ -8,6 +8,7 @@ import './home-upgrade.css';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 export const metadata: Metadata = {
   title: { default: 'Virtual Ink — Your Ideas. Our Print. Delivered.', template: '%s | Virtual Ink' },
   description: 'Printing, design and custom merchandise. Virtual Ink foundation preview by Shadow Root Security Technologies.',
@@ -25,6 +26,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <SiteHeader />
     <main id="main">{children}</main>
     <SiteFooter />
-    {!['staging','ui_test'].includes(process.env.APPLICATION_ENVIRONMENT??'')&&<Analytics />}
+    {!['staging','ui_test'].includes(process.env.APPLICATION_ENVIRONMENT??'')&&<><Analytics /><SpeedInsights /></>}
   </body></html>;
 }
