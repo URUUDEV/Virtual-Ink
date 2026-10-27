@@ -11,7 +11,7 @@ const request = (path = '/api/v1/me', method = 'GET', extra = {}) => new Request
   method, headers: { Authorization: 'Bearer synthetic-token', ...extra },
 });
 test('service config exposes web only, has a caller-owned binding and explicit Node entrypoint', async () => {
-  const config = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
+  const config = JSON.parse(await readFile(new URL('../vercel.services.json', import.meta.url), 'utf8'));
   assert.deepEqual(Object.keys(config.services).sort(), ['app', 'web']);
   assert.equal(config.services.app.entrypoint, 'src/vercel.js');
   assert.deepEqual(config.services.web.bindings, [{ type: 'service', service: 'app', format: 'url', env: 'APP_SERVICE_URL' }]);

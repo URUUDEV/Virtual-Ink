@@ -1,12 +1,13 @@
 # Virtual Ink open questions and decisions
 
-- **MAIN-RELEASE-26 — Open; Uchi/Mumba, 26 October 2026:** Select a public UI-only
-  release or completion of the missing service prerequisites before enabling
-  accounts/orders/uploads. Review the exact candidate, original production target,
-  configuration proposal and rollback reference in the
-  [readiness report](reports/2026-10-26-main-release-readiness.md). General deployment
-  instruction does not satisfy the retained acceptance gates or approve commercial
-  rules. No main push or production setting is changed by this preparation.
+- **MAIN-RELEASE-26 — UI-only scope approved, 27 October 2026; Uchi/Mumba:**
+  Uchi replied “proceed” to the concrete public UI-only main release with all
+  sensitive services disabled. That scoped authorization supersedes the pending
+  UI-only release choice in the 26 October readiness report. Full service
+  prerequisites and commercial/human acceptance remain open. The initial dynamic
+  release hit the retained runtime guard; rollback to the older baseline was
+  rejected by Vercel's plan limit. See [public UI setup](vercel-public-ui.md) and
+  the 27 October report for the forward static fix and final verification.
 
 - **DOC-SERVER-26 — Open; Uchi/Lubasi with Mumba/Taizya, 26 October 2026:**
   The disabled document server contract preserves all options, but numeric limits,

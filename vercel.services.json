@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "app": { "root": ".", "runtime": "node", "entrypoint": "src/vercel.js", "installCommand": "npm ci", "devCommand": "node --env-file-if-exists=.env src/server.js" },
+    "web": {
+      "root": "apps/web", "framework": "nextjs",
+      "installCommand": "npm --prefix ../.. ci --include=dev && npm ci --include=dev",
+      "buildCommand": "npm run build", "devCommand": "npm run dev:service",
+      "bindings": [{ "type": "service", "service": "app", "format": "url", "env": "APP_SERVICE_URL" }]
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": { "service": "web" } }]
+}
