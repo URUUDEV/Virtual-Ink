@@ -1,5 +1,13 @@
 # Virtual Ink open questions and decisions
 
+- **MAIN-UI-28 — Hosted verification pending; Uchi/Mumba, 28 October 2026:**
+  The isolated release handover records Uchi's approved public UI-only scope.
+  Its static repair is READY; all 22 HTTP checks reach Vercel protection and
+  Chrome control is unavailable after restart. Establish normal authenticated
+  access and verify the candidate before public promotion. Full-service and
+  commercial gates remain open. This supersedes the 26 October pending scope
+  choice; see [the resumed report](reports/2026-10-28-static-ui-release-verification.md).
+
 - **MAIN-RELEASE-26 — Open; Uchi/Mumba, 26 October 2026:** Select a public UI-only
   release or completion of the missing service prerequisites before enabling
   accounts/orders/uploads. Review the exact candidate, original production target,
