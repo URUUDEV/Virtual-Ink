@@ -170,10 +170,14 @@ test('procedural shirt keeps mesh resources bounded and maps front artwork withi
 
 test('vendor preparation exposes a private local draft boundary and no submission or authority fields', () => {
   const html = renderToStaticMarkup(React.createElement(component('app/vendors/join/page.tsx')));
-  assert.match(html, /Prepare your vendor profile/); assert.match(html, /Step 1 of 3/);
-  for (const label of ['Business name', 'Contact name', 'Contact email', 'City or service area']) assert.ok(html.includes(label));
+  assert.match(html, /Your vendor setup/); assert.match(html, /Step 1 of 4/);
+  for (const label of ['Business or trading name', 'Contact name', 'Contact email', 'City or service area', 'Individual vendor', 'School-serving status']) assert.ok(html.includes(label));
   assert.match(html, /Details stay in this tab/); assert.match(html, /Online submission, verification and account activation are awaiting setup/);
-  assert.doesNotMatch(html, /action=|type="password"|name="(role|tenantId|approved)"/);
+  assert.doesNotMatch(html, /type="password"|name="(role|tenantId|approved)"/);
+  assert.match(html, /<form(?=[^>]*method="post")(?=[^>]*action="\/vendors\/join")[^>]*>/);
+  assert.match(html, /type="submit"[^>]*disabled=""/); // Local-only flow cannot POST before hydration.
+  assert.match(html, /<noscript>/); assert.match(html, /href="\/vendor\/setup"/);
+  assert.match(html, /autoComplete="organization"/i); assert.match(html, /aria-describedby="vendor-vendorKind-help"/);
   assert.match(html, /Save vendor draft on this device/); assert.match(html, /Download vendor draft/);
   assert.match(html, /Nothing is saved automatically or sent to a server/);
   assert.match(html, /accept="application\/json,.json"/);

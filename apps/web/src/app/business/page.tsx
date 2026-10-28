@@ -5,5 +5,5 @@ export default function Business() {
     <div className="info-callout"><h2>Prepare a useful brief</h2><p>List the required items, quantities, artwork needs, deadline and collection or delivery preferences. Verified vendor capabilities and approved quote rules will determine what can be offered.</p>
       <p>Quote submission is not enabled in this preview. No turnaround, coverage or capacity promise is being made.</p></div>
     <ButtonLink href="/how-it-works">Understand the planned workflow</ButtonLink>
-    <div className="info-callout"><h2>Bring your business to Virtual Ink</h2><p>Print, apparel, signage and design partners can prepare a vendor profile for review. Account activation follows verified capabilities and an approved onboarding process.</p><p><ButtonLink href="/vendors/join">Prepare a vendor profile</ButtonLink></p></div></section>;
+    <div className="info-callout"><h2>Set up your vendor profile</h2><p>A guided start for individual vendors, school-serving partners, print shops and design studios. Prepare your services and working arrangements; approved owners can continue to account security, agreements and prices.</p><p><ButtonLink href="/vendors/join">Start vendor setup</ButtonLink></p></div></section>;
 }

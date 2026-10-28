@@ -67,3 +67,37 @@ test('commercial server actions recheck session/origin and reject duplicate or f
   assert.match(await invoke(form({ vendorId: 'https://attacker.invalid' })), /^\/vendor\/pricing\?/);
   const duplicate = form(); duplicate.append('amount', '0.01'); assert.match(await invoke(duplicate), /message=VALIDATION_FAILED/); assert.equal(calls, 1);
 });
+
+async function setup(data = dataset, params = {}, rejected = false) {
+  let reads = 0;
+  const load = loader({ '@/lib/order-dashboard': { async orderDashboardSession() {
+    if (rejected) throw Error('private synthetic connection details');
+    return { identity: { subject: id }, commerce: { async run(action, input, identity) {
+      reads++; assert.equal(action, 'read'); assert.equal(identity.subject, id);
+      if (input.vendorId !== undefined) assert.equal(input.vendorId, id);
+      return data;
+    } } };
+  } } });
+  const html = renderToStaticMarkup(await load(resolve(web, 'components/vendor-setup.tsx')).VendorSetup({ searchParams: Promise.resolve(params) }));
+  return { html, reads };
+}
+test('setup checklist derives owner, current agreement and active prices from the server read', async () => {
+  const { html, reads } = await setup({ ...dataset, accepted: true, prices: [{ active: true, service: 'printing' }, { active: false, service: 'design' }] }, { vendorId: id, accepted: 'true', approved: 'true' });
+  assert.equal(reads, 1); assert.match(html, /Owner access confirmed/);
+  assert.match(html, /Agreement version 1 accepted/); assert.match(html, /1 active service price/);
+  assert.match(html, /Operations review required/); assert.doesNotMatch(html, /Ready to trade|Activate vendor/);
+  for (const href of ['/vendors/join', '/account/security', '/vendor/pricing?', '/vendor']) assert(html.includes(`href="${href}`));
+  const stale = await setup({ ...dataset, accepted: true, policy: null, prices: [{ active: true, service: 'printing' }] });
+  assert.match(stale.html, /Agreement review pending/); assert.match(stale.html, /Service prices pending/);
+  assert.doesNotMatch(stale.html, /active service price/);
+});
+test('setup fails closed on unavailable and missing owner accounts without exposing private errors or trusting query flags', async () => {
+  const failure = await setup(dataset, { accepted: 'true', vendorId: id }, true);
+  assert.equal(failure.reads, 0); assert.match(failure.html, /No setup completion has been confirmed/);
+  assert.doesNotMatch(failure.html, /Synthetic vendor|private synthetic|Owner access confirmed|Agreement version 1 accepted/);
+  const missing = await setup({ ...dataset, vendors: [], vendorId: null, accepted: true, prices: [{ active: true }] });
+  assert.match(missing.html, /No approved owner account is selected/); assert.match(missing.html, /Service prices pending/);
+  assert.doesNotMatch(missing.html, /Owner access confirmed|Agreement version 1 accepted/);
+  const escaped = await setup({ ...dataset, vendors: [{ id, name: '<script>untrusted</script>' }] });
+  assert.match(escaped.html, /&lt;script&gt;untrusted&lt;\/script&gt;/); assert.doesNotMatch(escaped.html, /<script>untrusted/);
+});

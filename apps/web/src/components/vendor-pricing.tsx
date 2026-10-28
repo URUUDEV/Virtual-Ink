@@ -31,7 +31,7 @@ export async function VendorPricing({ searchParams }: { searchParams: Promise<Re
     return <section className="section container order-dashboard"><h1>Service prices and commission</h1><p className="ui-notice" role="status">Vendor pricing is unavailable with your current access or configuration. No service prices or agreement could be loaded.</p><Link className="button button-plain" href="/account/security">Account security</Link><Link className="button button-plain" href="/vendor">Assigned orders</Link></section>;
   }
   const vendorId = data.vendorId;
-  return <section className="section container order-dashboard"><h1>Service prices and commission</h1><p>Customers pay you directly. Manage your own prices and review the agreement that applies to your work.</p><Link href="/vendor" className="text-link">Assigned orders</Link>
+  return <section className="section container order-dashboard"><h1>Service prices and commission</h1><p>Customers pay you directly. Manage your own prices and review the agreement that applies to your work.</p><Link href="/vendor/setup" className="button button-plain">Vendor setup checklist</Link><Link href="/vendor" className="text-link">Assigned orders</Link>
     {typeof params.message === 'string' && messages[params.message] && <p className="ui-notice" role={params.message === 'saved' ? 'status' : 'alert'}>{messages[params.message]}</p>}
     <nav aria-label="Your vendor accounts"><ul>{data.vendors.map(vendor => <li key={vendor.id}><Link href={`/vendor/pricing?${new URLSearchParams({ vendorId: vendor.id })}`} aria-current={vendorId === vendor.id ? 'page' : undefined}>{vendor.name}</Link></li>)}</ul></nav>
     {!data.vendors.length && <p className="ui-notice">No verified vendor account is available.</p>}
