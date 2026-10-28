@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+28 October [guided vendor setup](docs/vendor-setup.md): four-step preparation
+supports individual vendors, shops and studios, with school context, working
+arrangements and strict recovery. The exact-source UI-only Preview is READY and
+sampled hosted form checks pass. Owner-checklist navigation and genuine activation
+remain unverified. [Handover](docs/reports/2026-10-28-vendor-setup.md).
+
 28 October [Neon private storage](docs/neon-private-storage.md): Uchi selected
 Neon for six private staging buckets. Database/Auth stay with the existing provider;
 private worker credentials, synthetic storage checks and operating limits are

@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest vendor setup/security handover: [28 October — Guided vendor setup](reports/2026-10-28-vendor-setup.md)
+and [Word copy](reports/2026-10-28-vendor-setup.docx).
+Four-step local preparation and the owner checklist have 263 root/239 security/
+91 web/16 Auth checks passing; all 53 backend/shared files are measured above
+95% in aggregate. The exact-source protected Preview is READY and sampled hosted
+form checks pass. Vercel logs confirm owner-checklist HTTP 500 with the runtime
+patch guard; a compatible request runtime and genuine hosted service/device
+acceptance remain open. Phase 1 stays INCOMPLETE / NO-GO.
+
 Latest storage/security handover: [28 October — Neon private staging buckets](reports/2026-10-28-neon-private-storage.md)
 and [Word copy](reports/2026-10-28-neon-private-storage.docx).
 Six private buckets are provisioned on a separate Neon staging branch, with named

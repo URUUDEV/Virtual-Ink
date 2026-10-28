@@ -28,12 +28,18 @@ testing, hosted acceptance, rollback or explicit release authorization.
 
 ## Vendor onboarding and prices
 
+28 October [setup experience](vendor-setup.md) now captures the declared vendor
+type, school-serving setting, services, availability, working hours and handoff in
+a recoverable local profile. The account checklist connects approved owners to
+security, agreements and prices. Persistence, genuine onboarding approval and
+operational activation remain open; those fields do not grant access or endorsement.
+
 Reuse the existing vendor identity, tenant, ownership and verification foundations.
 Vendor category and operating context describe the business; they must not grant
 new platform roles or access to another vendor. An individual vendor must have a
 supported onboarding path without being represented as a registered print shop.
-School-serving status must not imply school endorsement. The fields and screens
-for those distinctions remain to be implemented and verified.
+School-serving status must not imply school endorsement. The preparation screens
+now capture those distinctions; authenticated persistence and hosted review remain open.
 
 The first vendor setup records approved services and capabilities, service area,
 availability, turnaround and collection/delivery options. Contact and settlement

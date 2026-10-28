@@ -30,6 +30,10 @@ never change existing accepted quote economics retroactively.
 
 ## Delivered slice
 
+28 October follow-up: [vendor setup](vendor-setup.md) links approved owners into
+this workspace and reads the current agreement and active price count through
+the same audited owner-only command. It adds no commercial permission or activation.
+
 - `/vendor/pricing` uses the existing verified server session and restricted
   database connection. Owners select their own vendor, inspect the actual approved
   agreement, accept its exact version/hash and add, revise or retire printing/design

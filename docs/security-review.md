@@ -1,5 +1,17 @@
 # Virtual Ink recurring security review
 
+28 October [vendor setup review](reports/2026-10-28-vendor-setup.md) records strict
+versioned local profiles, forged-authority/markup/byte-bound denials, consent reset
+and reuse of the current owner-only commercial read. All 13 focused checks, lint,
+runtime gate and fresh root/web dependency audits pass on resumption; the full
+263/239/91/16 implementation evidence is retained separately. Hosted form required
+fields, services, turnaround and confirmation denials pass with synthetic data.
+The /vendor/setup link reaches a browser error page; read-only Vercel logs confirm
+HTTP 500 and RUNTIME_SECURITY_PATCH_REQUIRED. The exact request-runtime version
+is unreported. Keep the guard and verify a patched request runtime before retesting.
+Hosted owner acceptance remains open; no private-data exposure is observed.
+No provider/service/production change or phase acceptance occurs.
+
 28 October [Neon private storage](reports/2026-10-28-neon-private-storage.md):
 six private staging buckets pass 60 synthetic hosted storage checks, including
 conditional-write/read, anonymous/read-only/signature denials and parent-branch

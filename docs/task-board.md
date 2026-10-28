@@ -1,5 +1,15 @@
 # Virtual Ink task board
 
+28 October: **VENDOR-SETUP-28 — Guided preparation verified; hosted checklist open**,
+Uchi/Mumba with Taizya/Lubasi. [Setup](vendor-setup.md) and
+[handover](reports/2026-10-28-vendor-setup.md) record four-step profiles, strict
+legacy recovery and current owner agreement/price readiness. Exact-source UI-only
+Preview is READY; sampled hosted preparation passes but owner-checklist navigation
+fails with HTTP 500/RUNTIME_SECURITY_PATCH_REQUIRED in Vercel logs. Next: verify
+a compatible patched request runtime and retest, then genuine identity/MFA/database,
+private intake/profile persistence, actual operations review and physical devices.
+No live vendor activation or Phase 1 completion is claimed.
+
 28 October: **NEON-STORAGE-28 — Six private staging buckets provisioned**,
 Uchi/Mumba with Taizya/Lubasi. [Setup](neon-private-storage.md) records the isolated
 project, scoped credentials and 60 passing synthetic storage checks. Next: deploy

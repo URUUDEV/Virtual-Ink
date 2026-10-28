@@ -1,5 +1,12 @@
 # Vendor profile preparation
 
+28 October [guided vendor setup](vendor-setup.md) supersedes the three-step UI
+below with four steps: business/context, services, operations and review. Version 2
+adds individual/shop/studio, school-serving setting, availability and working hours;
+strict version 1 recovery remains supported. `/vendor/setup` reads real owned-account
+agreement/pricing readiness through existing protected services. Preparation stays
+local; no public submission or automatic activation is enabled.
+
 The public `/vendors/join` route prepares a local vendor profile for review. It is
 linked from Business and the footer. This is the first vendor-facing onboarding
 slice; online submission, review decisions, accounts and activation remain closed.

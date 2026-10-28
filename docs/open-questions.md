@@ -1,5 +1,13 @@
 # Virtual Ink open questions and decisions
 
+- **VENDOR-SETUP-28 — Preparation delivered; activation/operations open:**
+  The four-step profile records individual/shop/studio, school context, services
+  and working arrangements without granting authority. Uchi/Lubasi must confirm
+  actual capabilities, review ownership and the approved private onboarding channel.
+  Uchi/Mumba must verify hosted owner-checklist navigation and authenticated
+  persistence before live onboarding. Taizya owns real-device/accessibility review.
+  [Setup and limits](vendor-setup.md); existing fee/payment decisions remain open.
+
 - **STORAGE-NEON-28 — Provider selected; operations open, Uchi/Mumba/Lubasi:**
   Uchi authorizes Neon for private buckets. Six isolated staging buckets are
   provisioned; database/Auth remain with the existing provider. Approve retention,
