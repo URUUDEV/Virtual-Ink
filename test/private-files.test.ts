@@ -98,7 +98,7 @@ test('inspection fails closed on malware, exceptions, missing/mismatched receipt
   for (const scan of [async () => { throw new Error('private path/secret/provider diagnostic'); },
     async () => undefined as unknown as ScanResult,
     async () => ({ verdict: 'clean', sha256: '0'.repeat(64) }) as ScanResult,
-    async bytes => ({ ...receipt(bytes), verdict: 'unexpected' }) as unknown as ScanResult]) {
+    async (bytes: Uint8Array) => ({ ...receipt(bytes), verdict: 'unexpected' }) as unknown as ScanResult]) {
     const result = await createFileInspector({ scan }, 1024)(pdf, 'application/pdf');
     assert.equal(result.status, 'REVIEW_REQUIRED');
     assert(!/private|secret|diagnostic/.test(JSON.stringify(result)));
@@ -117,7 +117,7 @@ test('inspection binds verdicts to copied bytes and denies scanner mutation', as
 });
 
 test('inspection validates its worker ceiling and refuses shared or untyped memory', async () => {
-  const scanner = { scan: async bytes => receipt(bytes) };
+  const scanner = { scan: async (bytes: Uint8Array) => receipt(bytes) };
   for (const limit of [0, -1, 1.5, NaN, Infinity, MAX_INSPECTION_BYTES + 1]) {
     assert.throws(() => createFileInspector(scanner, limit), ApiError);
   }

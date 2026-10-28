@@ -44,6 +44,7 @@ export async function OrderDashboard({view,searchParams}:{view:DashboardView;sea
   if(next[detail.state])actions.push(next[detail.state]);
  }
  return <section className="section container order-dashboard"><div className="dashboard-heading"><div><p className="eyebrow">Your Virtual Ink workspace</p><h1>{view==='admin'?'Platform order oversight':view==='vendor'?'Assigned order queue':'Your orders'}</h1></div><Link href="/account" className="text-link">Account and security</Link></div>
+  {view==='vendor'&&<Link href="/vendor/pricing" className="button button-plain">Manage service prices and commission</Link>}
   {view==='customer'&&<div className="ui-notice"><p>Printing assignments, notes or reports? Choose document-specific options before preparing a request.</p><Link href="/print-documents" className="button button-plain">Prepare document printing</Link></div>}
   {typeof params.message==='string'&&messages[params.message]&&<p className="ui-notice" role={params.message==='saved'?'status':'alert'}>{messages[params.message]}</p>}
   <dl className="dashboard-counts">{([['Total orders',data.summary.total],['Active orders',data.summary.active],['Awaiting proof review',data.summary.pendingProof],['Production and QC',data.summary.inProduction]] as const).map(([title,count])=><div className="ui-panel" key={title}><dt>{title}</dt><dd>{count}</dd></div>)}</dl>
