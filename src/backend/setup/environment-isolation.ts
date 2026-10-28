@@ -12,7 +12,16 @@ export const uiTestProject = 'prj_aqLrX1gsSVb1XINH5YNGkp1aYazH';
 export type ApplicationEnvironment = 'local' | 'test' | 'staging' | 'production' | 'ui_test';
 export class IsolationError extends Error {
   readonly code: string;
-  constructor(code: string) { super('Environment isolation check failed.'); this.code=code; }
+  readonly runtime?: Readonly<{ actualNode: string; minimumNode: string; advisoryOpen: boolean }>;
+  constructor(code: string) {
+    super('Environment isolation check failed.'); this.code=code;
+    // Fixed native-runtime facts for private server logs; never include environment
+    // bindings, request data, credentials or caller-provided diagnostic fields.
+    if (code === 'RUNTIME_SECURITY_PATCH_REQUIRED') this.runtime = Object.freeze({
+      actualNode: process.versions.node, minimumNode: runtimeSecurityNotice.minimum,
+      advisoryOpen: runtimeSecurityNotice.open,
+    });
+  }
 }
 const fail = (code: string): never => { throw new IsolationError(code); };
 function sensitiveRuntimeGate(env: Environment) {

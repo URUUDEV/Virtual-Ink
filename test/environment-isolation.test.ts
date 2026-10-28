@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
-import {assertEnvironmentIsolation,acceptancePurposes,disabledIntegrations,protectedProduction,uiTestProject,IsolationError} from '../src/backend/setup/environment-isolation.ts';
+import {assertEnvironmentIsolation,acceptancePurposes,disabledIntegrations,protectedProduction,uiTestProject,IsolationError,runtimeSecurityNotice} from '../src/backend/setup/environment-isolation.ts';
 const ref='abcdefghijklmnopqrst',site='https://virtual-ink-acceptance.example.test';
 function staging():Record<string,string|undefined>{return {
  APPLICATION_ENVIRONMENT:'staging',VERCEL_ENV:'preview',VERCEL_PROJECT_ID:'prj_syntheticAcceptance',ACCEPTANCE_VERCEL_PROJECT_ID:'prj_syntheticAcceptance',
@@ -13,6 +13,32 @@ function staging():Record<string,string|undefined>{return {
 function denied(patch:Record<string,string|undefined>,code:string){
  assert.throws(()=>assertEnvironmentIsolation({...staging(),...patch}),error=>error instanceof IsolationError&&error.code===code&&error.message==='Environment isolation check failed.');
 }
+test('runtime isolation failures carry only immutable native-version facts for private server diagnostics',()=>{
+ const failure = new IsolationError('RUNTIME_SECURITY_PATCH_REQUIRED');
+ assert.equal(failure.message, 'Environment isolation check failed.');
+ assert.deepEqual(failure.runtime, {actualNode:process.versions.node,minimumNode:runtimeSecurityNotice.minimum,advisoryOpen:runtimeSecurityNotice.open});
+ assert.ok(Object.isFrozen(failure.runtime));
+ assert.deepEqual(Object.keys(failure), ['code','runtime']);
+ assert.equal(new IsolationError('ELEVATED_CREDENTIAL_FORBIDDEN').runtime, undefined);
+});
+test('hosted runtime denials retain the exact baseline and never echo configuration canaries',()=>{
+ const source = `
+   Object.defineProperty(process.versions, 'node', {value:process.env.SYNTHETIC_NODE_VERSION});
+   const {assertEnvironmentIsolation} = await import('./src/backend/setup/environment-isolation.ts');
+   try { console.log(JSON.stringify(assertEnvironmentIsolation(process.env))); }
+   catch (error) { console.error(JSON.stringify({code:error.code,runtime:error.runtime})); process.exitCode=1; }
+ `;
+ for (const version of ['24.14.1','24.22.0','24.22.1-rc.1','26.0.0']) {
+   const result=spawnSync(process.execPath,['--input-type=module','--eval',source],{
+     env:{...process.env,...uiTest(),SYNTHETIC_NODE_VERSION:version,RENAMED:'sb_secret_synthetic-runtime-private-canary'},
+     encoding:'utf8',timeout:10000,windowsHide:true,
+   });
+   assert.equal(result.status,1);
+   const failure=JSON.parse(result.stderr.trim());
+   assert.deepEqual(failure,{code:'RUNTIME_SECURITY_PATCH_REQUIRED',runtime:{actualNode:version,minimumNode:'24.22.1',advisoryOpen:false}});
+   assert.doesNotMatch(result.stdout+result.stderr,/runtime-private-canary|RENAMED|SYNTHETIC_NODE_VERSION/);
+ }
+});
 test('application environments are explicit and deployment targets cannot contradict them',()=>{
  for(const environment of ['local','test','production'])assert.equal(assertEnvironmentIsolation({APPLICATION_ENVIRONMENT:environment}).environment,environment);
  for(const value of [undefined,'','preview','prod','STAGING'])assert.throws(()=>assertEnvironmentIsolation({APPLICATION_ENVIRONMENT:value}),{code:'ENVIRONMENT_REQUIRED'});
