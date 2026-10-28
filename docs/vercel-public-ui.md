@@ -42,4 +42,5 @@ and functional checks. Preserve the previous static deployment once available.
 Full service enablement requires the existing Phase 1 release, identity/MFA,
 hosted migration, storage/worker, pricing, provider and human/device gates.
 Changing build configuration or flags does not satisfy them. See the dated
-27 October release report for actual final deployment and test evidence.
+[28 October release report](reports/2026-10-28-static-ui-release-verification.md)
+for actual deployment, test evidence and pending protection/acceptance checks.
