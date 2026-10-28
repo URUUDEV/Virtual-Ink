@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+28 October [Neon private storage](docs/neon-private-storage.md): Uchi selected
+Neon for six private staging buckets. Database/Auth stay with the existing provider;
+private worker credentials, synthetic storage checks and operating limits are
+documented separately. Application ingress/scanning and full hosted acceptance
+remain open; this does not enable uploads or complete Phase 1.
+
 28 October [vendor prices and commission](docs/vendor-pricing-commission.md):
 customers pay vendors directly. A protected vendor price/agreement page, immutable
 fee snapshots and completed-order commission accrual now have local verification.

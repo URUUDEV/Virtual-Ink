@@ -25,6 +25,11 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+28 October [Neon private storage](neon-private-storage.md) provisions six private
+staging buckets with separate worker credentials. Supabase database/Auth remain
+unchanged. Storage infrastructure checks do not close private ingress/scanning,
+genuine hosted authorization, Vercel service/device acceptance or Phase 1.
+
 28 October [vendor pricing/commission slice](vendor-pricing-commission.md) adds
 protected owner price controls, versioned agreement acceptance, immutable quote
 fees and completed-order accrual in migration 19. Direct vendor payment is

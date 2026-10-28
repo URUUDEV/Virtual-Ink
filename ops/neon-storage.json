@@ -1,0 +1,18 @@
+{
+  "environment": "staging",
+  "provider": "neon",
+  "projectId": "weathered-wave-98734994",
+  "regionId": "aws-eu-central-1",
+  "branchId": "br-bitter-tooth-ba1x372f",
+  "branchName": "staging-files",
+  "parentBranchId": "br-autumn-wind-banu9azt",
+  "access": "private",
+  "buckets": {
+    "quarantine": "vi-staging-quarantine",
+    "source": "vi-staging-customer-originals",
+    "proof": "vi-staging-proofs",
+    "production": "vi-staging-approved-production",
+    "evidence": "vi-staging-production-evidence",
+    "dispute": "vi-staging-dispute-evidence"
+  }
+}

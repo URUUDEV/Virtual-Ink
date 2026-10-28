@@ -193,7 +193,7 @@ isolated Preview acceptance before a release decision.
 | Server-controlled roles | Locally verified | [Security administration](phase-1-security-admin.md); restricted local writer, real hosted lifecycle open |
 | Vendor permissions | Locally verified | [Assigned workflow/dashboard scope](order-dashboards.md), current membership and SQL denials; complete genuine hosted vendor journey open |
 | Administrator permissions | Locally verified | [Security administration](phase-1-security-admin.md) and recent-MFA order oversight; complete admin dashboard/hosted lifecycle open |
-| Private file storage | Implemented | [Worker/access libraries](order-storage-workflows.md) have local SQL and real S3/scanner evidence; authenticated ingress, hosted worker/IAM, retention/deletion and private viewer acceptance remain open |
+| Private file storage | Implemented | [Worker/access libraries](order-storage-workflows.md) have local SQL and real S3/scanner evidence; [six private Neon staging buckets](neon-private-storage.md) pass synthetic hosted S3 checks. Authenticated ingress, hosted worker/IAM, retention/deletion and private viewer acceptance remain open |
 | Short-lived signed file access | Not started | [Proxy download library](order-storage-workflows.md) rechecks current authority; no raw signed-URL grant/issuance flow or hosted file transport |
 | File validation | Locally verified | [Server inspection/worker](private-file-inspection.md), bounded MIME/signature/hash checks and real local engine tests; full format sanitization/hosted ingress open |
 | Malware scanning/quarantine | Locally verified | [Real local S3/ClamAV and SQL](reports/2026-10-21-backend-workflows-runtime.md); production worker, IAM, freshness and hosted upload journey remain open |

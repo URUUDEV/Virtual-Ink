@@ -1,5 +1,11 @@
 # Virtual Ink task board
 
+28 October: **NEON-STORAGE-28 — Six private staging buckets provisioned**,
+Uchi/Mumba with Taizya/Lubasi. [Setup](neon-private-storage.md) records the isolated
+project, scoped credentials and 60 passing synthetic storage checks. Next: deploy
+authorized ingress/worker/scanning and verify real application file access.
+No upload or Phase 1 enablement is implied.
+
 28 October: **VENDOR-COMMERCE-28 — Local pricing/agreement/accrual slice; hosting open**,
 Uchi/Mumba with Taizya/Lubasi. [Setup](vendor-pricing-commission.md): owner-scoped
 versioned prices/terms, immutable quote fees and completed-order accrual. Direct

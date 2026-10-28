@@ -1,5 +1,16 @@
 # Virtual Ink recurring security review
 
+28 October [Neon private storage](reports/2026-10-28-neon-private-storage.md):
+six private staging buckets pass 60 synthetic hosted storage checks, including
+conditional-write/read, anonymous/read-only/signature denials and parent-branch
+isolation. Named staging credentials replace inherited parent credentials in the
+worker binding; both explicit read/write scopes are required by the tested provider.
+Five controlled local setup denials/restoration, 261 root/237 security tests and
+all 53 measured backend/shared files pass their final gates. Initial transport,
+scope and loopback-test failures remain recorded. Real ingress/scanning, current
+application authorization and full-service/device acceptance stay open. No web
+credentials or service flag is added; Phase 1 remains INCOMPLETE / NO-GO.
+
 28 October [vendor pricing and commission](reports/2026-10-28-vendor-prices-commission.md):
 owner-scoped immutable prices/agreements and frozen quote fees pass 237 security
 tests and 137 commercial SQL checks, including cross-vendor/stale-authority

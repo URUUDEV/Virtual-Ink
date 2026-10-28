@@ -1,10 +1,16 @@
 # Phase 1 order, private-file and QC backend
 
+28 October [Neon file storage](neon-private-storage.md): six private buckets now
+exist on a separate staging storage branch. Existing database/Auth and application
+service flags are preserved. Use named branch-bound worker credentials and retain
+the scan/audit/current-authorization boundary; ingress and worker hosting remain open.
+
 28 October operating direction: [Hotprints-first manual payments](hotprints-manual-pilot.md).
-Reuse existing scoped quotes and payment.confirm as foundations. Vendor price
-lists, versioned commission/terms acceptance, configured recipient, actual receipt
-verification and commission/vendor reconciliation still need implementation and
-hosted acceptance. A payment gateway is deferred for this manual-only scope.
+Reuse existing scoped quotes and payment.confirm as foundations. [Vendor prices,
+versioned terms and commission accrual](vendor-pricing-commission.md) now pass local
+checks. Direct-to-vendor payment is confirmed; actual receipt verification,
+commission reconciliation and hosted acceptance remain open. A payment gateway
+is deferred for this manual-only scope.
 
 21 October 2026. Owners: Uchi Chinyama and Mumba Chitonge. **Local review
 candidate; hosted full-service acceptance and Phase 1 remain INCOMPLETE.**

@@ -1,5 +1,12 @@
 # Virtual Ink open questions and decisions
 
+- **STORAGE-NEON-28 — Provider selected; operations open, Uchi/Mumba/Lubasi:**
+  Uchi authorizes Neon for private buckets. Six isolated staging buckets are
+  provisioned; database/Auth remain with the existing provider. Approve retention,
+  capacity thresholds, credential rotation and the private ingress/worker/scanner
+  deployment before real files. Neon lifecycle expiration is not enforced; an
+  audited purge process is still needed. [Setup](neon-private-storage.md).
+
 - **DIRECT-PAY-28 — Recipient confirmed; collection operations open:** Uchi confirms
   customers pay the individual vendor/shop directly. The 5% completed-service,
   vendor-paid, weekly commission is the recommended pilot proposal; no approved

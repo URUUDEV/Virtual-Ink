@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest storage/security handover: [28 October — Neon private staging buckets](reports/2026-10-28-neon-private-storage.md)
+and [Word copy](reports/2026-10-28-neon-private-storage.docx).
+Six private buckets are provisioned on a separate Neon staging branch, with named
+worker/read-only credentials. All 60 synthetic hosted storage checks and five
+local configuration checks pass. Root 261/security 237 checks and the complete
+53-file aggregate coverage gate pass. Database/Auth remain with the existing
+provider; application ingress/scanning and full-service Vercel acceptance stay open.
+No application upload or Phase 1 enablement is implied.
+
 Latest build/security handover: [28 October — Vendor prices and commission](reports/2026-10-28-vendor-prices-commission.md)
 and [Word copy](reports/2026-10-28-vendor-prices-commission.docx).
 Owner price controls, exact versioned terms acceptance, frozen quote fees and

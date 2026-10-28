@@ -23,6 +23,8 @@
     "test:auth:web": "node --test --test-isolation=none scripts/web-auth-checks.mjs",
     "check:security:auth:local": "node --max-old-space-size=256 --max-semi-space-size=2 scripts/genuine-mfa-local-check.mjs",
     "check:security:files:local": "node scripts/private-file-scan-check.mjs",
+    "check:storage:neon": "node scripts/neon-storage-check.mjs",
+    "setup:storage:neon": "node scripts/neon-storage-config.mjs",
     "dev:web": "npm --prefix apps/web run dev",
     "build:web": "npm --prefix apps/web run build",
     "typecheck:web": "npm --prefix apps/web run typecheck",
