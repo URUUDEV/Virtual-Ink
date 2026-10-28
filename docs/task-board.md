@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+28 October: **VERCEL-RUNTIME-28 — Provider patch mismatch proven; acceptance blocked**,
+Uchi/Mumba with Taizya/Lubasi. [Evidence](reports/2026-10-28-vercel-runtime-diagnostic.md)
+and [runbook](vercel-runtime-verification.md): exact-source protected Preview is
+READY, but middleware and regular pages run Node 24.21.0 and fail the unchanged
+24.22.1 security gate. Next: obtain compatible patched Vercel request execution,
+then repeat route/service acceptance. No patch pin, override or sensitive enablement.
+
 28 October: **VENDOR-SETUP-28 — Guided preparation verified; hosted checklist open**,
 Uchi/Mumba with Taizya/Lubasi. [Setup](vendor-setup.md) and
 [handover](reports/2026-10-28-vendor-setup.md) record four-step profiles, strict

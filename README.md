@@ -6,6 +6,11 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+28 October [Vercel runtime verification](docs/vercel-runtime-verification.md):
+the protected diagnostic Preview proves its request runtime is Node 24.21.0,
+below the unchanged 24.22.1 security baseline. Dynamic routes remain blocked
+despite a READY build. [Evidence and next actions](docs/reports/2026-10-28-vercel-runtime-diagnostic.md).
+
 28 October [guided vendor setup](docs/vendor-setup.md): four-step preparation
 supports individual vendors, shops and studios, with school context, working
 arrangements and strict recovery. The exact-source UI-only Preview is READY and

@@ -1,5 +1,12 @@
 # Virtual Ink open questions and decisions
 
+- **VERCEL-RUNTIME-28 — Proven provider mismatch; Uchi/Mumba:** The selected
+  Node 24.x protected Preview actually runs middleware and serverless pages
+  on 24.21.0; both fail the reviewed 24.22.1 gate. Coordinate a supported provider
+  patch resolution and verify native request-time facts before hosted acceptance.
+  Vercel controls minor/patch rollout; do not invent a patch pin or lower the gate.
+  [Evidence](reports/2026-10-28-vercel-runtime-diagnostic.md).
+
 - **VENDOR-SETUP-28 — Preparation delivered; activation/operations open:**
   The four-step profile records individual/shop/studio, school context, services
   and working arrangements without granting authority. Uchi/Lubasi must confirm

@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest runtime/security handover: [28 October — Vercel request runtime](reports/2026-10-28-vercel-runtime-diagnostic.md)
+and [Word copy](reports/2026-10-28-vercel-runtime-diagnostic.docx).
+The exact-source diagnostic Preview is READY. Private logs prove Node 24.21.0
+on both /vendor/setup middleware and /shop serverless execution, below the
+24.22.1 baseline; both return 500. All 265 root/241 security/91 web/16 transport
+checks and the complete 53-file aggregate coverage gate pass locally. Provider
+request-runtime compatibility remains open; no guard is lowered. Phase 1 stays
+INCOMPLETE / NO-GO. [Runbook](vercel-runtime-verification.md).
+
 Latest vendor setup/security handover: [28 October — Guided vendor setup](reports/2026-10-28-vendor-setup.md)
 and [Word copy](reports/2026-10-28-vendor-setup.docx).
 Four-step local preparation and the owner checklist have 263 root/239 security/

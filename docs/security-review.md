@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+28 October [runtime mismatch review](reports/2026-10-28-vercel-runtime-diagnostic.md)
+adds only bounded native-version facts to rejected startup errors. Exact-source
+protected Preview confirms Node 24.21.0 below the unchanged 24.22.1 baseline on
+middleware and ordinary serverless pages; both return 500. Final 265 root/241
+security/91 web/16 transport checks, 53-file aggregate coverage, isolated build
+and audits pass. The API probe retains generic errors without diagnostic fields.
+Scanner fixture labelling and runner/CLI failures are recorded without waivers.
+Keep hosted acceptance and sensitive enablement blocked pending compatible execution.
+
 28 October [vendor setup review](reports/2026-10-28-vendor-setup.md) records strict
 versioned local profiles, forged-authority/markup/byte-bound denials, consent reset
 and reuse of the current owner-only commercial read. All 13 focused checks, lint,

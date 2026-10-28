@@ -80,3 +80,9 @@ HTTP 500 with `RUNTIME_SECURITY_PATCH_REQUIRED`; the exact request-runtime versi
 is unreported. Verify a compatible patched request runtime and retest without
 bypassing the guard. Local rendering tests do not close that runtime gap. No
 service flag or activation permission is enabled.
+
+The [runtime follow-up](reports/2026-10-28-vercel-runtime-diagnostic.md) now
+identifies Node 24.21.0 request execution, below the unchanged 24.22.1 baseline.
+A fresh exact-source diagnostic Preview reproduces the guarded HTTP 500.
+Compatible provider request execution remains required before owner-checklist
+acceptance; no baseline override or vendor activation is supplied.
