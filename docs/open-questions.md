@@ -1,12 +1,20 @@
 # Virtual Ink open questions and decisions
 
-- **PILOT-COMMISSION-28 — Open; Uchi with Hotprints/Lubasi:** Choose percentage or
-  fixed commission, calculation basis/currency/rounding and whether deducted from
-  vendor proceeds or added to the customer price. Approve the fee/terms version
+- **DIRECT-PAY-28 — Recipient confirmed; collection operations open:** Uchi confirms
+  customers pay the individual vendor/shop directly. The 5% completed-service,
+  vendor-paid, weekly commission is the recommended pilot proposal; no approved
+  policy or actual vendor acceptance is seeded. The new price/terms/accrual slice
+  is locally verified, with hosted acceptance and manual receipt/commission
+  reconciliation still open. [Setup](vendor-pricing-commission.md). This updates
+  the earlier recipient/fee questions below without changing historical reports.
+
+- **PILOT-COMMISSION-28 — Actual agreement open; Uchi with Hotprints/Lubasi:**
+  Review the proposed 5% of completed service work, vendor-paid from the quoted
+  price with weekly reconciliation and no extra customer fee. Record the fee/terms version
   and collect the real vendor's acceptance. Missing values must not become zero
   fees or accepted consent. [Rollout scope](hotprints-manual-pilot.md).
-- **PILOT-MANUAL-28 — Open; Uchi/Mumba/Lubasi:** Choose Virtual Ink or Hotprints
-  as the customer payment recipient, approved manual methods and receipt reviewer.
+- **PILOT-MANUAL-28 — Recipient confirmed; operations open, Uchi/Mumba/Lubasi:**
+  Customers pay the individual vendor or shop directly. Define approved manual methods and receipt reviewer.
   Define duplicate/partial/excess payment, settlement, commission collection,
   refund/reprint and reconciliation handling. Keep account details/evidence private.
   Manual payments are the current product direction; a gateway is deferred.

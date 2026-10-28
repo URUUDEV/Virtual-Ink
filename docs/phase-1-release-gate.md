@@ -198,7 +198,7 @@ isolated Preview acceptance before a release decision.
 | File validation | Locally verified | [Server inspection/worker](private-file-inspection.md), bounded MIME/signature/hash checks and real local engine tests; full format sanitization/hosted ingress open |
 | Malware scanning/quarantine | Locally verified | [Real local S3/ClamAV and SQL](reports/2026-10-21-backend-workflows-runtime.md); production worker, IAM, freshness and hosted upload journey remain open |
 | Product catalogue | Mocked | [Draft model registry](../src/shared/product-models.ts); no vendor-approved supply/stock/price integration |
-| Server-authoritative pricing | Not started | Illustrative prices/geometry only; no accepted production quote/checkout authority |
+| Server-authoritative pricing | Locally verified | [Owner-scoped price versions and immutable commission snapshots](vendor-pricing-commission.md); approved real policies, customer price-list binding, itemization and hosted quote/checkout acceptance remain open |
 | Cart persistence | Not started | Commercial controls disabled |
 | Order creation | Locally verified | [Genuine Auth draft creation and SQL idempotency](reports/2026-10-21-order-dashboards-launch-gates.md); full commercial catalogue/checkout/hosted flow open |
 | Order-state transitions | Locally verified | [Transactional workflow](order-storage-workflows.md) covers local quote/proof/production/QC/handoff; required payment/refund/full delivery states and hosted acceptance remain open |

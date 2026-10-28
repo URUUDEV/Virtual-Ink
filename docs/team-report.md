@@ -1,5 +1,13 @@
 # Virtual Ink team report
 
+Latest build/security handover: [28 October — Vendor prices and commission](reports/2026-10-28-vendor-prices-commission.md)
+and [Word copy](reports/2026-10-28-vendor-prices-commission.docx).
+Owner price controls, exact versioned terms acceptance, frozen quote fees and
+completion accrual pass 261 root/237 security/89 web/16 SDK checks and 137 new SQL
+checks; all 53 backend/shared files exceed 95% in aggregate. Exact source ebf3d54
+is READY on a protected UI-only Vercel Preview. Hosted Auth/database/private files
+and manual reconciliation remain incomplete; this is not a fully working pilot.
+
 Latest product handover: [28 October — Hotprints and manual-payment pilot](reports/2026-10-28-hotprints-manual-pilot-scope.md)
 and [Word copy](reports/2026-10-28-hotprints-manual-pilot-scope.docx).
 Hotprints printing/design leads the rollout, supporting school-serving individuals

@@ -13,8 +13,12 @@ or record acceptance of commercial terms on its behalf.
 
 Vendors set their service prices. Virtual Ink proposes its commission schedule
 and terms; a vendor must explicitly accept the applicable version before trading.
-The commission amount, calculation basis and treatment remain unset. Vendors
-cannot edit platform commission through their price controls. Individually agreed
+The recommended pilot policy is 5% of completed service work, paid by the vendor
+from its quoted customer price, with no minimum or extra customer fee and weekly
+reconciliation. It remains a proposal until an actual policy/agreement is set up.
+Customers pay each individual vendor or shop directly, as Uchi confirmed after
+this scope was first recorded. See [the implemented pricing slice](vendor-pricing-commission.md).
+Vendors cannot edit platform commission through their price controls. Individually agreed
 exceptions need an authorized, recorded platform decision and vendor acceptance.
 
 Payments are manual initially. An integrated payment gateway is deferred until
@@ -72,8 +76,8 @@ than silently become zero commission. Customer-visible charges need clear disclo
    mismatched payments explicitly under an approved operating policy.
 7. Keep customer payment, platform commission due/received and vendor settlement
    distinct. Direct vendor payment must not automatically mark commission received;
-   platform collection must not automatically mark the vendor settled. The chosen
-   collection/settlement model is a pending decision, not an implemented ledger.
+   platform collection is outside the current direct-payment choice. Actual
+   commission collection/reconciliation is not an implemented settlement ledger.
 8. Continue through accepted job, approved proof where required, production/QC,
    ready-for-collection/delivery and customer receipt. Preserve current state and
    file-access gates; manual payment does not permit production before verification.
@@ -106,10 +110,11 @@ The static public UI deployment is separate from a working transactional pilot.
 
 ## Decisions needed before affected implementation/enablement
 
-- Uchi: commission percentage or fixed fee, calculation basis and rounding, and
-  whether it is deducted from vendor proceeds or added to the customer total.
-- Uchi: whether manual payment goes to Virtual Ink or directly to Hotprints;
-  approved methods, verification owner and settlement/commission collection rules.
+- Uchi/Lubasi with the vendor: the actual versioned commission/terms agreement;
+  the proposed 5% uses half-up currency rounding once per service quote, without
+  an extra customer charge. No actual vendor acceptance is inferred.
+- Uchi: approved direct-to-vendor methods, receipt-verification owner and weekly
+  commission collection/reconciliation rules. The recipient decision is confirmed.
 - Uchi/Lubasi with Hotprints: accepted services, rate card, capability/turnaround,
   handoff, refund/reprint and retention rules, plus the actual versioned terms.
 - Uchi/Mumba/Taizya: pilot reviewers and operating limits, accessible workflows,

@@ -6,11 +6,18 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+28 October [vendor prices and commission](docs/vendor-pricing-commission.md):
+customers pay vendors directly. A protected vendor price/agreement page, immutable
+fee snapshots and completed-order commission accrual now have local verification.
+The pilot proposal is 5%, vendor-paid, reconciled weekly. Actual agreement, manual
+reconciliation and full hosted service acceptance remain open; migration 19 is local.
+
 28 October [Hotprints and school-printing rollout](docs/hotprints-manual-pilot.md):
 start with Hotprints printing/design, support school-serving individual vendors
 and outside shops, and use vendor prices with accepted platform commission/terms.
-Payments start manually; gateway integration is deferred for this scope. Fee,
-recipient, commercial and secure hosted acceptance decisions remain open.
+Payments go directly to vendors; gateway integration is deferred for this scope.
+The actual commission agreement, collection operations and secure hosted
+acceptance remain open.
 
 28 October [static UI release verification](docs/reports/2026-10-28-static-ui-release-verification.md):
 the approved public UI-only release has a READY static repair on Vercel.

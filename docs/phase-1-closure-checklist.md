@@ -25,6 +25,12 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+28 October [vendor pricing/commission slice](vendor-pricing-commission.md) adds
+protected owner price controls, versioned agreement acceptance, immutable quote
+fees and completed-order accrual in migration 19. Direct vendor payment is
+confirmed; 5% vendor-paid commission is the pilot proposal. Local evidence does
+not close actual agreement, manual reconciliation or hosted/device acceptance.
+
 28 October [Hotprints manual-payment pilot](hotprints-manual-pilot.md) is the
 current rollout priority: Hotprints printing/design first; school-serving
 individual vendors and outside shops; vendor service prices under accepted

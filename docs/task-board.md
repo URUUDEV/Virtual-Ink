@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+28 October: **VENDOR-COMMERCE-28 — Local pricing/agreement/accrual slice; hosting open**,
+Uchi/Mumba with Taizya/Lubasi. [Setup](vendor-pricing-commission.md): owner-scoped
+versioned prices/terms, immutable quote fees and completed-order accrual. Direct
+vendor payment is confirmed; 5% is the proposed fee. Migration 19 remains local.
+Next: genuine isolated identity/current MFA/private transport and manual payment/
+commission reconciliation, then actual hosted vendor/customer/admin acceptance.
+
 28 October: **HOTPRINTS-PILOT-01 — Direction recorded; commercial decisions open**,
 Uchi/Mumba with Taizya/Lubasi. [Pilot scope](hotprints-manual-pilot.md) sets Hotprints
 printing/design first, then reviewed school-serving individuals and outside
