@@ -6,6 +6,12 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+28 October [Hotprints and school-printing rollout](docs/hotprints-manual-pilot.md):
+start with Hotprints printing/design, support school-serving individual vendors
+and outside shops, and use vendor prices with accepted platform commission/terms.
+Payments start manually; gateway integration is deferred for this scope. Fee,
+recipient, commercial and secure hosted acceptance decisions remain open.
+
 28 October [static UI release verification](docs/reports/2026-10-28-static-ui-release-verification.md):
 the approved public UI-only release has a READY static repair on Vercel.
 Its 22 HTTP checks reach deployment protection, leaving application verification

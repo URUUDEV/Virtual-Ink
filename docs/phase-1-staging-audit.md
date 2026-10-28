@@ -11,6 +11,12 @@ their original evidence and policy boundaries.
 
 ## Current authority
 
+28 October update: [the Hotprints-first manual-payment pilot](hotprints-manual-pilot.md)
+supersedes the immediate gateway dependency below. Flutterwave remains the
+previously selected future provider; gateway work can follow verified manual
+operations. This does not authorize production changes or close security,
+commercial, hosted or human acceptance gates.
+
 - Production must remain unchanged. No main merge, production configuration,
   live payment, payout, production email or production data access is authorized.
 - `feature/*` PRs target `staging`; staging hosts stable acceptance on Vercel

@@ -1,5 +1,11 @@
 # Phase 1 order, private-file and QC backend
 
+28 October operating direction: [Hotprints-first manual payments](hotprints-manual-pilot.md).
+Reuse existing scoped quotes and payment.confirm as foundations. Vendor price
+lists, versioned commission/terms acceptance, configured recipient, actual receipt
+verification and commission/vendor reconciliation still need implementation and
+hosted acceptance. A payment gateway is deferred for this manual-only scope.
+
 21 October 2026. Owners: Uchi Chinyama and Mumba Chitonge. **Local review
 candidate; hosted full-service acceptance and Phase 1 remain INCOMPLETE.**
 

@@ -1,5 +1,12 @@
 # Virtual Ink — Phase 1 role handover
 
+28 October current rollout priority: [Hotprints and school printing](hotprints-manual-pilot.md).
+Start with Hotprints printing/design, then reviewed school-serving individuals
+and outside print shops. Vendors set service prices and accept platform
+commission/terms. Payments start manually; gateway integration is deferred for
+this scope. No fee, payment recipient, actual vendor acceptance or live rollout
+is invented. The security/hosting/human gates remain open.
+
 22 October current scope: Uchi's supplied master brief requires the complete
 isolated Phase 1 staging marketplace, Flutterwave sandbox, Resend staging and
 stable Vercel Preview. The narrower original foundation description below is

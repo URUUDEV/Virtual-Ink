@@ -25,6 +25,14 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+28 October [Hotprints manual-payment pilot](hotprints-manual-pilot.md) is the
+current rollout priority: Hotprints printing/design first; school-serving
+individual vendors and outside shops; vendor service prices under accepted
+platform commission/terms. Gateway integration is deferred for manual-only scope.
+Vendor terms/fee versions, manual receipt reconciliation and separate commission/
+vendor settlement remain unbuilt or unverified. Hosted security, devices and
+release gates remain open; this does not mark any existing requirement complete.
+
 22 October [staging authority audit](reports/2026-10-22-staging-authority-audit.md)
 records the supplied complete master brief, selected Flutterwave sandbox/Resend
 staging and required feature-to-staging Preview mapping. The paid MFA hook is

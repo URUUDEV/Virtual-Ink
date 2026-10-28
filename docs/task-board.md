@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+28 October: **HOTPRINTS-PILOT-01 — Direction recorded; commercial decisions open**,
+Uchi/Mumba with Taizya/Lubasi. [Pilot scope](hotprints-manual-pilot.md) sets Hotprints
+printing/design first, then reviewed school-serving individuals and outside
+shops. Vendors set prices and accept platform commission/terms; payments start
+manually. Gateway work is deferred for this scope. Next: decide fee structure and
+payment recipient, then build durable vendor pricing/agreement as one reviewed
+slice alongside existing hosted security prerequisites. No pilot is marked live.
+
 28 October: **MAIN-UI-28 — Static repair READY; hosted checks blocked**,
 Uchi/Mumba with Taizya/Lubasi. [Resumed handover](reports/2026-10-28-static-ui-release-verification.md)
 records the authorized UI-only scope, earlier dynamic failure/rollback limit,

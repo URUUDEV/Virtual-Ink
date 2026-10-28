@@ -1,5 +1,21 @@
 # Virtual Ink open questions and decisions
 
+- **PILOT-COMMISSION-28 — Open; Uchi with Hotprints/Lubasi:** Choose percentage or
+  fixed commission, calculation basis/currency/rounding and whether deducted from
+  vendor proceeds or added to the customer price. Approve the fee/terms version
+  and collect the real vendor's acceptance. Missing values must not become zero
+  fees or accepted consent. [Rollout scope](hotprints-manual-pilot.md).
+- **PILOT-MANUAL-28 — Open; Uchi/Mumba/Lubasi:** Choose Virtual Ink or Hotprints
+  as the customer payment recipient, approved manual methods and receipt reviewer.
+  Define duplicate/partial/excess payment, settlement, commission collection,
+  refund/reprint and reconciliation handling. Keep account details/evidence private.
+  Manual payments are the current product direction; a gateway is deferred.
+- **PILOT-VENDORS-28 — Direction confirmed; setup pending:** Uchi supplies Hotprints
+  as the first printing/design vendor, with school-serving individuals and outside
+  print shops supported next. Confirm its actual capabilities/rate card and private
+  onboarding evidence. Do not create an account, claim school endorsement or mark
+  vendor/terms approval merely from this planning record.
+
 - **MAIN-UI-28 — Hosted verification pending; Uchi/Mumba, 28 October 2026:**
   The isolated release handover records Uchi's approved public UI-only scope.
   Its static repair is READY; all 22 HTTP checks reach Vercel protection and

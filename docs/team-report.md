@@ -1,5 +1,13 @@
 # Virtual Ink team report
 
+Latest product handover: [28 October — Hotprints and manual-payment pilot](reports/2026-10-28-hotprints-manual-pilot-scope.md)
+and [Word copy](reports/2026-10-28-hotprints-manual-pilot-scope.docx).
+Hotprints printing/design leads the rollout, supporting school-serving individuals
+and outside shops, vendor prices and accepted platform commission/terms. Manual
+payments are the initial scope; gateway integration is deferred for that scope.
+Fee/recipient decisions, durable commercial controls and genuine hosted acceptance
+remain open. This is a scope/checklist update, not an implemented or live pilot.
+
 Latest resumed release check: [28 October — Static public UI candidate](reports/2026-10-28-static-ui-release-verification.md)
 and [Word copy](reports/2026-10-28-static-ui-release-verification.docx).
 The isolated static repair d881cad is READY on Vercel with zero request-time
