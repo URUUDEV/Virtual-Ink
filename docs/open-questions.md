@@ -1,5 +1,13 @@
 # Virtual Ink open questions and decisions
 
+- **MAIN-UI-28 — Hosted verification pending; Uchi/Mumba, 28 October 2026:**
+  The isolated release handover records Uchi's approved public UI-only scope.
+  Its static repair is READY; all 22 HTTP checks reach Vercel protection and
+  Chrome control is unavailable after restart. Establish normal authenticated
+  access and verify the candidate before public promotion. Full-service and
+  commercial gates remain open. This supersedes the 26 October pending scope
+  choice; see [the resumed report](reports/2026-10-28-static-ui-release-verification.md).
+
 - **MAIN-RELEASE-26 — UI-only scope approved, 27 October 2026; Uchi/Mumba:**
   Uchi replied “proceed” to the concrete public UI-only main release with all
   sensitive services disabled. That scoped authorization supersedes the pending
@@ -7,7 +15,7 @@
   prerequisites and commercial/human acceptance remain open. The initial dynamic
   release hit the retained runtime guard; rollback to the older baseline was
   rejected by Vercel's plan limit. See [public UI setup](vercel-public-ui.md) and
-  the 27 October report for the forward static fix and final verification.
+  [28 October verification](reports/2026-10-28-static-ui-release-verification.md).
 
 - **DOC-SERVER-26 — Open; Uchi/Lubasi with Mumba/Taizya, 26 October 2026:**
   The disabled document server contract preserves all options, but numeric limits,

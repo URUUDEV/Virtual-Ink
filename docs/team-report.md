@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest resumed release check: [28 October — Static public UI candidate](reports/2026-10-28-static-ui-release-verification.md)
+and [Word copy](reports/2026-10-28-static-ui-release-verification.docx).
+The isolated static repair d881cad is READY on Vercel with zero request-time
+functions. All 22 HTTP checks reach deployment protection; hosted page/asset,
+bundle and denial checks remain unverified. Five fresh local negative groups
+pass. No new main push or public promotion occurs in this resumption. This
+supersedes the 26 October pending UI-only choice and records the 27 October
+publication/runtime failure. Phase 1 remains INCOMPLETE / NO-GO.
+
 Latest release preparation: [26 October — Main release readiness](reports/2026-10-26-main-release-readiness.md)
 and [Word copy](reports/2026-10-26-main-release-readiness.docx).
 An isolated candidate preserves main's Speed Insights and the latest application

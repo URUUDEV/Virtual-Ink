@@ -6,6 +6,13 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+28 October [static UI release verification](docs/reports/2026-10-28-static-ui-release-verification.md):
+the approved public UI-only release has a READY static repair on Vercel.
+Its 22 HTTP checks reach deployment protection, leaving application verification
+and public promotion pending. The report records the previous dynamic runtime
+failure and failed rollback. Full services and Phase 1 remain INCOMPLETE / NO-GO.
+The 26 October release-preparation status below is historical.
+
 26 October [main release preparation](docs/reports/2026-10-26-main-release-readiness.md):
 the tested isolated candidate preserves main's telemetry alongside the latest UI
 and disabled backend. Hosted migration/configuration and acceptance gaps still

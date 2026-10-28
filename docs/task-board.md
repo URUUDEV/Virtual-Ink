@@ -1,5 +1,13 @@
 # Virtual Ink task board
 
+28 October: **MAIN-UI-28 — Static repair READY; hosted checks blocked**,
+Uchi/Mumba with Taizya/Lubasi. [Resumed handover](reports/2026-10-28-static-ui-release-verification.md)
+records the authorized UI-only scope, earlier dynamic failure/rollback limit,
+READY static candidate and five passing fresh negative groups. All 22 candidate
+HTTP requests reach deployment protection; functional acceptance and public
+promotion remain open. Next: normal authenticated verification, then reviewed
+publication and stable-alias checks. No new main push occurs in this resumption.
+
 26 October: **MAIN-RELEASE-26 — Candidate tested; enablement/release decision pending**,
 Uchi/Mumba with Taizya/Lubasi. [Readiness report](reports/2026-10-26-main-release-readiness.md)
 records the isolated merge, preserved main telemetry, fresh local checks, actual
