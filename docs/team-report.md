@@ -1,5 +1,39 @@
 # Virtual Ink team report
 
+Latest storage/security handover: [28 October — Neon private staging buckets](reports/2026-10-28-neon-private-storage.md)
+and [Word copy](reports/2026-10-28-neon-private-storage.docx).
+Six private buckets are provisioned on a separate Neon staging branch, with named
+worker/read-only credentials. All 60 synthetic hosted storage checks and five
+local configuration checks pass. Root 261/security 237 checks and the complete
+53-file aggregate coverage gate pass. Database/Auth remain with the existing
+provider; application ingress/scanning and full-service Vercel acceptance stay open.
+No application upload or Phase 1 enablement is implied.
+
+Latest build/security handover: [28 October — Vendor prices and commission](reports/2026-10-28-vendor-prices-commission.md)
+and [Word copy](reports/2026-10-28-vendor-prices-commission.docx).
+Owner price controls, exact versioned terms acceptance, frozen quote fees and
+completion accrual pass 261 root/237 security/89 web/16 SDK checks and 137 new SQL
+checks; all 53 backend/shared files exceed 95% in aggregate. Exact source ebf3d54
+is READY on a protected UI-only Vercel Preview. Hosted Auth/database/private files
+and manual reconciliation remain incomplete; this is not a fully working pilot.
+
+Latest product handover: [28 October — Hotprints and manual-payment pilot](reports/2026-10-28-hotprints-manual-pilot-scope.md)
+and [Word copy](reports/2026-10-28-hotprints-manual-pilot-scope.docx).
+Hotprints printing/design leads the rollout, supporting school-serving individuals
+and outside shops, vendor prices and accepted platform commission/terms. Manual
+payments are the initial scope; gateway integration is deferred for that scope.
+Fee/recipient decisions, durable commercial controls and genuine hosted acceptance
+remain open. This is a scope/checklist update, not an implemented or live pilot.
+
+Latest resumed release check: [28 October — Static public UI candidate](reports/2026-10-28-static-ui-release-verification.md)
+and [Word copy](reports/2026-10-28-static-ui-release-verification.docx).
+The isolated static repair d881cad is READY on Vercel with zero request-time
+functions. All 22 HTTP checks reach deployment protection; hosted page/asset,
+bundle and denial checks remain unverified. Five fresh local negative groups
+pass. No new main push or public promotion occurs in this resumption. This
+supersedes the 26 October pending UI-only choice and records the 27 October
+publication/runtime failure. Phase 1 remains INCOMPLETE / NO-GO.
+
 Latest release preparation: [26 October — Main release readiness](reports/2026-10-26-main-release-readiness.md)
 and [Word copy](reports/2026-10-26-main-release-readiness.docx).
 An isolated candidate preserves main's Speed Insights and the latest application

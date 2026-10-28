@@ -62,6 +62,8 @@ try {
   if ($LASTEXITCODE -ne 0) { throw 'Privileged security SQL checks failed.' }
   & $nodeExecutable (Join-Path $repoPath 'scripts/order-workflow-db-check.mjs')
   if ($LASTEXITCODE -ne 0) { throw 'Order workflow database checks failed' }
+  & $nodeExecutable (Join-Path $repoPath 'scripts/vendor-commerce-db-check.mjs')
+  if ($LASTEXITCODE -ne 0) { throw 'Vendor commercial database checks failed' }
   & "$pgBin/psql.exe" @psqlArgs -Atc "SELECT count(*) FROM virtual_ink.vendor_applications; SELECT count(*) FROM virtual_ink.vendor_profiles;"
 } finally {
   Remove-Item Env:PGPASSWORD -ErrorAction SilentlyContinue

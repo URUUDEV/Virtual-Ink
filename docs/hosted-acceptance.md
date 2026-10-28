@@ -1,5 +1,12 @@
 # Virtual Ink hosted acceptance
 
+28 October **storage provider selected**: Uchi authorizes [Neon private file
+buckets](neon-private-storage.md) on a separate storage staging branch. Supabase
+remains the database/Auth provider; its historical zero-Storage-bucket catalog
+does not describe the newly provisioned Neon buckets. No staging web credential,
+service enablement, production mutation or Vercel deployment follows from this
+storage setup. Existing identity/MFA, ingress/scanner and release gates remain open.
+
 22 October **current authority update**: Uchi supplied the complete staging master
 brief. The missing design-writing input is resolved. Flutterwave sandbox and
 Resend staging are selected. The Free-plan MFA Verification Attempt Hook is

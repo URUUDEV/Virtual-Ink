@@ -25,6 +25,25 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+28 October [Neon private storage](neon-private-storage.md) provisions six private
+staging buckets with separate worker credentials. Supabase database/Auth remain
+unchanged. Storage infrastructure checks do not close private ingress/scanning,
+genuine hosted authorization, Vercel service/device acceptance or Phase 1.
+
+28 October [vendor pricing/commission slice](vendor-pricing-commission.md) adds
+protected owner price controls, versioned agreement acceptance, immutable quote
+fees and completed-order accrual in migration 19. Direct vendor payment is
+confirmed; 5% vendor-paid commission is the pilot proposal. Local evidence does
+not close actual agreement, manual reconciliation or hosted/device acceptance.
+
+28 October [Hotprints manual-payment pilot](hotprints-manual-pilot.md) is the
+current rollout priority: Hotprints printing/design first; school-serving
+individual vendors and outside shops; vendor service prices under accepted
+platform commission/terms. Gateway integration is deferred for manual-only scope.
+Vendor terms/fee versions, manual receipt reconciliation and separate commission/
+vendor settlement remain unbuilt or unverified. Hosted security, devices and
+release gates remain open; this does not mark any existing requirement complete.
+
 22 October [staging authority audit](reports/2026-10-22-staging-authority-audit.md)
 records the supplied complete master brief, selected Flutterwave sandbox/Resend
 staging and required feature-to-staging Preview mapping. The paid MFA hook is

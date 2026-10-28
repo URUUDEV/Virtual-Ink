@@ -4,6 +4,14 @@ Authoritative user instruction: 18 October 2026, section 2.1. Phase 1 is
 **INCOMPLETE**. Current release decision: **NO-GO**. No human acceptance or
 production-promotion authorization is recorded by this document.
 
+28 October scope update: Uchi directs a Hotprints-first printing/design pilot,
+including school-serving individual vendors and outside print shops, vendor-set
+service prices, accepted platform commission/terms and manual payments initially.
+See [the pilot scope](hotprints-manual-pilot.md). A payment gateway is deferred
+for this manual-only rollout. Its absence does not itself block that scope;
+verified manual collection/reconciliation and all other applicable release gates
+remain required. No item is marked passed and no release authorization is inferred.
+
 22 October [customer/vendor MFA evidence](reports/2026-10-22-customer-vendor-mfa.md)
 adds locally verified self-service security and a READY protected UI-only build.
 All hosted-service, physical-device and approval gates remain open. Neither the
@@ -185,18 +193,19 @@ isolated Preview acceptance before a release decision.
 | Server-controlled roles | Locally verified | [Security administration](phase-1-security-admin.md); restricted local writer, real hosted lifecycle open |
 | Vendor permissions | Locally verified | [Assigned workflow/dashboard scope](order-dashboards.md), current membership and SQL denials; complete genuine hosted vendor journey open |
 | Administrator permissions | Locally verified | [Security administration](phase-1-security-admin.md) and recent-MFA order oversight; complete admin dashboard/hosted lifecycle open |
-| Private file storage | Implemented | [Worker/access libraries](order-storage-workflows.md) have local SQL and real S3/scanner evidence; authenticated ingress, hosted worker/IAM, retention/deletion and private viewer acceptance remain open |
+| Private file storage | Implemented | [Worker/access libraries](order-storage-workflows.md) have local SQL and real S3/scanner evidence; [six private Neon staging buckets](neon-private-storage.md) pass synthetic hosted S3 checks. Authenticated ingress, hosted worker/IAM, retention/deletion and private viewer acceptance remain open |
 | Short-lived signed file access | Not started | [Proxy download library](order-storage-workflows.md) rechecks current authority; no raw signed-URL grant/issuance flow or hosted file transport |
 | File validation | Locally verified | [Server inspection/worker](private-file-inspection.md), bounded MIME/signature/hash checks and real local engine tests; full format sanitization/hosted ingress open |
 | Malware scanning/quarantine | Locally verified | [Real local S3/ClamAV and SQL](reports/2026-10-21-backend-workflows-runtime.md); production worker, IAM, freshness and hosted upload journey remain open |
 | Product catalogue | Mocked | [Draft model registry](../src/shared/product-models.ts); no vendor-approved supply/stock/price integration |
-| Server-authoritative pricing | Not started | Illustrative prices/geometry only; no accepted production quote/checkout authority |
+| Server-authoritative pricing | Locally verified | [Owner-scoped price versions and immutable commission snapshots](vendor-pricing-commission.md); approved real policies, customer price-list binding, itemization and hosted quote/checkout acceptance remain open |
 | Cart persistence | Not started | Commercial controls disabled |
 | Order creation | Locally verified | [Genuine Auth draft creation and SQL idempotency](reports/2026-10-21-order-dashboards-launch-gates.md); full commercial catalogue/checkout/hosted flow open |
 | Order-state transitions | Locally verified | [Transactional workflow](order-storage-workflows.md) covers local quote/proof/production/QC/handoff; required payment/refund/full delivery states and hosted acceptance remain open |
 | Proof versioning/approval | Locally verified | [Immutable proof/version/hash and approval SQL](order-storage-workflows.md); private customer viewer, comments and genuine hosted journey remain open |
-| Payment provider | Not started | Disabled; provider and sandbox/operating policy decisions remain open |
-| Verified payment webhooks | Not started | No signed-event verification or replay/idempotency acceptance |
+| Manual payment confirmation | Locally verified | Existing scoped payment.confirm command/audit foundation; actual recipient, receipt reconciliation, commission/vendor settlement and full hosted journey remain open |
+| Payment provider | Not started | Deferred from the 28 October manual-only pilot; gateway remains disabled and requires separate verified enablement |
+| Verified payment webhooks | Not started | Deferred while gateway is disabled; signed-event/replay/idempotency acceptance required before gateway enablement |
 | Refund/dispute handling | Implemented | Narrow immutable dispute/decline holds exist locally; refund provider/state flows, communication and operational policy are not complete |
 | Vendor payout records | Not started | No enabled financial service or ledger acceptance |
 | Delivery/collection workflow | Locally verified | Scoped MFA assignment, ready state and receipt confirmation pass local SQL; full tracking/states/operational hosted flow remain open |
@@ -223,8 +232,11 @@ Secure integration acceptance requires all of these controls:
   credentials; no public environment variable is treated as a secret container.
 - The server owns roles, prices, totals and order transitions; validate input,
   privileges, current state/version and idempotency before protected writes.
-- Payment events use signed server-side webhook verification, replay handling and
-  authoritative reconciliation. Never accept a client payment-success claim.
+- For the manual-only pilot, payment confirmation requires authorized receipt
+  verification, correct order/recipient/amount/currency, duplicate-reference and
+  retry controls, auditable reconciliation and separate commission/vendor
+  settlement records. Never accept a client payment-success claim. When a gateway
+  is enabled, signed server-side webhooks and replay/idempotency tests also apply.
 - Enforce RLS/equivalent database policies, tenant isolation and privileged
   server operations. Administrator MFA is mandatory; privileged vendor/financial
   actions require MFA or recent re-authentication.
@@ -250,7 +262,9 @@ Every item below remains unchecked until objective evidence is attached:
 - [ ] Server authorization protects every privileged action.
 - [ ] Server pricing matches checkout totals.
 - [ ] Backend validates all required order transitions.
-- [ ] Signed payment webhooks and replay/idempotency handling pass.
+- [ ] The deployed payment mode passes its controls: manual receipt verification,
+  reconciliation, duplicate/idempotency and commission/vendor settlement for the
+  manual pilot; signed webhooks and replay/idempotency additionally before gateway enablement.
 - [ ] Proof approval creates an immutable actor/time/version audit record.
 - [ ] No unresolved critical/high security or device defects remain.
 - [ ] Rollback is actually rehearsed and verified, with data/alias safety evidence.

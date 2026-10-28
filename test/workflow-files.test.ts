@@ -20,7 +20,7 @@ const database = (record?: (values: unknown[]) => unknown, pending: unknown = fi
 });
 const identity: SecurityIdentity = { issuer: 'https://synthetic.invalid/auth/v1', subject: id, sessionId: id, aal: 'aal1', mfaAt: null, primaryAt: null, stepUpAt: null };
 const input = { orderId: id, fileId: id, operationId: id };
-const access = (patch: Record<string,unknown> = {}): WorkflowCommands => ({ run: async () => ({ ...file, objectVersion: 'approved:"abc"', sha256: hash(pdf), ...patch }) });
+const access = (patch: Record<string,unknown> = {}): WorkflowCommands => ({ run: async () => ({ ...file, objectVersion: 'approved:"abc"', sha256: hash(pdf), auditId: id, ...patch }) });
 const config: PrivateS3Config = { environment: 'local', endpoint: 'http://127.0.0.1:9000', region: 'us-east-1', accessKeyId: 'synthetic', secretAccessKey: 'synthetic-local-secret',
   buckets: { quarantine: 'vi-quarantine', source: 'vi-source', proof: 'vi-proof', production: 'vi-production', evidence: 'vi-evidence', dispute: 'vi-dispute' } };
 const response = (bytes: Uint8Array = pdf, headers: Record<string,string> = {}) => new Response(Buffer.from(bytes), {
@@ -125,7 +125,7 @@ test('S3 requests are signed, immutable and conditional with no URL credentials 
 });
 
 test('S3 reads reject changed, oversized, truncated, missing and misbound provider bodies', async () => {
-  for (const headers of [{ etag: '"other"' }, { 'content-type': 'text/html' }, { 'content-length': '999' }, { 'content-length': 'bad' }, { 'x-amz-meta-sha256': 'bad' }]) {
+  for (const headers of [{ etag: '"other"' }, { 'content-type': 'text/html' }, { 'content-length': '999' }, { 'content-length': 'bad' }, { 'x-amz-meta-sha256': 'bad' }] as Record<string,string>[]) {
     const s3 = createPrivateS3Store(config, async () => response(pdf, headers));
     await assert.rejects(s3.read(file, 'approved:"abc"'));
   }
@@ -143,7 +143,7 @@ test('S3 transport fails closed on errors, conflicts, missing receipts and inval
     await assert.rejects(s3.put(file, pdf), { code: status === 412 ? 'CONFLICT' : 'SERVICE_BUSY' });
   }
   await assert.rejects(createPrivateS3Store(config, async () => { throw new Error('secret'); }).put(file, pdf), { code: 'SERVICE_BUSY' });
-  for (const headers of [{}, { etag: 'unquoted' }]) await assert.rejects(createPrivateS3Store(config, async () => new Response('', { headers })).put(file, pdf), { code: 'SERVICE_BUSY' });
+  for (const headers of [{}, { etag: 'unquoted' }] as Record<string,string>[]) await assert.rejects(createPrivateS3Store(config, async () => new Response('', { headers })).put(file, pdf), { code: 'SERVICE_BUSY' });
   const s3 = createPrivateS3Store(config, async () => response());
   await assert.rejects(s3.promote(file, 'approved:"abc"', hash(pdf)), { code: 'CONFLICT' });
   await assert.rejects(s3.promote(file, 'quarantine:"abc"', 'bad'), { code: 'CONFLICT' });

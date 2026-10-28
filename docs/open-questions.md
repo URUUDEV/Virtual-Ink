@@ -1,5 +1,44 @@
 # Virtual Ink open questions and decisions
 
+- **STORAGE-NEON-28 — Provider selected; operations open, Uchi/Mumba/Lubasi:**
+  Uchi authorizes Neon for private buckets. Six isolated staging buckets are
+  provisioned; database/Auth remain with the existing provider. Approve retention,
+  capacity thresholds, credential rotation and the private ingress/worker/scanner
+  deployment before real files. Neon lifecycle expiration is not enforced; an
+  audited purge process is still needed. [Setup](neon-private-storage.md).
+
+- **DIRECT-PAY-28 — Recipient confirmed; collection operations open:** Uchi confirms
+  customers pay the individual vendor/shop directly. The 5% completed-service,
+  vendor-paid, weekly commission is the recommended pilot proposal; no approved
+  policy or actual vendor acceptance is seeded. The new price/terms/accrual slice
+  is locally verified, with hosted acceptance and manual receipt/commission
+  reconciliation still open. [Setup](vendor-pricing-commission.md). This updates
+  the earlier recipient/fee questions below without changing historical reports.
+
+- **PILOT-COMMISSION-28 — Actual agreement open; Uchi with Hotprints/Lubasi:**
+  Review the proposed 5% of completed service work, vendor-paid from the quoted
+  price with weekly reconciliation and no extra customer fee. Record the fee/terms version
+  and collect the real vendor's acceptance. Missing values must not become zero
+  fees or accepted consent. [Rollout scope](hotprints-manual-pilot.md).
+- **PILOT-MANUAL-28 — Recipient confirmed; operations open, Uchi/Mumba/Lubasi:**
+  Customers pay the individual vendor or shop directly. Define approved manual methods and receipt reviewer.
+  Define duplicate/partial/excess payment, settlement, commission collection,
+  refund/reprint and reconciliation handling. Keep account details/evidence private.
+  Manual payments are the current product direction; a gateway is deferred.
+- **PILOT-VENDORS-28 — Direction confirmed; setup pending:** Uchi supplies Hotprints
+  as the first printing/design vendor, with school-serving individuals and outside
+  print shops supported next. Confirm its actual capabilities/rate card and private
+  onboarding evidence. Do not create an account, claim school endorsement or mark
+  vendor/terms approval merely from this planning record.
+
+- **MAIN-UI-28 — Hosted verification pending; Uchi/Mumba, 28 October 2026:**
+  The isolated release handover records Uchi's approved public UI-only scope.
+  Its static repair is READY; all 22 HTTP checks reach Vercel protection and
+  Chrome control is unavailable after restart. Establish normal authenticated
+  access and verify the candidate before public promotion. Full-service and
+  commercial gates remain open. This supersedes the 26 October pending scope
+  choice; see [the resumed report](reports/2026-10-28-static-ui-release-verification.md).
+
 - **MAIN-RELEASE-26 — Open; Uchi/Mumba, 26 October 2026:** Select a public UI-only
   release or completion of the missing service prerequisites before enabling
   accounts/orders/uploads. Review the exact candidate, original production target,

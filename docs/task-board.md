@@ -1,5 +1,34 @@
 # Virtual Ink task board
 
+28 October: **NEON-STORAGE-28 — Six private staging buckets provisioned**,
+Uchi/Mumba with Taizya/Lubasi. [Setup](neon-private-storage.md) records the isolated
+project, scoped credentials and 60 passing synthetic storage checks. Next: deploy
+authorized ingress/worker/scanning and verify real application file access.
+No upload or Phase 1 enablement is implied.
+
+28 October: **VENDOR-COMMERCE-28 — Local pricing/agreement/accrual slice; hosting open**,
+Uchi/Mumba with Taizya/Lubasi. [Setup](vendor-pricing-commission.md): owner-scoped
+versioned prices/terms, immutable quote fees and completed-order accrual. Direct
+vendor payment is confirmed; 5% is the proposed fee. Migration 19 remains local.
+Next: genuine isolated identity/current MFA/private transport and manual payment/
+commission reconciliation, then actual hosted vendor/customer/admin acceptance.
+
+28 October: **HOTPRINTS-PILOT-01 — Direction recorded; commercial decisions open**,
+Uchi/Mumba with Taizya/Lubasi. [Pilot scope](hotprints-manual-pilot.md) sets Hotprints
+printing/design first, then reviewed school-serving individuals and outside
+shops. Vendors set prices and accept platform commission/terms; payments start
+manually. Gateway work is deferred for this scope. Next: decide fee structure and
+payment recipient, then build durable vendor pricing/agreement as one reviewed
+slice alongside existing hosted security prerequisites. No pilot is marked live.
+
+28 October: **MAIN-UI-28 — Static repair READY; hosted checks blocked**,
+Uchi/Mumba with Taizya/Lubasi. [Resumed handover](reports/2026-10-28-static-ui-release-verification.md)
+records the authorized UI-only scope, earlier dynamic failure/rollback limit,
+READY static candidate and five passing fresh negative groups. All 22 candidate
+HTTP requests reach deployment protection; functional acceptance and public
+promotion remain open. Next: normal authenticated verification, then reviewed
+publication and stable-alias checks. No new main push occurs in this resumption.
+
 26 October: **MAIN-RELEASE-26 — Candidate tested; enablement/release decision pending**,
 Uchi/Mumba with Taizya/Lubasi. [Readiness report](reports/2026-10-26-main-release-readiness.md)
 records the isolated merge, preserved main telemetry, fresh local checks, actual

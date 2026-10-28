@@ -1,5 +1,26 @@
 # Virtual Ink recurring security review
 
+28 October [Neon private storage](reports/2026-10-28-neon-private-storage.md):
+six private staging buckets pass 60 synthetic hosted storage checks, including
+conditional-write/read, anonymous/read-only/signature denials and parent-branch
+isolation. Named staging credentials replace inherited parent credentials in the
+worker binding; both explicit read/write scopes are required by the tested provider.
+Five controlled local setup denials/restoration, 261 root/237 security tests and
+all 53 measured backend/shared files pass their final gates. Initial transport,
+scope and loopback-test failures remain recorded. Real ingress/scanning, current
+application authorization and full-service/device acceptance stay open. No web
+credentials or service flag is added; Phase 1 remains INCOMPLETE / NO-GO.
+
+28 October [vendor pricing and commission](reports/2026-10-28-vendor-prices-commission.md):
+owner-scoped immutable prices/agreements and frozen quote fees pass 237 security
+tests and 137 commercial SQL checks, including cross-vendor/stale-authority
+denials, concurrent edits and atomic audit-outage rollback. All nineteen migrations
+replay locally; migration 19 remains unapplied hosted. The protected UI-only
+Preview is READY with sensitive services off. The resumed documentation scan
+passes with zero findings; Word structural checks pass but LibreOffice is missing.
+Genuine hosted identity/MFA, private files, reconciliation and device acceptance
+remain open. This is scoped application evidence; Phase 1 remains INCOMPLETE / NO-GO.
+
 26 October [main release preparation](reports/2026-10-26-main-release-readiness.md):
 the isolated merge preserves telemetry exclusion in staging/ui_test and passes
 257 root/86 web/16 transport checks, 52-file coverage, types/lint/build and dependency
