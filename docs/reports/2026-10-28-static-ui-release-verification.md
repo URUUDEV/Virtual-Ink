@@ -131,3 +131,15 @@ and private/API denials, publish reviewed source to main after required checks,
 promote the verified build, read back the stable alias and repeat functional
 checks. Preserve a compatible static rollback reference and record actual
 rollback evidence separately.
+
+## Git publication evidence
+
+The non-force review push exits 0. Independent remote-head readback confirms
+1842c1ba9b80bfc2c721d7102d34b3f67d69439f on feature/phase1-staging-readiness and
+f6bd316b2fe4e3fed1411bd057d0c486afac2e28 on release/main-20261026. Main remains
+284bcdb75c4da7705d4f1c9890960436b94c422a. The release report commit preserves
+all tested application bytes from d881cad; the cherry-pick conflict in the open
+questions document is resolved by retaining both the existing scoped approval
+and the current verification blocker. Subsequent report-only commits carry this
+publication evidence. Review pushes can trigger Git automation; no new successful
+Preview, public promotion or human acceptance is inferred.
