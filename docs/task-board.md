@@ -1,5 +1,12 @@
 # Virtual Ink task board
 
+29 October: **VERCEL-FEEDBACK-29 — Submitted; provider response unconfirmed**,
+Uchi/Mumba. [Record](reports/2026-10-29-vercel-feedback-submission.md): user-approved
+runtime report sent once through the signed-in Share feedback form. Loading
+completed and the form closed; no ticket/receipt was shown. Next: await provider
+response and obtain patched Preview request execution before hosted retesting.
+Do not automatically duplicate the submission or mark the pilot accepted.
+
 29 October: **PILOT-MFA-29 — Explicit Free-plan policy; activation blocked**,
 Uchi/Mumba with Taizya/Lubasi. [Setup](free-mfa-compensation.md) and
 [evidence](reports/2026-10-29-vendor-pilot-readiness.md): application receipts bind

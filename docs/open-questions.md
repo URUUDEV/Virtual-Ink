@@ -3,7 +3,9 @@
 - **PILOT-ACTIVATION-29 — Hosting and real pilot prerequisites remain open:**
   Uchi/Mumba must resolve today's reproduced Vercel runtime mismatch; a prepared
   provider support request is in [the runbook](vercel-runtime-verification.md).
-  Sending it requires explicit permission to message the provider. The new
+  Uchi authorized sending on 29 October; the prepared message was submitted once
+  through Vercel feedback. No case number or delivery receipt was displayed;
+  [provider response remains unconfirmed](reports/2026-10-29-vercel-feedback-submission.md). The new
   [Free-plan policy](free-mfa-compensation.md) remains a local review slice until
   genuine hosted provider limits, monitoring/administrator alerts and session/
   receipt denials pass. Confirm the invited vendors beyond the recorded Hotprints

@@ -1,5 +1,12 @@
 # Virtual Ink team report
 
+Latest provider handover: [29 October — Vercel feedback submission](reports/2026-10-29-vercel-feedback-submission.md)
+and [Word copy](reports/2026-10-29-vercel-feedback-submission.docx).
+Uchi authorized the prepared runtime message. It was submitted once through the
+signed-in feedback form, which processed and closed. No case number or delivery
+receipt was displayed; no provider reply or runtime fix is established. The
+pilot and Phase 1 remain INCOMPLETE / NO-GO.
+
 Latest pilot/security handover: [29 October — Vendor pilot readiness](reports/2026-10-29-vendor-pilot-readiness.md)
 and [Word copy](reports/2026-10-29-vendor-pilot-readiness.docx).
 The explicit Free-plan application receipt policy retains the paid-hook default;

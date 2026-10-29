@@ -1,5 +1,12 @@
 # Virtual Ink recurring security review
 
+29 October [provider communication review](reports/2026-10-29-vercel-feedback-submission.md):
+explicitly authorized runtime text submitted once through Vercel's signed-in
+feedback form. No secrets, raw logs, private evidence or attachments are sent.
+The form processes and closes without a visible error; no delivery receipt,
+ticket or provider response is claimed. No public post, account/service change,
+guard exception or production mutation occurs. Existing release blocks remain.
+
 29 October [pilot MFA review](reports/2026-10-29-vendor-pilot-readiness.md):
 explicit database-owned application receipts require native current MFA and an
 audited application reservation/success; no native-hook receipt is fabricated.

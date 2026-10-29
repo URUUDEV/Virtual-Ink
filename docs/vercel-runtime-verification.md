@@ -10,9 +10,14 @@ The fresh build is READY; authenticated /shop returns HTTP 500 and its native
 log reports actualNode 24.21.0 / minimumNode 24.22.1. Services stay off.
 See [today's pilot readiness report](reports/2026-10-29-vendor-pilot-readiness.md).
 
-## Prepared provider escalation
+## Provider escalation submitted
 
-This request is drafted for Uchi/Mumba; no support message has been sent:
+Uchi authorized sending on 29 October. The following exact message was submitted
+once through the signed-in Vercel Share feedback form under CI/CD (Builds,
+Deployments, Environment Variables). The form showed Loading and closed by
+10:44:07 UTC without a visible error. No case number, delivery receipt or provider
+response was displayed. This is not a confirmed support case or runtime fix.
+[Submission record](reports/2026-10-29-vercel-feedback-submission.md).
 
 Our protected Preview project virtual-ink-ui-test selects Node 24.x. Deployment
 dpl_CVPD35b6kizhVwwYYr5M7UpkAikn builds successfully, but GET /shop executes
@@ -24,7 +29,7 @@ ordinary functions. Please confirm a supported way to obtain patched request
 execution on this project and the rollout status. We need request-time verification;
 build-time success or an exact patch pin that is not supported will not resolve it.
 
-Keep raw logs and credentials private. This draft does not authorize a paid
+Keep raw logs and credentials private. This submission does not authorize a paid
 upgrade, production change, protection bypass or guard exception.
 
 ## Build and request execution are separate checks

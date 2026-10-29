@@ -6,6 +6,11 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+29 October [Vercel feedback submission](docs/reports/2026-10-29-vercel-feedback-submission.md):
+the approved runtime report was submitted through the signed-in feedback form.
+No case number or delivery receipt was displayed; provider response and patched
+request execution remain unconfirmed. The pilot stays blocked.
+
 29 October [vendor pilot readiness](docs/reports/2026-10-29-vendor-pilot-readiness.md):
 the explicit [Free-plan MFA policy](docs/free-mfa-compensation.md) adds durable
 application verification receipts while preserving the paid-hook default. All
