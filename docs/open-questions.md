@@ -1,5 +1,16 @@
 # Virtual Ink open questions and decisions
 
+- **PILOT-ACTIVATION-29 — Hosting and real pilot prerequisites remain open:**
+  Uchi/Mumba must resolve today's reproduced Vercel runtime mismatch; a prepared
+  provider support request is in [the runbook](vercel-runtime-verification.md).
+  Sending it requires explicit permission to message the provider. The new
+  [Free-plan policy](free-mfa-compensation.md) remains a local review slice until
+  genuine hosted provider limits, monitoring/administrator alerts and session/
+  receipt denials pass. Confirm the invited vendors beyond the recorded Hotprints
+  first candidate, actual terms/capabilities and an approved private onboarding
+  channel. A new website domain is not required for a Vercel test URL; verified
+  email delivery and other service/commercial gates remain separate requirements.
+
 - **VERCEL-RUNTIME-28 — Proven provider mismatch; Uchi/Mumba:** The selected
   Node 24.x protected Preview actually runs middleware and serverless pages
   on 24.21.0; both fail the reviewed 24.22.1 gate. Coordinate a supported provider

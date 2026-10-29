@@ -11,6 +11,14 @@ their original evidence and policy boundaries.
 
 ## Current authority
 
+29 October follow-up: [the explicit Free-plan application policy](free-mfa-compensation.md)
+adds application receipts, preserving the paid default and existing native facts,
+rate/replay/audit/role controls. All twenty migrations replay locally; hosted
+staging remains fourteen, with no Auth accounts or service enablement. Genuine
+hosted monitoring/provider-limit/alert acceptance remains required. Today's fresh
+Vercel Preview still fails the request-runtime patch gate. This updates the
+historical hook-dependency inventory below without accepting the pilot or phase.
+
 28 October update: [the Hotprints-first manual-payment pilot](hotprints-manual-pilot.md)
 supersedes the immediate gateway dependency below. Flutterwave remains the
 previously selected future provider; gateway work can follow verified manual

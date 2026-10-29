@@ -3,6 +3,13 @@
 28 October 2026. Product direction: Uchi Chinyama. Engineering: Uchi and Mumba.
 Status: rollout scope recorded; commercial values and live acceptance pending.
 
+29 October [activation follow-up](reports/2026-10-29-vendor-pilot-readiness.md):
+the Free-plan MFA compensation is implemented locally without changing the paid
+default. Today's fresh Vercel Preview still fails request startup on Node 24.21.0.
+Hosted Auth/private intake/monitoring, actual terms and payment reconciliation
+remain open. No real vendor is invited or activated. Keep Hotprints first unless
+Uchi changes the named pilot group; a website domain purchase can follow testing.
+
 ## Confirmed direction
 
 Start with Hotprints for printing and design. Support individual vendors serving

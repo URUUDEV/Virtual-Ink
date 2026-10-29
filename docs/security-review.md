@@ -1,5 +1,15 @@
 # Virtual Ink recurring security review
 
+29 October [pilot MFA review](reports/2026-10-29-vendor-pilot-readiness.md):
+explicit database-owned application receipts require native current MFA and an
+audited application reservation/success; no native-hook receipt is fabricated.
+Forced RLS, immutable receipts, private helper/legacy-function ACLs and atomic
+audit failure are checked locally. The default paid policy remains enforced.
+Provider-direct AAL2 issuance has different guarantees on Free; hosted provider
+limits, monitoring and external alerts remain unaccepted. Today's fresh Vercel
+Preview repeats the old request runtime and HTTP 500, blocking hosted activation.
+No original production, hosted SQL/Auth, real vendor account or funds are changed.
+
 28 October [runtime mismatch review](reports/2026-10-28-vercel-runtime-diagnostic.md)
 adds only bounded native-version facts to rejected startup errors. Exact-source
 protected Preview confirms Node 24.21.0 below the unchanged 24.22.1 baseline on

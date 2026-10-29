@@ -1,6 +1,31 @@
 # Vercel request runtime verification
 
-28 October 2026. Owners: Uchi and Mumba. Phase 1 remains INCOMPLETE / NO-GO.
+29 October 2026. Owners: Uchi and Mumba. Phase 1 remains INCOMPLETE / NO-GO.
+
+29 October fresh Preview repeats the mismatch: source
+fa478a16da9148d0ed2fd8ada0aaea8658cb9e47, deployment
+dpl_CVPD35b6kizhVwwYYr5M7UpkAikn,
+https://virtual-ink-ui-test-mkichpnsp-shadowrootsec-5679.vercel.app.
+The fresh build is READY; authenticated /shop returns HTTP 500 and its native
+log reports actualNode 24.21.0 / minimumNode 24.22.1. Services stay off.
+See [today's pilot readiness report](reports/2026-10-29-vendor-pilot-readiness.md).
+
+## Prepared provider escalation
+
+This request is drafted for Uchi/Mumba; no support message has been sent:
+
+Our protected Preview project virtual-ink-ui-test selects Node 24.x. Deployment
+dpl_CVPD35b6kizhVwwYYr5M7UpkAikn builds successfully, but GET /shop executes
+native process.versions.node 24.21.0. Our unchanged security baseline requires
+stable Node 24.22.1 or later 24.x, so Next instrumentation rejects startup with
+RUNTIME_SECURITY_PATCH_REQUIRED and HTTP 500. The previous day's deployment
+dpl_CrvyaEWSpQgM9B5y6mvjP3k7t9US shows the same version on middleware and
+ordinary functions. Please confirm a supported way to obtain patched request
+execution on this project and the rollout status. We need request-time verification;
+build-time success or an exact patch pin that is not supported will not resolve it.
+
+Keep raw logs and credentials private. This draft does not authorize a paid
+upgrade, production change, protection bypass or guard exception.
 
 ## Build and request execution are separate checks
 

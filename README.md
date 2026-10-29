@@ -6,6 +6,14 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+29 October [vendor pilot readiness](docs/reports/2026-10-29-vendor-pilot-readiness.md):
+the explicit [Free-plan MFA policy](docs/free-mfa-compensation.md) adds durable
+application verification receipts while preserving the paid-hook default. All
+twenty local migrations replay; hosted staging remains fourteen with services off.
+Today's fresh protected Preview still executes Node 24.21.0 and returns 500.
+Vendor activation, hosted monitoring/services and commercial acceptance remain open.
+A custom website domain can wait; the runtime failure still blocks dynamic testing.
+
 28 October [Vercel runtime verification](docs/vercel-runtime-verification.md):
 the protected diagnostic Preview proves its request runtime is Node 24.21.0,
 below the unchanged 24.22.1 security baseline. Dynamic routes remain blocked
@@ -416,7 +424,7 @@ Lint and web builds require root development dependencies: run
 `npm ci --include=dev` from the repository root. Use `npm run lint` for all scoped
 source or `npm run lint:web` for web source. See [lint setup](docs/linting.md).
 
-Prerequisites for the backend: Node.js **24.21.0 or a later stable 24.x patch**, npm and a terminal. Root scripts/tests use built-in Node modules and native TypeScript execution; no install step is required. Frontend packages live separately in `apps/web`. Default Node 24.14.1 fails the gate; use the verified private 24.21.0 runtime following [setup notes](docs/live-backend-setup.md). Durable default/deployment runtime patching remains open.
+Prerequisites for the backend: Node.js **24.22.1 or a later stable 24.x patch**, npm and a terminal. Root scripts/tests use built-in Node modules and native TypeScript execution; no install step is required for those tests. Lint requires the root locked development install described above. Frontend packages live separately in `apps/web`. Older patches fail the gate; use the reviewed private runtime following [setup notes](docs/live-backend-setup.md). Durable default/deployment runtime patching remains open.
 
 `npm run setup:init` safely creates disabled .env and .private/provisioning.env
 templates only when missing. `npm run setup:check` reports setup blockers without

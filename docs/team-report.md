@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest pilot/security handover: [29 October — Vendor pilot readiness](reports/2026-10-29-vendor-pilot-readiness.md)
+and [Word copy](reports/2026-10-29-vendor-pilot-readiness.docx).
+The explicit Free-plan application receipt policy retains the paid-hook default;
+all twenty migrations replay locally. Hosted staging remains fourteen, with no
+users or service enablement. Today's fresh protected Preview is READY but /shop
+runs Node 24.21.0 and returns 500 at the unchanged 24.22.1 gate. The actual pilot,
+monitoring/email, private transport, commercial and device acceptance remain open.
+Phase 1 stays INCOMPLETE / NO-GO. [Policy setup](free-mfa-compensation.md).
+
 Latest runtime/security handover: [28 October — Vercel request runtime](reports/2026-10-28-vercel-runtime-diagnostic.md)
 and [Word copy](reports/2026-10-28-vercel-runtime-diagnostic.docx).
 The exact-source diagnostic Preview is READY. Private logs prove Node 24.21.0

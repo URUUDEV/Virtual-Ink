@@ -1,5 +1,14 @@
 # Virtual Ink task board
 
+29 October: **PILOT-MFA-29 — Explicit Free-plan policy; activation blocked**,
+Uchi/Mumba with Taizya/Lubasi. [Setup](free-mfa-compensation.md) and
+[evidence](reports/2026-10-29-vendor-pilot-readiness.md): application receipts bind
+native MFA facts to durable success audits; the paid policy remains the default.
+All twenty migrations replay locally. Hosted staging remains fourteen and services
+off. Fresh protected Preview repeats Node 24.21.0 / HTTP 500. Next: patched Vercel
+requests, genuine isolated hosted MFA/monitoring/private transport and actual
+Hotprints commercial/operating acceptance before vendor activation.
+
 28 October: **VERCEL-RUNTIME-28 — Provider patch mismatch proven; acceptance blocked**,
 Uchi/Mumba with Taizya/Lubasi. [Evidence](reports/2026-10-28-vercel-runtime-diagnostic.md)
 and [runbook](vercel-runtime-verification.md): exact-source protected Preview is
