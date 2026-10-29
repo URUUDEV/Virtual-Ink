@@ -13,6 +13,7 @@ import pg from 'pg';
 import {checkProviderMfaGuard} from './provider-mfa-guard-check.mjs';
 import {checkGenuineWorkflowAuth} from './order-workflow-auth-check.mjs';
 import {checkSelfServiceMfa} from './self-service-mfa-auth-check.mjs';
+import {checkFreeMfaCompensation,checkPaidMfaPolicyRegression} from './free-mfa-compensation-check.mjs';
 const runFile=promisify(execFile),root=resolve('.');
 const webRequire=createRequire(resolve('apps/web/package.json'));
 const {createClient}=webRequire('@supabase/supabase-js');
@@ -197,10 +198,15 @@ try{
  const config={origin:'https://virtual-ink-local.example.test',projectUrl:'https://abcdefghijklmnopqrst.supabase.co',publishableKey:'sb_publishable_local_fixture',environment:'local',codeKey:secret()};
  const commands=core.createSecurityCommands(appClient,config);
  function actor(sdk,id,subject,assignment){
-  const cookies=new Map(),writes=[];
-  const auth=securityAuthGateway(sdk,config,{get:name=>cookies.get(name),set:cookie=>{writes.push(cookie);cookie.value?cookies.set(cookie.name,cookie.value):cookies.delete(cookie.name);}});
+  const cookies=new Map(),writes=[];let pending=[];
+  const auth=securityAuthGateway(sdk,config,{get:name=>pending.findLast(cookie=>cookie.name===name)?.value??cookies.get(name),set:cookie=>{pending.push(cookie);}});
   async function request(action,input={}){
+   pending=[];
    const response=await core.securityResponse(new Request(`${config.origin}/api/security/${action}`,{method:'POST',headers:{origin:config.origin,'content-type':'application/json','sec-fetch-site':'same-origin'},body:JSON.stringify(input)}),action,async()=>({config,auth,commands}));
+   // The production Next handler commits pending cookies only after the complete
+   // command/audit succeeds. Use the same boundary with this real SDK gateway.
+   if(response.ok)for(const cookie of pending){writes.push(cookie);cookie.value?cookies.set(cookie.name,cookie.value):cookies.delete(cookie.name);}
+   pending=[];
    const body=await response.json();
    check(!/"(?:access_token|refresh_token|secret|password)"\s*:|"code"\s*:\s*"\d{6}"/.test(JSON.stringify(body)),`safe_${action}_response_${checks}`);
     return {status:response.status,body,cacheControl:response.headers.get('cache-control')};
@@ -324,7 +330,7 @@ try{
  const guardedEnvironment={...authEnvironment,GOTRUE_MFA_RATE_LIMIT_CHALLENGE_AND_VERIFY:'60',GOTRUE_HOOK_MFA_VERIFICATION_ATTEMPT_ENABLED:'true',
   GOTRUE_HOOK_MFA_VERIFICATION_ATTEMPT_URI:'pg-functions://postgres/virtual_ink_auth_guard/mfa_verification_attempt'};
  await writeFile(resolve(folder,'guarded-auth.env'),Object.entries(guardedEnvironment).map(([key,value])=>`${key}=${value}`).join('\n')+'\n');
- await container(`${prefix}-guarded-auth`,authImage,resolve(folder,'guarded-auth.env'),'127.0.0.1:55391:9999');
+ const guardedAuth=await container(`${prefix}-guarded-auth`,authImage,resolve(folder,'guarded-auth.env'),'127.0.0.1:55391:9999');
  await until(async()=>{const response=await nativeFetch(`${authOrigin}/health`,{signal:AbortSignal.timeout(1500)});return response.ok;},40,'guarded_auth_unavailable');
  stage='provider_hook_checks';
  await checkProviderMfaGuard({database:client,nativeDatabase:{host:'127.0.0.1',port:dbPort,database:'postgres',user:'vi_local_auth',password:authPassword,ssl:false},
@@ -349,13 +355,31 @@ try{
  await checkGenuineWorkflowAuth({database:client,applicationDatabase:appClient,createActor,
     core:{...load(resolve(root,'src/backend/orders/workflow.ts')),...load(resolve(root,'src/backend/orders/dashboard.ts'))},check,privateValues,totp,config});
  report.workflowAuthChecks=checks-workflowStart;
+ report.providerGuardChecks=checks-report.baselineChecks-report.workflowAuthChecks-report.selfServiceMfaChecks;
+ stage='free_mfa_compensation_setup';
+ for(const name of ['20261026090000_virtual_ink_document_specification.sql','20261028084431_vendor_commercial_terms.sql','20261029093317_virtual_ink_free_mfa_compensation.sql']){
+  await client.query(await readFile(resolve('supabase/migrations',name),'utf8'));
+ }
+ check((await client.query('SELECT mfa_policy FROM virtual_ink_security.configuration WHERE singleton')).rows[0].mfa_policy==='provider_hook','free_policy_preserves_paid_default');
+ const paidStart=checks;
+ await checkPaidMfaPolicyRegression({database:client,createActor,check,privateValues,totp});
+ report.paidPolicyRegressionChecks=checks-paidStart;
+ await docker('stop','--timeout','10',guardedAuth);
+ const freeEnvironment={...authEnvironment,GOTRUE_MFA_RATE_LIMIT_CHALLENGE_AND_VERIFY:'60',GOTRUE_HOOK_MFA_VERIFICATION_ATTEMPT_ENABLED:'false',GOTRUE_HOOK_CUSTOM_ACCESS_TOKEN_ENABLED:'false'};
+ await writeFile(resolve(folder,'free-auth.env'),Object.entries(freeEnvironment).map(([key,value])=>`${key}=${value}`).join('\n')+'\n');
+ await container(`${prefix}-free-auth`,authImage,resolve(folder,'free-auth.env'),'127.0.0.1:55391:9999');
+ await until(async()=>{const response=await nativeFetch(`${authOrigin}/health`,{signal:AbortSignal.timeout(1500)});return response.ok;},40,'free_auth_unavailable');
+ await client.query("UPDATE virtual_ink_security.configuration SET mfa_policy='application_receipt'; UPDATE virtual_ink_auth_guard.settings SET enabled=false");
+ stage='free_mfa_compensation_checks';const freeStart=checks;
+ report.freeMfaCompensation=await checkFreeMfaCompensation({database:client,applicationDatabase:appClient,createActor,check,privateValues,totp,config,core,
+  providerVerifications:()=>providerVerifications,until});
+ report.freeMfaCompensationChecks=checks-freeStart;
  stage='provider_hook_log_privacy';
  for(const id of created){const captured=await runFile('docker',['logs',id],{timeout:10000,maxBuffer:2*1024*1024,windowsHide:true});
   const logs=captured.stdout+captured.stderr;
   if(privateValues.some(value=>typeof value==='string'&&value.length>=20&&logs.includes(value))||/"(?:access_token|refresh_token|totp_secret|password)"\s*:|"code"\s*:\s*"\d{6}"/.test(logs))safeLogs=false;
  }
  check(safeLogs,'native_hook_logs_exclude_generated_secrets_and_tokens');
- report.providerGuardChecks=checks-report.baselineChecks-report.workflowAuthChecks-report.selfServiceMfaChecks;
  report.status='pass';report.countedChecks=checks;
 }catch(error){report.status='blocked';report.failedStage=stage;report.errorCode=typeof error?.code==='string'&&/^[A-Z0-9_]{1,30}$/.test(error.code)?error.code:'LOCAL_CHECK_FAILED';
  report.errorType=['Error','TypeError','ReferenceError','SyntaxError'].includes(error?.name)?error.name:'OtherError';
