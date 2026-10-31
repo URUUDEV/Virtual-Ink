@@ -1,5 +1,18 @@
 # Virtual Ink recurring security review
 
+31 October [manual receipt review](reports/2026-10-31-manual-payment-reconciliation.md):
+the existing privileged command now requires matching recipient/quote/amount,
+independent reviewer eligibility and immutable unique receipt/audit records.
+UUID-only confirmation is denied even with commercial settings off; canonical
+duplicate/concurrent references, self-review, MFA/session/grant and actual
+restricted-role calls fail closed. All 266 root/242 security/16 transport checks,
+53-file aggregate coverage and 21-migration replay pass. The fresh full audit
+reports 24 moderate entries from one build-tool advisory; production audit reports
+none. No high/critical finding is reported by that audit. Exploit/request-path
+reachability is unproven; compatible remediation remains open. Hosted/private
+evidence, honest human receipt review and operational/device gates are unaccepted.
+No hosted enablement, real money or production mutation occurs.
+
 29 October [provider communication review](reports/2026-10-29-vercel-feedback-submission.md):
 explicitly authorized runtime text submitted once through Vercel's signed-in
 feedback form. No secrets, raw logs, private evidence or attachments are sent.

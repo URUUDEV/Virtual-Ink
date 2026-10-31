@@ -3,6 +3,12 @@
 28 October 2026. Product direction: Uchi Chinyama. Engineering: Uchi and Mumba.
 Status: rollout scope recorded; commercial values and live acceptance pending.
 
+31 October [receipt backend](manual-payment-reconciliation.md) binds confirmation
+to an approved recipient, quote, exact amount/currency and unique immutable audit
+record. It is locally verified and unapplied hosted. Real recipient approval,
+private evidence, the instruction/reviewer interface, commission collection and
+hosted/device journeys remain open; the pilot is not activated.
+
 29 October [activation follow-up](reports/2026-10-29-vendor-pilot-readiness.md):
 the Free-plan MFA compensation is implemented locally without changing the paid
 default. Today's fresh Vercel Preview still fails request startup on Node 24.21.0.

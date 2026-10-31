@@ -1,5 +1,14 @@
 # Virtual Ink task board
 
+31 October: **MANUAL-RECEIPT-31 — Backend reviewed; hosted/UI acceptance open**,
+Uchi/Mumba with Taizya/Lubasi. [Setup](manual-payment-reconciliation.md) and
+[evidence](reports/2026-10-31-manual-payment-reconciliation.md): exact recipient/
+quote/amount binding, immutable receipts, canonical cross-order duplicate denial,
+self-review/MFA/grant checks and atomic audit pass locally. All 266 root/242
+security/16 transport checks and 21 migrations pass. Next: the receipt interface,
+private evidence and approved methods/reviewer, then genuine hosted/device tests.
+The moderate build-tool advisory remains open; Phase 1 stays INCOMPLETE / NO-GO.
+
 29 October: **VERCEL-FEEDBACK-29 — Submitted; provider response unconfirmed**,
 Uchi/Mumba. [Record](reports/2026-10-29-vercel-feedback-submission.md): user-approved
 runtime report sent once through the signed-in Share feedback form. Loading

@@ -25,6 +25,13 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+31 October [manual receipt backend](manual-payment-reconciliation.md) requires
+the approved recipient, accepted commercial quote, exact amount/currency and
+immutable receipt/audit. Local replay covers 21 migrations and 155 receipt checks
+within the commercial suite. Actual recipient/reviewer approval, private evidence,
+the payment interface and hosted/device acceptance remain open. This does not
+close ORDER-01, SEC-01, TEST-01, VERCEL-01 or any phase gate.
+
 28 October [Neon private storage](neon-private-storage.md) provisions six private
 staging buckets with separate worker credentials. Supabase database/Auth remain
 unchanged. Storage infrastructure checks do not close private ingress/scanning,

@@ -1,5 +1,20 @@
 # Virtual Ink open questions and decisions
 
+- **MANUAL-RECEIPT-31 — Local contract; operating approval open:** Uchi/Lubasi
+  must confirm actual direct-to-vendor methods and independent receipt reviewer,
+  provider reference uniqueness/normalization, private evidence retention and
+  partial/excess/refund handling. No account details belong in this register.
+  The [reconciliation backend](manual-payment-reconciliation.md) has no seeded
+  recipient or approval and does not collect commission. Its reviewer interface,
+  genuine private evidence and hosted/device acceptance remain open.
+- **BUILD-ADVISORY-31 — Moderate minimatch finding open, Uchi/Mumba:** the fresh
+  full root audit reports GHSA-g3hv-75wg-m249 in minimatch 10.2.6, propagated
+  across 24 development-tool entries. No high/critical finding is reported; the
+  production dependency audit reports none. Review a compatible toolchain update
+  rather than accepting the audit's forced ESLint downgrade or blindly overriding
+  a major dependency. Request reachability/exploitation is not established.
+  [Scoped evidence](reports/2026-10-31-manual-payment-reconciliation.md).
+
 - **PILOT-ACTIVATION-29 — Hosting and real pilot prerequisites remain open:**
   Uchi/Mumba must resolve today's reproduced Vercel runtime mismatch; a prepared
   provider support request is in [the runbook](vercel-runtime-verification.md).

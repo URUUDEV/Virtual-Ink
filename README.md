@@ -6,6 +6,15 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+31 October [manual receipt reconciliation](docs/manual-payment-reconciliation.md)
+now binds payment confirmation to an approved recipient, accepted quote, exact
+amount/currency and immutable unique receipt/audit. All 266 root/242 security/16
+transport checks and 21-migration replay pass locally; the full dependency audit
+reports a moderate development-tool advisory. Recipient/reviewer UI, private
+evidence, real approvals and hosted/device acceptance remain open. The migration
+is unapplied hosted, services stay off and Phase 1 remains INCOMPLETE / NO-GO.
+[Team handover](docs/reports/2026-10-31-manual-payment-reconciliation.md).
+
 29 October [Vercel feedback submission](docs/reports/2026-10-29-vercel-feedback-submission.md):
 the approved runtime report was submitted through the signed-in feedback form.
 No case number or delivery receipt was displayed; provider response and patched

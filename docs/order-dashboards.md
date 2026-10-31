@@ -6,6 +6,11 @@ source, test denominators, UI-only deployment and unclosed launch gates.
 
 21 October 2026. Review candidate, not a completed Phase 1 dashboard suite.
 
+31 October: [manual payment reconciliation](manual-payment-reconciliation.md)
+strengthens the backend payment command. The dashboard still has no receipt
+reviewer form or private payment-evidence transport. Administrator oversight
+remains read-only; no payment permission is inferred from this backend update.
+
 Routes `/customer`, `/vendor` and `/admin` use the existing online cookie gateway,
 current database identity/session checks and the restricted security-service group.
 WORKFLOW_ENABLED and both database configuration markers must be enabled only

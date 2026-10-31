@@ -3,6 +3,11 @@
 28 October 2026. Owners: Uchi and Mumba. Local implementation; hosted acceptance
 remains open. Phase 1 is INCOMPLETE.
 
+31 October [manual receipt backend](manual-payment-reconciliation.md) adds exact
+recipient/quote/amount reconciliation and unique immutable receipts to the existing
+payment command. No commission collection or settlement is inferred. Actual
+approval, private evidence, reviewer UI and hosted/device acceptance remain open.
+
 ## Commercial direction
 
 Customers pay the individual vendor or shop directly, as Uchi confirmed on
@@ -102,8 +107,8 @@ scans and payment evidence are synthetic within a disposable loopback database.
 
 Fresh staging reads still show fourteen applied migrations, security disabled and
 unconfigured, a NOLOGIN security-service role, no scan-service role and zero storage
-buckets. The current MFA code still requires native receipts; the authorized
-Free-plan compensating path is not implemented/accepted. Full-service Vercel
+buckets at that inspection. The 29 October Free-plan compensation is implemented
+locally but unaccepted hosted. Full-service Vercel
 operation needs those prerequisites, restricted private credentials/TLS, genuine
 vendor/customer accounts, private file ingress/worker/scanning, manual payment
 reconciliation, approved commercial terms and real hosted/device release tests.

@@ -1,5 +1,15 @@
 # Virtual Ink team report
 
+Latest backend/security handover: [31 October — Manual receipt reconciliation](reports/2026-10-31-manual-payment-reconciliation.md)
+and [Word copy](reports/2026-10-31-manual-payment-reconciliation.docx).
+Confirmation requires a matching approved recipient, accepted quote, amount,
+currency, unique receipt and committed audit. All 266 root/242 security/16
+transport checks, 53-file aggregate coverage and 21-migration replay pass locally.
+The full audit reports one moderate development-tool advisory across 24 entries;
+production dependency audit reports none. Hosted services stay disabled; private
+evidence, the receipt interface, actual agreements and hosted/device acceptance
+remain open. Phase 1 is INCOMPLETE / NO-GO.
+
 Latest provider handover: [29 October — Vercel feedback submission](reports/2026-10-29-vercel-feedback-submission.md)
 and [Word copy](reports/2026-10-29-vercel-feedback-submission.docx).
 Uchi authorized the prepared runtime message. It was submitted once through the
