@@ -57,7 +57,7 @@ BEGIN
  -- Only ASCII letters/digits, spaces and hyphens; equivalent presentations
  -- share one database-owned key. No Unicode confusables or arbitrary markup.
  IF p_input->>'receiptReference' !~ '^[A-Za-z0-9 -]+$' THEN RAISE EXCEPTION 'VALIDATION_FAILED'; END IF;
- reference:=upper(translate(p_input->>'receiptReference',' -',''));
+ reference:=translate(p_input->>'receiptReference','abcdefghijklmnopqrstuvwxyz -','ABCDEFGHIJKLMNOPQRSTUVWXYZ');
  IF length(reference) NOT BETWEEN 8 AND 100 THEN RAISE EXCEPTION 'VALIDATION_FAILED'; END IF;
  SELECT * INTO r FROM virtual_ink_workflow.manual_payment_recipients WHERE id=(p_input->>'recipientId')::uuid AND enabled;
  SELECT * INTO q FROM virtual_ink_workflow.quotes WHERE id=o.accepted_quote_id AND order_id=o.id;
