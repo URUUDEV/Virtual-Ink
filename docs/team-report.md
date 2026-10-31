@@ -1,5 +1,14 @@
 # Virtual Ink team report
 
+Latest interim engineering handover: [31 October — Build-tool remediation and acceptance alignment](reports/2026-10-31-build-tool-remediation.md)
+and [Word copy](reports/2026-10-31-build-tool-remediation.docx).
+The reproduced moderate glob-amplification finding is patched locally; unchanged
+239-file lint scope, 5,082 glob samples, 268 root/242 security/91 web/16 transport
+checks, types/build and fresh audits pass. The [final acceptance authority](phase-1-final-acceptance.md)
+and [unexecuted matrix](phase-1-acceptance-matrix.md) retain all human and hosted
+gates. Reviewer/private-file implementation and actual acceptance remain open.
+**PHASE 1 STATUS: INCOMPLETE — ACCEPTANCE GATES REMAIN OPEN**
+
 Latest backend/security handover: [31 October — Manual receipt reconciliation](reports/2026-10-31-manual-payment-reconciliation.md)
 and [Word copy](reports/2026-10-31-manual-payment-reconciliation.docx).
 Confirmation requires a matching approved recipient, accepted quote, amount,

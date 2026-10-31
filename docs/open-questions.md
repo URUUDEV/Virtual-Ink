@@ -1,5 +1,19 @@
 # Virtual Ink open questions and decisions
 
+- **ACCEPTANCE-PARTICIPANTS-31 — Actual people and devices required:** Uchi/Lubasi
+  must identify the participating Hotprints tester, school-based solo vendor,
+  outside solo vendor, administrator, independent finance reviewer and customers.
+  Actual Windows/Android/iPhone testers, models, OS/browser versions, execution
+  and approvals remain pending. Keep credentials and financial evidence private.
+  [Unexecuted register](phase-1-acceptance-matrix.md).
+- **PAYMENT-OPERATIONS-31 — Methods supplied; appointments/configuration open:**
+  MTN/Airtel/Zamtel Money, bank transfer/deposit and numbered-receipt cash on
+  collection are now required support. Actual recipient configuration, independent
+  reviewer/final reconciliation appointments, deferred-cash fulfilment rules,
+  retention/deletion, refunds and exceptions need genuine private operating evidence.
+  No generic administrator confirmation substitutes for the new independent role.
+  [Current authority](phase-1-final-acceptance.md).
+
 - **MANUAL-RECEIPT-31 — Local contract; operating approval open:** Uchi/Lubasi
   must confirm actual direct-to-vendor methods and independent receipt reviewer,
   provider reference uniqueness/normalization, private evidence retention and
@@ -7,13 +21,13 @@
   The [reconciliation backend](manual-payment-reconciliation.md) has no seeded
   recipient or approval and does not collect commission. Its reviewer interface,
   genuine private evidence and hosted/device acceptance remain open.
-- **BUILD-ADVISORY-31 — Moderate minimatch finding open, Uchi/Mumba:** the fresh
-  full root audit reports GHSA-g3hv-75wg-m249 in minimatch 10.2.6, propagated
-  across 24 development-tool entries. No high/critical finding is reported; the
-  production dependency audit reports none. Review a compatible toolchain update
-  rather than accepting the audit's forced ESLint downgrade or blindly overriding
-  a major dependency. Request reachability/exploitation is not established.
-  [Scoped evidence](reports/2026-10-31-manual-payment-reconciliation.md).
+- **BUILD-ADVISORY-31 — Locally remediated; hosted candidate verification open,
+  Uchi/Mumba:** the original GHSA-g3hv-75wg-m249 finding is preserved in
+  [the earlier report](reports/2026-10-31-manual-payment-reconciliation.md).
+  A bounded local reproduction fails on 10.2.6 and passes on patched 11.0.1;
+  lint scope/behavior, full tests/types/build and fresh audits pass. The reviewed
+  major override has exact lockfile/compatibility evidence. No Security exception
+  is assumed. [Disposition and pre-release deadline](security-advisories.md).
 
 - **PILOT-ACTIVATION-29 — Hosting and real pilot prerequisites remain open:**
   Uchi/Mumba must resolve today's reproduced Vercel runtime mismatch; a prepared

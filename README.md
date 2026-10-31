@@ -6,6 +6,14 @@ Shadow Root standard: secure systems, digital trust, clear documentation, tenant
 
 ## Start here
 
+31 October [final acceptance authority](docs/phase-1-final-acceptance.md) records
+the vendor-neutral pilot, all manual methods, independent reviewer and genuine
+hosted/vendor/device requirements. [The evidence matrix](docs/phase-1-acceptance-matrix.md)
+is unexecuted. The recorded [build-tool advisory](docs/security-advisories.md)
+is patched and verified locally, with unchanged lint scope and clean root/web
+audits. [Interim handover](docs/reports/2026-10-31-build-tool-remediation.md).
+**PHASE 1 STATUS: INCOMPLETE — ACCEPTANCE GATES REMAIN OPEN**
+
 31 October [manual receipt reconciliation](docs/manual-payment-reconciliation.md)
 now binds payment confirmation to an approved recipient, accepted quote, exact
 amount/currency and immutable unique receipt/audit. All 266 root/242 security/16

@@ -3,6 +3,14 @@
 28 October 2026. Product direction: Uchi Chinyama. Engineering: Uchi and Mumba.
 Status: rollout scope recorded; commercial values and live acceptance pending.
 
+31 October authority update: [the final acceptance instruction](phase-1-final-acceptance.md)
+supersedes any implication of an exclusive or platform-owning Hotprints pilot.
+Hotprints is one participating testing vendor. School-based solo vendors,
+independent outside vendors and other approved services use the same platform
+and authorization rules. All five manual-method groups and an independent
+Shadowroot Pilot Finance and Reconciliation Reviewer are required; the previous
+generic administrator confirmation does not satisfy that review requirement.
+
 31 October [receipt backend](manual-payment-reconciliation.md) binds confirmation
 to an approved recipient, quote, exact amount/currency and unique immutable audit
 record. It is locally verified and unapplied hosted. Real recipient approval,

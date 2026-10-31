@@ -1,5 +1,19 @@
 # Virtual Ink task board
 
+31 October: **FINAL-ACCEPTANCE-31 — Current instruction; gates OPEN**,
+Uchi/Mumba with Taizya/Lubasi. [Authority](phase-1-final-acceptance.md) and
+[matrix](phase-1-acceptance-matrix.md) define vendor-neutral participation, all
+manual methods, independent reviewer, private files and actual hosted/vendor/
+physical-device acceptance. No participant or approval is fabricated.
+**PHASE 1 STATUS: INCOMPLETE — ACCEPTANCE GATES REMAIN OPEN**
+
+31 October: **BUILD-ADVISORY-31B — Patched and verified locally; hosted rebuild pending**,
+Uchi/Mumba. [Register](security-advisories.md) and
+[handover](reports/2026-10-31-build-tool-remediation.md): minimatch 10.2.6 child
+heap exhaustion is reproduced; exact 11.0.1 override preserves 239 linted files
+and 5,082 sampled results. All 268 root/242 security/91 web/16 transport checks,
+types/build and root/web audits pass. No Security acceptance or release is inferred.
+
 31 October: **MANUAL-RECEIPT-31 — Backend reviewed; hosted/UI acceptance open**,
 Uchi/Mumba with Taizya/Lubasi. [Setup](manual-payment-reconciliation.md) and
 [evidence](reports/2026-10-31-manual-payment-reconciliation.md): exact recipient/

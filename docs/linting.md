@@ -32,6 +32,14 @@ The tooling is pinned in the root development dependencies and lockfile: ESLint
 17.13.0, @eslint-react/eslint-plugin 5.28.0 and eslint-plugin-react-hooks 7.1.1.
 No lint tool is an application runtime import.
 
+31 October: [GHSA-g3hv-75wg-m249](security-advisories.md) is remediated locally
+with an exact minimatch 11.0.1 root override. The npm-generated lock adds only
+its nonrecursive matcher dependency and changes that matcher entry. All 239
+linted paths and 5,082 sampled glob results match the old toolchain; actual bad
+Node/web code still fails. Keep the override until compatible upstream adoption
+is verified. The full build and fresh root/web audits pass; this does not close
+hosted runtime, reviewer, private-file or human acceptance gates.
+
 The Next-specific preset was excluded after its glob chain introduced the
 unpatched [braces advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm).
 No forced dependency downgrade or peer override is used. ESLint 9 is

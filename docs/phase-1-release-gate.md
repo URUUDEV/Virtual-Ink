@@ -4,6 +4,14 @@ Authoritative user instruction: 18 October 2026, section 2.1. Phase 1 is
 **INCOMPLETE**. Current release decision: **NO-GO**. No human acceptance or
 production-promotion authorization is recorded by this document.
 
+31 October [final acceptance instruction](phase-1-final-acceptance.md) is the
+current additional authority. Hotprints is one nonexclusive participating vendor;
+the five manual-method groups, independent finance reviewer, private evidence,
+eighteen genuine hosted journeys and Windows/Android/iPhone evidence are mandatory.
+Use the [unexecuted acceptance matrix](phase-1-acceptance-matrix.md) and
+[advisory disposition](security-advisories.md). No phase or release gate is closed.
+**PHASE 1 STATUS: INCOMPLETE — ACCEPTANCE GATES REMAIN OPEN**
+
 28 October scope update: Uchi directs a Hotprints-first printing/design pilot,
 including school-serving individual vendors and outside print shops, vendor-set
 service prices, accepted platform commission/terms and manual payments initially.

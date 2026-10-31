@@ -1,5 +1,14 @@
 # Virtual Ink recurring security review
 
+31 October [build-tool remediation](reports/2026-10-31-build-tool-remediation.md)
+reproduces minimatch 10.2.6 amplification in a bounded synthetic child and pins
+patched 11.0.1. Actual lint admission/denial, identical 239-file/5,082-case behavior,
+268 root/242 security/91 web/16 transport checks and types/build pass. Fresh root,
+production-only and web audits report zero vulnerabilities. The controlled child
+does not inherit application credentials. Hosted runtime and independent payment/
+private-file/device/human gates remain open; no global security signoff or risk
+acceptance is invented. [Current gate](phase-1-final-acceptance.md).
+
 31 October [manual receipt review](reports/2026-10-31-manual-payment-reconciliation.md):
 the existing privileged command now requires matching recipient/quote/amount,
 independent reviewer eligibility and immutable unique receipt/audit records.

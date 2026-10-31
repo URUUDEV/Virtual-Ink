@@ -25,6 +25,13 @@ Earlier dated slice results remain historical; they cannot close these gates.
 
 ## Baseline and work order
 
+31 October [final owner instruction](phase-1-final-acceptance.md) adds the
+independent reviewer and complete manual-method/private-evidence states while
+preserving all genuine hosted/vendor/device gates. [The acceptance matrix](phase-1-acceptance-matrix.md)
+remains unexecuted. The build advisory is [patched locally](security-advisories.md);
+new hosted acceptance and every final closure requirement remain open.
+**PHASE 1 STATUS: INCOMPLETE — ACCEPTANCE GATES REMAIN OPEN**
+
 31 October [manual receipt backend](manual-payment-reconciliation.md) requires
 the approved recipient, accepted commercial quote, exact amount/currency and
 immutable receipt/audit. Local replay covers 21 migrations and 155 receipt checks
