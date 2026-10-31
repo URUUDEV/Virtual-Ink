@@ -44,6 +44,12 @@ try {
   }
   await db.query("UPDATE virtual_ink_security.configuration SET enabled=true,environment='local',issuer=$1", [issuer]);
   await db.query("UPDATE virtual_ink_auth_guard.settings SET enabled=true,environment='local'; UPDATE virtual_ink_workflow.configuration SET enabled=true");
+  const receiptPolicy = randomUUID(), receiptRecipient = randomUUID();
+  const syntheticTerms = 'Synthetic SQL fixture only. Direct vendor payment with separately reconciled commission.';
+  await db.query("INSERT INTO virtual_ink_workflow.commission_policies(id,version,basis_points,terms,terms_sha256,collection,settlement,approved) VALUES($1,10001,500,$2,encode(sha256(convert_to($2,'UTF8')),'hex'),'direct_to_vendor','weekly',true)", [receiptPolicy, syntheticTerms]);
+  await db.query('INSERT INTO virtual_ink_workflow.vendor_agreements(vendor_id,policy_id,actor_id,session_id) VALUES($1,$2,$3,$4)', [vendorRow.tenant_id, receiptPolicy, actors.vendor.user, actors.vendor.sessionId]);
+  await db.query("INSERT INTO virtual_ink_workflow.manual_payment_recipients(id,vendor_id,method,provider_code,account_sha256,currency,approval_reference,enabled) VALUES($1,$2,'bank_transfer','synthetic_workflow_bank',repeat('b',64),'ZMW',gen_random_uuid(),true)", [receiptRecipient, vendorRow.tenant_id]);
+  await db.query('UPDATE virtual_ink_workflow.configuration SET commercial_enabled=true,commercial_policy_id=$1,manual_payments_enabled=true', [receiptPolicy]);
   await db.query('COMMIT');
   const orderId = randomUUID();
   let version = 0;
@@ -141,8 +147,9 @@ try {
   check(replay.version === accepted.version && replay.auditId === accepted.auditId, 'idempotent acceptance');
   await assert.rejects(commands.run('quote.accept', { ...acceptanceInput, expectedVersion: 1 }, actors.customer, randomUUID()), { code: 'CONFLICT' }); checks++;
   await deny('vendor', 'production.start');
-  await deny('admin', 'payment.confirm', { evidenceReference: randomUUID() }, 'UNAUTHENTICATED', { stepUpAt: null });
-  await run('admin', 'payment.confirm', { evidenceReference: randomUUID() });
+  const reviewedPayment = { evidenceReference: randomUUID(), recipientId: receiptRecipient, receiptReference: 'SyntheticWorkflowReceipt0001', amountMinor: 150000, currency: 'ZMW', receiptChecked: true };
+  await deny('admin', 'payment.confirm', reviewedPayment, 'UNAUTHENTICATED', { stepUpAt: null });
+  await run('admin', 'payment.confirm', reviewedPayment);
   await run('admin', 'order.assign', { vendorId: vendorRow.tenant_id });
   await run('vendor', 'job.accept');
   await run('vendor', 'proof.request');

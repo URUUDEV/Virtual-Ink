@@ -42,7 +42,7 @@ try {
     actors[name] = { user, subject, issuer, sessionId: session, aal: 'aal2', mfaAt: now - 1, primaryAt: now - 10, stepUpAt: now - 1 };
   }
   await db.query("UPDATE virtual_ink_security.configuration SET enabled=true,environment='local',issuer=$1", [issuer]);
-  await db.query("UPDATE virtual_ink_auth_guard.settings SET enabled=true,environment='local'; UPDATE virtual_ink_workflow.configuration SET enabled=true,commercial_enabled=true");
+  await db.query("UPDATE virtual_ink_auth_guard.settings SET enabled=true,environment='local'; UPDATE virtual_ink_workflow.configuration SET enabled=true,commercial_enabled=true,commercial_policy_id=null,manual_payments_enabled=false");
   await db.query('COMMIT');
   const executor = client => ({ async query(sql, values) {
     await client.query('SET ROLE virtual_ink_security_service');
@@ -130,7 +130,99 @@ try {
   await run('vendor', 'price.retire', { priceId, expectedVersion: 2 });
   check(!(await run('vendor', 'read')).prices[0].active, 'retirement appends a historical version');
   await orderRun('customer', 'quote.accept');
-  await orderRun('admin', 'payment.confirm', { evidenceReference: randomUUID() });
+  const receiptStart = checks;
+  const recipientId = randomUUID(), otherRecipientId = randomUUID();
+  const insertRecipient = (id, vendor) => db.query("INSERT INTO virtual_ink_workflow.manual_payment_recipients(id,vendor_id,method,provider_code,account_sha256,currency,approval_reference,enabled) VALUES($1::uuid,$2,'bank_transfer','synthetic_bank',encode(sha256(convert_to(($1::uuid)::text,'UTF8')),'hex'),'ZMW',gen_random_uuid(),true)", [id, vendor]);
+  await insertRecipient(recipientId, vendorId); await insertRecipient(otherRecipientId, vendors[1].tenant_id);
+  const payment = { evidenceReference: randomUUID(), recipientId, receiptReference: 'Synthetic-Receipt-0001', amountMinor: 10000, currency: 'ZMW', receiptChecked: true };
+  const paymentInput = { orderId, operationId: randomUUID(), expectedVersion: version, ...payment };
+  const rawPayment = async (input, identity = actors.admin, client = db) => {
+    const result = await executor(client).query('SELECT virtual_ink_workflow.command($1,$2::jsonb,$3::jsonb) AS result', ['payment.confirm', JSON.stringify(input), JSON.stringify({ ...identity, environment: 'local', correlationId: randomUUID() })]);
+    checks++; return result.rows[0].result;
+  };
+  const deniedPayment = async (input, code = 'VALIDATION_FAILED', identity) => {
+    const result = await rawPayment(input, identity);
+    check(result.ok === false && result.error === code && result.auditId, 'receipt denial has fixed code and committed audit');
+    check(!JSON.stringify(result).includes('Synthetic-Receipt'), 'receipt reference is absent from denial response');
+  };
+  await deniedPayment(paymentInput, 'CONFLICT'); // Disabled by default, even in commercial mode.
+  await db.query('UPDATE virtual_ink_workflow.configuration SET commercial_enabled=false');
+  await deniedPayment(paymentInput, 'CONFLICT');
+  await deniedPayment({ orderId, operationId: randomUUID(), expectedVersion: version, evidenceReference: randomUUID() }, 'CONFLICT');
+  await db.query('UPDATE virtual_ink_workflow.configuration SET commercial_enabled=true');
+  await db.query('UPDATE virtual_ink_workflow.configuration SET manual_payments_enabled=true');
+  await deniedPayment({ orderId, operationId: randomUUID(), expectedVersion: version, evidenceReference: randomUUID() });
+  for (const patch of [{ expectedVersion: String(version) }, { recipientId: null }, { recipientId: 'bad' }, { evidenceReference: null }, { receiptReference: null }, { amountMinor: '10000' }, { amountMinor: 1.5 }, { amountMinor: 0 }, { amountMinor: 1000000001 }, { currency: 'USD' }, { receiptChecked: false }, { receiptChecked: 'true' }, { receiptReference: 'short' }, { receiptReference: '-'.repeat(8) }, { receiptReference: 'a'.repeat(129) }, { receiptReference: 'a'.repeat(101) }, { receiptReference: 'Synthetic\nReceipt0001' }, { receiptReference: 'ＳyntheticReceipt0001' }, { paid: true }]) await deniedPayment({ ...paymentInput, operationId: randomUUID(), ...patch });
+  for (const patch of [{ recipientId: otherRecipientId }, { recipientId: randomUUID() }, { amountMinor: 9999 }, { amountMinor: 10001 }]) await deniedPayment({ ...paymentInput, operationId: randomUUID(), ...patch }, 'CONFLICT');
+  await db.query('UPDATE virtual_ink_workflow.manual_payment_recipients SET enabled=false WHERE id=$1', [recipientId]);
+  await deniedPayment(paymentInput, 'CONFLICT');
+  await db.query('UPDATE virtual_ink_workflow.manual_payment_recipients SET enabled=true WHERE id=$1', [recipientId]);
+  for (const who of ['vendor', 'otherVendor', 'customer']) await deniedPayment(paymentInput, 'FORBIDDEN', actors[who]);
+  for (const patch of [{ aal: 'aal1', mfaAt: null, stepUpAt: null }, { stepUpAt: null }, { sessionId: randomUUID() }]) await deniedPayment(paymentInput, 'UNAUTHENTICATED', { ...actors.admin, ...patch });
+  const unrelatedOrder = randomUUID();
+  await deniedPayment({ ...paymentInput, orderId: unrelatedOrder }, 'NOT_FOUND');
+  await db.query('BEGIN');
+  await db.query("INSERT INTO virtual_ink.memberships(tenant_id,user_id,role,active) VALUES($1,$2,'VendorStaff',false)", [vendorId, actors.admin.user]);
+  await db.query("INSERT INTO virtual_ink.provisioning_audits(operation_id,approval_id,reviewer_id,db_actor,action,request_fingerprint,user_id,tenant_id,outcome) VALUES(gen_random_uuid(),gen_random_uuid(),gen_random_uuid(),session_user,'add_staff',repeat('a',64),$1,$2,'created')", [actors.admin.user, vendorId]);
+  await db.query('COMMIT');
+  await deniedPayment(paymentInput, 'FORBIDDEN');
+  await db.query('DELETE FROM virtual_ink.memberships WHERE tenant_id=$1 AND user_id=$2', [vendorId, actors.admin.user]);
+  await db.query('UPDATE virtual_ink_workflow.orders SET owner_id=$1 WHERE id=$2', [actors.admin.user, orderId]);
+  await deniedPayment(paymentInput, 'FORBIDDEN');
+  await db.query('UPDATE virtual_ink_workflow.orders SET owner_id=$1 WHERE id=$2', [actors.customer.user, orderId]);
+  const countReceipts = async () => (await db.query('SELECT count(*)::int AS n FROM virtual_ink_workflow.manual_payment_receipts r JOIN virtual_ink_workflow.orders o ON o.id=r.order_id WHERE o.vendor_id=$1', [vendorId])).rows[0].n;
+  check(await countReceipts() === 0, 'all denials leave receipts absent');
+  await db.query('REVOKE INSERT ON virtual_ink_workflow.events FROM virtual_ink_workflow_owner');
+  try { await assert.rejects(rawPayment(paymentInput)); checks++; }
+  finally { await db.query('GRANT INSERT ON virtual_ink_workflow.events TO virtual_ink_workflow_owner'); }
+  check(await countReceipts() === 0, 'audit outage rolls receipt insertion back');
+  check((await db.query('SELECT state FROM virtual_ink_workflow.orders WHERE id=$1', [orderId])).rows[0].state === 'AWAITING_PAYMENT', 'audit outage preserves unpaid state');
+  const paid = await rawPayment(paymentInput);
+  check(paid.ok === true && paid.data.state === 'PAYMENT_CONFIRMED', 'reviewed receipt confirms the correct accepted quote');
+  version = paid.data.version;
+  check((await rawPayment(paymentInput)).auditId === paid.auditId, 'matching retry returns original immutable receipt/audit');
+  await deniedPayment({ ...paymentInput, receiptReference: 'Different-Receipt-0001' }, 'CONFLICT');
+  check(await countReceipts() === 1, 'retry does not duplicate receipt');
+  const storedReceipt = (await db.query('SELECT * FROM virtual_ink_workflow.manual_payment_receipts WHERE order_id=$1', [orderId])).rows[0];
+  check(storedReceipt.quote_id === storedQuoteId && storedReceipt.amount_minor === '10000' && storedReceipt.reviewer_id === actors.admin.user && storedReceipt.audit_id === paid.auditId, 'receipt binds quote, reviewer, amount and committed audit');
+  check(!JSON.stringify(paid).includes(payment.receiptReference) && !JSON.stringify(storedReceipt).includes(payment.receiptReference), 'raw receipt reference is not retained or returned');
+  // A second synthetic awaiting-payment fixture proves cross-order replay. Its
+  // business rows are synthetic SQL fixtures, not another accepted human order.
+  const cloneOrder = async () => {
+    const id = randomUUID(), quoteId = randomUUID();
+    await db.query("INSERT INTO virtual_ink_workflow.orders(id,owner_id,vendor_id,state,version,spec) SELECT $1,owner_id,vendor_id,'AWAITING_PAYMENT',1,spec FROM virtual_ink_workflow.orders WHERE id=$2", [id, orderId]);
+    await db.query("INSERT INTO virtual_ink_workflow.quotes(id,order_id,actor_id,amount_minor,currency,valid_until) VALUES($1,$2,$3,10000,'ZMW',clock_timestamp()+interval '1 hour')", [quoteId, id, actors.vendor.user]);
+    await db.query('UPDATE virtual_ink_workflow.orders SET quote_id=$1,accepted_quote_id=$1 WHERE id=$2', [quoteId, id]);
+    await db.query("INSERT INTO virtual_ink_workflow.grants VALUES(gen_random_uuid(),$1,$2,'payment.confirm','synthetic_receipt',gen_random_uuid(),clock_timestamp()+interval '5 minutes',clock_timestamp())", [actors.admin.user, id]);
+    return { ...paymentInput, orderId: id, operationId: randomUUID(), expectedVersion: 1, evidenceReference: randomUUID() };
+  };
+  const clone = await cloneOrder();
+  await deniedPayment({ ...clone, receiptReference: 'synthetic receipt 0001' }, 'CONFLICT');
+  await deniedPayment({ ...clone, receiptReference: 'AnotherReceipt0002', evidenceReference: payment.evidenceReference }, 'CONFLICT');
+  const peerPayment = new pg.Client(connection); await peerPayment.connect();
+  try {
+    const another = await cloneOrder(), reference = 'ConcurrentReceipt0003';
+    const results = await Promise.all([rawPayment({ ...clone, receiptReference: reference }), rawPayment({ ...another, receiptReference: 'concurrent-receipt-0003' }, actors.admin, peerPayment)]);
+    check(results.filter(r => r.ok).length === 1 && results.some(r => r.error === 'CONFLICT'), 'concurrent cross-order aliases confirm exactly one order');
+  } finally { await peerPayment.end(); }
+  await assert.rejects(db.query('UPDATE virtual_ink_workflow.manual_payment_receipts SET amount_minor=1 WHERE id=$1', [storedReceipt.id]), { code: '23514' }); checks++;
+  await assert.rejects(db.query('TRUNCATE virtual_ink_workflow.manual_payment_receipts'), { code: '23514' }); checks++;
+  await assert.rejects(db.query("UPDATE virtual_ink_workflow.manual_payment_recipients SET account_sha256=repeat('c',64) WHERE id=$1", [recipientId]), { code: '23514' }); checks++;
+  await assert.rejects(db.query('DELETE FROM virtual_ink_workflow.manual_payment_recipients WHERE id=$1', [otherRecipientId]), { code: '23514' }); checks++;
+  for (const table of ['manual_payment_recipients', 'manual_payment_receipts']) {
+    for (const role of ['anon', 'authenticated', 'service_role', 'virtual_ink_security_service']) check(!(await db.query('SELECT has_table_privilege($1,$2,\'SELECT,INSERT,UPDATE,DELETE,TRUNCATE\') AS allowed', [role, `virtual_ink_workflow.${table}`])).rows[0].allowed, 'runtime/browser has no direct manual payment privileges');
+    check((await db.query('SELECT relrowsecurity AND relforcerowsecurity AS forced FROM pg_class WHERE oid=$1::regclass', [`virtual_ink_workflow.${table}`])).rows[0].forced, 'manual payment RLS forced');
+  }
+  for (const role of ['anon', 'authenticated', 'service_role', 'virtual_ink_security_service']) check(!(await db.query("SELECT has_function_privilege($1,'virtual_ink_workflow.reconcile_manual_payment(virtual_ink_workflow.orders,jsonb,uuid,uuid,uuid)','EXECUTE') AS allowed", [role])).rows[0].allowed, 'helper is not an alternate payment entry point');
+  for (const table of ['manual_payment_recipients', 'manual_payment_receipts']) {
+    await db.query('SET ROLE virtual_ink_security_service');
+    try { await assert.rejects(db.query(`SELECT * FROM virtual_ink_workflow.${table}`), { code: '42501' }); checks++; }
+    finally { await db.query('RESET ROLE'); }
+  }
+  await db.query('SET ROLE virtual_ink_security_service');
+  try { await assert.rejects(db.query("SELECT virtual_ink_workflow.reconcile_manual_payment(NULL::virtual_ink_workflow.orders,'{}'::jsonb,NULL,NULL,NULL)"), { code: '42501' }); checks++; }
+  finally { await db.query('RESET ROLE'); }
+  const receiptChecks = checks - receiptStart;
   check((await db.query('SELECT count(*)::int AS n FROM virtual_ink_workflow.commission_accruals WHERE order_id=$1', [orderId])).rows[0].n === 0, 'direct payment does not imply completion or commission collection');
   await orderRun('admin', 'order.assign', { vendorId }); await orderRun('vendor', 'job.accept'); await orderRun('vendor', 'proof.request');
   const proof = await file('vendor', 'proof');
@@ -157,5 +249,5 @@ try {
   await deny('vendor', 'read', {}, 'RATE_LIMITED');
   await db.query('UPDATE virtual_ink_workflow.configuration SET commercial_enabled=false');
   await deny('vendor', 'read', {}, 'IDENTITY_UNAVAILABLE');
-  console.log(JSON.stringify({ check: 'vendor_commercial_sql', status: 'pass', checks, limits: 'Disposable SQL and provider-shaped sessions; synthetic scan/payment evidence. No hosted Auth, live funds, settlement or human agreement.' }));
+  console.log(JSON.stringify({ check: 'vendor_commercial_sql', status: 'pass', checks, receiptChecks, limits: 'Disposable SQL and provider-shaped sessions; synthetic scan/payment evidence. No hosted Auth, live funds, settlement or human agreement.' }));
 } finally { await db.query('ROLLBACK').catch(() => {}); await db.end(); }

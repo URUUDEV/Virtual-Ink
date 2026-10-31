@@ -29,6 +29,23 @@ test('workflow input rejects mass assignment, unknown actions and invalid ids/ve
   assert.deepEqual(validateWorkflowInput('order.read', { orderId: id, operationId: id }), { orderId: id, operationId: id });
 });
 
+test('manual receipt input admits exact minor units and denies partial fields or forged financial authority', () => {
+  const common = { orderId: id, operationId: id, expectedVersion: 4, evidenceReference: id };
+  const receipt = { ...common, recipientId: id, receiptReference: 'synthetic-0001', amountMinor: 10000, currency: 'ZMW', receiptChecked: true };
+  assert.deepEqual(validateWorkflowInput('payment.confirm', receipt), receipt);
+  assert.throws(() => validateWorkflowInput('payment.confirm', common), ApiError);
+  for (const patch of [
+    { evidenceReference: null }, { recipientId: 'bad' }, { amountMinor: '10000' }, { amountMinor: 1.1 },
+    { amountMinor: 0 }, { amountMinor: 1000000001 }, { currency: 'USD' }, { receiptChecked: 'true' }, { receiptChecked: false },
+    { receiptReference: null }, { receiptReference: 'short' }, { receiptReference: '-'.repeat(8) },
+    { receiptReference: 'x'.repeat(101) }, { receiptReference: 'x'.repeat(129) },
+    { receiptReference: 'synthetic\n0001' }, { receiptReference: '<script>0001' }, { receiptReference: 'ＳYNTHETIC0001' },
+    { recipientId: undefined }, { receiptReference: undefined }, { amountMinor: undefined }, { currency: undefined }, { receiptChecked: undefined },
+    { paid: true }, { reviewerId: id }, { commissionReceived: true },
+  ]) assert.throws(() => validateWorkflowInput('payment.confirm', { ...receipt, ...patch }), ApiError);
+  assert.throws(() => validateWorkflowInput('payment.confirm', { ...common, currency: 'ZMW' }), ApiError);
+});
+
 test('workflow commands bind verified context/environment/request and require a committed audit receipt', async () => {
   const calls: unknown[] = [];
   const result = await createWorkflowCommands(executor({ ok: true, data: { version: 1 }, auditId: id }, (sql, values) => calls.push({ sql, values })), 'preview').run('order.create', input, identity, id);

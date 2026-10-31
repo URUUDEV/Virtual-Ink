@@ -9,7 +9,7 @@ import { validateOrderSpecification } from './specification.ts';
 export const workflowFields = {
   'order.create': ['spec'], 'order.read': [], 'order.timeline': ['limit','cursor'], 'order.submit': [], 'order.assign': ['vendorId'],
   'quote.propose': ['amountMinor', 'currency', 'validUntil'], 'quote.review': [], 'quote.accept': [], 'quote.reject': [],
-  'payment.confirm': ['evidenceReference'], 'job.accept': [], 'job.decline': ['reasonCode'], 'proof.request': [], 'proof.upload': ['fileId'],
+  'payment.confirm': ['evidenceReference', 'recipientId', 'receiptReference', 'amountMinor', 'currency', 'receiptChecked'], 'job.accept': [], 'job.decline': ['reasonCode'], 'proof.request': [], 'proof.upload': ['fileId'],
   'proof.respond': ['proofId', 'approve', 'reasonCode'], 'production.queue': [], 'production.start': [],
   'production.evidence': ['fileId', 'stage'], 'production.finish': [], 'qc.record': ['passed', 'checks', 'reasonCode'],
   'production.correct': [], 'order.ready': ['handoff'], 'delivery.assign': ['deliveryUserId'], 'order.complete': [],
@@ -26,6 +26,15 @@ export function validateWorkflowInput(action: WorkflowAction, value: unknown): R
   const input = strictObject(value, ['orderId', 'operationId', 'expectedVersion', ...workflowFields[action]]);
   const result: Record<string, unknown> = { ...input, orderId: uuid(input.orderId, 'orderId'), operationId: uuid(input.operationId, 'operationId') };
   if (action === 'order.create') result.spec = validateOrderSpecification(input.spec);
+  if (action === 'payment.confirm') {
+    result.evidenceReference = uuid(input.evidenceReference, 'evidenceReference');
+    result.recipientId = uuid(input.recipientId, 'recipientId');
+    if (typeof input.receiptReference !== 'string' || input.receiptReference.length < 8 || input.receiptReference.length > 128 ||
+      !/^[A-Za-z0-9 -]+$/.test(input.receiptReference) || input.receiptReference.replaceAll(/[ -]/g, '').length < 8 ||
+      input.receiptReference.replaceAll(/[ -]/g, '').length > 100 ||
+      !Number.isSafeInteger(input.amountMinor) || Number(input.amountMinor) < 1 || Number(input.amountMinor) > 1000000000 ||
+      input.currency !== 'ZMW' || input.receiptChecked !== true) throw new ApiError('VALIDATION_FAILED');
+  }
   if (!['order.read', 'order.timeline', 'file.access'].includes(action) &&
     (!Number.isInteger(input.expectedVersion) || (input.expectedVersion as number) < 0 || (input.expectedVersion as number) > 1000000)) {
     throw new ApiError('VALIDATION_FAILED', ['expectedVersion']);
